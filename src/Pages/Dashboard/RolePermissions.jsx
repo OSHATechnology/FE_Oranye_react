@@ -3,6 +3,7 @@ import TitleDashboard from "../../Components/TitleDashboard";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
 import Modal from "../../Components/Modal/ModalRoleDetail";
+import { Link } from "react-router-dom";
 
 const RolePermissions = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -39,11 +40,13 @@ const RolePermissions = () => {
                     </div>
                     <div className="flex justify-between items-center ">
                         <div>
+                            <Link to="../addRole">
                             <ButtonNormal
                                 bg="bg-green-600 "
                                 icon="akar-icons:plus"
                                 text="Add"
-                            />
+                                />
+                                </Link>
                         </div>
                         <div className="flex items-center gap-2">
                             <input type="text" placeholder="search" className="text-center rounded h-9 border border-gray-300"/>

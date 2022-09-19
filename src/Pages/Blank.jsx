@@ -7,10 +7,11 @@ import Hadir from "../Pages/Dashboard/Attendance";
 import Emp from "../Pages/Dashboard/Employee";
 import Mitra from "../Pages/Dashboard/Partner";
 import Detail from "../Pages/Dashboard/EmployeeDetail";
+import AddRole from "../Pages/Dashboard/AddRole";
 import Today from "../Pages/Dashboard/Attendance/Today";
 import Overtime from "../Pages/Dashboard/Attendance/Overtime";
 import Attendance from "../Pages/Dashboard/Attendance/Attendance";
-import ModalDelete from "../Components/Modal/ModalDelete"
+
 
 
 export default function Blank() {
@@ -34,6 +35,7 @@ export default function Blank() {
                     <Route path="emp" element={<Emp />} />
                     <Route path="mitra" element={<Mitra />} />
                     <Route path="detail" element={<Detail />} />
+                    <Route path="addRole" element={<AddRole />} />
                 </Routes>
 
             </BrowserRouter>

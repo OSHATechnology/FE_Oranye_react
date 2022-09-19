@@ -1,190 +1,159 @@
 import TitleDashboard from "../../Components/TitleDashboard";
 import React from "react";
 import { Link } from "react-router-dom";
+import ButtonNormal from "../../Components/ButtonNormal";
 
 const AddRole = () => {
     return (
         <div className="w-full md:mx-8 space-y-8">
             <TitleDashboard
-                Title="Employee Details"
-                Keterangan="Detailed information of employees"
+                Title="Add a new role"
+                Keterangan="create new role area"
             />
             <div>
-                <Link to="../emp">
+                <Link to="../role">
                 <p className="text-sm text-blue-600 font-medium">
-                    Back to Employee Management
+                    Back to Role & Permissions
                 </p>
                 </Link>
             </div>
-            <div className="md:flex md:flex-row w-full">
-                <div className="flex basis-1/4 items-center justify-center">
-                    <img src="assets/PP.png" alt="" />
-                </div>
 
-                <div className="basis-3/4 m-4 text-center md:text-start">
-                    <div className="md:flex md:justify-between items-center">
-                        <div>
-                            <h3 className="text-2xl text-orange-500 font-extrabold">
-                                Fachriansyah Nur I
-                            </h3>
-                        </div>
-                        <div>
-                            <p className="text-xs text-gray-400">
-                                Joined at, 21 Sept 202
-                            </p>
-                        </div>
+            <div className="md:w-full border rounded flex flex-col justify-content-center shadow space-y-4 p-4">
+                <div className="flex flex-row w-full items-center justify-center md:justify-start">
+                    <div className="basis-1/5 ">
+                        <p className="text-lg font-semibold text-gray-700">Role Name</p>
                     </div>
-                    <h4 className="text-2xl">TI00004</h4>
-                    <table className="mt-5 text-start">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <p className="text-sm">Status</p>
-                                </td>
-                                <td>
-                                    <p className="text-sm">:</p>
-                                </td>
-                                <td>
-                                    <p className="text-sm text-orange-500">
-                                        on duty / active
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p className="text-sm">Role</p>
-                                </td>
-                                <td>
-                                    <p className="text-sm">:</p>
-                                </td>
-                                <td>
-                                    <p className="text-sm">Employee</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div className="basis-4/5 ">
+                        <input type="text"  className="w-full rounded h-8"/>
+                    </div>
                 </div>
-            </div>
-            <div className="bg-gray-50 md:w-full border m-3 rounded flex flex-col justify-content-center">
-                <div className="flex flex-row w-full justify-center md:justify-start">
-                    <h3 className="text-md md:text-xl font-extrabold ml-4 text-center">
-                        Employee Information
-                    </h3>
+                <div className="flex flex-row w-full items-start justify-center md:justify-start">
+                    <div className="basis-1/5 ">
+                        <p className="text-lg font-semibold text-gray-700 items-start">Permissions</p>
+                    </div>
+                    <div className="basis-4/5 ">
+                        <div className="flex">
+                            <div className="basis-1/2 space-y-2">
+                                <div>
+                                    <div className="flex items-center gap-2 my-1">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Attendance Management</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can view all attendance data</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2 my-1">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Attendance Management</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can view all attendance data</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2 my-1">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Attendance Management</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can view all attendance data</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="basis-1/2">
+                            <div>
+                                    <div className="flex items-center gap-2 my-1">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Attendance Management</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can view all attendance data</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2 my-1">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Attendance Management</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can view all attendance data</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2 my-1">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Attendance Management</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can view all attendance data</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 ml-6">
+                                        <input type="checkbox" className="rounded border border-gray-400"/>
+                                        <p className="text-sm font-medium text-gray-600">Can manage status attendance employee</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="md:flex md:flex-row w-full items-start m-4">
-                    <div className="md:flex md:basis-2/5 items-center ">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <p className="text-xs md:text-sm w-20 md:w-auto">
-                                            First Name
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">:</p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">Ahmad</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            Last Name
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">:</p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            Subagja
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            Birth Date
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">:</p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            28 June 1985
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            Address
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">:</p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            Jl. Sekeloa Utara no.22, RT/RW 10/52
-                                        </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className="md:basis-3/5 ">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <p className="text-xs md:text w-20 md:w-auto">
-                                            City
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">:</p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            Bandung
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            Nation
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">:</p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            Indonesia
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p className="text-xs md:text">Email</p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">:</p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            ahmad.subagja77@gmail.com
-                                        </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div className="flex justify-end">
+                <ButtonNormal
+              bg="bg-green-600 "
+              text="Create"
+             
+            />
                 </div>
             </div>
         </div>

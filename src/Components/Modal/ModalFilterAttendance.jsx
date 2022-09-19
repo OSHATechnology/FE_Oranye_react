@@ -81,7 +81,7 @@ const ModalFilterAttendance = ({ isOpen, setIsOpen, title }) => {
               width="w-16"
               onClick={() => setIsOpen(false)}
             />
-            <ButtonNormal bg="bg-red-600 " text="Yes" width="w-16" />
+            <ButtonNormal bg="bg-green-600 " text="Yes" width="w-16" />
           </div>
         </div>
       </Dialog>
