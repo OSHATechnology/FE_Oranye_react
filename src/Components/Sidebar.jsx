@@ -111,12 +111,14 @@ const Sidebar = () => {
                     </Link>
                 ))}
 
+                    
                 <div className="p-2.5 mt-3 flex items-center rounded-md px-4 border border-gray-800 duration-300 cursor-pointer hover:bg-gray-200  text-gray-800 ">
                     <Icon icon="mdi-light:logout" className="text-xl mr-1" />
                     <span className="text-[15px] ml-4 text-gray-800 font-bold">
                         Logout
                     </span>
                 </div>
+                    
             </div>
         </div>
     );

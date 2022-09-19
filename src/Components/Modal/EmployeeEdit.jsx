@@ -25,7 +25,7 @@ const EmployeeEdit = ({ isOpen, setIsOpen, title }) => {
               />
             </button>
           </div>
-          <div className="w-full h-3/4 overflow-y-scroll space-y-1">
+          <div className="w-full h-3/4 overflow-y-auto space-y-1">
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">
                 First Name

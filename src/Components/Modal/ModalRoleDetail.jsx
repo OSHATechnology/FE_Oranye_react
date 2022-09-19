@@ -34,7 +34,7 @@ const ModalRoleDetail = ({ isOpen, setIsOpen, title }) => {
                     <p className="font-bold text-gray-800">Supervisor</p>
                 </div>
             </div>
-          <div className="flex overflow-y-scroll h-4/5">
+          <div className="flex overflow-y-auto h-4/5">
             <div className="basis-1/4">
             <p className="font-medium text-gray-600">Permissions</p>
             </div>

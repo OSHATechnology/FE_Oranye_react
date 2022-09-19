@@ -14,6 +14,7 @@ import Attendance from "../Pages/Dashboard/Attendance/Attendance";
 
 
 
+
 export default function Blank() {
     // console.log('hash', location.hash);
     // console.log('pathname', location.pathname);
@@ -21,9 +22,10 @@ export default function Blank() {
     return (
         <div className="flex">
             {/* <ModalDelete /> */}
+            
             <BrowserRouter>
                 <Sidebar />
-
+                
                 <Routes>
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="role" element={<Role />} />
@@ -36,6 +38,7 @@ export default function Blank() {
                     <Route path="mitra" element={<Mitra />} />
                     <Route path="detail" element={<Detail />} />
                     <Route path="addRole" element={<AddRole />} />
+                    
                 </Routes>
 
             </BrowserRouter>

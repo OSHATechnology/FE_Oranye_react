@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
     return (
@@ -60,18 +61,20 @@ export default function Login() {
                         </div>
 
                         <div className="w-3/4">
+                            <Link to="./Pages/Blank">
                             <button
                                 type="submit"
                                 className="w-full px-4 py-2 text-lg font-semibold text-orange-500 transition-colors duration-300 bg-white border border-orange-500 rounded-md shadow hover:bg-orange-500 hover:text-white focus:outline-none focus:ring-orange-200 focus:ring-4"
-                            >
+                                >
                                 Log in
                             </button>
+                                </Link>
                         </div>
                         <div className="flex flex-col">
                             <span className="flex items-center justify-center space-x-1">
                                 <p className="text-xs">Forgot your password?</p>
                                 <a
-                                    href="#asdsa"
+                                    href="#"
                                     className="text-xs  font-bold text-orange-600 hover:underline focus:text-orange-800"
                                 >
                                     Reset here
