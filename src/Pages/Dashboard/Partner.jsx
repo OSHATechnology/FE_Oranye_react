@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ButtonSmall from "../../Components/ButtonSmall";
 import ButtonNormal from "../../Components/ButtonNormal";
@@ -6,30 +6,30 @@ import Modal from "../../Components/Modal/ModalDetailPartner";
 import ModalAdd from "../../Components/Modal/PartnerAdd";
 import ModalEdit from "../../Components/Modal/PartnerEdit";
 import ModalDelete from "../../Components/Modal/ModalDelete";
+import ConfigHeader from "../Auth/ConfigHeader";
+import env from "react-dotenv";
+import axios from "axios";
+import moment from "moment";
 
 const Partner = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [isModalEditOpened, setIsModalEditOpened] = useState(false);
+  const [dataPartner, setDataPartner] = useState([]);
 
-  const dataPartner = [
-    // Pages
-    {
-      id: 1,
-      img: "assets/PP.png",
-      name: "Perusahaan 1",
-      address: "Alamat Perusahaan",
-      join: "21 Sept 2005",
-    },
-    {
-      id: 2,
-      img: "assets/Logo.png",
-      name: "Perusahaan 2",
-      address: "Alamat Perusahaan Lama",
-      join: "21 Apr 1999",
-    },
-  ];
+  const [modalPartner, setModalPartner] = useState();
+
+  useEffect(() => {
+    const fetchDataPartner = async () => {
+      const result = await axios.get(`${env.API_URL}/api/partners`, ConfigHeader);
+      setDataPartner(result.data.data);
+    };
+
+    fetchDataPartner().catch((err) => {
+      console.log(err.message);
+    });
+  }, []);
 
   return (
     <div className="w-full md:mx-8">
@@ -87,12 +87,12 @@ const Partner = () => {
                   <td>{index + 1}</td>
                   <td>
                     <div className="text-center flex items-center justify-center md:space-x-4">
-                      <img src={row.img} alt="" className="w-10" />
+                      <img src={row.photo} alt="" className="w-10" />
                     </div>
                   </td>
                   <td>{row.name}</td>
                   <td>{row.address}</td>
-                  <td>{row.join}</td>
+                  <td>{moment(row.joinedAt).format("DD MMMM YYYY")}</td>
                   <td>
                     <div className="flex justify-center gap-1">
                       <ButtonSmall
@@ -106,8 +106,8 @@ const Partner = () => {
                         icon="fa6-solid:pen-to-square"
                         colorIcon="text-white"
                         onClick={() =>
-                            setIsModalEditOpened(!isModalEditOpened)
-                          }
+                          setIsModalEditOpened(!isModalEditOpened)
+                        }
                       />
                       <ButtonSmall
                         bg="bg-red-500"
@@ -122,6 +122,7 @@ const Partner = () => {
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
                         title="Detail Partner"
+                        data={row}
                       />
                       {/* Modal Kanggo Edit */}
                       <ModalEdit

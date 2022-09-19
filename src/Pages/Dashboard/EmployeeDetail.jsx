@@ -1,8 +1,45 @@
 import TitleDashboard from "../../Components/TitleDashboard";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
+import ConfigHeader from "../Auth/ConfigHeader";
+import moment from 'moment';
+import env from "react-dotenv";
 
 const EmployeeDetail = () => {
+    const paramsData = useParams();
+    const [dataEmp, setDataEmp] = useState([
+        {
+            employeeId: "",
+            name: "",
+            photo: "",
+            birthDate: "",
+            gender: "",
+            role: "",
+            email: "",
+            phone: "",
+            address: "",
+            isActive: "",
+            emailVerifiedAt: "",
+            joinedAt: "",
+            resignedAt: "",
+            statusHire: {
+                id: "",
+                status: ""
+            }
+        }]);
+
+    useEffect(() => {
+        const fetchDataEmp = async () => {
+            const data = await axios.get(`${env.API_URL}/api/employee/${paramsData.id}`, ConfigHeader);
+            setDataEmp(data.data.data);
+        }
+
+        fetchDataEmp().catch(err => {
+            console.log(err.message);
+        });
+    }, [paramsData])
+
     return (
         <div className="w-full md:mx-8 space-y-8">
             <TitleDashboard
@@ -11,9 +48,9 @@ const EmployeeDetail = () => {
             />
             <div>
                 <Link to="../emp">
-                <p className="text-sm text-blue-600 font-medium">
-                    Back to Employee Management
-                </p>
+                    <p className="text-sm text-blue-600 font-medium">
+                        Back to Employee Management
+                    </p>
                 </Link>
             </div>
             <div className="md:flex md:flex-row w-full">
@@ -25,16 +62,16 @@ const EmployeeDetail = () => {
                     <div className="md:flex md:justify-between items-center">
                         <div>
                             <h3 className="text-2xl text-orange-500 font-extrabold">
-                                Fachriansyah Nur I
+                                {dataEmp.name}
                             </h3>
                         </div>
                         <div>
                             <p className="text-xs text-gray-400">
-                                Joined at, 21 Sept 202
+                                Joined at, {moment(dataEmp.joinedAt).format('DD MMMM YYYY')}
                             </p>
                         </div>
                     </div>
-                    <h4 className="text-2xl">TI00004</h4>
+                    <h4 className="text-2xl">{dataEmp.employeeId}</h4>
                     <table className="mt-5 text-start">
                         <tbody>
                             <tr>
@@ -45,8 +82,8 @@ const EmployeeDetail = () => {
                                     <p className="text-sm">:</p>
                                 </td>
                                 <td>
-                                    <p className="text-sm text-orange-500">
-                                        on duty / active
+                                    <p className={`text-sm text-orange-500`}>
+                                        {(dataEmp.statusHire) ? dataEmp.statusHire.status : ""}
                                     </p>
                                 </td>
                             </tr>
@@ -58,7 +95,7 @@ const EmployeeDetail = () => {
                                     <p className="text-sm">:</p>
                                 </td>
                                 <td>
-                                    <p className="text-sm">Employee</p>
+                                    <p className="text-sm">{(dataEmp.role) ? dataEmp.role.role : ''}</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -78,29 +115,14 @@ const EmployeeDetail = () => {
                                 <tr>
                                     <td>
                                         <p className="text-xs md:text-sm w-20 md:w-auto">
-                                            First Name
+                                            Name
                                         </p>
                                     </td>
                                     <td>
                                         <p className="text-xs md:text">:</p>
                                     </td>
                                     <td>
-                                        <p className="text-xs md:text">Ahmad</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            Last Name
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">:</p>
-                                    </td>
-                                    <td>
-                                        <p className="text-xs md:text">
-                                            Subagja
-                                        </p>
+                                        <p className="text-xs md:text">{dataEmp.name}</p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -114,7 +136,7 @@ const EmployeeDetail = () => {
                                     </td>
                                     <td>
                                         <p className="text-xs md:text">
-                                            28 June 1985
+                                            {moment(dataEmp.birthDate).format('DD MMMM YYYY')}
                                         </p>
                                     </td>
                                 </tr>
@@ -129,7 +151,7 @@ const EmployeeDetail = () => {
                                     </td>
                                     <td>
                                         <p className="text-xs md:text">
-                                            Jl. Sekeloa Utara no.22, RT/RW 10/52
+                                            {dataEmp.address}
                                         </p>
                                     </td>
                                 </tr>
@@ -150,7 +172,7 @@ const EmployeeDetail = () => {
                                     </td>
                                     <td>
                                         <p className="text-xs md:text">
-                                            Bandung
+                                            {dataEmp.city}
                                         </p>
                                     </td>
                                 </tr>
@@ -165,7 +187,7 @@ const EmployeeDetail = () => {
                                     </td>
                                     <td>
                                         <p className="text-xs md:text">
-                                            Indonesia
+                                            {dataEmp.nation}
                                         </p>
                                     </td>
                                 </tr>
@@ -178,7 +200,7 @@ const EmployeeDetail = () => {
                                     </td>
                                     <td>
                                         <p className="text-xs md:text">
-                                            ahmad.subagja77@gmail.com
+                                            {dataEmp.email}
                                         </p>
                                     </td>
                                 </tr>

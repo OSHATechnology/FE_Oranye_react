@@ -1,30 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
+import axios from "axios";
+import env from "react-dotenv";
+import ConfigHeader from "../Auth/ConfigHeader";
 import Modal from "../../Components/Modal/ModalRoleDetail";
 import { Link } from "react-router-dom";
 
 const RolePermissions = () => {
-    const [isOpen, setIsOpen] = useState(false)
-    const dataRole = [
-        {
-            id: "1",
-            role: "Employee"
-        },
-        {
-            id: "2",
-            role: "Admin"
-        },
-        {
-            id: "3",
-            role: "Supervisor"
-        },
-        {
-            id: "4",
-            role: "Staff"
+    const [dataRole, setDataRole] = useState([]);
+    const [dataPermissions, setDataPermissions] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+    useEffect(() => {
+        const fetchDataRole = async () => {
+            const data = await axios.get(`${env.API_URL}/api/roles`, ConfigHeader);
+            setDataRole(data.data.data);
         }
-    ]
+
+        const feacthDataPermissions = async () => {
+            const data = await axios.get(`${env.API_URL}/api/permissions`, ConfigHeader);
+            setDataPermissions(data.data.data);
+        }
+
+        fetchDataRole()
+            .catch(err => {
+                console.log(err.message);
+            });
+        feacthDataPermissions()
+            .catch(err => {
+                console.log(err.message);
+            });
+    }, [])
 
     return (
         <div className="w-full md:mx-8">
@@ -41,15 +48,15 @@ const RolePermissions = () => {
                     <div className="flex justify-between items-center ">
                         <div>
                             <Link to="../addRole">
-                            <ButtonNormal
-                                bg="bg-green-600 "
-                                icon="akar-icons:plus"
-                                text="Add"
+                                <ButtonNormal
+                                    bg="bg-green-600 "
+                                    icon="akar-icons:plus"
+                                    text="Add"
                                 />
-                                </Link>
+                            </Link>
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="text" placeholder="search" className="text-center rounded h-9 border border-gray-300"/>
+                            <input type="text" placeholder="search" className="text-center rounded h-9 border border-gray-300" />
                             <ButtonSmall icon="akar-icons:search" />
                         </div>
                     </div>
@@ -63,61 +70,61 @@ const RolePermissions = () => {
                                 </tr>
                             </thead>
                             <tbody className="text-sm font-medium text-gray-600">
-                                {dataRole.map((row, index) =>(
+                                {dataRole.map((row, index) => (
 
-                                <tr key={row.id}>
-                                    <td>{index + 1}</td>
-                                    <td className="text-start">{row.role}</td>
-                                    <td>
-                                        <div className="flex justify-center text-center">
-                                            <ButtonNormal
-                                                bg="bg-blue-500 "
-                                                text="details"
-                                                onClick={() => setIsOpen(!isOpen)}
-                                            />
-                                            <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Role Detail"/>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr key={row.roleId}>
+                                        <td>{index + 1}</td>
+                                        <td className="text-start">{row.nameRole}</td>
+                                        <td>
+                                            <div className="flex justify-center text-center">
+                                                <ButtonNormal
+                                                    bg="bg-blue-500 "
+                                                    text="details"
+                                                    onClick={() => setIsOpen(!isOpen)}
+                                                />
+                                                <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Role Detail" />
+                                            </div>
+                                        </td>
+                                    </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div className="basis-1/2 h-fit border border-gray-200 rounded-xl space-y-4 p-4">
-                <div>
+                    <div>
                         <p className="text-xl font-bold">List Permissions</p>
                     </div>
-                    
-                        <div className="flex justify-end items-center gap-2">
-                            <input type="text" placeholder="search" className="text-center rounded h-9 border border-gray-300"/>
-                            <ButtonSmall icon="akar-icons:search" />
-                        </div>
-                    
+
+                    <div className="flex justify-end items-center gap-2">
+                        <input type="text" placeholder="search" className="text-center rounded h-9 border border-gray-300" />
+                        <ButtonSmall icon="akar-icons:search" />
+                    </div>
+
                     <div>
                         <table className="w-full text-center overflow-x-scroll rounded">
                             <thead className="bg-gray-100 border-b-2 border-gray-700">
                                 <tr>
                                     <th>#</th>
-                                    <th>Role</th>
+                                    <th>Permission</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody className="text-sm font-medium text-gray-600">
-                                {dataRole.map((row, index) =>(
+                                {dataPermissions.map((row, index) => (
 
-                                <tr key={row.id}>
-                                    <td>{index + 1}</td>
-                                    <td className="text-start">{row.role}</td>
-                                    <td>
-                                        <div className="flex justify-center text-center">
-                                            <ButtonNormal
-                                                bg="bg-blue-500 "
-                                                text="admin"
-                                            />
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr key={row.namePermissionId}>
+                                        <td>{index + 1}</td>
+                                        <td className="text-start">{row.namePermission}</td>
+                                        <td>
+                                            <div className="flex justify-center text-center">
+                                                <ButtonNormal
+                                                    bg="bg-blue-500 "
+                                                    text="admin"
+                                                />
+                                            </div>
+                                        </td>
+                                    </tr>
                                 ))}
                             </tbody>
                         </table>
