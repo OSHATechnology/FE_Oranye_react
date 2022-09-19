@@ -33,11 +33,11 @@ export default function Blank() {
                     </Route>
                     <Route path="emp" element={<Emp />} />
                     <Route path="mitra" element={<Mitra />} />
-                    <Route path="detail" element={<Detail />} />
+                    <Route path="emp/:id" element={<Detail />} />
                 </Routes>
 
             </BrowserRouter>
         </div>
-       
+
     );
 }

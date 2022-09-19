@@ -1,31 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ButtonSmall from "../../Components/ButtonSmall";
 import ButtonNormal from "../../Components/ButtonNormal";
 import Modal from "../../Components/Modal/ModalDelete";
 import ModalImport from "../../Components/Modal/ModalImport";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import ConfigHeader from "../Auth/ConfigHeader";
+import env from "react-dotenv";
 
 const Employee = () => {
+    const [dataEmp, setDataEmp] = useState([]);
     const [isOpen, setIsOpen] = useState(false)
     const [isModalImportOpened, setIsModalImportOpened] = useState(false);
-    const dataEmp = [
-        // Pages
-        {
-            id: 1,
-            img: "assets/PP.png",
-            name: "Arunika",
-            email: "zain280401@gmail.com",
-            role: "Admin",
-        },
-        {
-            id: 2,
-            img: "assets/Logo.png",
-            name: "zae",
-            email: "zae@gmail.com",
-            role: "Employee",
-        },
-    ];
+    // const config = {
+    //     headers: { Authorization: `Bearer 2|r0EHdhziOz1mPTobbYdjQChdj1WRRK39SU9Fjrhu` }
+    // };
+    useEffect(() => {
+        axios.get(`${env.API_URL}/api/employee`, ConfigHeader)
+            .then(res => {
+                setDataEmp(res.data.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, [])
     return (
         <div className="w-full md:mx-8">
             <TitleDashboard
@@ -37,8 +36,8 @@ const Employee = () => {
                 <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
                     <div className="flex gap-4">
                         <ButtonNormal bg="bg-green-600 " icon="bi:plus" text="Add" />
-                        <ButtonNormal bg="bg-gray-500 " icon="bxs:file-import" text="Import"  onClick={() => setIsModalImportOpened(!isModalImportOpened)}/>
-                        <ModalImport isOpen={isModalImportOpened} setIsOpen={setIsModalImportOpened} title="Import Data Karyawan"/>
+                        <ButtonNormal bg="bg-gray-500 " icon="bxs:file-import" text="Import" onClick={() => setIsModalImportOpened(!isModalImportOpened)} />
+                        <ModalImport isOpen={isModalImportOpened} setIsOpen={setIsModalImportOpened} title="Import Data Karyawan" />
                     </div>
                     <div className="flex space-x-2 items-center">
                         <input
@@ -70,29 +69,29 @@ const Employee = () => {
                         </thead>
                         <tbody className="text-xs md:text-sm font-medium">
                             {dataEmp.map((row, index) => (
-                                <tr key={row.id} className=" shadow ">
+                                <tr key={row.employeeId} className=" shadow ">
                                     <td>{index + 1}</td>
                                     <td>
                                         <div className="text-center flex items-center justify-center md:space-x-4">
                                             <img
-                                                src={row.img}
+                                                src={row.photo}
                                                 alt=""
                                                 className="w-10"
                                             />
                                         </div>
                                     </td>
-                                    <td>{row.name}</td>
+                                    <td>{row.firstName} {row.lastName}</td>
                                     <td>{row.email}</td>
-                                    <td>{row.role}</td>
+                                    <td>{row.role.role}</td>
                                     <td>
                                         <div className="flex justify-center gap-1">
-                                            <Link to="../detail">
+                                            <Link to={`../emp/${row.employeeId}`}>
                                                 <ButtonSmall
-                                                bg="bg-blue-600"
-                                                icon="carbon:view"
-                                                colorIcon="text-white"
-                                            /></Link>
-                                            
+                                                    bg="bg-blue-600"
+                                                    icon="carbon:view"
+                                                    colorIcon="text-white"
+                                                /></Link>
+
                                             <ButtonSmall
                                                 bg="bg-yellow-500"
                                                 icon="fa6-solid:pen-to-square"
@@ -108,7 +107,7 @@ const Employee = () => {
                                                     onClick={() => setIsOpen(!isOpen)}>
 					Open Modal
 				</button> */}
-                <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Delete Karyawan"/>
+                                            <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Delete Karyawan" />
                                         </div>
                                     </td>
                                 </tr>

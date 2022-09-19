@@ -1,9 +1,24 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
+import ConfigHeader from "../../Pages/Auth/ConfigHeader";
+import moment from "moment";
 
-const ModalDetailPartner = ({ isOpen, setIsOpen, title }) => {
+const ModalDetailPartner = ({ isOpen, setIsOpen, title, ...data }) => {
+
+    const [partnerData, setPartnerData] = useState({});
+    // console.log(data.data);
+    // async function fetchDataPartner() {
+    //     const response = await fetch(`http://localhost:8000/api/partners/${data.id}`, ConfigHeader);
+    //     const jsonData = await response.json();
+    //     setPartnerData(jsonData.data);
+    // }
+    useEffect(() => {
+        // fetchDataPartner();
+
+        setPartnerData(data.data);
+    }, []);
     return (
         <>
             <Dialog
@@ -36,48 +51,48 @@ const ModalDetailPartner = ({ isOpen, setIsOpen, title }) => {
                         <img src="../assets/PP.png" alt="" className="w-24 " />
                     </div>
                     <p className="text-center font-semibold text-gray-700">
-                        ID : KS76J09
+                        ID : {partnerData.id}
                     </p>
                     <div className="flex justify-center">
                         <table className=" text-sm font-medium text-gray-700">
+                            <tbody>
+                                <tr>
+                                    <td>Partner Name</td>
+                                    <td>:</td>
+                                    <td>{partnerData.name}</td>
+                                </tr>
+                                <tr>
+                                    <td>Description</td>
+                                    <td>:</td>
+                                    <td>{partnerData.description}</td>
+                                </tr>
+                                <tr>
+                                    <td className="align-top">Address</td>
+                                    <td className="align-top">:</td>
+                                    <td>{partnerData.address}</td>
+                                </tr>
+                                <tr>
+                                    <td className="w-28">Responsible by</td>
+                                    <td className="w-2">:</td>
+                                    <td className="w-48">{partnerData.resposibleBy}</td>
+                                </tr>
+                                <tr>
+                                    <td>Phone</td>
+                                    <td>:</td>
+                                    <td>{partnerData.phone}</td>
+                                </tr>
+                                <tr>
+                                    <td>Joined At</td>
+                                    <td>:</td>
+                                    <td>{moment(partnerData.joinedAt).format("DD MMMM YYYY")}</td>
+                                </tr>
+                                <tr>
+                                    <td>Assigned By</td>
+                                    <td>:</td>
+                                    <td>{(partnerData.assignedBy) ? partnerData.assignedBy.name : "-"}</td>
+                                </tr>
 
-
-                            <tr>
-                                <td>Partner Name</td>
-                                <td>:</td>
-                                <td>Tatang Suherman</td>
-                            </tr>
-                            <tr>
-                                <td>Description</td>
-                                <td>:</td>
-                                <td>description about partner</td>
-                            </tr>
-                            <tr>
-                                <td className="align-top">Address</td>
-                                <td className="align-top">:</td>
-                                <td>Kp.Pasekon Jl.SDN Cipanas 04 Cianjur</td>
-                            </tr>
-                            <tr>
-                                <td className="w-28">Responsible by</td>
-                                <td className="w-2">:</td>
-                                <td className="w-48">Arunika</td>
-                            </tr>
-                            <tr>
-                                <td>Phone</td>
-                                <td>:</td>
-                                <td>083817327542</td>
-                            </tr>
-                            <tr>
-                                <td>Joined At</td>
-                                <td>:</td>
-                                <td>15 September 2022</td>
-                            </tr>
-                            <tr>
-                                <td>Assigned By</td>
-                                <td>:</td>
-                                <td>Admin OSHA</td>
-                            </tr>
-
+                            </tbody>
                         </table>
                     </div>
                 </div>
