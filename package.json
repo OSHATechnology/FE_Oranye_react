@@ -1,5 +1,5 @@
 {
-  "name": "fe_oranye_react",
+  "name": "fe_oranye-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,8 +8,8 @@
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "react-router-dom": "^6.4.0",
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,5 +34,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@headlessui/react": "^1.4.2",
+    "@iconify/react": "^4.0.0",
+    "@tailwindcss/forms": "^0.5.2",
+    "autoprefixer": "^10.4.2",
+    "axios": "^0.27",
+    "lodash": "^4.17.19",
+    "postcss": "^8.4.6",
+    "tailwindcss": "^3.1.0"
   }
 }
