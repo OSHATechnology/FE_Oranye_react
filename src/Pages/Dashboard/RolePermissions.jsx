@@ -5,10 +5,13 @@ import ButtonSmall from "../../Components/ButtonSmall";
 import axios from "axios";
 import env from "react-dotenv";
 import ConfigHeader from "../Auth/ConfigHeader";
+import Modal from "../../Components/Modal/ModalRoleDetail";
+import { Link } from "react-router-dom";
 
 const RolePermissions = () => {
     const [dataRole, setDataRole] = useState([]);
     const [dataPermissions, setDataPermissions] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
     useEffect(() => {
         const fetchDataRole = async () => {
             const data = await axios.get(`${env.API_URL}/api/roles`, ConfigHeader);
@@ -38,17 +41,19 @@ const RolePermissions = () => {
             />
 
             <div className="md:flex gap-8 mt-8 space-y-4 md:space-y-0">
-                <div className="basis-1/2 border border-gray-200 rounded-xl space-y-4 p-4">
+                <div className="basis-1/2 h-fit border border-gray-200 rounded-xl space-y-4 p-4">
                     <div>
                         <p className="text-xl font-bold">List Role</p>
                     </div>
                     <div className="flex justify-between items-center ">
                         <div>
-                            <ButtonNormal
-                                bg="bg-green-600 "
-                                icon="akar-icons:plus"
-                                text="Add"
-                            />
+                            <Link to="../addRole">
+                                <ButtonNormal
+                                    bg="bg-green-600 "
+                                    icon="akar-icons:plus"
+                                    text="Add"
+                                />
+                            </Link>
                         </div>
                         <div className="flex items-center gap-2">
                             <input type="text" placeholder="search" className="text-center rounded h-9 border border-gray-300" />
@@ -64,18 +69,20 @@ const RolePermissions = () => {
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="text-sm font-medium text-gray-600">
                                 {dataRole.map((row, index) => (
 
                                     <tr key={row.roleId}>
                                         <td>{index + 1}</td>
-                                        <td>{row.nameRole}</td>
+                                        <td className="text-start">{row.nameRole}</td>
                                         <td>
                                             <div className="flex justify-center text-center">
                                                 <ButtonNormal
                                                     bg="bg-blue-500 "
                                                     text="details"
+                                                    onClick={() => setIsOpen(!isOpen)}
                                                 />
+                                                <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Role Detail" />
                                             </div>
                                         </td>
                                     </tr>
@@ -84,7 +91,7 @@ const RolePermissions = () => {
                         </table>
                     </div>
                 </div>
-                <div className="basis-1/2 border border-gray-200 rounded-xl space-y-4 p-4">
+                <div className="basis-1/2 h-fit border border-gray-200 rounded-xl space-y-4 p-4">
                     <div>
                         <p className="text-xl font-bold">List Permissions</p>
                     </div>
@@ -99,16 +106,16 @@ const RolePermissions = () => {
                             <thead className="bg-gray-100 border-b-2 border-gray-700">
                                 <tr>
                                     <th>#</th>
-                                    <th>Role</th>
+                                    <th>Permission</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="text-sm font-medium text-gray-600">
                                 {dataPermissions.map((row, index) => (
 
-                                    <tr key={row.permissionId}>
+                                    <tr key={row.namePermissionId}>
                                         <td>{index + 1}</td>
-                                        <td>{row.namePermission}</td>
+                                        <td className="text-start">{row.namePermission}</td>
                                         <td>
                                             <div className="flex justify-center text-center">
                                                 <ButtonNormal

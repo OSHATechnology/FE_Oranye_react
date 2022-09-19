@@ -4,6 +4,8 @@ import ButtonSmall from "../../Components/ButtonSmall";
 import ButtonNormal from "../../Components/ButtonNormal";
 import Modal from "../../Components/Modal/ModalDelete";
 import ModalImport from "../../Components/Modal/ModalImport";
+import ModalAdd from "../../Components/Modal/EmployeeAdd";
+import ModalEdit from "../../Components/Modal/EmployeeEdit";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
@@ -13,9 +15,7 @@ const Employee = () => {
     const [dataEmp, setDataEmp] = useState([]);
     const [isOpen, setIsOpen] = useState(false)
     const [isModalImportOpened, setIsModalImportOpened] = useState(false);
-    // const config = {
-    //     headers: { Authorization: `Bearer 2|r0EHdhziOz1mPTobbYdjQChdj1WRRK39SU9Fjrhu` }
-    // };
+
     useEffect(() => {
         axios.get(`${env.API_URL}/api/employee`, ConfigHeader)
             .then(res => {
@@ -25,6 +25,9 @@ const Employee = () => {
                 console.log(err);
             });
     }, [])
+    const [isModalAddOpened, setIsModalAddOpened] = useState(false);
+    const [isModalEditOpened, setIsModalEditOpened] = useState(false);
+
     return (
         <div className="w-full md:mx-8">
             <TitleDashboard
@@ -35,8 +38,10 @@ const Employee = () => {
             <div className="flex justify-center mt-8 mb-2">
                 <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
                     <div className="flex gap-4">
-                        <ButtonNormal bg="bg-green-600 " icon="bi:plus" text="Add" />
+                        <ButtonNormal bg="bg-green-600 " icon="bi:plus" text="Add" onClick={() => setIsModalAddOpened(!isModalAddOpened)} />
+                        <ModalAdd isOpen={isModalAddOpened} setIsOpen={setIsModalAddOpened} title="Tambah Karyawan" />
                         <ButtonNormal bg="bg-gray-500 " icon="bxs:file-import" text="Import" onClick={() => setIsModalImportOpened(!isModalImportOpened)} />
+
                         <ModalImport isOpen={isModalImportOpened} setIsOpen={setIsModalImportOpened} title="Import Data Karyawan" />
                     </div>
                     <div className="flex space-x-2 items-center">
@@ -96,6 +101,7 @@ const Employee = () => {
                                                 bg="bg-yellow-500"
                                                 icon="fa6-solid:pen-to-square"
                                                 colorIcon="text-white"
+                                                onClick={() => setIsModalEditOpened(!isModalEditOpened)}
                                             />
                                             <ButtonSmall
                                                 bg="bg-red-500"
@@ -103,11 +109,8 @@ const Employee = () => {
                                                 colorIcon="text-white"
                                                 onClick={() => setIsOpen(!isOpen)}
                                             />
-                                            {/* <button className="w-64 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                                    onClick={() => setIsOpen(!isOpen)}>
-					Open Modal
-				</button> */}
                                             <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Delete Karyawan" />
+                                            <ModalEdit isOpen={isModalEditOpened} setIsOpen={setIsModalEditOpened} title="Edit Karyawan" />
                                         </div>
                                     </td>
                                 </tr>

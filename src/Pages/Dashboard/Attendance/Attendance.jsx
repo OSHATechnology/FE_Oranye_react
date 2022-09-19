@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
 import SimpleCard from "../../../Components/SimpleCard";
 import { Icon } from "@iconify/react";
+import Modal from "../../../Components/Modal/ModalAttendance";
 import ModalDecline from "../../../Components/Modal/ModalDecline";
 import ModalAcc from "../../../Components/Modal/ModalAccept";
 
 const Attendance = () => {
     const [isOpen, setIsOpen] = useState(false)
+    const [isModalAccOpened, setIsModalAccOpened] = useState(false);
+    const [isModalDeclineOpened, setIsModalDeclineOpened] = useState(false);
     const dataAttendance = [
         {
             id: "1",
@@ -49,7 +52,7 @@ const Attendance = () => {
                     className="rounded h-9 border border-gray-300"
                 />
                 <ButtonSmall icon="akar-icons:search" />
-                <ButtonSmall icon="ant-design:filter-outlined" />
+                
             </div>
             <div>
                 <table className="w-full text-center overflow-x-scroll">
@@ -67,7 +70,7 @@ const Attendance = () => {
                             <tr key={row.id}>
                                 <td>{index + 1}</td>
                                 <td>
-                                    <div className="flex items-center justify-center">
+                                    <div className="flex items-center justify-center gap-2">
                                         <img
                                             src={row.img}
                                             alt=""
@@ -92,19 +95,21 @@ const Attendance = () => {
                                         <ButtonSmall
                                             bg="bg-blue-500"
                                             icon="carbon:view"
+                                            onClick={() => setIsOpen(!isOpen)}
                                         />
+                                        <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="info Detail"/>
                                         <ButtonSmall
                                             bg="bg-green-600"
                                             icon="akar-icons:check"
-                                            onClick={() => setIsOpen(!isOpen)}
+                                            onClick={() => setIsModalAccOpened(!isModalAccOpened)}
                                         />
-                                            <ModalAcc isOpen={isOpen} setIsOpen={setIsOpen} title="Accept Request"/>
+                                            <ModalAcc isOpen={isModalAccOpened} setIsOpen={setIsModalAccOpened} title="Accept Request"/>
                                         <ButtonSmall
                                             bg="bg-red-600"
                                             icon="akar-icons:block"
-                                            onClick={() => setIsOpen(!isOpen)}
+                                            onClick={() => setIsModalDeclineOpened(!isModalDeclineOpened)}
                                         />
-                                        <ModalDecline isOpen={isOpen} setIsOpen={setIsOpen} title="Decline Request"/>
+                                        <ModalDecline isOpen={isModalDeclineOpened} setIsOpen={setIsModalDeclineOpened} title="Decline Request"/>
                                     </div>
                                 </td>
                             </tr>

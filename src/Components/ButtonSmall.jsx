@@ -13,7 +13,7 @@ const ButtonSmall = (props) => {
 
 ButtonSmall.defaultProps ={
     bg: "bg-gray-400",
-    icon: "bi:arrow-through-heart-fill",
+    icon: " ",
     colorIcon: "text-white"
 }
 

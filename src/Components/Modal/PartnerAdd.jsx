@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
 
-const Modal = ({ isOpen, setIsOpen, title }) => {
+const PartnerAdd = ({ isOpen, setIsOpen, title }) => {
   return (
     <>
       <Dialog
@@ -124,4 +124,4 @@ const Modal = ({ isOpen, setIsOpen, title }) => {
   );
 };
 
-export default Modal;
+export default PartnerAdd;
