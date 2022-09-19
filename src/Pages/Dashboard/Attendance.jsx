@@ -10,7 +10,7 @@ const Attendance = () => {
                 Keterangan="Attendance from employees"
             />
     
-            <div className="flex mt-8 space-x-8 text-sm font-semibold text-gray-600">
+            <div className="flex my-8 space-x-8 text-sm font-semibold text-gray-600">
                 <Link to="../hadir">Attendance</Link>
                 <Link to="Today">Today</Link>
                 <Link to="Overtime">Overtime</Link>

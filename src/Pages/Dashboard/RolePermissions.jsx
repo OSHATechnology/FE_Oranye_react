@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
+import Modal from "../../Components/Modal/ModalRoleDetail";
 
 const RolePermissions = () => {
+    const [isOpen, setIsOpen] = useState(false)
     const dataRole = [
         {
             id: "1",
@@ -31,7 +33,7 @@ const RolePermissions = () => {
             />
 
             <div className="md:flex gap-8 mt-8 space-y-4 md:space-y-0">
-                <div className="basis-1/2 border border-gray-200 rounded-xl space-y-4 p-4">
+                <div className="basis-1/2 h-fit border border-gray-200 rounded-xl space-y-4 p-4">
                     <div>
                         <p className="text-xl font-bold">List Role</p>
                     </div>
@@ -57,18 +59,20 @@ const RolePermissions = () => {
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="text-sm font-medium text-gray-600">
                                 {dataRole.map((row, index) =>(
 
                                 <tr key={row.id}>
                                     <td>{index + 1}</td>
-                                    <td>{row.role}</td>
+                                    <td className="text-start">{row.role}</td>
                                     <td>
                                         <div className="flex justify-center text-center">
                                             <ButtonNormal
                                                 bg="bg-blue-500 "
                                                 text="details"
+                                                onClick={() => setIsOpen(!isOpen)}
                                             />
+                                            <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Role Detail"/>
                                         </div>
                                     </td>
                                 </tr>
@@ -77,7 +81,7 @@ const RolePermissions = () => {
                         </table>
                     </div>
                 </div>
-                <div className="basis-1/2 border border-gray-200 rounded-xl space-y-4 p-4">
+                <div className="basis-1/2 h-fit border border-gray-200 rounded-xl space-y-4 p-4">
                 <div>
                         <p className="text-xl font-bold">List Permissions</p>
                     </div>
@@ -96,12 +100,12 @@ const RolePermissions = () => {
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="text-sm font-medium text-gray-600">
                                 {dataRole.map((row, index) =>(
 
                                 <tr key={row.id}>
                                     <td>{index + 1}</td>
-                                    <td>{row.role}</td>
+                                    <td className="text-start">{row.role}</td>
                                     <td>
                                         <div className="flex justify-center text-center">
                                             <ButtonNormal

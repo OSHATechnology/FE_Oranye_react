@@ -4,11 +4,15 @@ import ButtonSmall from "../../Components/ButtonSmall";
 import ButtonNormal from "../../Components/ButtonNormal";
 import Modal from "../../Components/Modal/ModalDelete";
 import ModalImport from "../../Components/Modal/ModalImport";
+import ModalAdd from "../../Components/Modal/EmployeeAdd";
+import ModalEdit from "../../Components/Modal/EmployeeEdit";
 import { Link } from "react-router-dom";
 
 const Employee = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [isModalImportOpened, setIsModalImportOpened] = useState(false);
+    const [isModalAddOpened, setIsModalAddOpened] = useState(false);
+    const [isModalEditOpened, setIsModalEditOpened] = useState(false);
     const dataEmp = [
         // Pages
         {
@@ -36,8 +40,10 @@ const Employee = () => {
             <div className="flex justify-center mt-8 mb-2">
                 <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
                     <div className="flex gap-4">
-                        <ButtonNormal bg="bg-green-600 " icon="bi:plus" text="Add" />
+                        <ButtonNormal bg="bg-green-600 " icon="bi:plus" text="Add" onClick={() => setIsModalAddOpened(!isModalAddOpened)}/>
+                        <ModalAdd isOpen={isModalAddOpened} setIsOpen={setIsModalAddOpened} title="Tambah Karyawan"/>
                         <ButtonNormal bg="bg-gray-500 " icon="bxs:file-import" text="Import"  onClick={() => setIsModalImportOpened(!isModalImportOpened)}/>
+                        
                         <ModalImport isOpen={isModalImportOpened} setIsOpen={setIsModalImportOpened} title="Import Data Karyawan"/>
                     </div>
                     <div className="flex space-x-2 items-center">
@@ -97,6 +103,7 @@ const Employee = () => {
                                                 bg="bg-yellow-500"
                                                 icon="fa6-solid:pen-to-square"
                                                 colorIcon="text-white"
+                                                onClick={() => setIsModalEditOpened(!isModalEditOpened)}
                                             />
                                             <ButtonSmall
                                                 bg="bg-red-500"
@@ -109,6 +116,7 @@ const Employee = () => {
 					Open Modal
 				</button> */}
                 <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Delete Karyawan"/>
+                <ModalEdit isOpen={isModalEditOpened} setIsOpen={setIsModalEditOpened} title="Edit Karyawan"/>
                                         </div>
                                     </td>
                                 </tr>
