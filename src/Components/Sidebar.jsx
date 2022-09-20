@@ -53,6 +53,14 @@ const Sidebar = () => {
             isActive: false,
             classAddon: "",
         },
+        {
+            id: 5,
+            icon: "fluent:people-team-toolbox-20-filled",
+            title: "Teams",
+            link: "team",
+            isActive: false,
+            classAddon: "",
+        },
         // {
         //     id: 6,
         //     icon: "carbon:update-now",

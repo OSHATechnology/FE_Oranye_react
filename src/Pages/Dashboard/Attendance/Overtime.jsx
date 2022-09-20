@@ -1,28 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
 import SimpleCard from "../../../Components/SimpleCard";
 import ModalFilter from "../../../Components/Modal/ModalFilterAttendance";
 import Modal from "../../../Components/Modal/ModalAttendance";
+import axios from "axios";
+import ConfigHeader from "../../Auth/ConfigHeader";
+import env from "react-dotenv";
+import moment from "moment";
 
 const Overtime = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalFilterOpened, setIsModalFilterOpened] = useState(false);
-  const dataOvertime = [
-    {
-      id: "1",
-      img: "../assets/PP.png",
-      name: "Tatang Suherman",
-      hour: "2",
-      acc: "Tatang Suherman",
-    },
-    {
-      id: "2",
-      img: "../assets/Logo.png",
-      name: "Arunika",
-      hour: "Work",
-      acc: "Lead",
-    },
-  ];
+  const [dataOvertime, setDataOvertime] = useState([]);
+  useEffect(() => {
+    const fetchDataOvertime = async () => {
+      const result = await axios.get(
+        `http://127.0.0.1:8000/api/overtime`,
+        ConfigHeader
+      );
+      setDataOvertime(result.data.data);
+    };
+
+    fetchDataOvertime().catch((err) => {
+      console.log(err.message);
+    });
+  }, []);
+  // const dataOvertime = [
+  //   {
+  //     id: "1",
+  //     img: "../assets/PP.png",
+  //     name: "Tatang Suherman",
+  //     hour: "2",
+  //     acc: "Tatang Suherman",
+  //   },
+  //   {
+  //     id: "2",
+  //     img: "../assets/Logo.png",
+  //     name: "Arunika",
+  //     hour: "Work",
+  //     acc: "Lead",
+  //   },
+  // ];
 
   return (
     <div className="w-full space-y-4">
@@ -34,9 +52,11 @@ const Overtime = () => {
           Count="7"
         />
       </div>
-      <div className="md:flex justify-between space-y-4 md:space-y-0">
+      <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
         <div>
-          <p>Sunday, 28 August 2022 | Overtime</p>
+          <p className="text-sm font-medium text-gray-500">
+            {moment().format("dddd, DD MMMM YYYY")} | Overtime
+          </p>
         </div>
         <div className="flex gap-2 justify-end">
           <input
@@ -67,20 +87,25 @@ const Overtime = () => {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody className="text-xs font-medium text-gray-700 md:text-sm">
+          <tbody className="text-base font-medium text-gray-700 md:text-sm">
             {dataOvertime.map((row, index) => (
               <tr key={row.id}>
                 <td>{index + 1}</td>
                 <td>
                   <div className="flex items-center justify-center gap-2">
                     <img src={row.img} alt="" className="w-8" />
-                    <span>{row.name}</span>
+                    <span>{row.employeeId.name}</span>
                   </div>
                 </td>
-                <td>
-                  <span>{row.hour}</span>
+                <td className="w-2">
+                  <span>
+                    {Math.round(moment.duration(moment(row.endAt, 'YYYY/MM/DD HH:mm').diff(moment(row.startAt, 'YYYY/MM/DD HH:mm'))).asHours())} hours 
+                  </span>
+                  <span className="ml-2 text-xs font-thin text-gray-500">
+                  ({moment(row.startAt).format("HH:mm")} - {moment(row.endAt).format("HH:mm")})
+                  </span>
                 </td>
-                <td>{row.acc}</td>
+                <td>{row.assignedBy.name}</td>
                 <td>
                   <ButtonSmall
                     bg="bg-blue-500"

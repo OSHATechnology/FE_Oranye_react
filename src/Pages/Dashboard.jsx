@@ -1,23 +1,45 @@
 import React from 'react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/inertia-react';
+import AuthenticatedLayout from './Dashboard/AuthenticatedLayout';
+import Sidebar from '../Components/Sidebar';
+import { Route, Routes } from 'react-router-dom';
+import Home from "../Pages/Dashboard/Home";
+import Role from "../Pages/Dashboard/RolePermissions";
+import Hadir from "../Pages/Dashboard/Attendance";
+import Emp from "../Pages/Dashboard/Employee";
+import Mitra from "../Pages/Dashboard/Partner";
+import Teams from "../Pages/Dashboard/Teams";
+import Detail from "../Pages/Dashboard/EmployeeDetail";
+import MemberTeam from "../Pages/Dashboard/TeamMembers";
+import AddRole from "../Pages/Dashboard/AddRole";
+import Today from "../Pages/Dashboard/Attendance/Today";
+import Overtime from "../Pages/Dashboard/Attendance/Overtime";
+import Attendance from "../Pages/Dashboard/Attendance/Attendance";
 
 export default function Dashboard(props) {
     return (
-        <AuthenticatedLayout
-            auth={props.auth}
-            errors={props.errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
-        >
-            <Head title="Dashboard" />
-
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 bg-white border-b border-gray-200">You're logged in!</div>
-                    </div>
-                </div>
-            </div>
-        </AuthenticatedLayout>
+        <div className="flex">
+            <AuthenticatedLayout
+                auth={props.auth}
+                errors={props.errors}
+            >
+                <Sidebar />
+                <Routes>
+                    <Route index element={<Home />} />
+                    <Route path="role" element={<Role />} />
+                    <Route path="hadir" element={<Hadir />}>
+                        <Route index element={<Attendance />} />
+                        <Route path="Today" element={<Today />} />
+                        <Route path="Overtime" element={<Overtime />} />
+                    </Route>
+                    <Route path="emp" element={<Emp />} />
+                    <Route path="mitra" element={<Mitra />} />
+                    <Route path="team" element={<Teams />} />
+                    <Route path="emp/:id" element={<Detail />} />
+                    <Route path="addRole" element={<AddRole />} />
+                    <Route path="memberTeam" element={<MemberTeam />} />
+                </Routes>
+                
+            </AuthenticatedLayout>
+        </div>
     );
 }

@@ -3,7 +3,7 @@ import SimpleCard from "../../Components/SimpleCard";
 import TitleDashboard from "../../Components/TitleDashboard";
 import PropertyMitra from "../../Components/PropertyMitra";
 
-const Dashboard = () => {
+const Home = () => {
     return (
         <div className="md:ml-8">
             <TitleDashboard
@@ -55,4 +55,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Home;

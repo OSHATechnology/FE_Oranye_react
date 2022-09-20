@@ -15,12 +15,12 @@ const RolePermissions = () => {
     useEffect(() => {
         const fetchDataRole = async () => {
             const data = await axios.get(`${env.API_URL}/api/roles`, ConfigHeader);
-            setDataRole(data.data.data);
+            setDataRole(data.data.data.data);
         }
 
         const feacthDataPermissions = async () => {
             const data = await axios.get(`${env.API_URL}/api/permissions`, ConfigHeader);
-            setDataPermissions(data.data.data);
+            setDataPermissions(data.data.data.data);
         }
 
         fetchDataRole()

@@ -1,7 +1,49 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import ConfigHeader from "../Auth/ConfigHeader";
+import env from "react-dotenv";
 
 export default function Login() {
+    const navigate = useNavigate()
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+
+    const onChangeUsername = (e) => {
+        const value = e.target.value
+        setUsername(value)
+    }
+
+    const onChangePassword = (e) => {
+        const value = e.target.value
+        setPassword(value)
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            // const res = await axios.post(`${env.API_URL}/api/auth/login`, {
+            //     'email': username,
+            //     password
+            // })
+            await axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post(`/api/auth/login`, {
+                    'email': username,
+                    password
+                    }).then(response => {
+                        console.log(response)
+                        // navigate('/dashboard')
+                    })
+            });
+
+            // //settoken
+            // navigate("/dashboard")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <div className="flex items-center min-h-screen p-4 bg-amber-100 justify-center">
             <div className="flex flex-col w-screen overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md">
@@ -10,8 +52,7 @@ export default function Login() {
                     <h3 className="my-4 text-2xl mb-16 text-orange-500 text-center font-bold">
                         Login
                     </h3>
-                    <form
-                        action="#"
+                    <form onSubmit={handleSubmit}
                         className="flex flex-col space-y-5 last:space-y-5 items-center"
                     >
                         <div className="relative z-0 w-3/4 group">
@@ -19,8 +60,10 @@ export default function Login() {
                                 type="text"
                                 name="employee_id"
                                 id="employee_id"
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-500 hover:border-orange-500 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-500 hover:border-orange-500 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                                 placeholder=" "
+                                value={username}
+                                onChange={onChangeUsername}
                                 required
                             />
                             <label
@@ -35,8 +78,10 @@ export default function Login() {
                                 type="password"
                                 name="password_employee"
                                 id="password_employee"
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 hover:border-orange-500 border-gray-300 appearance-none dark:text-white dark:border-gray-500 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 hover:border-orange-500 border-gray-300 appearance-none  dark:border-gray-500 dark:focus:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                                 placeholder=" "
+                                value={password}
+                                onChange={onChangePassword}
                                 required
                             />
                             <label
@@ -61,14 +106,15 @@ export default function Login() {
                         </div>
 
                         <div className="w-3/4">
-                            <Link to="./Pages/Blank">
+                           
                             <button
                                 type="submit"
                                 className="w-full px-4 py-2 text-lg font-semibold text-orange-500 transition-colors duration-300 bg-white border border-orange-500 rounded-md shadow hover:bg-orange-500 hover:text-white focus:outline-none focus:ring-orange-200 focus:ring-4"
+                                
                                 >
                                 Log in
                             </button>
-                                </Link>
+                             
                         </div>
                         <div className="flex flex-col">
                             <span className="flex items-center justify-center space-x-1">

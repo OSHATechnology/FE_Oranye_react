@@ -1,31 +1,46 @@
+import React, { useEffect, useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
 import SimpleCard from "../../../Components/SimpleCard";
 import { Icon } from "@iconify/react";
-import React, { useState } from "react";
 import Modal from "../../../Components/Modal/ModalAttendance";
 import ModalFilter from "../../../Components/Modal/ModalFilterAttendance";
+import axios from "axios";
+import ConfigHeader from "../../Auth/ConfigHeader";
+import env from "react-dotenv";
+import moment from "moment";
 
 const Today = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalFilterOpened, setIsModalFilterOpened] = useState(false);
-  const dataToday = [
-    {
-      id: "1",
-      img: "../assets/PP.png",
-      name: "Tatang Suherman",
-      icon: "bi:airplane-engines-fill",
-      type: "furlough",
-      email: "suherman77@gmail.com",
-    },
-    {
-      id: "2",
-      img: "../assets/Logo.png",
-      name: "Arunika",
-      icon: "ic:baseline-work",
-      type: "Work",
-      email: "arunika28@gmail.com",
-    },
-  ];
+  const [dataToday, setDataToday] = useState([]);
+  useEffect(() => {
+    const fetchDataToday = async () => {
+      const result = await axios.get(`${env.API_URL}/api/Today`, ConfigHeader);
+      setDataToday(result.data.data);
+    };
+
+    fetchDataToday().catch((err) => {
+      console.log(err.message);
+    });
+  }, []);
+  // const dataToday = [
+  //   {
+  //     id: "1",
+  //     img: "../assets/PP.png",
+  //     name: "Tatang Suherman",
+  //     icon: "bi:airplane-engines-fill",
+  //     type: "furlough",
+  //     email: "suherman77@gmail.com",
+  //   },
+  //   {
+  //     id: "2",
+  //     img: "../assets/Logo.png",
+  //     name: "Arunika",
+  //     icon: "ic:baseline-work",
+  //     type: "Work",
+  //     email: "arunika28@gmail.com",
+  //   },
+  // ];
 
   return (
     <div className="w-full space-y-4">
@@ -43,9 +58,9 @@ const Today = () => {
           Count="7"
         />
       </div>
-      <div className="md:flex justify-between space-y-4 md:space-y-0">
+      <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
         <div>
-          <p>Sunday, 28 August 2022</p>
+          <p className="text-sm font-medium text-gray-500">{moment().format("dddd, DD MMMM YYYY")}</p>
         </div>
         <div className="flex gap-2 justify-end">
           <input
