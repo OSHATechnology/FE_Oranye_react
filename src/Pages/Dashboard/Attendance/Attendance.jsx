@@ -2,22 +2,39 @@ import React, { useEffect, useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
 import SimpleCard from "../../../Components/SimpleCard";
 import { Icon } from "@iconify/react";
-import Modal from "../../../Components/Modal/ModalAttendance";
+// import Modal from "../../../Components/Modal/ModalAttendance";
 import ModalDecline from "../../../Components/Modal/ModalDecline";
 import ModalAcc from "../../../Components/Modal/ModalAccept";
 import axios from "axios";
 import ConfigHeader from "../../Auth/ConfigHeader";
-import env from "react-dotenv";
+import ModalDetail from "../../../Components/Modal/ModalDetail";
 
 const Attendance = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [isModalAccOpened, setIsModalAccOpened] = useState(false);
   const [isModalDeclineOpened, setIsModalDeclineOpened] = useState(false);
   const [dataAttendance, setDataAttendance] = useState([]);
+
+
+  const [modalAttendance, setModalAttendance] = useState(false);
+  const [attendanceDetail, setAttendanceDetail] = useState([]);
+
+  let dataAttendanceId = "";
+  const showModalDetail = async (attendanceId) => {
+    dataAttendanceId = attendanceId;
+    await fetchDataAttendanceDetail();
+  };
+
+  const fetchDataAttendanceDetail = async () => {
+    const result = await axios.get(`/api/attendance/${dataAttendanceId}`, ConfigHeader);
+    setAttendanceDetail(result.data.data);
+    setModalAttendance(true);
+  }
+
   useEffect(() => {
     const fetchDataAttendance = async () => {
-        const result = await axios.get(`http://127.0.0.1:8000/api/attendance`, ConfigHeader);
-        setDataAttendance(result.data.data);
+        const result = await axios.get(`/api/furlough`, ConfigHeader);
+        setDataAttendance(result.data.data.data);
     };
 
     fetchDataAttendance().catch((err) => {
@@ -93,7 +110,7 @@ const Attendance = () => {
                 <td>
                   <div className="flex items-center justify-center">
                     <Icon icon={row.icon} className="text-xl mr-1" />
-                    <span>{row.attendanceStatus.status}</span>
+                    {/* <span>{row.attendanceStatus.status}</span> */}
                     {/* <Icon icon="bxs:plane" className= "text-xl"></Icon> */}
                   </div>
                 </td>
@@ -101,8 +118,14 @@ const Attendance = () => {
                 <td>{row.timeAttend}</td>
                 <td>
                   <div className="flex justify-center gap-2">
-                    <ButtonSmall
-                      bg="bg-blue-500"
+                  <ButtonSmall
+                        bg="bg-blue-600"
+                        icon="carbon:view"
+                        colorIcon="text-white"
+                        onClick={() => showModalDetail(row.id)}
+                      />
+                    {/* <ButtonSmall
+                      bg="bg-gray-500"
                       icon="carbon:view"
                       onClick={() => setIsOpen(!isOpen)}
                     />
@@ -110,7 +133,7 @@ const Attendance = () => {
                       isOpen={isOpen}
                       setIsOpen={setIsOpen}
                       title="info Detail"
-                    />
+                    /> */}
                     <ButtonSmall
                       bg="bg-green-600"
                       icon="akar-icons:check"
@@ -139,6 +162,15 @@ const Attendance = () => {
             ))}
           </tbody>
         </table>
+        {modalAttendance && (
+            <ModalDetail
+              isOpen={modalAttendance}
+              setIsOpen={setModalAttendance}
+              title="Detail Attendance"
+              typeData="attendance"
+              data={attendanceDetail}
+            />
+          )}
       </div>
     </div>
   );

@@ -2,23 +2,40 @@ import React, { useEffect, useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
 import SimpleCard from "../../../Components/SimpleCard";
 import ModalFilter from "../../../Components/Modal/ModalFilterAttendance";
-import Modal from "../../../Components/Modal/ModalAttendance";
+// import Modal from "../../../Components/Modal/ModalAttendance";
 import axios from "axios";
 import ConfigHeader from "../../Auth/ConfigHeader";
-import env from "react-dotenv";
 import moment from "moment";
+import ModalDetail from "../../../Components/Modal/ModalDetail";
 
 const Overtime = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [isModalFilterOpened, setIsModalFilterOpened] = useState(false);
   const [dataOvertime, setDataOvertime] = useState([]);
+
+  const [modalOvertime, setModalOvertime] = useState(false);
+  const [overtimeDetail, setOvertimeDetail] = useState([]);
+
+  let dataOvertimeId = "";
+  const showModalDetail = async (overtimeId) => {
+    dataOvertimeId = overtimeId;
+    await fetchDataOvertimeDetail();
+  };
+
+  const fetchDataOvertimeDetail = async () => {
+    const result = await axios.get(`/api/overtime/${dataOvertimeId}`, ConfigHeader);
+    console.log(result.data.data);
+    setOvertimeDetail(result.data.data);
+    setModalOvertime(true);
+  }
+
   useEffect(() => {
     const fetchDataOvertime = async () => {
       const result = await axios.get(
-        `http://127.0.0.1:8000/api/overtime`,
+        `/api/overtime`,
         ConfigHeader
       );
-      setDataOvertime(result.data.data);
+      setDataOvertime(result.data.data.data);
     };
 
     fetchDataOvertime().catch((err) => {
@@ -107,8 +124,14 @@ const Overtime = () => {
                 </td>
                 <td>{row.assignedBy.name}</td>
                 <td>
-                  <ButtonSmall
-                    bg="bg-blue-500"
+                <ButtonSmall
+                        bg="bg-blue-600"
+                        icon="carbon:view"
+                        colorIcon="text-white"
+                        onClick={() => showModalDetail(row.id)}
+                        />
+                  {/* <ButtonSmall
+                    bg="bg-pink-500"
                     icon="carbon:view"
                     onClick={() => setIsOpen(!isOpen)}
                   />
@@ -116,12 +139,21 @@ const Overtime = () => {
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
                     title="Info Detail"
-                  />
+                  /> */}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {modalOvertime && (
+            <ModalDetail
+              isOpen={modalOvertime}
+              setIsOpen={setModalOvertime}
+              title="Detail Overtime"
+              typeData="overtime"
+              data={overtimeDetail}
+            />
+          )}
       </div>
     </div>
   );

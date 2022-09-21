@@ -17,7 +17,7 @@ const Sidebar = () => {
             id: 1,
             icon: "ic:round-space-dashboard",
             title: "Dashboard",
-            link: "dashboard",
+            link: "",
             isActive: false,
             classAddon: "",
         },

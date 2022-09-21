@@ -3,7 +3,6 @@ import TitleDashboard from "../../Components/TitleDashboard";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
 import axios from "axios";
-import env from "react-dotenv";
 import ConfigHeader from "../Auth/ConfigHeader";
 import Modal from "../../Components/Modal/ModalRoleDetail";
 import { Link } from "react-router-dom";
@@ -14,12 +13,12 @@ const RolePermissions = () => {
     const [isOpen, setIsOpen] = useState(false);
     useEffect(() => {
         const fetchDataRole = async () => {
-            const data = await axios.get(`${env.API_URL}/api/roles`, ConfigHeader);
+            const data = await axios.get(`/api/roles`, ConfigHeader);
             setDataRole(data.data.data.data);
         }
 
         const feacthDataPermissions = async () => {
-            const data = await axios.get(`${env.API_URL}/api/permissions`, ConfigHeader);
+            const data = await axios.get(`/api/permissions`, ConfigHeader);
             setDataPermissions(data.data.data.data);
         }
 

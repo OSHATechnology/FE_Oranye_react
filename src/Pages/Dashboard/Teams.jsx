@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import ModalAdd from "../../Components/Modal/TeamAdd";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
-import env from "react-dotenv";
 
 
 const Teams = () => {
@@ -17,9 +16,9 @@ const Teams = () => {
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:8000/api/team`, ConfigHeader)
+      .get(`/api/team`, ConfigHeader)
       .then((res) => {
-        setDataTeam(res.data.data);
+        setDataTeam(res.data.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -93,7 +92,7 @@ const Teams = () => {
                   <td>{row.createdBy.employee}</td>
                   <td>
                     <div className="flex justify-center gap-1">
-                      <Link to={`../memberTeam`}>
+                      <Link to={`../team/${row.id}`}>
                         <ButtonSmall
                           bg="bg-blue-600"
                           icon="carbon:view"

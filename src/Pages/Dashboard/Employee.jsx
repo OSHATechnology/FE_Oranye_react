@@ -9,7 +9,6 @@ import ModalEdit from "../../Components/Modal/EmployeeEdit";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
-import env from "react-dotenv";
 
 const Employee = () => {
   const [dataEmp, setDataEmp] = useState([]);
@@ -20,7 +19,7 @@ const Employee = () => {
     axios
       .get(`/api/employee`, ConfigHeader)
       .then((res) => {
-        setDataEmp(res.data.data);
+        setDataEmp(res.data.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -97,11 +96,11 @@ const Employee = () => {
                   <td>{index + 1}</td>
                   <td>
                     <div className="text-center flex items-center justify-center md:space-x-4">
-                      <img src={row.photo} alt="" className="w-10" />
+                      <img src="https://i.pinimg.com/474x/a7/e3/d4/a7e3d4c86710a6a9cf70b39c97ec8c55.jpg" alt={row.photo} className="w-10 rounded-full" />
                     </div>
                   </td>
                   <td>
-                    {row.firstName} {row.lastName}
+                    {row.name}
                   </td>
                   <td>{row.email}</td>
                   <td>{row.role.role}</td>

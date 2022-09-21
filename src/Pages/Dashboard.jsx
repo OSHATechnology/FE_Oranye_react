@@ -34,9 +34,9 @@ export default function Dashboard(props) {
                     <Route path="emp" element={<Emp />} />
                     <Route path="mitra" element={<Mitra />} />
                     <Route path="team" element={<Teams />} />
+                    <Route path="team/:id" element={<MemberTeam />} />
                     <Route path="emp/:id" element={<Detail />} />
                     <Route path="addRole" element={<AddRole />} />
-                    <Route path="memberTeam" element={<MemberTeam />} />
                 </Routes>
                 
             </AuthenticatedLayout>

@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
 import moment from 'moment';
-import env from "react-dotenv";
 
 const EmployeeDetail = () => {
     const paramsData = useParams();
@@ -31,7 +30,7 @@ const EmployeeDetail = () => {
 
     useEffect(() => {
         const fetchDataEmp = async () => {
-            const data = await axios.get(`${env.API_URL}/api/employee/${paramsData.id}`, ConfigHeader);
+            const data = await axios.get(`/api/employee/${paramsData.id}`, ConfigHeader);
             setDataEmp(data.data.data);
         }
 

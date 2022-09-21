@@ -7,9 +7,9 @@ import ModalAdd from "../../Components/Modal/PartnerAdd";
 import ModalEdit from "../../Components/Modal/PartnerEdit";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import ConfigHeader from "../Auth/ConfigHeader";
-import env from "react-dotenv";
 import axios from "axios";
 import moment from "moment";
+import ModalDetail from "../../Components/Modal/ModalDetail";
 
 const Partner = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,12 +18,25 @@ const Partner = () => {
   const [isModalEditOpened, setIsModalEditOpened] = useState(false);
   const [dataPartner, setDataPartner] = useState([]);
 
-  const [modalPartner, setModalPartner] = useState();
+  const [modalPartner, setModalPartner] = useState(false);
+  const [partnerDetail, setPartnerDetail] = useState([]);
+
+  let dataPartnerId = "";
+  const showModalDetail = async (partnerId) => {
+    dataPartnerId = partnerId;
+    await fetchDataPartnerDetail();
+  };
+
+  const fetchDataPartnerDetail = async () => {
+    const result = await axios.get(`/api/partners/${dataPartnerId}`, ConfigHeader);
+    setPartnerDetail(result.data.data);
+    setModalPartner(true);
+  }
 
   useEffect(() => {
     const fetchDataPartner = async () => {
-      const result = await axios.get(`${env.API_URL}/api/partners`, ConfigHeader);
-      setDataPartner(result.data.data);
+      const result = await axios.get(`/api/partners`, ConfigHeader);
+      setDataPartner(result.data.data.data);
     };
 
     fetchDataPartner().catch((err) => {
@@ -96,6 +109,12 @@ const Partner = () => {
                   <td>
                     <div className="flex justify-center gap-1">
                       <ButtonSmall
+                        bg="bg-pink-600"
+                        icon="ant-design:heart-filled"
+                        colorIcon="text-white"
+                        onClick={() => showModalDetail(row.id)}
+                      />
+                      <ButtonSmall
                         bg="bg-blue-600"
                         icon="carbon:view"
                         colorIcon="text-white"
@@ -105,9 +124,7 @@ const Partner = () => {
                         bg="bg-yellow-500"
                         icon="fa6-solid:pen-to-square"
                         colorIcon="text-white"
-                        onClick={() =>
-                          setIsModalEditOpened(!isModalEditOpened)
-                        }
+                        onClick={() => setIsModalEditOpened(!isModalEditOpened)}
                       />
                       <ButtonSmall
                         bg="bg-red-500"
@@ -142,6 +159,15 @@ const Partner = () => {
               ))}
             </tbody>
           </table>
+          {modalPartner && (
+            <ModalDetail
+              isOpen={modalPartner}
+              setIsOpen={setModalPartner}
+              title="Delete Partner"
+              typeData="partner"
+              data={partnerDetail}
+            />
+          )}
         </div>
       </div>
     </div>

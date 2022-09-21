@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import ConfigHeader from "../Auth/ConfigHeader";
-import env from "react-dotenv";
+import { useAuth } from "./AuthProvider";
 
 export default function Login() {
     const navigate = useNavigate()
@@ -19,28 +18,24 @@ export default function Login() {
         setPassword(value)
     }
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            // const res = await axios.post(`${env.API_URL}/api/auth/login`, {
-            //     'email': username,
-            //     password
-            // })
             await axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post(`/api/auth/login`, {
                     'email': username,
                     password
-                    }).then(response => {
-                        console.log(response)
-                        // navigate('/dashboard')
+                    }).then(resp => {
+                        // setUser(resp.data.user)
+                        //set user in auth provider
+                        // return AuthProvider(resp.data.user)
+                        navigate('/dashboard')
                     })
             });
-
-            // //settoken
-            // navigate("/dashboard")
         } catch (error) {
-            console.log(error)
+            alert('Invalid Credentials')
         }
     }
 

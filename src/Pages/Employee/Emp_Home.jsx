@@ -5,7 +5,7 @@ const CardProfileEmployee = () => {
         <div className="">
             <div className="flex flex-col w-full md:w-4/5 border border-gray-300 shadow items-center justify-center rounded">
                 <div className="mt-6 mb-4">
-                    <img src="assets/PP.png" />
+                    <img src="assets/PP.png" alt="" />
                 </div>
                 <div className="text-center ">
                     <p className="text-2xl font-bold text-amber-500">

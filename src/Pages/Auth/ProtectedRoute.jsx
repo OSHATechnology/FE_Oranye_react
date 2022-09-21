@@ -1,13 +1,15 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { useAuth } from "./AuthProvider";
 
-const ProtectedRoute = ({token, child}) => {
-    if (token === 'Bearer null') {
-
-        alert("anda belum login");
-        return <Navigate to="/" replace />
+const ProtectedRoute = ({children}) => {
+    const user = useAuth();
+    console.log(user);
+    if(!user) {
+        alert("You are not logged in");
+        return <Navigate to="/login" />
     }
-    return child
+    return children
 }
 
 export default ProtectedRoute

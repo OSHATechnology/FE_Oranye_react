@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import { Menu, Transition } from "@headlessui/react";
 
-import NavbarMobile from "@/Components/NavbarMobile";
+import NavbarMobile from "./NavbarMobile";
 
 export default function Navbar() {
     return (
