@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ButtonSmall from "../../Components/ButtonSmall";
 import ButtonNormal from "../../Components/ButtonNormal";
-import Modal from "../../Components/Modal/ModalDelete";
+import ModalDelete from "../../Components/Modal/ModalDelete";
 import ModalImport from "../../Components/Modal/ModalImport";
 import ModalAdd from "../../Components/Modal/EmployeeAdd";
 import ModalEdit from "../../Components/Modal/EmployeeEdit";
@@ -12,8 +12,10 @@ import ConfigHeader from "../Auth/ConfigHeader";
 
 const Employee = () => {
   const [dataEmp, setDataEmp] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   const [isModalImportOpened, setIsModalImportOpened] = useState(false);
+
+  
 
   useEffect(() => {
     axios
@@ -27,7 +29,6 @@ const Employee = () => {
   }, []);
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [isModalEditOpened, setIsModalEditOpened] = useState(false);
-
   return (
     <div className="w-full md:mx-8">
       <TitleDashboard
@@ -124,12 +125,14 @@ const Employee = () => {
                         bg="bg-red-500"
                         icon="ci:trash-full"
                         colorIcon="text-white"
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={() => setIsModalImportOpened(!isModalImportOpened)}
                       />
-                      <Modal
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
+                      <ModalDelete
+                        isOpen={isModalImportOpened}
+                        setIsOpen={setIsModalImportOpened}
                         title="Delete Karyawan"
+                        type="employee"
+                        dataId={row.employeeId}
                       />
                       <ModalEdit
                         isOpen={isModalEditOpened}

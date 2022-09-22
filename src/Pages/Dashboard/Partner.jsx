@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ButtonSmall from "../../Components/ButtonSmall";
 import ButtonNormal from "../../Components/ButtonNormal";
-import Modal from "../../Components/Modal/ModalDetailPartner";
 import ModalAdd from "../../Components/Modal/PartnerAdd";
 import ModalEdit from "../../Components/Modal/PartnerEdit";
 import ModalDelete from "../../Components/Modal/ModalDelete";
@@ -12,7 +11,6 @@ import moment from "moment";
 import ModalDetail from "../../Components/Modal/ModalDetail";
 
 const Partner = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [isModalEditOpened, setIsModalEditOpened] = useState(false);
@@ -109,17 +107,12 @@ const Partner = () => {
                   <td>
                     <div className="flex justify-center gap-1">
                       <ButtonSmall
-                        bg="bg-pink-600"
-                        icon="ant-design:heart-filled"
-                        colorIcon="text-white"
-                        onClick={() => showModalDetail(row.id)}
-                      />
-                      <ButtonSmall
                         bg="bg-blue-600"
                         icon="carbon:view"
                         colorIcon="text-white"
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={() => showModalDetail(row.id)}
                       />
+
                       <ButtonSmall
                         bg="bg-yellow-500"
                         icon="fa6-solid:pen-to-square"
@@ -134,13 +127,7 @@ const Partner = () => {
                           setIsModalDeleteOpened(!isModalDeleteOpened)
                         }
                       />
-                      {/* Modal Jang Detail */}
-                      <Modal
-                        isOpen={isOpen}
-                        setIsOpen={setIsOpen}
-                        title="Detail Partner"
-                        data={row}
-                      />
+
                       {/* Modal Kanggo Edit */}
                       <ModalEdit
                         isOpen={isModalEditOpened}
@@ -152,6 +139,8 @@ const Partner = () => {
                         isOpen={isModalDeleteOpened}
                         setIsOpen={setIsModalDeleteOpened}
                         title="Delete Partner"
+                        type="partner"
+                        dataId={row.id}
                       />
                     </div>
                   </td>

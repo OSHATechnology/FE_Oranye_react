@@ -23,13 +23,7 @@ const RolePermissions = () => {
         }
 
         fetchDataRole()
-            .catch(err => {
-                console.log(err.message);
-            });
         feacthDataPermissions()
-            .catch(err => {
-                console.log(err.message);
-            });
     }, [])
 
     return (

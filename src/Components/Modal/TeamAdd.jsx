@@ -1,9 +1,51 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
+import axios from "axios";
+import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 
 const TeamAdd = ({ isOpen, setIsOpen, title }) => {
+  const [name, setName] = useState("");
+  const [leadBy, setLeadBy] = useState("");
+  const [createdBy, setCreatedBy] = useState("");
+  const [dataEmployee, setDataEmployee] = useState([]);
+
+  useEffect(() => {
+
+    const fetchDataEmployee = async () => {
+      
+      const data = await axios.get(`/api/employee`, ConfigHeader);
+      setDataEmployee(data.data.data.data);
+    }
+    fetchDataEmployee()
+  }, []);
+  function changeDataToNull() {
+    setName("");
+    setLeadBy("");
+    setCreatedBy("");
+  }
+
+  const handleSubmitPartner = async (e) => {
+    e.preventDefault();
+    const data = {
+      'name': name,
+      'leadBy' : leadBy,
+      'createdBy' :createdBy
+    };
+
+    try {
+      console.log(data);
+      const rslt = await axios.post('/api/team',data ,ConfigHeader);
+      console.log(rslt);
+      setIsOpen(false);
+
+      changeDataToNull();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Dialog
@@ -26,6 +68,7 @@ const TeamAdd = ({ isOpen, setIsOpen, title }) => {
             </button>
           </div>
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
+          <form id="team_form" onSubmit={handleSubmitPartner} encType="multipart/form-data">
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">
                 Team Name
@@ -34,6 +77,8 @@ const TeamAdd = ({ isOpen, setIsOpen, title }) => {
                 type="text"
                 placeholder="Team Name"
                 className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                value={name}
+                  onChange={(e) => setName(e.target.value)}
               />
             </div>
 
@@ -41,22 +86,53 @@ const TeamAdd = ({ isOpen, setIsOpen, title }) => {
               <p className="text-sm font-extrabold text-gray-600">
                 Leader Team
               </p>
-              <input
+              <select
+                  name="Employee"
+                  id=""
+                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                  onChange={(e) => setLeadBy(e.target.value)}
+                >
+                  <option value='-' selected disabled>-- select Leader --</option>
+                  {dataEmployee.map((row, index) => (
+                    <option value={row.employeeId} key={index}>
+                      {row.name}
+                    </option>
+                  ))}
+                </select>
+              {/* <input
                 type="text"
                 placeholder="Leader Team"
                 className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-              />
+                value={leadBy}
+                  onChange={(e) => setLeadBy(e.target.value)}
+              /> */}
             </div>
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">
                 Team Maker
               </p>
-              <input
+              <select
+                  name="Employee"
+                  id=""
+                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                  onChange={(e) => setCreatedBy(e.target.value)}
+                >
+                  <option value='-' selected disabled>-- select Leader --</option>
+                  {dataEmployee.map((row, index) => (
+                    <option value={row.employeeId} key={index}>
+                      {row.name}
+                    </option>
+                  ))}
+                </select>
+              {/* <input
                 type="text"
                 placeholder="Team Maker"
                 className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-              />
+                value={createdBy}
+                  onChange={(e) => setCreatedBy(e.target.value)}
+              /> */}
             </div>
+            </form>
                       </div>
 
           <div className="flex justify-end gap-2">
@@ -66,7 +142,10 @@ const TeamAdd = ({ isOpen, setIsOpen, title }) => {
               width="w-16"
               onClick={() => setIsOpen(false)}
             />
-            <ButtonNormal bg="bg-green-600 " text="Add" width="w-16" />
+            <button type="submit" form="team_form" className="bg-green">
+              submit
+            </button>
+            {/* <ButtonNormal bg="bg-green-600 " text="Add" width="w-16" /> */}
           </div>
         </div>
       </Dialog>
