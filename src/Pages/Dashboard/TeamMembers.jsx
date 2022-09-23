@@ -27,7 +27,7 @@ const TeamMembers = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [paramsData]);
 
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   const [dataTeam, setDataTeam] = useState([

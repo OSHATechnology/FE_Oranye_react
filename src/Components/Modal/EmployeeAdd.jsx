@@ -1,4 +1,4 @@
-import React, { Fragment, useState,useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
@@ -10,7 +10,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState(null);
   const [birthDate, setBirthDate] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -26,7 +26,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
     setLastName("");
     setEmail("");
     setPhone("");
-    setPhoto(null);
+    setPhoto({});
     setBirthDate("");
     setAddress("");
     setCity("");
@@ -48,23 +48,28 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
     e.preventDefault();
     const data = {
       'firstName': firtsName,
-      'lastName' : lastName,
-      'phone' :phone,
-      'gender' :gender,
-      'address' :address,
-      'password':password,
-      'city' :city,
-      'photo':photo,
-      'nation' :nation,
-      'birthDate' :birthDate,
-      'email' :email,
-      'roleId' :role,
+      'lastName': lastName,
+      'phone': phone,
+      'gender': gender,
+      'address': address,
+      'password': password,
+      'city': city,
+      'photo': photo,
+      'nation': nation,
+      'birthDate': birthDate,
+      'email': email,
+      'roleId': role,
       'isActive': 1,
       'statusHireId': 1
     };
 
+
     try {
-      const rslt = await axios.post('/api/employee',data ,ConfigHeader);
+      let formData = new FormData();
+      for (let key in data) {
+        formData.append(key, data[key]);
+      }
+      const rslt = await axios.post('/api/employee', formData, ConfigHeader);
       console.log(rslt);
       setIsOpen(false);
 
@@ -163,8 +168,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
                   type="file"
                   name="photo"
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  value={photo}
-                  onChange={(e) => setPhoto("file", e.target.files[0])}
+                  onChange={(e) => setPhoto(e.target.files[0])}
                 />
               </div>
               <div className="">
@@ -242,62 +246,6 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
                   ))}
                 </select>
               </div>
-
-              {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">
-                  EmailVerifiedAt
-                </p>
-                <input
-                  type="date"
-                  name="emailVerif"
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                />
-              </div> */}
-              {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">
-                  Joined At
-                </p>
-                <input
-                  type="date"
-                  name="join"
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                />
-              </div> */}
-              {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">
-                  Resigned At
-                </p>
-                <input
-                  type="date"
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                />
-              </div> */}
-              {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">
-                  Status Hireld
-                </p>
-                <select
-                  name="statusHireld"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                >
-                  <option value="">1</option>
-                  <option value="">2</option>
-                  <option value="">17</option>
-                </select>
-              </div> */}
-              {/* <div className="flex items-center gap-2">
-                <p className="text-sm font-extrabold text-gray-600">
-                  Status Aktif
-                </p>
-                <input
-                  type="checkbox"
-                  name="statusAktif"
-                  checked
-                  id=""
-                  className="rounded border border-gray-300 text-xs text-gray-700 font-medium"
-                />
-              </div> */}
             </form>
           </div>
 
@@ -306,7 +254,6 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
             <button type="submit" form="emp_form">
               submit
             </button>
-            {/* <ButtonNormal form='emp_form' type="submit" bg="bg-green-600 " text="Add" width="w-16" /> */}
           </div>
         </div>
       </Dialog>
