@@ -1,9 +1,61 @@
-import React,{ Fragment, useState } from 'react'
+import React,{ Fragment, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Icon } from '@iconify/react'
 import ButtonNormal from '../ButtonNormal'
+import ConfigHeader from '../../Pages/Auth/ConfigHeader'
+import axios from "axios";
 
-const Modal = ({ isOpen, setIsOpen, title }) => {
+const Modal = ({ isOpen, setIsOpen, title, ...data }) => {
+    const [dataId, setDataId] = useState(null)
+    const typeDelete = data.type ? data.type : null;
+    const [endPoint, setEndPoint] = useState(null)
+
+    useEffect(() => {
+        if(data.dataId) {
+            setDataId(data.dataId)
+        }
+
+        try{
+            switch(typeDelete) {
+                case 'member':
+                    setEndPoint('/api/team_member');
+                    break;
+                case 'partner':
+                    setEndPoint('/api/partners');
+                    break;
+                case 'employee':
+                    setEndPoint('/api/employee');
+                    break;
+                default:
+                    setEndPoint(null);
+                    break;
+            }
+        }catch(e){
+            console.log(e)
+        }
+    }, [])
+
+    const handleDelete = () => {
+        try{
+            const deleteData = async () => {
+                if(endPoint === null) {
+                    alert('error');
+                    return;
+                }
+                await axios.delete(`${endPoint}/${dataId}`,ConfigHeader)
+                .then(res => {
+                    console.log(res)
+                    setIsOpen(false)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+            deleteData()
+        }catch(e){
+            console.log(e)
+        }
+    }
+
   return (
     <>
     
@@ -30,7 +82,7 @@ const Modal = ({ isOpen, setIsOpen, title }) => {
                 </div>
                 <div className='flex justify-end gap-2'>
                     <ButtonNormal bg="bg-gray-400 " text="Cancel" width="w-16" onClick={() => setIsOpen(false)}/>
-                    <ButtonNormal bg="bg-red-600 " text="Yes" width="w-16" />
+                    <ButtonNormal bg="bg-red-600 " text="Yes" width="w-16" onClick={handleDelete} />
                 </div>
             </div>
         </Dialog>
