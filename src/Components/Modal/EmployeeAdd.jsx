@@ -177,10 +177,11 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
                   name="gender"
                   id=""
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  value={gender}
+                  
                   onChange={(e) => setGender(e.target.value)}
                 >
-                  <option value="man" selected>Male</option>
+                  <option value="man" disabled selected>-- Select Gender --</option>
+                  <option value="man" >Male</option>
                   <option value="woman">Female</option>
                 </select>
               </div>
@@ -251,7 +252,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
 
           <div className="flex justify-end gap-2">
             <ButtonNormal bg="bg-gray-400 " text="Cancel" width="w-16" />
-            <button type="submit" form="emp_form">
+            <button type="submit" form="emp_form" className="bg-green-600 rounded text-white px-2">
               submit
             </button>
           </div>

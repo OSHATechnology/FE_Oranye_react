@@ -60,7 +60,7 @@ const Sidebar = () => {
             classAddon: "",
         },
         {
-            id: 5,
+            id: 6,
             icon: "fluent:people-team-toolbox-20-filled",
             title: "Teams",
             link: "team",
@@ -115,7 +115,7 @@ const Sidebar = () => {
                     <Link to={item.link} key={item.id}
                         className={
                             "p-2.5 mt-6 flex items-center rounded-md px-4 duration-300 cursor-pointer text-gray-800  hover:bg-gray-200 " +
-                            ((location.pathname === '/' + item.link) ? "bg-gray-200 text-white" : "")
+                            ((location.pathname === '/dashboard/' + item.link) ? "bg-gray-200 text-white" : "")
                         }
                     >
                         <Icon icon={item.icon} className="text-xl mr-1" />

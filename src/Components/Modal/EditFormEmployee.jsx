@@ -1,61 +1,10 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { Icon } from "@iconify/react";
-import ButtonNormal from "../ButtonNormal";
-import axios from "axios";
-import ConfigHeader from "../../Pages/Auth/ConfigHeader";
+import React from 'react'
+import ButtonNormal from '../ButtonNormal'
 
-const EmployeeEdit = ({ isOpen, setIsOpen, title, data }) => {
-
-  const [firtsName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [photo, setPhoto] = useState(null);
-  const [birthDate, setBirthDate] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [nation, setNation] = useState("");
-  const [password, setPassword] = useState("");
-  const [gender, setGender] = useState("");
-  const [role, setRole] = useState("");
-  const [dataRole, setDataRole] = useState([]);
-console.log(data);
-
-
-
-  const fetchDataRole = async () => {
-    const data = await axios.get(`/api/roles`, ConfigHeader);
-    setDataRole(data.data.data.data);
-  }
-  useEffect(() => {
-    fetchDataRole()
-  }, []);
-
-
-
+const EditFormEmployee = ({ ...data }) => {
   return (
-    <>
-      <Dialog
-        open={isOpen}
-        onClose={setIsOpen}
-        as="div"
-        className={
-          "fixed inset-0 z-10 flex items-center justify-center overflow-y-auto bg-gray-800/50"
-        }
-      >
-        <div className="items-start bg-white h-1/2 w-full md:w-2/5 p-4 border-2 rounded space-y-4">
-          <div className="flex text-center text-xl font-bold justify-between ">
-            {title}
-            <button className=" float-right" onClick={() => setIsOpen(false)}>
-              {" "}
-              <Icon
-                icon="eva:close-outline"
-                className="text-lg text-gray-500 "
-              />
-            </button>
-          </div>
-          <div className="w-full h-3/4 overflow-y-auto space-y-1">
+    <div>
+        <div className="w-full h-3/4 overflow-y-auto space-y-1">
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">
                 First Name
@@ -237,14 +186,12 @@ console.log(data);
               bg="bg-gray-400 "
               text="Cancel"
               width="w-16"
-              onClick={() => setIsOpen(false)}
+            //   onClick={() => setIsOpen(false)}
             />
             <ButtonNormal bg="bg-green-600 " text="Add" width="w-16" />
           </div>
-        </div>
-      </Dialog>
-    </>
-  );
-};
+    </div>
+  )
+}
 
-export default EmployeeEdit;
+export default EditFormEmployee

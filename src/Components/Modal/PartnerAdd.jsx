@@ -23,7 +23,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title }) => {
     setAddress("");
     setResposibleBy("");
     setPhone("");
-    setPhoto(null);
+    setPhoto({});
     setJoinedAt("");
     setAssignedBy("");
   }
@@ -50,7 +50,11 @@ const PartnerAdd = ({ isOpen, setIsOpen, title }) => {
     };
 
     try {
-      const rslt = await axios.post("/api/partners", data, ConfigHeader);
+      let formData = new FormData();
+      for (let key in data) {
+        formData.append(key, data[key]);
+      }
+      const rslt = await axios.post("/api/partners", formData, ConfigHeader);
       console.log(rslt);
       setIsOpen(false);
 
@@ -183,8 +187,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title }) => {
                 <input
                   type="file"
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  value={photo}
-                  onChange={(e) => setPhoto(e.target.value)}
+                  onChange={(e) => setPhoto(e.target.files[0])}
                 />
               </div>
               <div className="">

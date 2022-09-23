@@ -81,6 +81,7 @@ const TeamMembers = () => {
           isOpen={isModalManageOpened}
           setIsOpen={setIsModalManageOpened}
           title="Manage This Team"
+          data={dataTeam}
         />
         {/* </Link> */}
       </div>

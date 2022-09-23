@@ -92,20 +92,14 @@ const TeamAdd = ({ isOpen, setIsOpen, title }) => {
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
                   onChange={(e) => setLeadBy(e.target.value)}
                 >
-                  <option value='-' selected disabled>-- select Leader --</option>
+                  <option value='-' selected disabled>-- select Leader Team --</option>
                   {dataEmployee.map((row, index) => (
                     <option value={row.employeeId} key={index}>
                       {row.name}
                     </option>
                   ))}
                 </select>
-              {/* <input
-                type="text"
-                placeholder="Leader Team"
-                className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                value={leadBy}
-                  onChange={(e) => setLeadBy(e.target.value)}
-              /> */}
+             
             </div>
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">
@@ -117,20 +111,14 @@ const TeamAdd = ({ isOpen, setIsOpen, title }) => {
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
                   onChange={(e) => setCreatedBy(e.target.value)}
                 >
-                  <option value='-' selected disabled>-- select Leader --</option>
+                  <option value='-' selected disabled>-- select Team Maker --</option>
                   {dataEmployee.map((row, index) => (
                     <option value={row.employeeId} key={index}>
                       {row.name}
                     </option>
                   ))}
                 </select>
-              {/* <input
-                type="text"
-                placeholder="Team Maker"
-                className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                value={createdBy}
-                  onChange={(e) => setCreatedBy(e.target.value)}
-              /> */}
+             
             </div>
             </form>
                       </div>
@@ -142,10 +130,10 @@ const TeamAdd = ({ isOpen, setIsOpen, title }) => {
               width="w-16"
               onClick={() => setIsOpen(false)}
             />
-            <button type="submit" form="team_form" className="bg-green">
+            <button type="submit" form="team_form" className="bg-green-600 rounded text-white px-2">
               submit
             </button>
-            {/* <ButtonNormal bg="bg-green-600 " text="Add" width="w-16" /> */}
+
           </div>
         </div>
       </Dialog>

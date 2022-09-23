@@ -5,7 +5,7 @@ import ButtonNormal from "../../Components/ButtonNormal";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import ModalImport from "../../Components/Modal/ModalImport";
 import ModalAdd from "../../Components/Modal/EmployeeAdd";
-import ModalEdit from "../../Components/Modal/EmployeeEdit";
+import ModalEdit from "../../Components/Modal/ModalEdit";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
@@ -14,6 +14,8 @@ const Employee = () => {
   const [dataEmp, setDataEmp] = useState([]);
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   const [isModalImportOpened, setIsModalImportOpened] = useState(false);
+  const [modalEmployee, setModalEmployee] = useState(false);
+  const [employeeEdit, setEmployeeEdit] = useState([]);
 
   
 
@@ -125,11 +127,11 @@ const Employee = () => {
                         bg="bg-red-500"
                         icon="ci:trash-full"
                         colorIcon="text-white"
-                        onClick={() => setIsModalImportOpened(!isModalImportOpened)}
+                        onClick={() => setIsModalDeleteOpened(!isModalDeleteOpened)}
                       />
                       <ModalDelete
-                        isOpen={isModalImportOpened}
-                        setIsOpen={setIsModalImportOpened}
+                        isOpen={isModalDeleteOpened}
+                        setIsOpen={setIsModalDeleteOpened}
                         title="Delete Karyawan"
                         type="employee"
                         dataId={row.employeeId}
@@ -137,7 +139,8 @@ const Employee = () => {
                       <ModalEdit
                         isOpen={isModalEditOpened}
                         setIsOpen={setIsModalEditOpened}
-                        title="Edit Karyawan"
+                        title={"Edit Karyawan" + row.employeeId}
+                        data={row.employeeId}
                       />
                     </div>
                   </td>
@@ -145,6 +148,15 @@ const Employee = () => {
               ))}
             </tbody>
           </table>
+          {modalEmployee && (
+            <ModalEdit
+              isOpen={modalEmployee}
+              setIsOpen={setModalEmployee}
+              title="Delete Employee"
+              typeData="employee"
+              data={employeeEdit}
+            />
+          )}
         </div>
       </div>
     </div>
