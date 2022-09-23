@@ -38,7 +38,7 @@ export default function Dashboard(props) {
                     <Route path="emp/:id" element={<Detail />} />
                     <Route path="addRole" element={<AddRole />} />
                 </Routes>
-                
+
             </AuthenticatedLayout>
         </div>
     );

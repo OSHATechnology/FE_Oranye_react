@@ -1,12 +1,22 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "./AuthProvider";
+import { useLocalStorage } from "./LocalStorage";
+
 
 export default function Login() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    const [user, setUser] = useLocalStorage('user', null);
+    const [errorMessages, setErrorMessages] = useState({ name: "employee_id", message: "id tidak ada" });
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+
+    useEffect(() => {
+        if (user !== null) {
+            navigate('/dashboard');
+        }
+    }, [user, navigate]);
 
     const onChangeUsername = (e) => {
         const value = e.target.value
@@ -27,17 +37,26 @@ export default function Login() {
                 axios.post(`/api/auth/login`, {
                     'email': username,
                     password
-                    }).then(resp => {
-                        // setUser(resp.data.user)
-                        //set user in auth provider
-                        // return AuthProvider(resp.data.user)
-                        navigate('/dashboard')
-                    })
-            });
+                }).then((resp) => {
+                    setUser(resp.data.data.user)
+                }).then(() => {
+                    alert('berhasil')
+                }).catch(err => {
+                    setErrorMessages({ name: "failed", message: err.response.data.data });
+                })
+            })
         } catch (error) {
             alert('Invalid Credentials')
         }
     }
+
+
+    const renderErrorMessage = (name) =>
+        name === errorMessages.name && (
+            <div className="relative text-center p-2">
+                <span className="text-red-500 text-xs">{errorMessages.message}</span>
+            </div>
+        );
 
     return (
         <div className="flex items-center min-h-screen p-4 bg-amber-100 justify-center">
@@ -47,6 +66,8 @@ export default function Login() {
                     <h3 className="my-4 text-2xl mb-16 text-orange-500 text-center font-bold">
                         Login
                     </h3>
+
+                    {renderErrorMessage('failed')}
                     <form onSubmit={handleSubmit}
                         className="flex flex-col space-y-5 last:space-y-5 items-center"
                     >
@@ -101,15 +122,15 @@ export default function Login() {
                         </div>
 
                         <div className="w-3/4">
-                           
+
                             <button
                                 type="submit"
                                 className="w-full px-4 py-2 text-lg font-semibold text-orange-500 transition-colors duration-300 bg-white border border-orange-500 rounded-md shadow hover:bg-orange-500 hover:text-white focus:outline-none focus:ring-orange-200 focus:ring-4"
-                                
-                                >
+
+                            >
                                 Log in
                             </button>
-                             
+
                         </div>
                         <div className="flex flex-col">
                             <span className="flex items-center justify-center space-x-1">

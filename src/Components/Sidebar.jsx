@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoginImg from "../assets/Logo.png";
 
 const Sidebar = () => {
+    const navigate = useNavigate()
     const [isActive, setActive] = useState(false);
-    
+
     const location = useLocation();
     const handleToggle = () => {
         setActive(!isActive);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
     };
 
     const dataMenu = [
@@ -74,7 +80,7 @@ const Sidebar = () => {
     return (
         <div className="relative">
             <button
-                className={(!isActive ? "hidden" : "")+" text-gray-800 text-4xl cursor-pointer rounded-md"}
+                className={(!isActive ? "hidden" : "") + " text-gray-800 text-4xl cursor-pointer rounded-md"}
                 onClick={handleToggle}
             >
                 <Icon className=" px-2" icon="charm:menu-hamburger" />
@@ -90,7 +96,7 @@ const Sidebar = () => {
                     <div className="p-2.5 mt-1 flex items-center justify-between">
                         <div className="flex items-center justify-center text-center">
 
-                            <img src={LoginImg} alt="" className="w-32"/>
+                            <img src={LoginImg} alt="" className="w-32" />
 
                         </div>
                         <div className="flex items-center">
@@ -108,10 +114,10 @@ const Sidebar = () => {
                 {dataMenu.map((item) => (
                     <Link to={item.link} key={item.id}
                         className={
-                                "p-2.5 mt-6 flex items-center rounded-md px-4 duration-300 cursor-pointer text-gray-800  hover:bg-gray-200 " +
-                                ((location.pathname === '/'+item.link) ? "bg-gray-200 text-white" : "")
-                            }
-                        >   
+                            "p-2.5 mt-6 flex items-center rounded-md px-4 duration-300 cursor-pointer text-gray-800  hover:bg-gray-200 " +
+                            ((location.pathname === '/' + item.link) ? "bg-gray-200 text-white" : "")
+                        }
+                    >
                         <Icon icon={item.icon} className="text-xl mr-1" />
                         <span className="text-[15px] ml-4 text-gray-800 font-bold ">
                             {item.title}
@@ -119,14 +125,14 @@ const Sidebar = () => {
                     </Link>
                 ))}
 
-                    
-                <div className="p-2.5 mt-3 flex items-center rounded-md px-4 border border-gray-800 duration-300 cursor-pointer hover:bg-gray-200  text-gray-800 ">
+
+                <div className="p-2.5 mt-3 flex items-center rounded-md px-4 border border-gray-800 duration-300 cursor-pointer hover:bg-gray-200  text-gray-800 " onClick={handleLogout}>
                     <Icon icon="mdi-light:logout" className="text-xl mr-1" />
                     <span className="text-[15px] ml-4 text-gray-800 font-bold">
                         Logout
                     </span>
                 </div>
-                    
+
             </div>
         </div>
     );

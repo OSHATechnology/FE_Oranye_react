@@ -11,7 +11,7 @@ const Home = () => {
                 Keterangan="Welcome, Admin!"
             />
 
-            <div className=" mt-8 space-y-4 md:space-y-0 md:flex gap-16">
+            <div className="flex flex-col flex-wrap md:flex-row gap-2">
                 <SimpleCard
                     bgColor="bg-amber-100"
                     Title="Role Perusahaan"
@@ -35,22 +35,22 @@ const Home = () => {
             <TitleDashboard Title="Property Mitra" Keterangan="" />
             <div className=" mt-4 space-y-4 md:flex-col">
 
-            <PropertyMitra
-                Img="assets/PP.png"
-                Title="Nama Mitra 1 PT.OSHA Technology"
-                Waktu="Selasa, 20 Sept 2021"
-                Alamat="Sekeloa Tengah Dipatiukur Coblong Kota Bandung"
-            />
-            <PropertyMitra
-                Img="assets/Logo.png"
-                Title="Nama Mitra 2 PT.OSHA Technology "
-                Waktu="Senin, 20 Apr 2021"
-                Alamat="Gang SDN Cipanas 04 Kp. Pasekon Cipanas Cianjur"
-            />
+                <PropertyMitra
+                    Img="assets/PP.png"
+                    Title="Nama Mitra 1 PT.OSHA Technology"
+                    Waktu="Selasa, 20 Sept 2021"
+                    Alamat="Sekeloa Tengah Dipatiukur Coblong Kota Bandung"
+                />
+                <PropertyMitra
+                    Img="assets/Logo.png"
+                    Title="Nama Mitra 2 PT.OSHA Technology "
+                    Waktu="Senin, 20 Apr 2021"
+                    Alamat="Gang SDN Cipanas 04 Kp. Pasekon Cipanas Cianjur"
+                />
             </div>
             <TitleDashboard Title="Performa Absensi" Keterangan="" />
 
-            
+
         </div>
     );
 };
