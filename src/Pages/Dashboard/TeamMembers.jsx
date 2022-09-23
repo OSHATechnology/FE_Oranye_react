@@ -10,6 +10,7 @@ import ModalManage from "../../Components/Modal/ManageTeam";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
 import moment from "moment";
+import { Icon } from "@iconify/react";
 
 const TeamMembers = () => {
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
@@ -27,7 +28,7 @@ const TeamMembers = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [paramsData]);
 
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   const [dataTeam, setDataTeam] = useState([
@@ -62,15 +63,17 @@ const TeamMembers = () => {
         Keterangan="Detailed information of team"
       />
       <div className="flex gap-2 items-center">
-        <Link to="../team">
-          <p className="text-sm text-blue-600 font-medium  hover:bg-blue-100 rounded p-2">
-            Back to Team Management
-          </p>
+        <Link
+          to="../team"
+          className="flex gap-1 items-center text-blue-400 hover:text-blue-700 w-fit"
+        >
+          <Icon icon="bi:arrow-left" className="text-sm  font-medium"></Icon>
+          <p className="text-sm  font-medium hover:font-bold">Back to Team Management</p>
         </Link>
         <p className="font-bold text-blue-800">|</p>
         {/* <Link to="../team"> */}
         <button onClick={() => setIsModalManageOpened(!isModalManageOpened)}>
-          <p className="text-sm text-blue-600 font-medium hover:bg-blue-100 rounded p-2">
+          <p className="text-sm  font-medium hover:font-bold text-blue-400 hover:text-blue-700 w-fit">
             Manage This Team
           </p>
         </button>

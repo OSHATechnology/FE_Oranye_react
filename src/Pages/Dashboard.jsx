@@ -11,6 +11,7 @@ import Teams from "../Pages/Dashboard/Teams";
 import Detail from "../Pages/Dashboard/EmployeeDetail";
 import MemberTeam from "../Pages/Dashboard/TeamMembers";
 import AddRole from "../Pages/Dashboard/AddRole";
+import AttendanceSettings from "../Pages/Dashboard/AttendanceSettings";
 import Today from "../Pages/Dashboard/Attendance/Today";
 import Overtime from "../Pages/Dashboard/Attendance/Overtime";
 import Attendance from "../Pages/Dashboard/Attendance/Attendance";
@@ -37,6 +38,7 @@ export default function Dashboard(props) {
                     <Route path="team/:id" element={<MemberTeam />} />
                     <Route path="emp/:id" element={<Detail />} />
                     <Route path="addRole" element={<AddRole />} />
+                    <Route path="attendanceSettings" element={<AttendanceSettings />} />
                 </Routes>
                 
             </AuthenticatedLayout>

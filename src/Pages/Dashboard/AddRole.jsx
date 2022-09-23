@@ -2,6 +2,7 @@ import TitleDashboard from "../../Components/TitleDashboard";
 import React from "react";
 import { Link } from "react-router-dom";
 import ButtonNormal from "../../Components/ButtonNormal";
+import { Icon } from "@iconify/react";
 
 const AddRole = () => {
     return (
@@ -11,8 +12,9 @@ const AddRole = () => {
                 Keterangan="create new role area"
             />
             <div>
-                <Link to="../role">
-                <p className="text-sm text-blue-600 font-medium">
+                <Link to="../role"  className="flex gap-1 items-center text-blue-400 hover:text-blue-700 w-fit">
+                <Icon icon="bi:arrow-left" className="text-sm  font-medium"></Icon>
+                <p className="text-sm  font-medium hover:font-bold">
                     Back to Role & Permissions
                 </p>
                 </Link>
