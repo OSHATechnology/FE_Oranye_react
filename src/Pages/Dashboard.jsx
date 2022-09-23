@@ -40,7 +40,7 @@ export default function Dashboard(props) {
                     <Route path="addRole" element={<AddRole />} />
                     <Route path="attendanceSettings" element={<AttendanceSettings />} />
                 </Routes>
-                
+
             </AuthenticatedLayout>
         </div>
     );
