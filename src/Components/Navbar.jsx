@@ -41,6 +41,7 @@ export default function Navbar() {
                     </a>
                     <div className="flex md:order-2">
                         <button
+                        onClick={logout}
                             type="button"
                             className="hidden place-content-center text-gray-900 bg-white border  border-gray-900 hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium rounded text-sm py-2.5 text-center mr-3 md:mr-0 md:flex w-40"
                         >
