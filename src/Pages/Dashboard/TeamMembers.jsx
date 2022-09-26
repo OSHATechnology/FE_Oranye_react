@@ -16,6 +16,8 @@ const TeamMembers = () => {
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [isModalManageOpened, setIsModalManageOpened] = useState(false);
   const paramsData = useParams();
+  const [memberDeleteData, setMemberDeleteData] = useState("");
+  const [modalMemberDelete, setModalMemberDelete] = useState(false);
 
   const [dataMember, setDataMember] = useState([]);
 
@@ -29,6 +31,13 @@ const TeamMembers = () => {
         console.log(err);
       });
   }, [paramsData]);
+
+  let dataMemberId = "";
+  const showModalDelete = async (memberId) => {
+    dataMemberId = memberId;
+    setMemberDeleteData(dataMemberId);
+    setModalMemberDelete(true);
+  };
 
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   const [dataTeam, setDataTeam] = useState([
@@ -158,23 +167,33 @@ const TeamMembers = () => {
                     <ButtonSmall
                       bg="bg-red-500"
                       icon="bi:trash"
-                      onClick={() =>
-                        setIsModalDeleteOpened(!isModalDeleteOpened)
-                      }
+                      onClick={() => showModalDelete(row.id)}
+                      // onClick={() =>
+                      //   setIsModalDeleteOpened(!isModalDeleteOpened)
+                      // }
                     />
 
-                    <ModalDelete
+                    {/* <ModalDelete
                       isOpen={isModalDeleteOpened}
                       setIsOpen={setIsModalDeleteOpened}
                       title="Delete Member Team"
                       type="member"
                       dataId={row.id}
-                    />
+                    /> */}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          {modalMemberDelete && (
+            <ModalDelete
+              isOpen={modalMemberDelete}
+              setIsOpen={setModalMemberDelete}
+              title="Delete Member"
+              typeData="member"
+              data={memberDeleteData}
+            />
+          )}
         </div>
       </div>
     </div>

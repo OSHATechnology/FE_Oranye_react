@@ -212,7 +212,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title }) => {
               width="w-16"
               onClick={() => setIsOpen(false)}
             />
-            <button type="submit" form="partner_form" className="bg-green">
+            <button type="submit" form="partner_form" className="bg-green-600 text-white rounded px-2">
               submit
             </button>
             {/* <ButtonNormal bg="bg-green-600 " text="Add" width="w-16" /> */}

@@ -12,7 +12,7 @@ const Overtime = () => {
   // const [isOpen, setIsOpen] = useState(false);
   const [isModalFilterOpened, setIsModalFilterOpened] = useState(false);
   const [dataOvertime, setDataOvertime] = useState([]);
-
+  const [totalOvertime, setTotalOvertime] = useState(0);
   const [modalOvertime, setModalOvertime] = useState(false);
   const [overtimeDetail, setOvertimeDetail] = useState([]);
 
@@ -22,6 +22,8 @@ const Overtime = () => {
     await fetchDataOvertimeDetail();
   };
 
+
+
   const fetchDataOvertimeDetail = async () => {
     const result = await axios.get(`/api/overtime/${dataOvertimeId}`, ConfigHeader);
     console.log(result.data.data);
@@ -30,12 +32,14 @@ const Overtime = () => {
   }
 
   useEffect(() => {
+    
     const fetchDataOvertime = async () => {
       const result = await axios.get(
         `/api/overtime`,
         ConfigHeader
       );
       setDataOvertime(result.data.data.data);
+      setTotalOvertime(result.data.data.length);
     };
 
     fetchDataOvertime().catch((err) => {
@@ -66,7 +70,7 @@ const Overtime = () => {
           bgColor="bg-orange-100"
           Title="Overtime"
           Icon="material-symbols:work-history"
-          Count="7"
+          Count={totalOvertime}
         />
       </div>
       <div className="md:flex justify-between items-center space-y-4 md:space-y-0">

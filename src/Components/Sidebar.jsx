@@ -53,7 +53,7 @@ const Sidebar = () => {
         },
         {
             id: 5,
-            icon: "fa-solid:users",
+            icon: "fluent:handshake-32-filled",
             title: "Partner",
             link: "mitra",
             isActive: false,
@@ -61,7 +61,7 @@ const Sidebar = () => {
         },
         {
             id: 6,
-            icon: "fluent:people-team-toolbox-20-filled",
+            icon: "fa-solid:users",
             title: "Teams",
             link: "team",
             isActive: false,

@@ -15,6 +15,7 @@ import AttendanceSettings from "../Pages/Dashboard/AttendanceSettings";
 import Today from "../Pages/Dashboard/Attendance/Today";
 import Overtime from "../Pages/Dashboard/Attendance/Overtime";
 import Attendance from "../Pages/Dashboard/Attendance/Attendance";
+import Spinner from '../Components/Spinner';
 
 export default function Dashboard(props) {
     return (

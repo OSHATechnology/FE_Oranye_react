@@ -1,11 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SimpleCard from "../../Components/SimpleCard";
 import TitleDashboard from "../../Components/TitleDashboard";
 import PropertyMitra from "../../Components/PropertyMitra";
+import ConfigHeader from "../Auth/ConfigHeader";
+import axios from "axios";
+import moment from "moment";
 
 const Home = () => {
+
+    const [dataPartner, setDataPartner] = useState([]);
+    const [totalEmployee, setTotalEmployee] = useState(0);
+    const [totalPartner, setTotalPartner] = useState(0);
+    const [totalRole, setTotalRole] = useState(0);
+    const fetchDataPartner = async () => {
+        const result = await axios.get(`/api/partners`, ConfigHeader);
+        setDataPartner(result.data.data.data);
+        setTotalPartner(result.data.data.data.length);
+    };
+    const fetchDataEmp = async () => {
+        try {
+          const {data} = await axios.get("api/employee", ConfigHeader);
+            console.log(data.data);
+          setTotalEmployee(data.data.data.length)
+        } catch (error) {
+          
+        }
+      };
+      const fetchDataRole = async () => {
+        try {
+            const response = await axios.get("api/roles", ConfigHeader);
+            setTotalRole(response.data.data.data.length)
+        } catch (error) {
+          
+        }
+      };
+
+    useEffect(() => {
+        fetchDataEmp();
+        fetchDataRole();
+        fetchDataPartner().catch((err) => {
+          console.log(err.message);
+        });
+      }, []);
+
     return (
-        <div className="md:ml-8">
+        <div className="md:ml-8 space-y-4">
             <TitleDashboard
                 Title="Property Dashboard"
                 Keterangan="Welcome, Admin!"
@@ -16,37 +55,32 @@ const Home = () => {
                     bgColor="bg-amber-100"
                     Title="Role Perusahaan"
                     Icon="fa-solid:user-cog"
-                    Count="5"
+                    Count={totalRole}
                 />
                 <SimpleCard
                     bgColor="bg-red-100"
                     Title="Jumlah Karyawan"
                     Icon="fa-solid:user"
-                    Count="24"
+                    Count={totalEmployee}
                 />
                 <SimpleCard
                     bgColor="bg-green-100"
-                    Title="Jumlah Mitra"
-                    Icon="fa-solid:users"
-                    Count="8"
+                    Title="Jumlah Partner"
+                    Icon="fluent:handshake-20-filled"
+                    Count={totalPartner}
                 />
             </div>
 
-            <TitleDashboard Title="Property Mitra" Keterangan="" />
-            <div className=" mt-4 space-y-4 md:flex-col">
-
+            <TitleDashboard Title="Property Partner" Keterangan="" />
+            <div className=" mt-4 max-h-80 overflow-y-auto space-y-4 md:flex-col">
+            {dataPartner.map((row) => (
                 <PropertyMitra
                     Img="assets/PP.png"
-                    Title="Nama Mitra 1 PT.OSHA Technology"
-                    Waktu="Selasa, 20 Sept 2021"
-                    Alamat="Sekeloa Tengah Dipatiukur Coblong Kota Bandung"
+                    Title={row.name}
+                    Waktu={moment(row.joinedAt).format("DD MMMM YYYY")}
+                    Alamat={row.address}
                 />
-                <PropertyMitra
-                    Img="assets/Logo.png"
-                    Title="Nama Mitra 2 PT.OSHA Technology "
-                    Waktu="Senin, 20 Apr 2021"
-                    Alamat="Gang SDN Cipanas 04 Kp. Pasekon Cipanas Cianjur"
-                />
+                ))}
             </div>
             <TitleDashboard Title="Performa Absensi" Keterangan="" />
 

@@ -10,11 +10,18 @@ import ConfigHeader from "../Auth/ConfigHeader";
 
 
 const Teams = () => {
+  const [totalTeam, setTotalTeam] = useState(0);
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
 
   const [dataTeam, setDataTeam] = useState([]);
 
+  const fetchDataTeam = async () => {
+    const result = await axios.get(`/api/team`, ConfigHeader);
+    setTotalTeam(result.data.data.data.length);
+};
+
   useEffect(() => {
+    fetchDataTeam();
     axios
       .get(`/api/team`, ConfigHeader)
       .then((res) => {
@@ -35,7 +42,7 @@ const Teams = () => {
         bgColor="bg-amber-100"
         Title="Number of teams"
         Icon="fluent:people-team-toolbox-20-filled"
-        Count="2"
+        Count={totalTeam}
       />
       <div>
         <div className="flex justify-center">

@@ -5,14 +5,14 @@ import ButtonNormal from '../ButtonNormal'
 import ConfigHeader from '../../Pages/Auth/ConfigHeader'
 import axios from "axios";
 
-const Modal = ({ isOpen, setIsOpen, title, ...data }) => {
+const Modal = ({ isOpen, setIsOpen, title, typeData, data }) => {
     const [dataId, setDataId] = useState(null)
-    const typeDelete = data.type ? data.type : null;
+    const typeDelete = typeData ? typeData : null;
     const [endPoint, setEndPoint] = useState(null)
 
     useEffect(() => {
-        if(data.dataId) {
-            setDataId(data.dataId)
+        if(data !== null){
+            setDataId(data)
         }
 
         try{

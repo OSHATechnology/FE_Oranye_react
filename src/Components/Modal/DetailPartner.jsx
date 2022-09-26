@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 
 const DetailPartner = ({ ...data }) => {
+  console.log(data);
   return (
     <>
       <div className="">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Dialog } from '@headlessui/react';
 import { Icon } from '@iconify/react'
 import EditFormEmployee from './EditFormEmployee';
+import EditFormPartner from './EditFormPartner';
 
 const ModalEdit = (props) => {
     const { isOpen, setIsOpen } = props;
@@ -15,7 +16,7 @@ const ModalEdit = (props) => {
     const typeData = (props.typeData) ? props.typeData : 'default';
   return (
     <Dialog className="fixed inset-0 z-10 flex items-center justify-center overflow-y-auto bg-gray-800/50" aria-hidden="true" open={isOpen} onClose={() => setIsOpen(false)}>
-    <div className="items-start bg-white min-h-1-2 w-fit p-4 border-2 rounded space-y-4">
+    <div className="items-start bg-white h-1/2 w-full md:w-2/5 p-4 border-2 rounded space-y-4">
         <button
             className=" float-right"
             onClick={() => setIsOpen(false)}
@@ -23,11 +24,14 @@ const ModalEdit = (props) => {
         </button>
 
         <div className="text-center text-base font-bold">
-            Detail
+        {props.title}
         </div>
-        <div className="flex justify-center">
+        <div className="w-full overflow-y-auto h-3/4">
             {typeData === 'employee' && (
                 <EditFormEmployee {...data} />
+            )}
+            {typeData === 'partner' && (
+                <EditFormPartner {...data} />
             )}
             {/* {typeData === 'attendance' && (
                 

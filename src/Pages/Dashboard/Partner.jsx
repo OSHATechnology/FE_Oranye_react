@@ -3,21 +3,24 @@ import TitleDashboard from "../../Components/TitleDashboard";
 import ButtonSmall from "../../Components/ButtonSmall";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ModalAdd from "../../Components/Modal/PartnerAdd";
-import ModalEdit from "../../Components/Modal/PartnerEdit";
+import ModalEdit from "../../Components/Modal/ModalEdit";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import ConfigHeader from "../Auth/ConfigHeader";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import ModalDetail from "../../Components/Modal/ModalDetail";
 
 const Partner = () => {
-  const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
+  const [modalPartnerDelete, setModalPartnerDelete] = useState(false);
+ 
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
-  const [isModalEditOpened, setIsModalEditOpened] = useState(false);
   const [dataPartner, setDataPartner] = useState([]);
-
-  const [modalPartner, setModalPartner] = useState(false);
+  const [modalPartnerDetail, setModalPartnerDetail] = useState(false);
+  const [modalPartnerEdit, setModalPartnerEdit] = useState(false);
   const [partnerDetail, setPartnerDetail] = useState([]);
+  const [partnerEdit, setPartnerEdit] = useState([]);
+  const [partnerDeleteData, setPartnerDeleteData] = useState("");
 
   let dataPartnerId = "";
   const showModalDetail = async (partnerId) => {
@@ -25,17 +28,40 @@ const Partner = () => {
     await fetchDataPartnerDetail();
   };
 
+  const showModalDelete = async (partnerId) => {
+    dataPartnerId = partnerId;
+    setPartnerDeleteData(dataPartnerId);
+    setModalPartnerDelete(true);
+  };
+
   const fetchDataPartnerDetail = async () => {
-    const result = await axios.get(`/api/partners/${dataPartnerId}`, ConfigHeader);
-    setPartnerDetail(result.data.data);
-    setModalPartner(true);
+      const result = await axios.get(
+        `/api/partners/${dataPartnerId}`,
+        ConfigHeader
+      );
+      setPartnerDetail(result.data.data);
+    setModalPartnerDetail(true);
+  };
+
+  const fetchDataPartnerEdit = async () => {
+      const result = await axios.get(`/api/partners/${dataPartnerId}`, ConfigHeader);
+      setPartnerEdit(result.data.data);
+    setModalPartnerEdit(true);
   }
 
+
+  const showModalEdit = async (partnerId) => {
+    dataPartnerId = partnerId;
+    await fetchDataPartnerEdit();
+  };
+
+  const fetchDataPartner = async () => {
+    const result = await axios.get(`/api/partners`, ConfigHeader);
+    setDataPartner(result.data.data.data);
+  };
+  
+
   useEffect(() => {
-    const fetchDataPartner = async () => {
-      const result = await axios.get(`/api/partners`, ConfigHeader);
-      setDataPartner(result.data.data.data);
-    };
 
     fetchDataPartner().catch((err) => {
       console.log(err.message);
@@ -117,44 +143,54 @@ const Partner = () => {
                         bg="bg-yellow-500"
                         icon="fa6-solid:pen-to-square"
                         colorIcon="text-white"
-                        onClick={() => setIsModalEditOpened(!isModalEditOpened)}
+                        onClick={() => showModalEdit(row.id)}
                       />
                       <ButtonSmall
                         bg="bg-red-500"
                         icon="ci:trash-full"
                         colorIcon="text-white"
                         onClick={() =>
-                          setIsModalDeleteOpened(!isModalDeleteOpened)
-                        }
-                      />
-
-                      {/* Modal Kanggo Edit */}
-                      <ModalEdit
-                        isOpen={isModalEditOpened}
-                        setIsOpen={setIsModalEditOpened}
-                        title="Edit Partner"
+                          showModalDelete(row.id)}
                       />
                       {/* Modal Kanggo Delete */}
-                      <ModalDelete
+                      {/* <ModalDelete
                         isOpen={isModalDeleteOpened}
                         setIsOpen={setIsModalDeleteOpened}
                         title="Delete Partner"
                         type="partner"
                         dataId={row.id}
-                      />
+                      /> */}
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {modalPartner && (
+          {modalPartnerDetail && (
             <ModalDetail
-              isOpen={modalPartner}
-              setIsOpen={setModalPartner}
+              isOpen={modalPartnerDetail}
+              setIsOpen={setModalPartnerDetail}
               title="Delete Partner"
               typeData="partner"
               data={partnerDetail}
+            />
+          )}
+          {modalPartnerEdit && (
+            <ModalEdit
+              isOpen={modalPartnerEdit}
+              setIsOpen={setModalPartnerEdit}
+              title="Edit Partner"
+              typeData="partner"
+              data={partnerEdit}
+            />
+          )}
+          {modalPartnerDelete && (
+            <ModalDelete
+              isOpen={modalPartnerDelete}
+              setIsOpen={setModalPartnerDelete}
+              title="Delete Partner"
+              typeData="partner"
+              data={partnerDeleteData}
             />
           )}
         </div>

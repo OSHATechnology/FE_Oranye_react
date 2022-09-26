@@ -29,7 +29,7 @@ const EmployeeDetail = () => {
       },
     },
   ]);
-
+console.log(dataEmp);
   useEffect(() => {
     const fetchDataEmp = async () => {
       const data = await axios.get(
