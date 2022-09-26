@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocalStorage } from "./LocalStorage";
-
+import { AuthRedirect, NavigateUser } from "./AuthProvider";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -13,8 +13,8 @@ export default function Login() {
     const [password, setPassword] = useState();
 
     useEffect(() => {
-        if (user !== null) {
-            navigate('/dashboard');
+        if (user) {
+            navigate(AuthRedirect(user));
         }
     }, [user, navigate]);
 
@@ -28,7 +28,6 @@ export default function Login() {
         setPassword(value)
     }
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -38,9 +37,10 @@ export default function Login() {
                     'email': username,
                     password
                 }).then((resp) => {
-                    setUser(resp.data.data.user)
-                }).then(() => {
-                    alert('berhasil')
+                    const rslt = resp.data.data.user
+                    setUser(rslt)
+                    navigate(AuthRedirect(rslt));
+
                 }).catch(err => {
                     setErrorMessages({ name: "failed", message: err.response.data.data });
                 })

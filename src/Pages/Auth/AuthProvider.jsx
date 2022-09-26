@@ -55,4 +55,15 @@ const GetTokenData = () => {
   return null;
 }
 
-export { GetAuthData, GetTokenData };
+const AuthRedirect = (user) => {
+  if (user) {
+    if (user.role === "admin") {
+      return '/dashboard'
+    } else {
+      return '/'
+    }
+  }
+  return '/login'
+}
+
+export { GetAuthData, GetTokenData, AuthRedirect };

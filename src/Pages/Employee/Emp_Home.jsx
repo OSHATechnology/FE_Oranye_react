@@ -1,6 +1,19 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import ConfigHeader from "../Auth/ConfigHeader";
 
 const CardProfileEmployee = () => {
+    const [uid, setUid] = useState("");
+    const [employee, setEmployee] = useState({});
+
+    const fetchDataEmp = async () => {
+        const response = await axios.get(`/api/employee/2`, ConfigHeader);
+        setEmployee(response.data.data.data);
+    }
+    useEffect(() => {
+        fetchDataEmp();
+    }, []);
+
     return (
         <div className="">
             <div className="flex flex-col w-full md:w-4/5 border border-gray-300 shadow items-center justify-center rounded">
@@ -14,7 +27,7 @@ const CardProfileEmployee = () => {
                     <p className="text-md font-semibold my-0.5">192390123</p>
                     <p className="text-md font-semibold">Employee</p>
                 </div>
-                <div class="flex flex-row gap-24 my-8">
+                <div className="flex flex-row gap-24 my-8">
                     <div className="text-center">
                         <p className="text-md text-black">Total Leave</p>
                         <p className="text-sm text-gray-600 font-medium">0</p>
@@ -100,20 +113,37 @@ const CardRequest = () => {
 };
 
 export default function Emp_Home() {
+    const [dataAttendance, setDataAttendance] = useState({});
+    const [dataRequest, setDataRequest] = useState({});
+
+    useEffect(() => {
+        setDataAttendance({
+            attendance: "in",
+            time: "8:30",
+        });
+        setDataRequest({
+            type: "overtime",
+            requestedAt: "16:50 12/02/2022",
+            approvedAt: "",
+            status: "waiting for approved",
+        });
+    }, []);
+
+
     return (
 
         <div className="flex justify-center">
             <div className=" items-start justify-center w-screen md:min-h-1/3 md:flex md:flex-row md:w-4/5 mt-4">
-            <div className="md:grid md:grid-cols-2 space-y-4 md:space-y-0">
-                <div className="w-full justify-center ">
-                    <CardProfileEmployee />
-                </div>
-                <div className="w-full justify-center space-y-4 md:space-y-0">
-                    <CardStatusAttendance />
-                    <CardRequest />
-                </div>
+                <div className="md:grid md:grid-cols-2 space-y-4 md:space-y-0">
+                    <div className="w-full justify-center ">
+                        <CardProfileEmployee />
+                    </div>
+                    <div className="w-full justify-center space-y-4 md:space-y-0">
+                        <CardStatusAttendance />
+                        <CardRequest />
+                    </div>
                 </div>
             </div>
-            </div>
+        </div>
     );
 }
