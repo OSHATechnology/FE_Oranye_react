@@ -1,16 +1,35 @@
 import React, { Fragment } from "react";
 import { Icon } from "@iconify/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, Transition } from "@headlessui/react";
 
 import NavbarMobile from "./NavbarMobile";
+import axios from "axios";
+import ConfigHeader from "../Pages/Auth/ConfigHeader";
 
 export default function Navbar() {
+    const navigate = useNavigate();
+
+    const logout = () => {
+        try {
+            axios.post("/api/logout", {}, ConfigHeader)
+                .then((res) => {
+                    alert(res.data.message);
+                    localStorage.removeItem("user");
+                    navigate("/login");
+                }).catch((err) => {
+                    console.log(err);
+                })
+        } catch (error) {
+
+        }
+    };
+
     return (
         <>
             <nav className="bg-white px-2 sm:px-4 py-2.5 sticky w-full z-20 top-0 left-0 drop-shadow ">
                 <div className="container flex flex-wrap justify-between items-center mx-auto">
-                    <a href="#" className="flex items-center">
+                    <a href="#Home" className="flex items-center">
                         <img
                             src="assets/Logo.png"
                             className="mr-3 h-6 sm:h-9"
@@ -82,11 +101,10 @@ export default function Navbar() {
                                                     {({ active }) => (
                                                         <Link to="/">
                                                             <button
-                                                                className={`${
-                                                                    active
-                                                                        ? "bg-violet-500 text-white"
-                                                                        : "text-gray-900"
-                                                                } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900 bg-white  hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium`}
+                                                                className={`${active
+                                                                    ? "bg-violet-500 text-white"
+                                                                    : "text-gray-900"
+                                                                    } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900 bg-white  hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium`}
                                                             >
                                                                 <Icon
                                                                     icon="clarity:home-solid"
@@ -103,11 +121,10 @@ export default function Navbar() {
                                                     {({ active }) => (
                                                         <Link to="profile">
                                                             <button
-                                                                className={`${
-                                                                    active
-                                                                        ? "bg-violet-500 text-white"
-                                                                        : "text-gray-900"
-                                                                } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900 bg-white  hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium`}
+                                                                className={`${active
+                                                                    ? "bg-violet-500 text-white"
+                                                                    : "text-gray-900"
+                                                                    } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900 bg-white  hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium`}
                                                             >
                                                                 <Icon
                                                                     icon="carbon:user-avatar-filled"
@@ -124,11 +141,10 @@ export default function Navbar() {
                                                     {({ active }) => (
                                                         <Link to='Attendance'>
                                                             <button
-                                                                className={`${
-                                                                    active
-                                                                        ? "bg-violet-500 text-white"
-                                                                        : "text-gray-900"
-                                                                } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900 bg-white  hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium`}
+                                                                className={`${active
+                                                                    ? "bg-violet-500 text-white"
+                                                                    : "text-gray-900"
+                                                                    } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900 bg-white  hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium`}
                                                             >
                                                                 <Icon
                                                                     icon="bx:calendar-check"
@@ -144,11 +160,10 @@ export default function Navbar() {
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <button
-                                                            className={`${
-                                                                active
-                                                                    ? "bg-violet-500 text-white"
-                                                                    : "text-gray-900"
-                                                            } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900 bg-white  hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium`}
+                                                            className={`${active
+                                                                ? "bg-violet-500 text-white"
+                                                                : "text-gray-900"
+                                                                } group flex w-full items-center rounded-md px-2 py-2 text-sm text-gray-900 bg-white  hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium`}
                                                         >
                                                             <Icon
                                                                 icon="fa6-solid:chart-column"
@@ -163,11 +178,11 @@ export default function Navbar() {
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <button
-                                                            className={`${
-                                                                active
-                                                                    ? "bg-violet-500 text-white"
-                                                                    : "text-gray-900"
-                                                            } group flex w-full items-center rounded-md px-2 py-2 text-sm place-content-center text-gray-900 bg-white border border-gray-900 hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium  text-center mr-3 md:mr-0 `}
+                                                            onClick={logout}
+                                                            className={`${active
+                                                                ? "bg-violet-500 text-white"
+                                                                : "text-gray-900"
+                                                                } group flex w-full items-center rounded-md px-2 py-2 text-sm place-content-center text-gray-900 bg-white border border-gray-900 hover:bg-gray-900 hover:text-white focus:ring-2 focus:outline-none font-medium  text-center mr-3 md:mr-0 `}
                                                         >
                                                             <Icon
                                                                 icon="mdi-light:logout"

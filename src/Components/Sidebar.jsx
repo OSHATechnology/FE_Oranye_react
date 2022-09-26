@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoginImg from "../assets/Logo.png";
+import axios from "axios";
+import ConfigHeader from "../Pages/Auth/ConfigHeader";
 
 const Sidebar = () => {
     const navigate = useNavigate()
@@ -13,8 +15,18 @@ const Sidebar = () => {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        navigate("/login");
+        try {
+            axios.post("/api/logout", {}, ConfigHeader)
+                .then((res) => {
+                    alert(res.data.message);
+                    localStorage.removeItem("user");
+                    navigate("/login");
+                }).catch((err) => {
+                    console.log(err);
+                })
+        } catch (error) {
+
+        }
     };
 
     const dataMenu = [

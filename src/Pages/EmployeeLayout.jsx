@@ -7,15 +7,16 @@ import ProfilePage from './Employee/Emp_Profile'
 
 const EmployeeLayout = () => {
   return (
-   <>
+    <>
       <Navbar />
 
       <Routes>
-          <Route index element={<HomePage />} />
-          <Route path="/attendance" element={<AttendancePage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+        <Route index element={<HomePage />} />
+        <Route path="/attendance" element={<AttendancePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
-   </>
+    </>
   )
 }
 
