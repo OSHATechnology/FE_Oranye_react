@@ -6,7 +6,11 @@ const DetailPartner = ({ ...data }) => {
   return (
     <>
       <div className="">
-        <table className=" text-sm font-medium text-gray-700">
+        <div className="flex justify-center">
+
+        <img src={data.photo} alt="" className="w-32 rounded-xl mb-4"/>
+        </div>
+        <table className=" text-sm font-semibold text-gray-600">
           <tbody>
             <tr>
               <td>Partner Name</td>

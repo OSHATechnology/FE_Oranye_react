@@ -61,7 +61,7 @@ console.log(dataEmp);
       </div>
       <div className="md:flex md:flex-row w-full">
         <div className="flex basis-1/4 items-center justify-center">
-          <img src="assets/PP.png" alt="" />
+          <img src={dataEmp.photo} alt="" className="w-3/5 rounded-full"/>
         </div>
 
         <div className="basis-3/4 m-4 text-center md:text-start">
@@ -78,7 +78,7 @@ console.log(dataEmp);
             </div>
           </div>
           <h4 className="text-2xl">{dataEmp.employeeId}</h4>
-          <table className="mt-5 text-start">
+          <table className="mt-6 text-start">
             <tbody>
               <tr>
                 <td>

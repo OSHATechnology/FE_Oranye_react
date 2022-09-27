@@ -166,7 +166,7 @@ const EditFormPartner = ({ isOpen, setIsOpen, title, ...data }) => {
             type="date"
             placeholder="Joined At"
             value={moment(joinedAt).format("yyyy-MM-DD")}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => setJoinedAt(e.target.value)}
             className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
           />
         </div>

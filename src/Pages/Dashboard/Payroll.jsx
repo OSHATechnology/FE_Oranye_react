@@ -3,24 +3,23 @@ import TitleDashboard from "../../Components/TitleDashboard";
 import { Link, Outlet } from "react-router-dom";
 import { Icon } from "@iconify/react";
 
-const Attendance = () => {
+const Payroll = () => {
   return (
     <div className="w-full md:mx-8">
       <TitleDashboard
-        Title="Attendance"
-        Keterangan="Attendance from employees"
+        Title="Payroll Management"
+        Keterangan="Management payroll for employee"
       />
       <div className="flex justify-between">
         {/* <div>
                 Tes1
             </div> */}
 
-        <div className="flex my-8 space-x-8 font-semibold  text-gray-500">
-          <Link to="../hadir" className=" hover:text-black">Attendance</Link>
-          <Link to="Today" className=" hover:text-black">Today</Link>
-          <Link to="Overtime" className=" hover:text-black">Overtime</Link>
+        <div className="flex my-8 space-x-8 font-semibold text-gray-500">
+          <Link to="../payroll" className=" hover:text-black">gross salary</Link>
+          <Link to="SalaryDeductions" className=" hover:text-black">salary deductions</Link>
         </div>
-        <div className="flex my-8 text-sm font-semibold text-gray-600">
+        {/* <div className="flex my-8 text-sm font-semibold text-gray-600">
         <Link to="../attendanceSettings">
           <button>
             <Icon
@@ -29,12 +28,12 @@ const Attendance = () => {
             ></Icon>
           </button>
           </Link>
-        </div>
+        </div> */}
       </div>
 
       <Outlet />
     </div>
-  );
-};
+  )
+}
 
-export default Attendance;
+export default Payroll

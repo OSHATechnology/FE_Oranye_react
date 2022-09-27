@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from "../Pages/Dashboard/Home";
 import Role from "../Pages/Dashboard/RolePermissions";
 import Hadir from "../Pages/Dashboard/Attendance";
+import Payroll from "../Pages/Dashboard/Payroll";
 import Emp from "../Pages/Dashboard/Employee";
 import Mitra from "../Pages/Dashboard/Partner";
 import Teams from "../Pages/Dashboard/Teams";
@@ -15,6 +16,8 @@ import AttendanceSettings from "../Pages/Dashboard/AttendanceSettings";
 import Today from "../Pages/Dashboard/Attendance/Today";
 import Overtime from "../Pages/Dashboard/Attendance/Overtime";
 import Attendance from "../Pages/Dashboard/Attendance/Attendance";
+import GrossSalary from "../Pages/Dashboard/Payroll/GrossSalary";
+import SalaryDeductions from "../Pages/Dashboard/Payroll/SalaryDeductions";
 import Spinner from '../Components/Spinner';
 
 export default function Dashboard(props) {
@@ -32,6 +35,10 @@ export default function Dashboard(props) {
                         <Route index element={<Attendance />} />
                         <Route path="Today" element={<Today />} />
                         <Route path="Overtime" element={<Overtime />} />
+                    </Route>
+                    <Route path="payroll" element={<Payroll />}>
+                        <Route index element={<GrossSalary />} />
+                        <Route path="SalaryDeductions" element={<SalaryDeductions />} />
                     </Route>
                     <Route path="emp" element={<Emp />} />
                     <Route path="mitra" element={<Mitra />} />

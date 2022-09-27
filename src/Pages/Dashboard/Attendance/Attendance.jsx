@@ -8,6 +8,7 @@ import ModalAcc from "../../../Components/Modal/ModalAccept";
 import axios from "axios";
 import ConfigHeader from "../../Auth/ConfigHeader";
 import ModalDetail from "../../../Components/Modal/ModalDetail";
+import Search from "../../../Components/Search";
 
 const Attendance = () => {
   // const [isOpen, setIsOpen] = useState(false);
@@ -78,12 +79,13 @@ const Attendance = () => {
         />
       </div>
       <div className="flex gap-2 justify-end">
-        <input
+        {/* <input
           type="text"
           placeholder="Search"
           className="rounded h-9 border border-gray-300"
         />
-        <ButtonSmall icon="akar-icons:search" />
+        <ButtonSmall icon="akar-icons:search" /> */}
+      <Search />
       </div>
       <div>
         <table className="w-full text-center overflow-x-scroll">

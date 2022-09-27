@@ -6,6 +6,7 @@ import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
 import Modal from "../../Components/Modal/ModalRoleDetail";
 import { Link } from "react-router-dom";
+import Search from "../../Components/Search";
 
 const RolePermissions = () => {
     const [dataRole, setDataRole] = useState([]);
@@ -48,10 +49,11 @@ const RolePermissions = () => {
                                 />
                             </Link>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <Search />
+                        {/* <div className="flex items-center gap-2">
                             <input type="text" placeholder="search" className="text-center rounded h-9 border border-gray-300" />
                             <ButtonSmall icon="akar-icons:search" />
-                        </div>
+                        </div> */}
                     </div>
                     <div>
                         <table className="w-full text-center overflow-x-scroll rounded">
@@ -89,9 +91,13 @@ const RolePermissions = () => {
                         <p className="text-xl font-bold">List Permissions</p>
                     </div>
 
-                    <div className="flex justify-end items-center gap-2">
+                    {/* <div className="flex justify-end items-center gap-2">
                         <input type="text" placeholder="search" className="text-center rounded h-9 border border-gray-300" />
                         <ButtonSmall icon="akar-icons:search" />
+                    </div> */}
+                    <div className="flex justify-end">
+
+                    <Search />
                     </div>
 
                     <div>

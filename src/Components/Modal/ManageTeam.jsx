@@ -11,6 +11,15 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data }) => {
   const [leadById, setLeadById] = useState('');
   const [createdById, setCreatedById] = useState('');
   const [dataEmployee, setDataEmployee] = useState([]);
+  const [modalTeamDelete, setModalTeamDelete] = useState(false);
+  const [teamDeleteData, setTeamDeleteData] = useState("");
+  // console.log(data);
+  let dataTeamId = "";
+  const showModalDelete = async (teamId) => {
+    dataTeamId = teamId;
+    setTeamDeleteData(dataTeamId);
+    setModalTeamDelete(true);
+  };
 
   const getDataEmployee = async () => {
     const { data } = await axios.get("api/employee", ConfigHeader);
@@ -87,7 +96,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data }) => {
               >
                 {dataEmployee.map((item, index) => (
                   <option value={item.employeeId} key={index}>
-                    {item.name}{" "}
+                    {item.name}
                   </option>
                 ))}
               </select>
@@ -116,13 +125,14 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data }) => {
               bg="bg-red-500 "
               text="Delete Team"
               width="w-30"
-              onClick={() => setIsModalDeleteOpened(!isModalDeleteOpened)}
+              onClick={() =>
+                showModalDelete(data.id)}
             />
-            <ModalDelete
+            {/* <ModalDelete
               isOpen={isModalDeleteOpened}
               setIsOpen={setIsModalDeleteOpened}
               title="Delete Member Team"
-            />
+            /> */}
             <ButtonNormal
               bg="bg-yellow-500 "
               onClick={handleSubmit}
@@ -131,6 +141,15 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data }) => {
               
             />
           </div>
+          {modalTeamDelete && (
+            <ModalDelete
+              isOpen={modalTeamDelete}
+              setIsOpen={setModalTeamDelete}
+              title="Delete Team"
+              typeData="team"
+              data={teamDeleteData}
+            />
+          )}
         </div>
       </Dialog>
     </>

@@ -7,6 +7,7 @@ import axios from "axios";
 import ConfigHeader from "../../Auth/ConfigHeader";
 import moment from "moment";
 import ModalDetail from "../../../Components/Modal/ModalDetail";
+import Search from "../../../Components/Search";
 
 const Overtime = () => {
   // const [isOpen, setIsOpen] = useState(false);
@@ -80,12 +81,13 @@ const Overtime = () => {
           </p>
         </div>
         <div className="flex gap-2 justify-end">
-          <input
+          {/* <input
             type="text"
             placeholder="Search"
             className="rounded h-9 border border-gray-300"
           />
-          <ButtonSmall icon="akar-icons:search" />
+          <ButtonSmall icon="akar-icons:search" /> */}
+          <Search />
           <ButtonSmall
             icon="ant-design:filter-outlined"
             onClick={() => setIsModalFilterOpened(!isModalFilterOpened)}

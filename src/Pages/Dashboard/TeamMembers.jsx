@@ -11,6 +11,7 @@ import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
 import moment from "moment";
 import { Icon } from "@iconify/react";
+import Search from "../../Components/Search";
 
 const TeamMembers = () => {
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
@@ -132,7 +133,7 @@ const TeamMembers = () => {
               data={dataTeam}
             />
           </div>
-          <div className="flex space-x-2 items-center">
+          {/* <div className="flex space-x-2 items-center">
             <input
               type="text"
               placeholder="Search"
@@ -143,7 +144,8 @@ const TeamMembers = () => {
               icon="akar-icons:search"
               colorIcon="text-white"
             />
-          </div>
+          </div> */}
+          <Search />
         </div>
         <div className="w-full">
           <table className="w-full text-center">

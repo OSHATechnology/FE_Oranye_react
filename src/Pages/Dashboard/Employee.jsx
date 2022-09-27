@@ -9,6 +9,7 @@ import ModalEdit from "../../Components/Modal/ModalEdit";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
+import Search from "../../Components/Search";
 
 const Employee = () => {
   const [dataEmployee, setDataEmployee] = useState([]);
@@ -36,16 +37,19 @@ const Employee = () => {
     const result = await axios.get(`/api/employee/${dataEmployeeId}`, ConfigHeader);
     setEmployeeEdit(result.data.data);
     setModalEmployee(true);
-    console.log(employeeEdit);
   }
   
-  useEffect(() => {
-    const fetchDataEmployee = async () => {
-      const result = await axios.get(`/api/employee`, ConfigHeader);
-      setDataEmployee(result.data.data.data);
-    };
+  const fetchDataEmployee = async () => {
+    const result = await axios.get(`/api/employee`, ConfigHeader);
+    setDataEmployee(result.data.data.data);
+  };
 
-    fetchDataEmployee().catch((err) => {
+  useEffect(() => {
+    fetchDataEmployee()
+    .then(() => {
+      console.log(dataEmployee);
+    })
+    .catch((err) => {
       console.log(err.message);
     });
   }, []);
@@ -106,7 +110,7 @@ const Employee = () => {
               title="Import Data Karyawan"
             />
           </div>
-          <div className="flex space-x-2 items-center">
+          {/* <div className="flex space-x-2 items-center">
             <input
               type="text"
               placeholder="Search"
@@ -117,7 +121,8 @@ const Employee = () => {
               icon="akar-icons:search"
               colorIcon="text-white"
             />
-          </div>
+          </div> */}
+          <Search />
         </div>
       </div>
 
@@ -140,7 +145,8 @@ const Employee = () => {
                   <td>{index + 1}</td>
                   <td>
                     <div className="text-center flex items-center justify-center md:space-x-4">
-                      <img src="https://i.pinimg.com/474x/a7/e3/d4/a7e3d4c86710a6a9cf70b39c97ec8c55.jpg" alt={row.photo} className="w-10 rounded-full" />
+                      {/* <img src="https://i.pinimg.com/474x/a7/e3/d4/a7e3d4c86710a6a9cf70b39c97ec8c55.jpg" alt={row.photo} className="w-10 rounded-full" /> */}
+                      <img src={row.photo} alt={"photo of "+row.name} className="w-10 rounded-full" />
                     </div>
                   </td>
                   <td>

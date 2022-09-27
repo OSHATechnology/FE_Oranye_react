@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import ModalAdd from "../../Components/Modal/TeamAdd";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
+import Search from "../../Components/Search";
 
 
 const Teams = () => {
@@ -39,9 +40,9 @@ const Teams = () => {
       />
 
       <SimpleCard
-        bgColor="bg-amber-100"
+        bgColor="bg-gray-100"
         Title="Number of teams"
-        Icon="fluent:people-team-toolbox-20-filled"
+        Icon="fa-solid:users"
         Count={totalTeam}
       />
       <div>
@@ -60,7 +61,7 @@ const Teams = () => {
               title="Add New Team"
             />
             </div>
-            <div className="flex space-x-2 items-center">
+            {/* <div className="flex space-x-2 items-center">
               <input
                 type="text"
                 placeholder="Search"
@@ -71,7 +72,8 @@ const Teams = () => {
                 icon="akar-icons:search"
                 colorIcon="text-white"
               />
-            </div>
+            </div> */}
+            <Search />
           </div>
         </div>
 

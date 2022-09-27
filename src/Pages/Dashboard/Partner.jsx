@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import ModalDetail from "../../Components/Modal/ModalDetail";
+import Search from "../../Components/Search";
 
 const Partner = () => {
   const [modalPartnerDelete, setModalPartnerDelete] = useState(false);
@@ -68,6 +69,8 @@ const Partner = () => {
     });
   }, []);
 
+  // 
+
   return (
     <div className="w-full md:mx-8">
       <TitleDashboard
@@ -90,7 +93,7 @@ const Partner = () => {
               title="Add Partner"
             />
           </div>
-          <div className="flex space-x-2 items-center">
+          {/* <div className="flex space-x-2 items-center">
             <input
               type="text"
               placeholder="Search"
@@ -101,7 +104,8 @@ const Partner = () => {
               icon="akar-icons:search"
               colorIcon="text-white"
             />
-          </div>
+          </div> */}
+          <Search />
         </div>
       </div>
 
@@ -124,7 +128,7 @@ const Partner = () => {
                   <td>{index + 1}</td>
                   <td>
                     <div className="text-center flex items-center justify-center md:space-x-4">
-                      <img src={row.photo} alt="" className="w-10" />
+                      <img src={row.photo} alt={"photo of "+row.name} className="w-10" />
                     </div>
                   </td>
                   <td>{row.name}</td>

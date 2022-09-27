@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
+import moment from "moment";
 
 const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
   const [firtsName, setFirstName] = useState("");
@@ -12,6 +13,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
   const [phone, setPhone] = useState("");
   const [photo, setPhoto] = useState(null);
   const [birthDate, setBirthDate] = useState("");
+  const [joinedAt, setJoinedAt] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [nation, setNation] = useState("");
@@ -28,6 +30,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
     setPhone("");
     setPhoto({});
     setBirthDate("");
+    setJoinedAt("");
     setAddress("");
     setCity("");
     setNation("");
@@ -57,6 +60,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
       'photo': photo,
       'nation': nation,
       'birthDate': birthDate,
+      'joinedAt': joinedAt,
       'email': email,
       'roleId': role,
       'isActive': 1,
@@ -186,6 +190,18 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
                 </select>
               </div>
 
+              <div className="">
+                <p className="text-sm font-extrabold text-gray-600">
+                  Joined At
+                </p>
+                <input
+                  type="date"
+                  name="Join At"
+                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                  value={joinedAt}
+                  onChange={(e) => setJoinedAt(e.target.value)}
+                />
+              </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">
                   Birth Date
