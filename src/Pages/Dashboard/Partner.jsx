@@ -11,6 +11,7 @@ import axios from "axios";
 import moment from "moment";
 import ModalDetail from "../../Components/Modal/ModalDetail";
 import Search from "../../Components/Search";
+import Pagination from "react-js-pagination";
 
 const Partner = () => {
   const [modalPartnerDelete, setModalPartnerDelete] = useState(false);
@@ -22,6 +23,7 @@ const Partner = () => {
   const [partnerDetail, setPartnerDetail] = useState([]);
   const [partnerEdit, setPartnerEdit] = useState([]);
   const [partnerDeleteData, setPartnerDeleteData] = useState("");
+  const [dataPagePartner, setDataPagePartner] = useState([]);
 
   let dataPartnerId = "";
   const showModalDetail = async (partnerId) => {
@@ -47,27 +49,53 @@ const Partner = () => {
   const fetchDataPartnerEdit = async () => {
       const result = await axios.get(`/api/partners/${dataPartnerId}`, ConfigHeader);
       setPartnerEdit(result.data.data);
+      // console.log(result.data.data);
     setModalPartnerEdit(true);
   }
-
-
+  
   const showModalEdit = async (partnerId) => {
     dataPartnerId = partnerId;
     await fetchDataPartnerEdit();
   };
 
-  const fetchDataPartner = async () => {
-    const result = await axios.get(`/api/partners`, ConfigHeader);
-    setDataPartner(result.data.data.data);
+  // const fetchPartnerData = async (page = 1) => {
+  //   try {
+      
+  //     const res = await axios.get(`api/partners&page=${page}&search=`, ConfigHeader);
+  //     setDataPagePartner(res.data.data);
+  //   } catch (err) {
+  //     console.log(err.response);
+  //   }
+  // };
+  
+  const fetchDataPartner = async (page = 1,search = null) => {
+    try {
+      const result = await axios.get(`/api/partners?page=${page}`, ConfigHeader);
+      setDataPartner(result.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   
 
   useEffect(() => {
 
-    fetchDataPartner().catch((err) => {
-      console.log(err.message);
-    });
+    // fetchPartnerData();
+    fetchDataPartner();
   }, []);
+  // const fetchDataPartner = async () => {
+  //   const result = await axios.get(`/api/partners`, ConfigHeader);
+  //   setDataPartner(result.data.data);
+  // };
+  
+
+  // useEffect(() => {
+
+  //   fetchDataPartner().catch((err) => {
+  //     console.log(err.message);
+  //   });
+  // }, []);
 
   // 
 
@@ -123,7 +151,7 @@ const Partner = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {dataPartner.map((row, index) => (
+              {/* {dataPartner?.data ? dataPartner?.data?.map((row, index) => (
                 <tr key={row.id} className=" shadow ">
                   <td>{index + 1}</td>
                   <td>
@@ -156,18 +184,51 @@ const Partner = () => {
                         onClick={() =>
                           showModalDelete(row.id)}
                       />
-                      {/* Modal Kanggo Delete */}
-                      {/* <ModalDelete
-                        isOpen={isModalDeleteOpened}
-                        setIsOpen={setIsModalDeleteOpened}
-                        title="Delete Partner"
-                        type="partner"
-                        dataId={row.id}
-                      /> */}
                     </div>
                   </td>
                 </tr>
-              ))}
+              )) : <tr><td colSpan="6">Loading</td></tr> } */}
+              {
+                dataPartner.data ? Object.keys(dataPartner.data).map((row, index) =>
+                (
+                  <tr key={dataPartner.data[row].id} className=" shadow ">
+                    <td>{index + 1}</td>
+                    <td>
+                      <div className="text-center flex items-center justify-center md:space-x-4">
+                        <img src={dataPartner.data[row].photo} alt={"photo of "+ dataPartner.data[row].name} className="w-10" />
+                      </div>
+                      
+                      </td>
+                    <td>{dataPartner.data[row].name}</td>
+                    <td>{dataPartner.data[row].address}</td>
+                    <td>{moment(dataPartner.data[row].joinedAt).format("DD MMMM YYYY")}</td>
+                    <td>
+                    <div className="flex justify-center gap-1">
+                      <ButtonSmall
+                        bg="bg-blue-600"
+                        icon="carbon:view"
+                        colorIcon="text-white"
+                        onClick={() => showModalDetail(dataPartner.data[row].id)}
+                      />
+
+                      <ButtonSmall
+                        bg="bg-yellow-500"
+                        icon="fa6-solid:pen-to-square"
+                        colorIcon="text-white"
+                        onClick={() => showModalEdit(dataPartner.data[row].id)}
+                      />
+                      <ButtonSmall
+                        bg="bg-red-500"
+                        icon="ci:trash-full"
+                        colorIcon="text-white"
+                        onClick={() =>
+                          showModalDelete(dataPartner.data[row].id)}
+                      />
+                      </div>
+                    </td>
+                  </tr> 
+                )) : <tr><td colSpan="5">Loading</td></tr>
+              }
             </tbody>
           </table>
           {modalPartnerDetail && (
@@ -199,6 +260,20 @@ const Partner = () => {
           )}
         </div>
       </div>
+        <Pagination 
+          activePage={dataPartner.current_page ? dataPartner.current_page : 0}
+          itemsCountPerPage={dataPartner?.per_page ? dataPartner?.per_page : 0 }
+          totalItemsCount={dataPartner?.total ? dataPartner?.total : 0}
+          onChange={(pageNumber) => {
+            fetchDataPartner(pageNumber)
+          }}
+          innerClass="flex justify-center items-center gap-2 my-8 "
+          pageRangeDisplayed={8}
+          itemClass="text-sm font-semibold text-slate-600 rounded-full px-2 hover:bg-slate-100 "
+          linkClass="page-link"
+          activeClass="bg-slate-100 font-bold"
+        />
+      
     </div>
   );
 };

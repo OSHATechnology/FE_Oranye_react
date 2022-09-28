@@ -154,7 +154,7 @@ const EditFormEmployee = ({ isOpen, setIsOpen, title, ...data }) => {
         </div>
 
         <div className="">
-          <p className="text-sm font-extrabold text-gray-600">Birth Date</p>
+          <p className="text-sm font-extrabold text-gray-600">Joined At</p>
           <input
             type="date"
             value={moment(joinedAt).format("yyyy-MM-DD")}

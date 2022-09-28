@@ -108,7 +108,7 @@ const Sidebar = () => {
 
             <div
                 className={
-                    "sidebar h-screen lg:left-0 p-2 w-[300px] overflow-y-auto text-center shadow bg-white " +
+                    " sidebar h-full lg:left-0 p-2 w-[300px] overflow-y-auto text-center shadow bg-white " +
                     (isActive ? "hidden" : "")
                 }
             >

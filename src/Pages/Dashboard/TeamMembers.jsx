@@ -12,6 +12,7 @@ import ConfigHeader from "../Auth/ConfigHeader";
 import moment from "moment";
 import { Icon } from "@iconify/react";
 import Search from "../../Components/Search";
+import Pagination from "react-js-pagination";
 
 const TeamMembers = () => {
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
@@ -21,17 +22,6 @@ const TeamMembers = () => {
   const [modalMemberDelete, setModalMemberDelete] = useState(false);
 
   const [dataMember, setDataMember] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(`/api/team_member?teamid=${paramsData.id}`, ConfigHeader)
-      .then((res) => {
-        setDataMember(res.data.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [paramsData]);
 
   let dataMemberId = "";
   const showModalDelete = async (memberId) => {
@@ -56,16 +46,27 @@ const TeamMembers = () => {
     },
   ]);
 
+  const fetchMemberData = async (page = 1) => {
+    try {
+      
+      const res = await axios.get(`api/team_member?teamid=${paramsData.id}&page=${page}&search=`, ConfigHeader);
+      setDataMember(res.data.data);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
   useEffect(() => {
     const fetchDataTeam = async () => {
       const data = await axios.get(`/api/team/${paramsData.id}`, ConfigHeader);
       setDataTeam(data.data.data);
     };
-
+    fetchMemberData();
     fetchDataTeam().catch((err) => {
       console.log(err.message);
     });
   }, [paramsData]);
+
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -133,22 +134,11 @@ const TeamMembers = () => {
               data={dataTeam}
             />
           </div>
-          {/* <div className="flex space-x-2 items-center">
-            <input
-              type="text"
-              placeholder="Search"
-              className="rounded border border-gray-300 h-9 text-center w-72"
-            />
-            <ButtonSmall
-              bg="bg-gray-400"
-              icon="akar-icons:search"
-              colorIcon="text-white"
-            />
-          </div> */}
+         
           <Search />
         </div>
         <div className="w-full">
-          <table className="w-full text-center">
+          <table className="w-full text-center" id="tblMember">
             <thead className="bg-gray-100 h-10 border-b border-gray-400">
               <tr>
                 <th>#</th>
@@ -159,32 +149,40 @@ const TeamMembers = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {dataMember.map((row, index) => (
-                <tr key={row.id} className=" shadow ">
-                  <td>{index + 1}</td>
-                  <td>{row.employee.name}</td>
-                  <td>{row.assignedBy.name}</td>
-                  <td>{moment(row.joinedAt).format("DD MMMM YYYY")}</td>
-                  <td>
+              {/* {
+                dataMember.data ? dataMember.data.map((row, index) => (
+                  <tr key={row.id} className=" shadow ">
+                    <td>{index + 1}</td>
+                    <td>{row.employee.name}</td>
+                    <td>{row.assignedBy.name}</td>
+                    <td>{moment(row.joinedAt).format("DD MMMM YYYY")}</td>
+                    <td>
                     <ButtonSmall
                       bg="bg-red-500"
                       icon="bi:trash"
                       onClick={() => showModalDelete(row.id)}
-                      // onClick={() =>
-                      //   setIsModalDeleteOpened(!isModalDeleteOpened)
-                      // }
                     />
-
-                    {/* <ModalDelete
-                      isOpen={isModalDeleteOpened}
-                      setIsOpen={setIsModalDeleteOpened}
-                      title="Delete Member Team"
-                      type="member"
-                      dataId={row.id}
-                    /> */}
                   </td>
                 </tr>
-              ))}
+                )) : <tr><td colSpan="5">Loading</td></tr> 
+              } */}
+              {
+                dataMember.data ? Object.keys(dataMember.data).map((row, index) => (
+                  <tr key={dataMember.data[row].id} className=" shadow ">
+                    <td>{index + 1}</td>
+                    <td>{dataMember.data[row].employee.name}</td>
+                    <td>{dataMember.data[row].assignedBy.name}</td>
+                    <td>{moment(dataMember.data[row].joinedAt).format("DD MMMM YYYY")}</td>
+                    <td>
+                      <ButtonSmall
+                        bg="bg-red-500"
+                        icon="bi:trash"
+                        onClick={() => showModalDelete(dataMember.data[row].id)}
+                      />
+                    </td>
+                  </tr> 
+                )) : <tr><td colSpan="5">Loading</td></tr>
+              }
             </tbody>
           </table>
           {modalMemberDelete && (
@@ -197,7 +195,21 @@ const TeamMembers = () => {
             />
           )}
         </div>
+        <Pagination 
+          activePage={dataMember.current_page ? dataMember.current_page : 0}
+          itemsCountPerPage={dataMember?.per_page ? dataMember?.per_page : 0 }
+          totalItemsCount={dataMember?.total ? dataMember?.total : 0}
+          onChange={(pageNumber) => {
+            fetchMemberData(pageNumber)
+          }}
+          innerClass="flex justify-center items-center gap-2 my-8 "
+          pageRangeDisplayed={8}
+          itemClass="text-sm font-semibold text-slate-600 rounded-full px-2 hover:bg-slate-100 "
+          linkClass="page-link"
+          activeClass="bg-slate-100 font-bold"
+        />
       </div>
+
     </div>
   );
 };

@@ -24,19 +24,20 @@ const EditFormPartner = ({ isOpen, setIsOpen, title, ...data }) => {
     }
   };
 
-  function setContent(){
-    setName(data.name);
-    setDescription(data.description);
-    setResposibleBy(data.resposibleBy);
-    setPhone(data.phone);
-    setAddress(data.address);
-    setAssignedById(data.assignedBy ? data.assignedBy.empId : '');
-    setPhoto(data.photo);
-    setJoinedAt(data.joinedAt);
-  };
+  // function setContent(){
+  //   setName(data.name);
+  //   setDescription(data.description);
+  //   setResposibleBy(data.resposibleBy);
+  //   setPhone(data.phone);
+  //   setAddress(data.address);
+  //   setAssignedById(data.assignedBy ? data.assignedBy.empId : '');
+  //   setPhoto(data.photo);
+  //   setJoinedAt(data.joinedAt);
+  // };
 
   useEffect(() => {
     // setContent();
+    // console.log(data);
     setName(data.name);
     setDescription(data.description);
     setResposibleBy(data.resposibleBy);
@@ -45,7 +46,7 @@ const EditFormPartner = ({ isOpen, setIsOpen, title, ...data }) => {
     setAssignedById(data.assignedBy ? data.assignedBy.empId : '');
     setJoinedAt(data.joinedAt);
     fetchDataEmp();
-  }, []);
+  }, [data]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -180,7 +181,7 @@ const EditFormPartner = ({ isOpen, setIsOpen, title, ...data }) => {
         />
         <ButtonNormal
           bg="bg-green-600 "
-          onClick={handleSubmit}
+          // onClick={handleSubmit}
           text="Save"
           width="w-16"
         />

@@ -12,7 +12,6 @@ import { GetAuthData } from "./Auth/AuthProvider";
 
 export default function Blank() {
     const user = GetAuthData()[0];
-    console.log(user);
     return (
         <>
             {/* <ModalDelete /> */}
