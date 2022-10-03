@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoginImg from "../assets/Logo.png";
@@ -28,6 +28,21 @@ const Sidebar = () => {
 
         }
     };
+
+    useEffect(() => {
+        if(window.innerWidth < 968 && !isActive) {
+            setActive(true);
+            console.log("hello");
+        }
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth < 968) {
+                setActive(true);
+            }else{
+                setActive(false);
+            }
+        });
+    }, []);
 
     const dataMenu = [
         // Pages
@@ -87,6 +102,22 @@ const Sidebar = () => {
             isActive: false,
             classAddon: "",
         },
+        {
+            id: 8,
+            icon: "fa-solid:hand-holding-usd",
+            title: "Allowance",
+            link: "allowance",
+            isActive: false,
+            classAddon: "",
+        },
+        {
+            id: 9,
+            icon: "fa-solid:hand-holding-medical",
+            title: "Insurance",
+            link: "insurance",
+            isActive: false,
+            classAddon: "",
+        },
         // {
         //     id: 6,
         //     icon: "carbon:update-now",
@@ -134,7 +165,7 @@ const Sidebar = () => {
                 {dataMenu.map((item) => (
                     <Link to={item.link} key={item.id}
                         className={
-                            "p-2.5 mt-6 flex items-center rounded-md px-4 duration-300 cursor-pointer text-gray-800  hover:bg-gray-200 " +
+                            "p-2.5 mt-4 flex items-center rounded-md px-4 duration-300 cursor-pointer text-gray-800  hover:bg-gray-200 " +
                             ((location.pathname === '/dashboard/' + item.link) ? "bg-gray-200 text-white" : "")
                         }
                     >

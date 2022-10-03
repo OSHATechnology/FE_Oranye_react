@@ -46,36 +46,33 @@ const Today = () => {
 
   return (
     <div className="w-full space-y-4">
-      <div className="flex gap-8">
+      <div className="md:flex space-y-4 md:space-y-0 gap-8">
         <SimpleCard
-          bgColor="bg-orange-100"
+          bgColor=""
           Title="Active"
+
           Icon="clarity:assign-user-solid"
           Count="7"
         />
         <SimpleCard
-          bgColor="bg-orange-100"
+          bgColor=""
           Title="Furlough"
           Icon="bxs:plane"
           Count="7"
         />
       </div>
-      <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
+      <div className="border rounded shadow p-2 space-y-2">
+      <div className="md:flex  md:justify-between items-center space-y-4 md:space-y-0">
         <div>
-          <p className="text-sm font-medium text-gray-500">
+          <p className="text-xs md:text-sm font-medium text-slate-500">
             {moment().format("dddd, DD MMMM YYYY")}
           </p>
         </div>
-        <div className="flex gap-2 justify-end">
-          {/* <input
-            type="text"
-            placeholder="Search"
-            className="rounded h-9 border border-gray-300"
-          />
-          <ButtonSmall icon="akar-icons:search" /> */}
+        <div className="flex gap-2 md:justify-end">
           <Search />
           <ButtonSmall
             icon="ant-design:filter-outlined"
+            
             onClick={() => setIsModalFilterOpened(!isModalFilterOpened)}
           />
           <ModalFilter
@@ -85,9 +82,8 @@ const Today = () => {
           />
         </div>
       </div>
-      <div>
         <table className="w-full text-center overflow-x-scroll">
-          <thead className="bg-gray-200 h-10 border-b border-gray-500">
+          <thead className="bg-slate-200 h-10 border-b border-slate-500">
             <tr>
               <th>No</th>
               <th>Nama</th>
@@ -97,7 +93,7 @@ const Today = () => {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody className="text-xs font-medium text-gray-700 md:text-sm">
+          <tbody className="text-xs font-medium text-slate-700 md:text-sm">
             {dataToday.map((row, index) => (
               <tr key={row.id}>
                 <td>{index + 1}</td>

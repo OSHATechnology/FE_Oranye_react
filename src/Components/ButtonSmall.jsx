@@ -12,7 +12,7 @@ const ButtonSmall = (props) => {
 };
 
 ButtonSmall.defaultProps ={
-    bg: "bg-gray-400",
+    bg: "bg-slate-400 ",
     icon: " ",
     colorIcon: "text-white"
 }

@@ -55,15 +55,23 @@ const Employee = () => {
   //   });
   // }, []);
 
-  const fetchDataEmployee = async (page = 1,search = null) => {
+  const fetchDataEmployee = async (page = 1,search = "") => {
     try {
-      const result = await axios.get(`/api/employee?page=${page}`, ConfigHeader);
+      const result = await axios.get(`/api/employee?search=${search}&page=${page}`, ConfigHeader);
       setDataEmployee(result.data.data);
       // setDataEmployee(result.data.data.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleSearch = (e) => {
+    try{
+      fetchDataEmployee(1,e.target.value);
+    }catch(err){
+  
+    }
+  }
 
   // const fetchEmpDetails= async (id) => {
   //   const data = await axios.get(`/api/employee/${id}`, ConfigHeader);
@@ -88,13 +96,15 @@ const Employee = () => {
   // }, []);
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   return (
-    <div className="w-full md:mx-8">
+    <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
         Title="Dashboard Employee"
         Keterangan="Employees From PT.OSHA Technology"
       />
 
-      <div className="flex justify-center mt-8 mb-2">
+
+      <div className="space-y-2 border rounded shadow p-2">
+      <div className="flex justify-center">
         <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
           <div className="flex gap-4">
             <ButtonNormal
@@ -109,7 +119,7 @@ const Employee = () => {
               title="Tambah Karyawan"
             />
             <ButtonNormal
-              bg="bg-gray-500 "
+              bg="bg-slate-500 "
               icon="bxs:file-import"
               text="Import"
               onClick={() => setIsModalImportOpened(!isModalImportOpened)}
@@ -121,26 +131,13 @@ const Employee = () => {
               title="Import Data Karyawan"
             />
           </div>
-          {/* <div className="flex space-x-2 items-center">
-            <input
-              type="text"
-              placeholder="Search"
-              className="rounded text-center w-72 border border-gray-300 h-9"
-            />
-            <ButtonSmall
-              bg="bg-gray-400"
-              icon="akar-icons:search"
-              colorIcon="text-white"
-            />
-          </div> */}
-          <Search />
+
+          <Search onChange={handleSearch}/>
         </div>
       </div>
-
-      <div className="flex justify-center">
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
           <table className=" w-full text-center overflow-x-scroll">
-            <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
+            <thead className="bg-slate-100 border-b-2 border-slate-800 text-xs md:text-sm">
               <tr className="">
                 <th className=" py-2">No</th>
                 <th className="">Photo</th>
@@ -151,47 +148,7 @@ const Employee = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {/* {dataEmployee.map((row, index) => (
-                <tr key={row.employeeId} className=" shadow ">
-                  <td>{index + 1}</td>
-                  <td>
-                    <div className="text-center flex items-center justify-center md:space-x-4">
-                      <img src={row.photo} alt={"photo of "+row.name} className="w-10 rounded-full" />
-                    </div>
-                  </td>
-                  <td>
-                    {row.name}
-                  </td>
-                  <td>{row.email}</td>
-                  <td>{row.role.role}</td>
-                  <td>
-                    <div className="flex justify-center gap-1">
-                      <Link to={`../emp/${row.employeeId}`}>
-                        <ButtonSmall
-                          bg="bg-blue-600"
-                          icon="carbon:view"
-                          colorIcon="text-white"
-                        />
-                      </Link>
 
-                      <ButtonSmall
-                        bg="bg-yellow-500"
-                        icon="fa6-solid:pen-to-square"
-                        colorIcon="text-white"
-                        onClick={() => showModalEdit(row.employeeId)}
-                      />
-                      <ButtonSmall
-                        bg="bg-red-500"
-                        icon="ci:trash-full"
-                        colorIcon="text-white"
-                        onClick={() => showModalDelete(row.employeeId)}
-                        
-                      />
-
-                    </div>
-                  </td>
-                </tr>
-              ))} */}
               
                {
                 dataEmployee.data ? Object.keys(dataEmployee.data).map((row, index) =>
@@ -200,7 +157,7 @@ const Employee = () => {
                     <td>{index + 1}</td>
                     <td>
                       <div className="text-center flex items-center justify-center md:space-x-4">
-                        <img src={dataEmployee.data[row].photo} alt={"photo of "+ dataEmployee.data[row].name} className="w-10" />
+                        <img src={dataEmployee.data[row].photo} alt={"photo of "+ dataEmployee.data[row].name} className="w-10 rounded-full" />
                       </div>
                       
                       </td>
@@ -257,7 +214,6 @@ const Employee = () => {
             />
           )}
         </div>
-      </div>
       <Pagination 
           activePage={dataEmployee.current_page ? dataEmployee.current_page : 0}
           itemsCountPerPage={dataEmployee?.per_page ? dataEmployee?.per_page : 0 }
@@ -271,6 +227,7 @@ const Employee = () => {
           linkClass="page-link"
           activeClass="bg-slate-100 font-bold"
         />
+      </div>
     </div>
   );
 };

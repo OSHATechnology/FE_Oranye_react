@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 const ButtonNormal = (props) => {
     return (
         <div>
-            <button onClick={props.onClick} className={"flex rounded px-2 py-1 items-center text-center justify-center " + props.bg + props.textColor + props.width} >
+            <button onClick={props.onClick} type={props.type} className={"flex rounded px-2 py-1 items-center text-center justify-center " + props.bg + props.textColor + props.width} >
                 <Icon icon={props.icon} className={props.iconColor + " text-2xl"} />
                 <span>{props.text}</span>
             </button>
@@ -18,7 +18,8 @@ ButtonNormal.defaultProps = {
     textColor: "text-white ",
     icon: " ",
     colorIcon: "text-white",
-    text: "Button"
+    text: "Button",
+    type: "button"
 }
 
 export default ButtonNormal;

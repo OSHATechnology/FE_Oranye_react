@@ -4,22 +4,22 @@ import Search from "../../../Components/Search";
 
 const GrossSalary = () => {
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-2 border rounded shadow p-2">
       <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
-        <Search />
         <div>
           <button
-            className="rounded-xl bg-white text-center px-4 py-2 border border-gray-500 text-xs font-bold hover:bg-gray-100"
+            className="rounded-xl bg-white text-center px-4 py-2 border border-slate-500 text-xs font-bold hover:bg-slate-100"
             onClick={() => alert("modal")}
           >
             {moment().format("MMMM YYYY")}
           </button>
         </div>
+        <Search />
       </div>
 
       <div>
         <table className="w-full">
-          <thead className="font-bold border-b-2 border-gray-600">
+          <thead className="bg-slate-200 h-10 border-b border-slate-500 font-bold ">
             <tr>
               <th>No</th>
               <th>Employee</th>
@@ -30,12 +30,12 @@ const GrossSalary = () => {
               <th>Total</th>
             </tr>
           </thead>
-          <tbody className="text-sm font-medium text-gray-600 text-center">
+          <tbody className="text-sm font-medium text-slate-600 text-center">
             <tr>
                 <td>1</td>
                 <td className="text-start">
                     <div className="w-fit">
-                        <p className="text-xs text-gray-400">10119065</p>
+                        <p className="text-xs text-slate-400">10119065</p>
                         <p>Employee 1</p>
                     </div>
                 </td>

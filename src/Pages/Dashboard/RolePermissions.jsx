@@ -106,7 +106,7 @@ const RolePermissions = () => {
                                 <tr>
                                     <th>#</th>
                                     <th>Permission</th>
-                                    <th>Action</th>
+                                    <th>Roles</th>
                                 </tr>
                             </thead>
                             <tbody className="text-sm font-medium text-gray-600">

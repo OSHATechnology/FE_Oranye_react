@@ -46,15 +46,22 @@ const TeamMembers = () => {
     },
   ]);
 
-  const fetchMemberData = async (page = 1) => {
+  const fetchMemberData = async (page = 1,search = "") => {
     try {
-      
-      const res = await axios.get(`api/team_member?teamid=${paramsData.id}&page=${page}&search=`, ConfigHeader);
+      const res = await axios.get(`api/team_member?teamid=${paramsData.id}&search=${search}&page=${page}`, ConfigHeader);
       setDataMember(res.data.data);
     } catch (err) {
       console.log(err.response);
     }
   };
+
+  const handleSearch = (e) => {
+    try{
+      fetchMemberData(1,e.target.value);
+    }catch(err){
+
+    }
+  }
 
   useEffect(() => {
     const fetchDataTeam = async () => {
@@ -99,25 +106,26 @@ const TeamMembers = () => {
 
       <div className="flex gap-2">
         <SimpleCard
-          bgColor="bg-gray-100 hover:bg-gray-200"
+          bgColor=" hover:bg-slate-100"
           Title="Team Name"
           Icon=""
           Count={dataTeam.name}
         />
         <SimpleCard
-          bgColor="bg-gray-100 hover:bg-gray-200"
+          bgColor=" hover:bg-slate-100"
           Title="Leader Team"
           Icon=""
           Count={dataTeam.leadBy ? dataTeam.leadBy.employee : ""}
         />
         <SimpleCard
-          bgColor="bg-gray-100 hover:bg-gray-200"
+          bgColor=" hover:bg-slate-100"
           Title="Team Maker"
           Icon=""
           Count={dataTeam.createdBy ? dataTeam.createdBy.employee : ""}
         />
       </div>
 
+        <div className="w-full space-y-2 border rounded shadow p-2">
       <div>
         <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full mb-2">
           <div className="">
@@ -135,11 +143,10 @@ const TeamMembers = () => {
             />
           </div>
          
-          <Search />
+          <Search onChange={handleSearch} />
         </div>
-        <div className="w-full">
           <table className="w-full text-center" id="tblMember">
-            <thead className="bg-gray-100 h-10 border-b border-gray-400">
+            <thead className="bg-slate-100 h-10 border-b border-slate-400">
               <tr>
                 <th>#</th>
                 <th>Member Name</th>
@@ -149,23 +156,6 @@ const TeamMembers = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {/* {
-                dataMember.data ? dataMember.data.map((row, index) => (
-                  <tr key={row.id} className=" shadow ">
-                    <td>{index + 1}</td>
-                    <td>{row.employee.name}</td>
-                    <td>{row.assignedBy.name}</td>
-                    <td>{moment(row.joinedAt).format("DD MMMM YYYY")}</td>
-                    <td>
-                    <ButtonSmall
-                      bg="bg-red-500"
-                      icon="bi:trash"
-                      onClick={() => showModalDelete(row.id)}
-                    />
-                  </td>
-                </tr>
-                )) : <tr><td colSpan="5">Loading</td></tr> 
-              } */}
               {
                 dataMember.data ? Object.keys(dataMember.data).map((row, index) => (
                   <tr key={dataMember.data[row].id} className=" shadow ">

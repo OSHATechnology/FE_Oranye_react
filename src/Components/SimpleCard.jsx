@@ -3,16 +3,16 @@ import { Icon } from "@iconify/react";
 
 const SimpleCard = (props) => {
     return (
-        <div className={props.bgColor+" w-80 h-36 rounded "}>
-            <div className="p-6">
+        <div className={props.bgColor+" flex items-center w-80 h-24 rounded border border-slate-200 shadow"}>
+            <div className=" flex gap-2 items-center ml-4">
                 <div>
-                    <h3 className="text-base font-semibold text-gray-500">
+                    <Icon icon={props.Icon} className="text-5xl mr-2 text-slate-600" />
+                </div>
+                <div className="my-2 items-center">
+                    <h3 className="text-xs font-semibold text-slate-400">
                         {props.Title}
                     </h3>
-                </div>
-                <div className="flex my-2 items-center">
-                    <Icon icon={props.Icon} className="text-2xl mr-2" />
-                    <p className="text-2xl font-bold ">{props.Count}</p>
+                    <p className="text-2xl font-bold text-black">{props.Count}</p>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@ const SimpleCard = (props) => {
 };
 
 SimpleCard.defaultProps = {
-    bgColor: "bg-gray-200",
+    bgColor: "bg-white",
     Title: "Title",
     Icon: "mdi:account",
     Count: 0,

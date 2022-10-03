@@ -1,15 +1,17 @@
+import { Icon } from "@iconify/react";
 import React from "react";
 import ButtonSmall from "./ButtonSmall";
 
-const Search = () => {
+const Search = ({onChange}) => {
   return (
-    <div className="flex gap-2 items-center">
+    <div className="">
       <input
         type="text"
-        className="border border-gray-300 rounded text-gray-800 bg-gray-100 h-9 w-64 text-center text-sm font-semibold"
-        placeholder="Search..."
+        className="border border-slate-400 rounded text-gray-800 bg-gray-100 h-9 w-64 text-center text-sm font-semibold"
+        placeholder="Search ..."
+        onChange={onChange}
       />
-      <ButtonSmall icon="akar-icons:search" bg="bg-gray-400" />
+     
     </div>
   );
 };

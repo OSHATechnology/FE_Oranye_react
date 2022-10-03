@@ -1,21 +1,16 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
 
-const getDataRole = async () => {
-  const { data } = await axios.get(`/api/roles`, ConfigHeader);
-  return data;
-};
-
-const EditFormEmployee = ({ isOpen, setIsOpen, title, ...data }) => {
+const EditFormEmployee = (data) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState();
   const [birthDate, setBirthDate] = useState("");
   const [joinedAt, setJoinedAt] = useState("");
   const [address, setAddress] = useState("");
@@ -25,59 +20,82 @@ const EditFormEmployee = ({ isOpen, setIsOpen, title, ...data }) => {
   const [gender, setGender] = useState('');
   const [role, setRole] = useState("");
   const [dataRole, setDataRole] = useState([]);
+  const [statusHire, setStatusHire] = useState("");
+
+  const fetchDataRole = async () => {
+    try {
+      const result = await axios.get("/api/roles", ConfigHeader);
+      setDataRole(result.data.data.data);
+    } catch (error) {}
+  };
 
   useEffect(() => {
-    setFirstName(data.firstName);
-    setLastName(data.lastName);
-    setEmail(data.email);
-    setPhone(data.phone);
-    setPhoto(data.photo);
-    setAddress(data.address);
-    setJoinedAt(data.joinedAt);
-    setBirthDate(data.birthDate);
-    setCity(data.city);
-    setNation(data.nation);
-    setPassword(data.password);
-    setGender(data.gender);
-    setRole(data.role && data.role.id);
-    getDataRole().then((res) => {
-      setDataRole(res.data.data);
-    });
-  }, [data]);
+    fetchDataRole();
+    setFirstName(data.data.firstName);
+    setLastName(data.data.lastName);
+    setEmail(data.data.email);
+    setPhone(data.data.phone);
+    setPhoto(data.data.photo);
+    setAddress(data.data.address);
+    setJoinedAt(data.data.joinedAt);
+    setBirthDate(data.data.birthDate);
+    setCity(data.data.city);
+    setNation(data.data.nation);
+    setPassword(data.data.password);
+    setGender(data.data.gender);
+    setRole(data.data.role ? data.data.role.id : "");
+  }, [data.data]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const dataEdit = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phone: phone,
+      address: address,
+      joinedAt: joinedAt,
+      birthDate: birthDate,
+      city: city,
+      nation: nation,
+      password: password,
+      gender: gender,
+      roleId: role,
+      photo: photo,
+      isActive: 1,
+      statusHireId: 1,
+    }
+    console.log(dataEdit);
+    let formData = new FormData();
+      for (let key in dataEdit) {
+        formData.append(key, dataEdit[key]);
+      }
     await axios
-      .patch(
-        `/api/employee/${data.id}`,
-        {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          phone: phone,
-          photo: photo,
-          address: address,
-          joinedAt: joinedAt,
-          birthDate: birthDate,
-          city: city,
-          nation: nation,
-          password: password,
-          gender: gender,
-          role: role,
-        },
-        ConfigHeader
-      )
+    .post(
+      `/api/employee/${data.data.employeeId}`,
+      formData,
+      {
+        'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer 19|NddCRKTaiRGXgPr5C6XnahjadTa6c2KI6RlJzMzT`
+      }
+    )
       .then((res) => {
+        console.log("berhasil");
         setIsOpen(false);
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        console.log(err.response);
       });
   };
 
   return (
     <div>
       <div className=" space-y-1">
+      <form
+          id="employee_form"
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
         <div className="">
           <p className="text-sm font-extrabold text-gray-600">First Name</p>
           <input
@@ -132,8 +150,7 @@ const EditFormEmployee = ({ isOpen, setIsOpen, title, ...data }) => {
           <p className="text-sm font-extrabold text-gray-600">Photo</p>
           <input
             type="file"
-            defaultValue={photo}
-            onChange={(e) => setPhoto(e.target.value)}
+            onChange={(e) => setPhoto(e.target.files[0])}
             className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
           />
         </div>
@@ -273,15 +290,18 @@ const EditFormEmployee = ({ isOpen, setIsOpen, title, ...data }) => {
             <option value="">17</option>
           </select>
         </div> */}
-        {/* <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <p className="text-sm font-extrabold text-gray-600">Status Aktif</p>
           <input
             type="checkbox"
             name=""
             id=""
+            value={statusHire}
+            onChange={(e) => setStatusHire(e.target.value)}
             className="rounded border border-gray-300 text-xs text-gray-700 font-medium"
           />
-        </div> */}
+        </div>
+        </form>
       </div>
 
       <div className="flex justify-end gap-2">
@@ -289,9 +309,9 @@ const EditFormEmployee = ({ isOpen, setIsOpen, title, ...data }) => {
           bg="bg-gray-400 "
           text="Cancel"
           width="w-16"
-          //   onClick={() => setIsOpen(false)}
+            onClick={() => setIsOpen(false)}
         />
-        <ButtonNormal bg="bg-green-600 " text="Add" width="w-16" />
+        <button type="submit" form="employee_form" className="w-16 bg-green-600 rounded text-white">Save</button>
       </div>
     </div>
   );

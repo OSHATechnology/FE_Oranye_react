@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog } from '@headlessui/react';
 import { Icon } from '@iconify/react'
-import EditFormEmployee from './EditFormEmployee';
+import EditFormEmployee from './EditFormEmp';
 import EditFormPartner from './EditFormPartner';
 
 const ModalEdit = (props) => {
@@ -28,10 +28,10 @@ const ModalEdit = (props) => {
         </div>
         <div className="w-full overflow-y-auto h-3/4">
             {typeData === 'employee' && (
-                <EditFormEmployee {...data} />
+                <EditFormEmployee data={data} />
             )}
             {typeData === 'partner' && (
-                <EditFormPartner {...data} />
+                <EditFormPartner data={data} />
             )}
             {/* {typeData === 'attendance' && (
                 

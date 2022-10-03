@@ -44,7 +44,7 @@ const Home = () => {
       }, []);
 
     return (
-        <div className="md:ml-8 space-y-4">
+        <div className="md:ml-8 space-y-8">
             <TitleDashboard
                 Title="Property Dashboard"
                 Keterangan="Welcome, Admin!"
@@ -52,19 +52,19 @@ const Home = () => {
 
             <div className="flex flex-col flex-wrap md:flex-row gap-2">
                 <SimpleCard
-                    bgColor="bg-gradient-to-b from-red-100 via-pink-100 to-fuchsia-100 md:bg-gradient-to-r md:from-red-100 md:via-orange-100 md:to-yellow-100"
+                    bgColor=""
                     Title="Role Perusahaan"
                     Icon="fa-solid:user-cog"
                     Count={totalRole}
                 />
                 <SimpleCard
-                    bgColor="bg-gradient-to-b from-fuchsia-100 via-purple-100 to-fuchsia-100 md:bg-gradient-to-r md:from-yellow-100 md:via-green-100 md:to-cyan-100"
+                    bgColor=""
                     Title="Jumlah Karyawan"
                     Icon="fa-solid:user"
                     Count={totalEmployee}
                 />
                 <SimpleCard
-                    bgColor="bg-gradient-to-b from-fuchsia-100 via-pink-100 to-red-100 md:bg-gradient-to-r md:from-cyan-100 md:via-blue-100 md:to-purple-100"
+                    bgColor=""
                     Title="Jumlah Partner"
                     Icon="fluent:handshake-20-filled"
                     Count={totalPartner}

@@ -49,8 +49,7 @@ const Partner = () => {
   const fetchDataPartnerEdit = async () => {
       const result = await axios.get(`/api/partners/${dataPartnerId}`, ConfigHeader);
       setPartnerEdit(result.data.data);
-      // console.log(result.data.data);
-    setModalPartnerEdit(true);
+      setModalPartnerEdit(true);
   }
   
   const showModalEdit = async (partnerId) => {
@@ -68,14 +67,22 @@ const Partner = () => {
   //   }
   // };
   
-  const fetchDataPartner = async (page = 1,search = null) => {
+  const fetchDataPartner = async (page = 1,search = "") => {
     try {
-      const result = await axios.get(`/api/partners?page=${page}`, ConfigHeader);
+      const result = await axios.get(`/api/partners?search=${search}&page=${page}`, ConfigHeader);
       setDataPartner(result.data.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleSearch = (e) => {
+    try{
+      fetchDataPartner(1,e.target.value);
+    }catch(err){
+  
+    }
+  }
 
   
 
@@ -100,13 +107,15 @@ const Partner = () => {
   // 
 
   return (
-    <div className="w-full md:mx-8">
+    <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
         Title="Dashboard Partner"
         Keterangan="Partner From PT.OSHA Technology"
       />
 
-      <div className="flex justify-center mt-8 mb-2">
+
+      <div className="space-y-2 border rounded shadow p-2">
+      <div className="flex justify-center">
         <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
           <div className="">
             <ButtonNormal
@@ -133,11 +142,9 @@ const Partner = () => {
               colorIcon="text-white"
             />
           </div> */}
-          <Search />
+          <Search onChange={handleSearch}/>
         </div>
       </div>
-
-      <div className="flex justify-center">
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
           <table className=" w-full text-center overflow-x-scroll">
             <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
@@ -195,7 +202,7 @@ const Partner = () => {
                     <td>{index + 1}</td>
                     <td>
                       <div className="text-center flex items-center justify-center md:space-x-4">
-                        <img src={dataPartner.data[row].photo} alt={"photo of "+ dataPartner.data[row].name} className="w-10" />
+                        <img src={dataPartner.data[row].photo} alt={"photo of "+ dataPartner.data[row].name} className="w-10 rounded-full" />
                       </div>
                       
                       </td>
@@ -259,7 +266,6 @@ const Partner = () => {
             />
           )}
         </div>
-      </div>
         <Pagination 
           activePage={dataPartner.current_page ? dataPartner.current_page : 0}
           itemsCountPerPage={dataPartner?.per_page ? dataPartner?.per_page : 0 }
@@ -273,6 +279,7 @@ const Partner = () => {
           linkClass="page-link"
           activeClass="bg-slate-100 font-bold"
         />
+      </div>
       
     </div>
   );

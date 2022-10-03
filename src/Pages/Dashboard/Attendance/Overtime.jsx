@@ -68,25 +68,20 @@ const Overtime = () => {
     <div className="w-full space-y-4">
       <div className="flex gap-8">
         <SimpleCard
-          bgColor="bg-orange-100"
+          bgColor=""
           Title="Overtime"
           Icon="material-symbols:work-history"
           Count={totalOvertime}
         />
       </div>
+      <div className="border rounded shadow p-2 space-y-2">
       <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
         <div>
-          <p className="text-sm font-medium text-gray-500">
+          <p className="text-xs md:text-sm font-medium text-slate-500">
             {moment().format("dddd, DD MMMM YYYY")} | Overtime
           </p>
         </div>
-        <div className="flex gap-2 justify-end">
-          {/* <input
-            type="text"
-            placeholder="Search"
-            className="rounded h-9 border border-gray-300"
-          />
-          <ButtonSmall icon="akar-icons:search" /> */}
+        <div className="flex gap-2 md:justify-end">
           <Search />
           <ButtonSmall
             icon="ant-design:filter-outlined"
@@ -99,9 +94,8 @@ const Overtime = () => {
           />
         </div>
       </div>
-      <div>
         <table className="w-full text-center overflow-x-scroll">
-          <thead className="bg-gray-200 h-10 border-b border-gray-500">
+          <thead className="bg-slate-200 h-10 border-b border-slate-500">
             <tr>
               <th>No</th>
               <th>Nama</th>
@@ -110,7 +104,7 @@ const Overtime = () => {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody className="text-base font-medium text-gray-700 md:text-sm">
+          <tbody className="text-base font-medium text-slate-700 md:text-sm">
             {dataOvertime.map((row, index) => (
               <tr key={row.id}>
                 <td>{index + 1}</td>
@@ -124,7 +118,7 @@ const Overtime = () => {
                   <span>
                     {Math.round(moment.duration(moment(row.endAt, 'YYYY/MM/DD HH:mm').diff(moment(row.startAt, 'YYYY/MM/DD HH:mm'))).asHours())} hours 
                   </span>
-                  <span className="ml-2 text-xs font-thin text-gray-500">
+                  <span className="ml-2 text-xs font-thin text-slate-500">
                   ({moment(row.startAt).format("HH:mm")} - {moment(row.endAt).format("HH:mm")})
                   </span>
                 </td>

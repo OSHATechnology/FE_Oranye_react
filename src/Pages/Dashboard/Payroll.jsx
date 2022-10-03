@@ -1,7 +1,6 @@
 import React from "react";
 import TitleDashboard from "../../Components/TitleDashboard";
 import { Link, Outlet } from "react-router-dom";
-import { Icon } from "@iconify/react";
 
 const Payroll = () => {
   return (
@@ -18,6 +17,7 @@ const Payroll = () => {
         <div className="flex my-8 space-x-8 font-semibold text-gray-500">
           <Link to="../payroll" className=" hover:text-black">gross salary</Link>
           <Link to="SalaryDeductions" className=" hover:text-black">salary deductions</Link>
+          <Link to="Loan" className=" hover:text-black">loan</Link>
         </div>
         {/* <div className="flex my-8 text-sm font-semibold text-gray-600">
         <Link to="../attendanceSettings">
