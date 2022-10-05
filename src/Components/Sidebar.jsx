@@ -6,7 +6,6 @@ import axios from "axios";
 import ConfigHeader from "../Pages/Auth/ConfigHeader";
 
 const Sidebar = () => {
-    const navigate = useNavigate()
     const [isActive, setActive] = useState(false);
 
     const location = useLocation();
@@ -17,28 +16,26 @@ const Sidebar = () => {
     const handleLogout = () => {
         try {
             axios.post("/api/logout", {}, ConfigHeader)
-                .then((res) => {
-                    alert(res.data.message);
-                    localStorage.removeItem("user");
-                    navigate("/login");
+                .then(() => {
+                    sessionStorage.clear();
+                    window.location.reload();
                 }).catch((err) => {
                     console.log(err);
                 })
         } catch (error) {
-
+            console.log(error);
         }
     };
 
     useEffect(() => {
-        if(window.innerWidth < 968 && !isActive) {
+        if (window.innerWidth < 968 && !isActive) {
             setActive(true);
-            console.log("hello");
         }
 
         window.addEventListener("resize", () => {
             if (window.innerWidth < 968) {
                 setActive(true);
-            }else{
+            } else {
                 setActive(false);
             }
         });

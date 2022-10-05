@@ -12,36 +12,48 @@ const Home = () => {
     const [totalEmployee, setTotalEmployee] = useState(0);
     const [totalPartner, setTotalPartner] = useState(0);
     const [totalRole, setTotalRole] = useState(0);
+
+    const [showDataPartner, setShowDataPartner] = useState(false);
     const fetchDataPartner = async () => {
-        const result = await axios.get(`/api/partners`, ConfigHeader);
-        setDataPartner(result.data.data.data);
-        setTotalPartner(result.data.data.data.length);
+        try {
+            const result = await axios.get(`/api/partners`, ConfigHeader);
+            setDataPartner(result.data.data.data);
+            setShowDataPartner(true)
+        } catch (error) {
+            setShowDataPartner(false)
+        }
+    };
+    const fecthTotalPartner = async () => {
+        try {
+            const result = await axios.get(`api/count?type=partner`, ConfigHeader);
+            setTotalPartner(result.data.data);
+        } catch (error) {
+            console.log('failed to fetch total partner');
+        }
     };
     const fetchDataEmp = async () => {
         try {
-          const {data} = await axios.get("api/employee", ConfigHeader);
-            console.log(data.data);
-          setTotalEmployee(data.data.data.length)
+            const response = await axios.get("api/count?type=employee", ConfigHeader);
+            setTotalEmployee(response.data.data)
         } catch (error) {
-          
+            console.log('failed to fetch total employee');
         }
-      };
-      const fetchDataRole = async () => {
+    };
+    const fetchDataRole = async () => {
         try {
-            const response = await axios.get("api/roles", ConfigHeader);
-            setTotalRole(response.data.data.data.length)
+            const response = await axios.get("api/count?type=role", ConfigHeader);
+            setTotalRole(response.data.data)
         } catch (error) {
-          
+            console.log('failed to fetch total role');
         }
-      };
+    };
 
     useEffect(() => {
         fetchDataEmp();
         fetchDataRole();
-        fetchDataPartner().catch((err) => {
-          console.log(err.message);
-        });
-      }, []);
+        fetchDataPartner();
+        fecthTotalPartner();
+    }, []);
 
     return (
         <div className="md:ml-8 space-y-8">
@@ -50,7 +62,7 @@ const Home = () => {
                 Keterangan="Welcome, Admin!"
             />
 
-            <div className="flex flex-col flex-wrap md:flex-row gap-2">
+            <div className="flex flex-wrap md:flex-row gap-2">
                 <SimpleCard
                     bgColor=""
                     Title="Role Perusahaan"
@@ -71,17 +83,24 @@ const Home = () => {
                 />
             </div>
 
-            <TitleDashboard Title="Property Partner" Keterangan="" />
-            <div className=" mt-4 max-h-80 overflow-y-auto space-y-4 md:flex-col">
-            {dataPartner.map((row) => (
-                <PropertyMitra
-                    Img="assets/PP.png"
-                    Title={row.name}
-                    Waktu={moment(row.joinedAt).format("DD MMMM YYYY")}
-                    Alamat={row.address}
-                />
-                ))}
-            </div>
+            {(showDataPartner && dataPartner.length > 0) && (
+                <>
+                    <TitleDashboard Title="Property Partner" Keterangan="" />
+                    <div className=" mt-4 max-h-80 overflow-y-auto space-y-4 md:flex-col">
+                        {dataPartner?.map((row) => (
+                            <PropertyMitra
+                                key={row.id}
+                                Img="assets/PP.png"
+                                Title={row.name}
+                                Waktu={moment(row.joinedAt).format("DD MMMM YYYY")}
+                                Alamat={row.address}
+                            />
+                        ))}
+                    </div>
+                </>
+            )}
+
+
             <TitleDashboard Title="Performa Absensi" Keterangan="" />
 
 

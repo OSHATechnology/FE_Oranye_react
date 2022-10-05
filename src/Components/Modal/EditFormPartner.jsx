@@ -20,7 +20,7 @@ const EditFormPartner = (data) => {
     try {
       const result = await axios.get("api/employee", ConfigHeader);
       setDataEmployee(result.data.data.data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -53,9 +53,9 @@ const EditFormPartner = (data) => {
       photo: photo,
     }
     let formData = new FormData();
-      for (let key in dataEdit) {
-        formData.append(key, dataEdit[key]);
-      }
+    for (let key in dataEdit) {
+      formData.append(key, dataEdit[key]);
+    }
     // formData.append("name", namePartner);
     // formData.append("description", description);
     // formData.append("resposibleBy", resposibleBy);
@@ -75,11 +75,10 @@ const EditFormPartner = (data) => {
         formData,
         {
           'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer 19|NddCRKTaiRGXgPr5C6XnahjadTa6c2KI6RlJzMzT`
+          'Authorization': `Bearer 19|NddCRKTaiRGXgPr5C6XnahjadTa6c2KI6RlJzMzT`
         }
       )
       .then((res) => {
-        console.log(res);
         setIsOpen(false);
       })
       .catch((err) => {

@@ -39,7 +39,7 @@ const Employee = () => {
     setEmployeeEdit(result.data.data);
     setModalEmployee(true);
   }
-  
+
   // const fetchDataEmployee = async () => {
   //   const result = await axios.get(`/api/employee`, ConfigHeader);
   //   setDataEmployee(result.data.data.data);
@@ -55,21 +55,21 @@ const Employee = () => {
   //   });
   // }, []);
 
-  const fetchDataEmployee = async (page = 1,search = "") => {
+  const fetchDataEmployee = async (page = 1, search = "", per_page = 10) => {
     try {
-      const result = await axios.get(`/api/employee?search=${search}&page=${page}`, ConfigHeader);
+      const result = await axios.get(`/api/employee?search=${search}&page=${page}&per_page=${per_page}`, ConfigHeader);
       setDataEmployee(result.data.data);
-      // setDataEmployee(result.data.data.data);
+      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleSearch = (e) => {
-    try{
-      fetchDataEmployee(1,e.target.value);
-    }catch(err){
-  
+    try {
+      fetchDataEmployee(1, e.target.value);
+    } catch (err) {
+
     }
   }
 
@@ -104,37 +104,37 @@ const Employee = () => {
 
 
       <div className="space-y-2 border rounded shadow p-2">
-      <div className="flex justify-center">
-        <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
-          <div className="flex gap-4">
-            <ButtonNormal
-              bg="bg-green-600 "
-              icon="bi:plus"
-              text="Add"
-              onClick={() => setIsModalAddOpened(!isModalAddOpened)}
-            />
-            <ModalAdd
-              isOpen={isModalAddOpened}
-              setIsOpen={setIsModalAddOpened}
-              title="Tambah Karyawan"
-            />
-            <ButtonNormal
-              bg="bg-slate-500 "
-              icon="bxs:file-import"
-              text="Import"
-              onClick={() => setIsModalImportOpened(!isModalImportOpened)}
-            />
+        <div className="flex justify-center">
+          <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
+            <div className="flex gap-4">
+              <ButtonNormal
+                bg="bg-green-600 "
+                icon="bi:plus"
+                text="Add"
+                onClick={() => setIsModalAddOpened(!isModalAddOpened)}
+              />
+              <ModalAdd
+                isOpen={isModalAddOpened}
+                setIsOpen={setIsModalAddOpened}
+                title="Tambah Karyawan"
+              />
+              <ButtonNormal
+                bg="bg-slate-500 "
+                icon="bxs:file-import"
+                text="Import"
+                onClick={() => setIsModalImportOpened(!isModalImportOpened)}
+              />
 
-            <ModalImport
-              isOpen={isModalImportOpened}
-              setIsOpen={setIsModalImportOpened}
-              title="Import Data Karyawan"
-            />
+              <ModalImport
+                isOpen={isModalImportOpened}
+                setIsOpen={setIsModalImportOpened}
+                title="Import Data Karyawan"
+              />
+            </div>
+
+            <Search onChange={handleSearch} />
           </div>
-
-          <Search onChange={handleSearch}/>
         </div>
-      </div>
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
           <table className=" w-full text-center overflow-x-scroll">
             <thead className="bg-slate-100 border-b-2 border-slate-800 text-xs md:text-sm">
@@ -149,48 +149,48 @@ const Employee = () => {
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
 
-              
-               {
+
+              {
                 dataEmployee.data ? Object.keys(dataEmployee.data).map((row, index) =>
                 (
                   <tr key={dataEmployee.data[row].employeeId} className=" shadow ">
                     <td>{index + 1}</td>
                     <td>
                       <div className="text-center flex items-center justify-center md:space-x-4">
-                        <img src={dataEmployee.data[row].photo} alt={"photo of "+ dataEmployee.data[row].name} className="w-10 rounded-full" />
+                        <img src={dataEmployee.data[row].photo} alt={"photo of " + dataEmployee.data[row].name} className="w-10 rounded-full" />
                       </div>
-                      
-                      </td>
+
+                    </td>
                     <td>{dataEmployee.data[row].name}</td>
                     <td>{dataEmployee.data[row].email}</td>
                     <td>{dataEmployee.data[row].role.role}</td>
                     {/* <td>{moment(dataEmployee.data[row].joinedAt).format("DD MMMM YYYY")}</td> */}
                     <td>
-                    <div className="flex justify-center gap-1">
-                    <Link to={`../emp/${dataEmployee.data[row].employeeId}`}>
-                        <ButtonSmall
-                          bg="bg-blue-600"
-                          icon="carbon:view"
-                          colorIcon="text-white"
-                        />
-                      </Link>
+                      <div className="flex justify-center gap-1">
+                        <Link to={`../emp/${dataEmployee.data[row].employeeId}`}>
+                          <ButtonSmall
+                            bg="bg-blue-600"
+                            icon="carbon:view"
+                            colorIcon="text-white"
+                          />
+                        </Link>
 
-                      <ButtonSmall
-                        bg="bg-yellow-500"
-                        icon="fa6-solid:pen-to-square"
-                        colorIcon="text-white"
-                        onClick={() => showModalEdit(dataEmployee.data[row].employeeId)}
-                      />
-                      <ButtonSmall
-                        bg="bg-red-500"
-                        icon="ci:trash-full"
-                        colorIcon="text-white"
-                        onClick={() =>
-                          showModalDelete(dataEmployee.data[row].employeeId)}
-                      />
+                        <ButtonSmall
+                          bg="bg-yellow-500"
+                          icon="fa6-solid:pen-to-square"
+                          colorIcon="text-white"
+                          onClick={() => showModalEdit(dataEmployee.data[row].employeeId)}
+                        />
+                        <ButtonSmall
+                          bg="bg-red-500"
+                          icon="ci:trash-full"
+                          colorIcon="text-white"
+                          onClick={() =>
+                            showModalDelete(dataEmployee.data[row].employeeId)}
+                        />
                       </div>
                     </td>
-                  </tr> 
+                  </tr>
                 )) : <tr><td colSpan="5">Loading</td></tr>
               }
             </tbody>
@@ -214,9 +214,9 @@ const Employee = () => {
             />
           )}
         </div>
-      <Pagination 
+        <Pagination
           activePage={dataEmployee.current_page ? dataEmployee.current_page : 0}
-          itemsCountPerPage={dataEmployee?.per_page ? dataEmployee?.per_page : 0 }
+          itemsCountPerPage={dataEmployee?.per_page ? dataEmployee?.per_page : 0}
           totalItemsCount={dataEmployee?.total ? dataEmployee?.total : 0}
           onChange={(pageNumber) => {
             fetchDataEmployee(pageNumber)
