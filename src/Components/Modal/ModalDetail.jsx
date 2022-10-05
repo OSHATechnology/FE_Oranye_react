@@ -4,15 +4,13 @@ import { Icon } from '@iconify/react'
 import DetailPartner from './DetailPartner';
 import DetailAttendance from './DetailAttendance';
 import DetailOvertime from './DetailOvertime';
+import DetailRole from './DetailRole';
 
 const ModalDetail = (props) => {
     const { isOpen, setIsOpen } = props;
 
     const [data,setData] = useState([]);
 
-    // if(props.data){
-    //     setData(props.data);
-    // }
     useEffect(() => {
         setData(props.data);
     }, [props.data]);
@@ -21,7 +19,7 @@ const ModalDetail = (props) => {
 
     return (
         <Dialog className="fixed inset-0 z-10 flex items-center justify-center overflow-y-auto bg-gray-800/50" aria-hidden="true" open={isOpen} onClose={() => setIsOpen(false)}>
-            <div className="items-start bg-white min-h-1-2 w-fit p-4 border-2 rounded space-y-4">
+            <div className="items-start bg-white min-h-fit w-fit p-4 border-2 rounded space-y-4">
                 <button
                     className=" float-right"
                     onClick={() => setIsOpen(false)}
@@ -41,6 +39,9 @@ const ModalDetail = (props) => {
                     )}
                     {typeData === 'overtime' && (
                         <DetailOvertime {...data} />
+                    )}
+                    {typeData === 'role' && (
+                        <DetailRole {...data} />
                     )}
                 </div>
             </div>

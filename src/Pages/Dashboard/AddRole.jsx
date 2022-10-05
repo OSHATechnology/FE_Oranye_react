@@ -33,23 +33,24 @@ const AddRole = () => {
         const parent = document.getElementById(id);
         const explode = id.split("_");
         const element = document.getElementsByClassName('item-permission-'+explode[1]);
-
+        let roleId = listPermissionsRole;
         for(let i = 0; i < element.length; i++){
             if(parent.checked){
                 if(!element[i].checked){
                     element[i].checked = !element[i].checked;
-                    setListPermissionsRole([...listPermissionsRole, element[i].value]);
+                    roleId.push(element[i].value);
                 }
             }else{
                 if(element[i].checked){
                     element[i].checked = !element[i].checked;
 
-                    const index = listPermissionsRole.indexOf(element[i].value);
-                    listPermissionsRole.splice(index, 1);
-                    setListPermissionsRole(listPermissionsRole);
+                    const index = roleId.indexOf(element[i].value);
+                    roleId.splice(index, 1);
                 }
             }
-        }   
+        }  
+        setListPermissionsRole(roleId);
+        roleId = [];
     }
 
     const onChangePermission = (e) => {
@@ -64,6 +65,31 @@ const AddRole = () => {
 
     }
 
+    const addRole = async (data) => {
+        try{
+            const response = await axios.post("api/roles", data, ConfigHeader);
+            return response;
+        }
+        catch(error){
+            return error;
+        }
+    }
+
+    const addRolePermissions = async (roleId,data) => {
+        try{ 
+            data.forEach(async (item) => {
+                const response = await axios.post("api/role-permissions", {
+                    roleId: roleId,
+                    permissionId: item
+                }, ConfigHeader);
+                return response
+            });
+        }
+        catch(error){
+            return error;
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const dataRole = {
@@ -74,9 +100,14 @@ const AddRole = () => {
             roles_permissions: listPermissionsRole
         }
         
-        console.log(dataRole);
-        console.log(dataRolePermissions);
-
+        addRole(dataRole).then((data) => {
+            console.log(data);
+            if(data.status === 200){
+                addRolePermissions(data.data.data.roleId,listPermissionsRole).then((data) => {
+                    console.log("response : "+data);
+                });
+            }
+        });
     }
 
 
@@ -101,7 +132,7 @@ const AddRole = () => {
                         <p className="text-lg font-semibold text-gray-700">Role Name</p>
                     </div>
                     <div className="basis-4/5 ">
-                        <input type="text"  className="w-full rounded h-8"/>
+                        <input type="text"  className="w-full rounded h-8" onChange={(e) => setNameRole(e.target.value)} />
                     </div>
                 </div>
                 <div className="flex flex-row w-full items-start justify-center md:justify-start">
@@ -109,7 +140,7 @@ const AddRole = () => {
                         <p className="text-lg font-semibold text-gray-700">Role Description</p>
                     </div>
                     <div className="basis-4/5">
-                        <textarea name="" id="" cols="30" rows="2" className="w-full rounded"></textarea>
+                        <textarea onChange={(e) => setDescriptionRole(e.target.value)} name="" id="" cols="30" rows="2" className="w-full rounded"></textarea>
                     </div>
                 </div>
                 <div className="md:flex md:flex-row w-full items-start justify-center md:justify-start">

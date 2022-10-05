@@ -29,8 +29,11 @@ const Modal = ({ isOpen, setIsOpen, title, typeData, data }) => {
                 case 'team':
                     setEndPoint('/api/team');
                     break;
+                case 'role':
+                    setEndPoint('/api/roles');
+                    break;
                 case 'Allowance':
-                    setEndPoint('/api/team');
+                    setEndPoint('');
                     break;
                 default:
                     setEndPoint(null);

@@ -25,6 +25,7 @@ import Allowance from '../Pages/Dashboard/Allowance';
 import LoanPayment from './Dashboard/LoanPayment';
 import Family from './Dashboard/Family';
 import Salary from './Dashboard/Salary';
+import DetailSalary from './Dashboard/DetailSalary';
 // import Spinner from '../Components/Spinner';
 
 export default function Dashboard(props) {
@@ -57,6 +58,7 @@ export default function Dashboard(props) {
                     <Route path="payroll/LoanPayment" element={<LoanPayment />} />
                     <Route path="emp/:id/Family" element={<Family />} />
                     <Route path="emp/:id/Salary" element={<Salary />} />
+                    <Route path="emp/:id/Salary/DetailSalary" element={<DetailSalary />} />
                     <Route path="manageInsurance" element={<ManageInsurance />} />
                     <Route path="emp/:id" element={<Detail />} />
                     <Route path="addRole" element={<AddRole />} />

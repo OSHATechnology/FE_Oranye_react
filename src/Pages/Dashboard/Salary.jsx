@@ -45,7 +45,7 @@ const Salary = () => {
                 <td>12.000.000</td>
                 <td>
                 <div className="flex justify-center gap-1">
-                      <Link to={"../LoanPayment"}>
+                      <Link to={"DetailSalary"}>
                     <ButtonSmall
                       bg="bg-blue-600"
                       icon="carbon:view"
