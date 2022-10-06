@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AuthenticatedLayout from './Dashboard/AuthenticatedLayout';
 import Sidebar from '../Components/Sidebar';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Home from "../Pages/Dashboard/Home";
 import Role from "../Pages/Dashboard/RolePermissions";
 import Hadir from "../Pages/Dashboard/Attendance";
@@ -26,9 +26,18 @@ import LoanPayment from './Dashboard/LoanPayment';
 import Family from './Dashboard/Family';
 import Salary from './Dashboard/Salary';
 import DetailSalary from './Dashboard/DetailSalary';
+import { AuthRedirect } from './Auth/AuthProvider';
 // import Spinner from '../Components/Spinner';
 
 export default function Dashboard(props) {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (props.auth.role !== 'admin') {
+            navigate(AuthRedirect(props.auth));
+        }
+    }, [props, navigate])
+
     return (
         <div className="flex h-screen">
             <AuthenticatedLayout

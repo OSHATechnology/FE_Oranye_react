@@ -15,7 +15,7 @@ import Pagination from "react-js-pagination";
 
 const Partner = () => {
   const [modalPartnerDelete, setModalPartnerDelete] = useState(false);
- 
+
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [dataPartner, setDataPartner] = useState([]);
   const [modalPartnerDetail, setModalPartnerDetail] = useState(false);
@@ -38,20 +38,20 @@ const Partner = () => {
   };
 
   const fetchDataPartnerDetail = async () => {
-      const result = await axios.get(
-        `/api/partners/${dataPartnerId}`,
-        ConfigHeader
-      );
-      setPartnerDetail(result.data.data);
+    const result = await axios.get(
+      `/api/partners/${dataPartnerId}`,
+      ConfigHeader
+    );
+    setPartnerDetail(result.data.data);
     setModalPartnerDetail(true);
   };
 
   const fetchDataPartnerEdit = async () => {
-      const result = await axios.get(`/api/partners/${dataPartnerId}`, ConfigHeader);
-      setPartnerEdit(result.data.data);
-      setModalPartnerEdit(true);
+    const result = await axios.get(`/api/partners/${dataPartnerId}`, ConfigHeader);
+    setPartnerEdit(result.data.data);
+    setModalPartnerEdit(true);
   }
-  
+
   const showModalEdit = async (partnerId) => {
     dataPartnerId = partnerId;
     await fetchDataPartnerEdit();
@@ -59,15 +59,15 @@ const Partner = () => {
 
   // const fetchPartnerData = async (page = 1) => {
   //   try {
-      
+
   //     const res = await axios.get(`api/partners&page=${page}&search=`, ConfigHeader);
   //     setDataPagePartner(res.data.data);
   //   } catch (err) {
   //     console.log(err.response);
   //   }
   // };
-  
-  const fetchDataPartner = async (page = 1,search = "") => {
+
+  const fetchDataPartner = async (page = 1, search = "") => {
     try {
       const result = await axios.get(`/api/partners?search=${search}&page=${page}`, ConfigHeader);
       setDataPartner(result.data.data);
@@ -77,14 +77,14 @@ const Partner = () => {
   };
 
   const handleSearch = (e) => {
-    try{
-      fetchDataPartner(1,e.target.value);
-    }catch(err){
-  
+    try {
+      fetchDataPartner(1, e.target.value);
+    } catch (err) {
+
     }
   }
 
-  
+
 
   useEffect(() => {
 
@@ -95,7 +95,7 @@ const Partner = () => {
   //   const result = await axios.get(`/api/partners`, ConfigHeader);
   //   setDataPartner(result.data.data);
   // };
-  
+
 
   // useEffect(() => {
 
@@ -115,22 +115,22 @@ const Partner = () => {
 
 
       <div className="space-y-2 border rounded shadow p-2">
-      <div className="flex justify-center">
-        <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
-          <div className="">
-            <ButtonNormal
-              bg="bg-green-600 "
-              text="Add"
-              icon="bi:plus"
-              onClick={() => setIsModalAddOpened(!isModalAddOpened)}
-            />
-            <ModalAdd
-              isOpen={isModalAddOpened}
-              setIsOpen={setIsModalAddOpened}
-              title="Add Partner"
-            />
-          </div>
-          {/* <div className="flex space-x-2 items-center">
+        <div className="flex justify-center">
+          <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
+            <div className="">
+              <ButtonNormal
+                bg="bg-green-600 "
+                text="Add"
+                icon="bi:plus"
+                onClick={() => setIsModalAddOpened(!isModalAddOpened)}
+              />
+              <ModalAdd
+                isOpen={isModalAddOpened}
+                setIsOpen={setIsModalAddOpened}
+                title="Add Partner"
+              />
+            </div>
+            {/* <div className="flex space-x-2 items-center">
             <input
               type="text"
               placeholder="Search"
@@ -142,9 +142,9 @@ const Partner = () => {
               colorIcon="text-white"
             />
           </div> */}
-          <Search onChange={handleSearch}/>
+            <Search onChange={handleSearch} />
+          </div>
         </div>
-      </div>
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
           <table className=" w-full text-center overflow-x-scroll">
             <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
@@ -202,38 +202,38 @@ const Partner = () => {
                     <td>{index + 1}</td>
                     <td>
                       <div className="text-center flex items-center justify-center md:space-x-4">
-                        <img src={dataPartner.data[row].photo} alt={"photo of "+ dataPartner.data[row].name} className="w-10 rounded-full" />
+                        <img src={dataPartner.data[row].photo} alt={"photo of " + dataPartner.data[row].name} className="w-10 rounded-full" />
                       </div>
-                      
-                      </td>
-                    <td>{dataPartner.data[row].name}</td>
+
+                    </td>
+                    <td className="text-start">{dataPartner.data[row].name}</td>
                     <td>{dataPartner.data[row].address}</td>
                     <td>{moment(dataPartner.data[row].joinedAt).format("DD MMMM YYYY")}</td>
                     <td>
-                    <div className="flex justify-center gap-1">
-                      <ButtonSmall
-                        bg="bg-blue-600"
-                        icon="carbon:view"
-                        colorIcon="text-white"
-                        onClick={() => showModalDetail(dataPartner.data[row].id)}
-                      />
+                      <div className="flex justify-center gap-1">
+                        <ButtonSmall
+                          bg="bg-blue-600"
+                          icon="carbon:view"
+                          colorIcon="text-white"
+                          onClick={() => showModalDetail(dataPartner.data[row].id)}
+                        />
 
-                      <ButtonSmall
-                        bg="bg-yellow-500"
-                        icon="fa6-solid:pen-to-square"
-                        colorIcon="text-white"
-                        onClick={() => showModalEdit(dataPartner.data[row].id)}
-                      />
-                      <ButtonSmall
-                        bg="bg-red-500"
-                        icon="ci:trash-full"
-                        colorIcon="text-white"
-                        onClick={() =>
-                          showModalDelete(dataPartner.data[row].id)}
-                      />
+                        <ButtonSmall
+                          bg="bg-yellow-500"
+                          icon="fa6-solid:pen-to-square"
+                          colorIcon="text-white"
+                          onClick={() => showModalEdit(dataPartner.data[row].id)}
+                        />
+                        <ButtonSmall
+                          bg="bg-red-500"
+                          icon="ci:trash-full"
+                          colorIcon="text-white"
+                          onClick={() =>
+                            showModalDelete(dataPartner.data[row].id)}
+                        />
                       </div>
                     </td>
-                  </tr> 
+                  </tr>
                 )) : <tr><td colSpan="5">Loading</td></tr>
               }
             </tbody>
@@ -266,9 +266,9 @@ const Partner = () => {
             />
           )}
         </div>
-        <Pagination 
+        <Pagination
           activePage={dataPartner.current_page ? dataPartner.current_page : 0}
-          itemsCountPerPage={dataPartner?.per_page ? dataPartner?.per_page : 0 }
+          itemsCountPerPage={dataPartner?.per_page ? dataPartner?.per_page : 0}
           totalItemsCount={dataPartner?.total ? dataPartner?.total : 0}
           onChange={(pageNumber) => {
             fetchDataPartner(pageNumber)
@@ -280,7 +280,7 @@ const Partner = () => {
           activeClass="bg-slate-100 font-bold"
         />
       </div>
-      
+
     </div>
   );
 };

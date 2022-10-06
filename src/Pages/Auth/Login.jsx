@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useLocalStorage } from "./LocalStorage";
-import { AuthRedirect, NavigateUser } from "./AuthProvider";
+import { useSessionStorage } from "./SessionStorage";
+import { AuthRedirect } from "./AuthProvider";
 
-export default function Login() {
+export default function Login(props) {
     const navigate = useNavigate();
 
-    const [user, setUser] = useLocalStorage('user', null);
+    const [user, setUser] = useSessionStorage('user', null);
     const [errorMessages, setErrorMessages] = useState({ name: "employee_id", message: "id tidak ada" });
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     useEffect(() => {
-        if (user) {
+        if (props.user !== null) {
             navigate(AuthRedirect(user));
         }
-    }, [user, navigate]);
+    }, [props.user]);
 
     const onChangeUsername = (e) => {
-        const value = e.target.value
-        setUsername(value)
+        const value = e.target.value;
+        setUsername(value);
     }
 
     const onChangePassword = (e) => {
@@ -38,11 +38,12 @@ export default function Login() {
                     password
                 }).then((resp) => {
                     const rslt = resp.data.data.user
-                    setUser(rslt)
-                    navigate(AuthRedirect(rslt));
+                    sessionStorage.setItem('user', JSON.stringify(rslt));
+                    window.location.reload();
 
                 }).catch(err => {
                     setErrorMessages({ name: "failed", message: err.response.data.data });
+                    setPassword('');
                 })
             })
         } catch (error) {
@@ -98,6 +99,7 @@ export default function Login() {
                                 placeholder=" "
                                 value={password}
                                 onChange={onChangePassword}
+                                autoComplete="current-password"
                                 required
                             />
                             <label

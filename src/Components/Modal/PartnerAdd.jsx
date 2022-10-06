@@ -55,7 +55,6 @@ const PartnerAdd = ({ isOpen, setIsOpen, title }) => {
         formData.append(key, data[key]);
       }
       const rslt = await axios.post("/api/partners", formData, ConfigHeader);
-      console.log(rslt);
       setIsOpen(false);
 
       changeDataToNull();

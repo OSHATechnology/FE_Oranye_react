@@ -11,9 +11,6 @@ const Attendance = () => {
         Keterangan="Attendance from employees"
       />
       <div className="flex justify-between">
-        {/* <div>
-                Tes1
-            </div> */}
 
         <div className="flex my-8 space-x-8 font-semibold  text-gray-500">
           <Link to="../hadir" className=" hover:text-black">Attendance</Link>
@@ -21,13 +18,13 @@ const Attendance = () => {
           <Link to="Overtime" className=" hover:text-black">Overtime</Link>
         </div>
         <div className="flex my-8 text-sm font-semibold text-gray-600">
-        <Link to="../attendanceSettings">
-          <button>
-            <Icon
-              icon="ant-design:setting-filled"
-              className="text-lg text-gray-400 hover:text-gray-800"
-            ></Icon>
-          </button>
+          <Link to="../attendanceSettings">
+            <button>
+              <Icon
+                icon="ant-design:setting-filled"
+                className="text-lg text-gray-400 hover:text-gray-800"
+              ></Icon>
+            </button>
           </Link>
         </div>
       </div>
