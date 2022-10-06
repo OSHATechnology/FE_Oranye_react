@@ -16,6 +16,7 @@ const RolePermissions = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [roleDetails, setRoleDetails] = useState([]);
   const [modalDetailsRole, setModalDetailsRole] = useState(false);
+  
   const fetchDataRole = async (page = 1, search = "") => {
     const result = await axios.get(
       `/api/roles?search=${search}&page=${page}`,

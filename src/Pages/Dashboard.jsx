@@ -27,6 +27,7 @@ import Family from './Dashboard/Family';
 import Salary from './Dashboard/Salary';
 import DetailSalary from './Dashboard/DetailSalary';
 import { AuthRedirect } from './Auth/AuthProvider';
+import AllowanceAdd from './Dashboard/AllowanceAdd';
 // import Spinner from '../Components/Spinner';
 
 export default function Dashboard(props) {
@@ -72,6 +73,7 @@ export default function Dashboard(props) {
                     <Route path="emp/:id" element={<Detail />} />
                     <Route path="addRole" element={<AddRole />} />
                     <Route path="attendanceSettings" element={<AttendanceSettings />} />
+                    <Route path="allowanceAdd" element={<AllowanceAdd />} />
                 </Routes>
 
             </AuthenticatedLayout>

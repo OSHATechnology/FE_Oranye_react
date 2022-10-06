@@ -22,6 +22,8 @@ const Employee = () => {
   const [employeeEdit, setEmployeeEdit] = useState([]);
   const [empDeleteData, setEmpDeleteData] = useState("");
 
+  const [isModalAddOpened, setIsModalAddOpened] = useState(false);
+
   let dataEmployeeId = "";
   const showModalEdit = async (employeeId) => {
     dataEmployeeId = employeeId;
@@ -35,29 +37,20 @@ const Employee = () => {
   };
 
   const fetchDataEmployeeEdit = async () => {
-    const result = await axios.get(`/api/employee/${dataEmployeeId}`, ConfigHeader);
+    const result = await axios.get(
+      `/api/employee/${dataEmployeeId}`,
+      ConfigHeader
+    );
     setEmployeeEdit(result.data.data);
     setModalEmployee(true);
-  }
-
-  // const fetchDataEmployee = async () => {
-  //   const result = await axios.get(`/api/employee`, ConfigHeader);
-  //   setDataEmployee(result.data.data.data);
-  // };
-
-  // useEffect(() => {
-  //   fetchDataEmployee()
-  //   .then(() => {
-  //     console.log(dataEmployee);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err.message);
-  //   });
-  // }, []);
+  };
 
   const fetchDataEmployee = async (page = 1, search = "", per_page = 10) => {
     try {
-      const result = await axios.get(`/api/employee?search=${search}&page=${page}&per_page=${per_page}`, ConfigHeader);
+      const result = await axios.get(
+        `/api/employee?search=${search}&page=${page}&per_page=${per_page}`,
+        ConfigHeader
+      );
       setDataEmployee(result.data.data);
       console.log(result.data);
     } catch (error) {
@@ -68,40 +61,19 @@ const Employee = () => {
   const handleSearch = (e) => {
     try {
       fetchDataEmployee(1, e.target.value);
-    } catch (err) {
+    } catch (err) {}
+  };
 
-    }
-  }
-
-  // const fetchEmpDetails= async (id) => {
-  //   const data = await axios.get(`/api/employee/${id}`, ConfigHeader);
-  //   setDataEmployee(data.data.data);
-  // };
   useEffect(() => {
-
     fetchDataEmployee();
-    // fetchEmpDetails().catch((err) => {
-    //   console.log(err.message);
-    // });
   }, [paramsData]);
-  // useEffect(() => {
-  //   axios
-  //   .get(`/api/employee`, ConfigHeader)
-  //   .then((res) => {
-  //     setDataEmployee(res.data.data.data);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-  // }, []);
-  const [isModalAddOpened, setIsModalAddOpened] = useState(false);
+
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
         Title="Dashboard Employee"
         Keterangan="Employees From PT.OSHA Technology"
       />
-
 
       <div className="space-y-2 border rounded shadow p-2">
         <div className="flex justify-center">
@@ -148,18 +120,21 @@ const Employee = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-
-
-              {
-                dataEmployee.data ? Object.keys(dataEmployee.data).map((row, index) =>
-                (
-                  <tr key={dataEmployee.data[row].employeeId} className=" shadow ">
+              {dataEmployee.data ? (
+                Object.keys(dataEmployee.data).map((row, index) => (
+                  <tr
+                    key={dataEmployee.data[row].employeeId}
+                    className=" shadow "
+                  >
                     <td>{index + 1}</td>
                     <td>
                       <div className="text-center flex items-center justify-center md:space-x-4">
-                        <img src={dataEmployee.data[row].photo} alt={"photo of " + dataEmployee.data[row].name} className="w-10 rounded-full" />
+                        <img
+                          src={dataEmployee.data[row].photo}
+                          alt={"photo of " + dataEmployee.data[row].name}
+                          className="w-10 rounded-full"
+                        />
                       </div>
-
                     </td>
                     <td>{dataEmployee.data[row].name}</td>
                     <td>{dataEmployee.data[row].email}</td>
@@ -167,7 +142,9 @@ const Employee = () => {
                     {/* <td>{moment(dataEmployee.data[row].joinedAt).format("DD MMMM YYYY")}</td> */}
                     <td>
                       <div className="flex justify-center gap-1">
-                        <Link to={`../emp/${dataEmployee.data[row].employeeId}`}>
+                        <Link
+                          to={`../emp/${dataEmployee.data[row].employeeId}`}
+                        >
                           <ButtonSmall
                             bg="bg-blue-600"
                             icon="carbon:view"
@@ -179,20 +156,27 @@ const Employee = () => {
                           bg="bg-yellow-500"
                           icon="fa6-solid:pen-to-square"
                           colorIcon="text-white"
-                          onClick={() => showModalEdit(dataEmployee.data[row].employeeId)}
+                          onClick={() =>
+                            showModalEdit(dataEmployee.data[row].employeeId)
+                          }
                         />
                         <ButtonSmall
                           bg="bg-red-500"
                           icon="ci:trash-full"
                           colorIcon="text-white"
                           onClick={() =>
-                            showModalDelete(dataEmployee.data[row].employeeId)}
+                            showModalDelete(dataEmployee.data[row].employeeId)
+                          }
                         />
                       </div>
                     </td>
                   </tr>
-                )) : <tr><td colSpan="5">Loading</td></tr>
-              }
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">Loading</td>
+                </tr>
+              )}
             </tbody>
           </table>
           {modalEmployee && (
@@ -216,10 +200,12 @@ const Employee = () => {
         </div>
         <Pagination
           activePage={dataEmployee.current_page ? dataEmployee.current_page : 0}
-          itemsCountPerPage={dataEmployee?.per_page ? dataEmployee?.per_page : 0}
+          itemsCountPerPage={
+            dataEmployee?.per_page ? dataEmployee?.per_page : 0
+          }
           totalItemsCount={dataEmployee?.total ? dataEmployee?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataEmployee(pageNumber)
+            fetchDataEmployee(pageNumber);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}
