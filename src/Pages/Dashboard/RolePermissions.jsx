@@ -99,7 +99,7 @@ const RolePermissions = () => {
                     <tr key={dataRole.data[row].roleId}>
                       <td>{index + 1}</td>
                       <td class="text-start">{dataRole.data[row].nameRole}</td>
-                      <td>
+                      <td className="w-24">
                         <div className="flex justify-center text-center">
                           <ButtonNormal
                             bg="bg-blue-500 "
@@ -147,8 +147,8 @@ const RolePermissions = () => {
               <thead className="bg-gray-100 border-b-2 border-gray-700">
                 <tr>
                   <th>#</th>
-                  <th>Permission</th>
-                  <th>Roles</th>
+                  <th className="w-1/2">Permission</th>
+                  <th className="w-1/2">Roles</th>
                 </tr>
               </thead>
               <tbody className="text-sm font-medium text-gray-600">
@@ -158,11 +158,12 @@ const RolePermissions = () => {
                       <td>{index + 1}</td>
                       <td class="text-start">{dataPermissions.data[row].namePermission}</td>
                       <td>
-                        <div className="flex justify-center text-center">
-                          <ButtonNormal
+                        <div className="flex flex-wrap justify-start text-center gap-1 w-full">
+                          {/* <ButtonNormal
                             bg="bg-blue-500 "
                             text="details"
-                          />{
+                          /> */}
+                          {
                             dataPermissions.data[row].roles ? Object.keys(dataPermissions.data[row].roles).map((row2, index) => (
                                 <ButtonNormal
                                     bg="bg-blue-500 "

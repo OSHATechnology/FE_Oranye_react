@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
 import Search from "../../Components/Search";
@@ -6,10 +6,77 @@ import SimpleCard from "../../Components/SimpleCard";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 
+
 const Allowance = () => {
   const [modalAllowanceDelete, setModalAllowanceDelete] = useState(false);
   const [allowanceDeleteData, setAllowanceDeleteData] = useState("");
+  const [dataAllowance, setDataAllowance] = useState([]);
 
+  // dummy data allowances
+  const Allowances = [
+    {
+      "success" : true,
+      "data" : {
+        "current_page": 1,
+        "data": [
+          {
+            "id": 1,
+            "role_group" : "Admin",
+            "data_allowances" : [
+              {
+                "id": 1,
+                "name": "Transport",
+                "amount": 1000000,
+              },
+              {
+                "id": 2,
+                "name": "Meal",
+                "amount": 1000000,
+              },
+              {
+                "id": 3,
+                "name": "Lodging",
+                "amount": 1000000,
+              },
+            ]
+          },
+          {
+            "id": 2,
+            "role_group" : "employee",
+            "data_allowances" : [
+              {
+                "id": 1,
+                "name": "Transport",
+                "amount": 1000000,
+              },
+              {
+                "id": 2,
+                "name": "Meal",
+                "amount": 1000000,
+              },
+              {
+                "id": 3,
+                "name": "Lodging",
+                "amount": 1000000,
+              },
+            ]
+          }
+        ],
+        "next_page_url": null,
+        "per_page": 10,
+        "prev_page_url": null,
+        "to": 1,
+        "total": 1
+      },
+      "message": "Allowances retrieved successfully."
+    }
+  ];
+
+  useEffect(() => {
+    setDataAllowance(Allowances);
+    console.log(dataAllowance);
+  }, []);
+  
   let dataAllowanceId = "";
   const showModalDelete = async (allowanceId) => {
     dataAllowanceId = allowanceId;
@@ -53,7 +120,7 @@ const Allowance = () => {
                 </tr>
               </thead>
               <tbody className="text-xs md:text-sm font-medium">
-                <tr>
+                {/* <tr>
                   <td>1</td>
                   <td>Admin</td>
                   <td>Tunjangan Admin</td>
@@ -73,7 +140,43 @@ const Allowance = () => {
                       />
                     </div>
                   </td>
-                </tr>
+                </tr> */}
+                {dataAllowance.data ? (
+                  Object.keys(dataAllowance.data).map((row, index) => (
+                    <tr key={dataAllowance.data[row].id}>
+                      <td>{index + 1}</td>
+                      <td class="text-start">{dataAllowance.data[row].role_group}</td>
+                      <td>
+                        <div className="flex justify-center text-center">
+                          {/* <ButtonNormal
+                            bg="bg-blue-500 "
+                            text="details"
+                            onClick={() =>
+                              showModalDetail(dataAllowance.data[row].roleId)
+                            }
+                          /> */}
+                           <div className="flex justify-center gap-1">
+                      <ButtonSmall
+                        bg="bg-yellow-500"
+                        icon="fa6-solid:pen-to-square"
+                        colorIcon="text-white"
+                      />
+                      <ButtonSmall
+                        bg="bg-red-500"
+                        icon="ci:trash-full"
+                        colorIcon="text-white"
+                       
+                      />
+                    </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5">Loading</td>
+                  </tr>
+                )}
               </tbody>
             </table>
             {modalAllowanceDelete && (
