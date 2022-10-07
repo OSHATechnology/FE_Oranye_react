@@ -18,7 +18,7 @@ const AttendanceStatusAdd = ({ isOpen, setIsOpen, title }) => {
         'status': status,
       };
     
-  
+
     try {
       let formData = new FormData();
       for (let key in data) {
@@ -33,6 +33,7 @@ const AttendanceStatusAdd = ({ isOpen, setIsOpen, title }) => {
       console.log(error);
     }
   };
+
     return (
         <>
         <Dialog
@@ -58,7 +59,6 @@ const AttendanceStatusAdd = ({ isOpen, setIsOpen, title }) => {
               <form
                 id="attendance_status_form"
                 onSubmit={handleSubmit}
-                encType="multipart/form-data"
               >
                 <div className="">
                   <p className="text-sm font-extrabold text-gray-600">Status</p>
@@ -79,7 +79,7 @@ const AttendanceStatusAdd = ({ isOpen, setIsOpen, title }) => {
               <ButtonNormal bg="bg-gray-400 " text="Cancel" width="w-16" />
               <button
                 type="submit"
-                form="attedance_status_form"
+                form="attendance_status_form"
                 className="bg-green-600 rounded text-white px-2"
               >
                 submit

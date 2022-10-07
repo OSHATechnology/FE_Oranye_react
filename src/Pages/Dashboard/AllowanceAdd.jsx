@@ -1,11 +1,37 @@
 import { Icon } from "@iconify/react";
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
 import TitleDashboard from "../../Components/TitleDashboard";
+import ConfigHeader from "../Auth/ConfigHeader";
+import ModalDelete from "../../Components/Modal/ModalDelete";
 
 const AllowanceAdd = () => {
+  const [dataAllowance, setDataAllowance] = useState([]);
+  const [modalAllowanceDelete, setModalAllowanceDelete] = useState(false);
+  const [allowanceDeleteData, setAllowanceDeleteData] = useState("");
+
+  const fetchDataAllowance = async (page = 1, search = "") => {
+    const result = await axios.get(
+      `/api/type_of_allowance?search=${search}&page=${page}`,
+      ConfigHeader
+    );
+    setDataAllowance(result.data.data);
+  };
+
+  useEffect(() => {
+    fetchDataAllowance();
+  }, []);
+
+  let dataAllowanceId = "";
+  const showModalDelete = async (allowanceId) => {
+    dataAllowanceId = allowanceId;
+    setAllowanceDeleteData(dataAllowanceId);
+    setModalAllowanceDelete(true);
+  };
+
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -70,13 +96,19 @@ const AllowanceAdd = () => {
                 <th>Action</th>
             </tr>
           </thead>
-          <tbody className="text-sm font-medium text-gray-600">
-            <tr>
-                <td>1</td>
-                <td>Makan</td>
-                <td>300.000</td>
-                <td className="w-24">
-                <div className="flex justify-center gap-1">
+          <tbody className="text-sm font-medium text-center text-gray-600">
+                {dataAllowance.data ? (
+                  Object.keys(dataAllowance.data).map((row, index) => (
+                    <tr key={dataAllowance.data[row].id}>
+                      <td>{index + 1}</td>
+                      <td>
+                        {dataAllowance.data[row].name}
+                      </td>
+                      <td>
+                        {dataAllowance.data[row].nominal}
+                      </td>
+                      <td className="w-24">
+                        <div className="flex justify-center gap-1">
                           <ButtonSmall
                             bg="bg-yellow-500"
                             icon="fa6-solid:pen-to-square"
@@ -86,13 +118,32 @@ const AllowanceAdd = () => {
                             bg="bg-red-500"
                             icon="ci:trash-full"
                             colorIcon="text-white"
+                            onClick={() =>
+                              showModalDelete(dataAllowance.data[row].id)
+                            }
                           />
                         </div>
-                </td>
-            </tr>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5">Loading</td>
+                  </tr>
+                )}
+       
           </tbody>
         </table>
       </div>
+      {modalAllowanceDelete && (
+            <ModalDelete
+              isOpen={modalAllowanceDelete}
+              setIsOpen={setModalAllowanceDelete}
+              title="Delete Allowance"
+              typeData="allowance_settings"
+              data={allowanceDeleteData}
+            />
+          )}
     </div>
   );
 };

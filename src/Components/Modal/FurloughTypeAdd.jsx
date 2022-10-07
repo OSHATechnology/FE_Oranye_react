@@ -30,7 +30,7 @@ const FurloughAdd = ({ isOpen, setIsOpen, title }) => {
     for (let key in data) {
       formData.append(key, data[key]);
     }
-    const rslt = await axios.post('/api/furlough_add', formData, ConfigHeader);
+    const rslt = await axios.post('/api/furlough_type', formData, ConfigHeader);
     console.log(rslt);
     setIsOpen(false);
 
@@ -65,7 +65,6 @@ const FurloughAdd = ({ isOpen, setIsOpen, title }) => {
             <form
               id="furlough_type_form"
               onSubmit={handleSubmit}
-              encType="multipart/form-data"
             >
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Name</p>
@@ -74,6 +73,8 @@ const FurloughAdd = ({ isOpen, setIsOpen, title }) => {
                   placeholder="Name"
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
                   name="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="">
@@ -81,8 +82,10 @@ const FurloughAdd = ({ isOpen, setIsOpen, title }) => {
                 <input
                   type="number"
                   name="lastName"
-                  placeholder="Last Name"
+                  placeholder="Max"
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                  value={max}
+                  onChange={(e) => setMax(e.target.value)}
                 />
               </div>
               <div className="">
@@ -92,6 +95,8 @@ const FurloughAdd = ({ isOpen, setIsOpen, title }) => {
                   name="Type"
                   placeholder="Type"
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
                 />
               </div>
               {/* <div className="">
