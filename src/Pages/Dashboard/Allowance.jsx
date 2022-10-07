@@ -13,6 +13,8 @@ import { Icon } from "@iconify/react";
 
 const Allowance = () => {
   const [dataAllowance, setDataAllowance] = useState([]);
+  const [modalAllowanceDelete, setModalAllowanceDelete] = useState(false);
+  const [allowanceDeleteData, setAllowanceDeleteData] = useState("");
 
   const fetchDataAllowance = async (page = 1, search = "") => {
     const result = await axios.get(
@@ -25,12 +27,18 @@ const Allowance = () => {
   useEffect(() => {
     fetchDataAllowance();
   }, []);
-  console.log(dataAllowance);
 
   const handleSearchAllowance = (e) => {
     try {
       fetchDataAllowance(1, e.target.value);
     } catch (err) {}
+  };
+  
+  let dataAllowanceId = "";
+  const showModalDelete = async (allowanceId) => {
+    dataAllowanceId = allowanceId;
+    setAllowanceDeleteData(dataAllowanceId);
+    setModalAllowanceDelete(true);
   };
 
   return (
@@ -105,6 +113,9 @@ const Allowance = () => {
                             bg="bg-red-500"
                             icon="ci:trash-full"
                             colorIcon="text-white"
+                            onClick={() =>
+                              showModalDelete(dataAllowance.data[row].id)
+                            }
                           />
                         </div>
                       </td>
@@ -118,6 +129,15 @@ const Allowance = () => {
               </tbody>
             </table>
           </div>
+          {modalAllowanceDelete && (
+            <ModalDelete
+              isOpen={modalAllowanceDelete}
+              setIsOpen={setModalAllowanceDelete}
+              title="Delete Allowance"
+              typeData="allowance"
+              data={allowanceDeleteData}
+            />
+          )}
         </div>
           <Pagination
             activePage={dataAllowance.current_page ? dataAllowance.current_page : 0}
