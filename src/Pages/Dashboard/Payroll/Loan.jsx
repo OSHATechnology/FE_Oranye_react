@@ -1,11 +1,26 @@
+import axios from "axios";
 import moment from "moment";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ButtonNormal from "../../../Components/ButtonNormal";
 import ButtonSmall from "../../../Components/ButtonSmall";
 import Search from "../../../Components/Search";
+import ConfigHeader from "../../Auth/ConfigHeader";
 
 const Kredit = () => {
+  const [dataLoan, setDataLoan] = useState([]);
+  const fetchDataLoan = async (page = 1, search = "") => {
+    const result = await axios.get(
+      `/api/loan?search=${search}&page=${page}`,
+      ConfigHeader
+    );
+    
+    setDataLoan(result.data.data);
+  };
+
+  useEffect(() => {
+    fetchDataLoan();
+  }, []);
   return (
     <div className="w-full space-y-8">
       <div className=" space-y-2 border rounded shadow p-2">
@@ -25,7 +40,7 @@ const Kredit = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              <tr>
+              {/* <tr>
                 <td>1</td>
                 <td>Fachrian</td>
                 <td>{moment().format("MMMM YYYY")}</td>
@@ -41,7 +56,47 @@ const Kredit = () => {
                       </Link>
                   </div>
                 </td>
-              </tr>
+              </tr> */}
+              {dataLoan.data ? (
+                  Object.keys(dataLoan.data).map((row, index) => (
+                    <tr key={dataLoan.data[row].loanId}>
+                      <td>{index + 1}</td>
+                      <td >
+                        {dataLoan.data[row].name}
+                      </td>
+                      <td >
+                        {dataLoan.data[row].loanDate}
+                      </td>
+                      <td >
+                        {dataLoan.data[row].status}
+                      </td>
+                      <td className="w-24">
+                        {/* <div className="flex justify-center gap-1">
+                          <ButtonSmall
+                            bg="bg-yellow-500"
+                            icon="fa6-solid:pen-to-square"
+                            colorIcon="text-white"
+                            onClick={() =>
+                              setModalEditAllowance(dataLoan.data[row].id)
+                            }
+                          />
+                          <ButtonSmall
+                            bg="bg-red-500"
+                            icon="ci:trash-full"
+                            colorIcon="text-white"
+                            onClick={() =>
+                              showModalDelete(dataAllowance.data[row].id)
+                            }
+                          />
+                        </div> */}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5">Loading</td>
+                  </tr>
+                )}
             </tbody>
           </table>
         </div>
