@@ -8,14 +8,16 @@ import ModalDelete from "../../Components/Modal/ModalDelete";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
 import Pagination from "react-js-pagination";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import ModalAddAllowance from "../../Components/Modal/AddAllowance";
+import ModalEdit from "../../Components/Modal/ModalEdit";
 
 const Allowance = () => {
   const [dataAllowance, setDataAllowance] = useState([]);
   const [modalAllowanceDelete, setModalAllowanceDelete] = useState(false);
   const [allowanceDeleteData, setAllowanceDeleteData] = useState("");
+  const paramsData = useParams();
 
   const fetchDataAllowance = async (page = 1, search = "") => {
     const result = await axios.get(
@@ -27,7 +29,7 @@ const Allowance = () => {
 
   useEffect(() => {
     fetchDataAllowance();
-  }, []);
+  }, [paramsData]);
 
   const handleSearchAllowance = (e) => {
     try {
@@ -44,6 +46,22 @@ const Allowance = () => {
 
   // Add Allowance
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
+
+  // Edit Allowance
+  const [modalAllowanceEdit, setModalAllowanceEdit] = useState(false);
+  const [allowanceEdit, setAllowanceEdit] = useState([]);
+  const fetchDataAllowanceEdit = async () => {
+    const result = await axios.get(
+      `/api/allowance/${dataAllowanceId}`,
+      ConfigHeader
+    );
+    setAllowanceEdit(result.data.data);
+    setModalAllowanceEdit(true);
+  };
+  const setModalEditAllowance = async (allowanceId) => {
+    dataAllowanceId = allowanceId;
+    await fetchDataAllowanceEdit();
+  };
 
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -107,13 +125,13 @@ const Allowance = () => {
                   Object.keys(dataAllowance.data).map((row, index) => (
                     <tr key={dataAllowance.data[row].id}>
                       <td>{index + 1}</td>
-                      <td class="text-start">
+                      <td >
                         {dataAllowance.data[row].role.role}
                       </td>
-                      <td class="text-start">
+                      <td >
                         {dataAllowance.data[row].typeAllowance.type}
                       </td>
-                      <td class="text-start">
+                      <td >
                         {dataAllowance.data[row].typeAllowance.nominal}
                       </td>
                       <td className="w-24">
@@ -122,6 +140,9 @@ const Allowance = () => {
                             bg="bg-yellow-500"
                             icon="fa6-solid:pen-to-square"
                             colorIcon="text-white"
+                            onClick={() =>
+                              setModalEditAllowance(dataAllowance.data[row].id)
+                            }
                           />
                           <ButtonSmall
                             bg="bg-red-500"
@@ -143,6 +164,15 @@ const Allowance = () => {
               </tbody>
             </table>
           </div>
+          {modalAllowanceEdit && (
+            <ModalEdit
+              isOpen={modalAllowanceEdit}
+              setIsOpen={setModalAllowanceEdit}
+              title="Edit Allowance"
+              typeData="allowance"
+              data={allowanceEdit}
+            />
+          )}
           {modalAllowanceDelete && (
             <ModalDelete
               isOpen={modalAllowanceDelete}

@@ -18,12 +18,13 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
       setDataRole(data.data.data.data);
     };
 
-    const fetchType = async () => {
+    const fetchDataType = async () => {
       const data = await axios.get(`/api/type_of_allowance`, ConfigHeader);
       setDataType(data.data.data.data);
     };
 
     fetchDataRole();
+    fetchDataType();
   }, []);
 
   function changeDataToNull() {
@@ -35,9 +36,8 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      role: role,
-      type: type,
-      nominal: nominal,
+        'roleId': role,
+      'typeId': type
     };
 
     try {
@@ -47,7 +47,7 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
       }
       const rslt = await axios.post("/api/allowance", formData, ConfigHeader);
       console.log(rslt);
-      setIsOpen(false);
+    //   setIsOpen(false);
 
       changeDataToNull();
     } catch (error) {
@@ -78,19 +78,9 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
           </div>
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
             <form id="allowance_form" onSubmit={handleSubmit}>
+              
               <div className="">
-                <p className="text-sm font-extrabold text-gray-600">Status</p>
-                <input
-                  type="text"
-                  placeholder="status"
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  name="Status"
-                //   value={status}
-                //   onChange={(e) => setStatus(e.target.value)}
-                />
-              </div>
-              <div className="">
-                <p className="text-sm font-extrabold text-gray-600">Status</p>
+                <p className="text-sm font-extrabold text-gray-600">Jabatan</p>
                 <select
                   name="role"
                   id=""
@@ -104,6 +94,37 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
                     </option>
                   ))}
                 </select>
+              </div>
+              <div className="">
+                <p className="text-sm font-extrabold text-gray-600">Tunjangan</p>
+                <select
+                  name="allowance"
+                  id=""
+                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                  onChange={(e) => {
+                    setType(e.target.value);
+                    setNominal(dataType.find((item) => item.id == e.target.value)?.nominal);
+                  }}
+                >
+                  <option value='-' selected disabled>-- select Allowance --</option>
+                  {dataType.map((row, index) => (
+                    <option value={row.id} key={index}>
+                      {row.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="">
+                <p className="text-sm font-extrabold text-gray-600">Nominal</p>
+                <input
+                  type="text"
+                  disabled
+                  placeholder="nominal"
+                  className="rounded-lg w-full border border-gray-300 bg-gray-100 text-xs text-gray-700 font-medium"
+                  name="Status"
+                  value={nominal}
+                  onChange={(e) => setNominal(e.target.value)}
+                />
               </div>
             </form>
           </div>
