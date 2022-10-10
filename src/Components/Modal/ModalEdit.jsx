@@ -3,6 +3,8 @@ import { Dialog } from '@headlessui/react';
 import { Icon } from '@iconify/react'
 import EditFormEmployee from './EditFormEmp';
 import EditFormPartner from './EditFormPartner';
+import EditFormFurloughType from './EditFormFurloughType';
+import EditFormAttendanceStatus from './EditFormAttendanceStatus';
 
 const ModalEdit = (props) => {
     const { isOpen, setIsOpen } = props;
@@ -32,6 +34,12 @@ const ModalEdit = (props) => {
             )}
             {typeData === 'partner' && (
                 <EditFormPartner data={data} />
+            )}
+            {typeData === 'furlough_type' && (
+                <EditFormFurloughType data={data} />
+            )}
+            {typeData === 'attendance_status' && (
+                <EditFormAttendanceStatus data={data} />
             )}
             {/* {typeData === 'attendance' && (
                 

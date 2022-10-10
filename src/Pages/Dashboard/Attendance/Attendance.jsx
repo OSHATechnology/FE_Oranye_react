@@ -119,23 +119,23 @@ const Attendance = () => {
                     colorIcon="text-white"
                     onClick={() => showModalDetail(dataAttendance.data[row].id)}
                   />
-                  <ButtonSmall
+                  {/* <ButtonSmall
                     bg="bg-green-600"
                     icon="akar-icons:check"
                     onClick={() => setIsModalAccOpened(!isModalAccOpened)}
-                  />
+                  /> */}
                   <ModalAcc
                     isOpen={isModalAccOpened}
                     setIsOpen={setIsModalAccOpened}
                     title="Accept Request"
                   />
-                  <ButtonSmall
+                  {/* <ButtonSmall
                     bg="bg-red-600"
                     icon="akar-icons:block"
                     onClick={() =>
                       setIsModalDeclineOpened(!isModalDeclineOpened)
                     }
-                  />
+                  /> */}
                   <ModalDecline
                     isOpen={isModalDeclineOpened}
                     setIsOpen={setIsModalDeclineOpened}

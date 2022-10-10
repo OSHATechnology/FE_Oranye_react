@@ -8,6 +8,10 @@ import ConfigHeader from "../Auth/ConfigHeader";
 import axios from "axios";
 import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
+import ModalAddFurloughType from "../../Components/Modal/FurloughTypeAdd";
+import ModalAddAttendanceStatus from "../../Components/Modal/AttendanceStatusAdd";
+import ModalDelete from "../../Components/Modal/ModalDelete";
+import ModalEdit from "../../Components/Modal/ModalEdit";
 
 const AttendanceSettings = () => {
   const [dataFurlough, setDataFurlough] = useState([]);
@@ -60,6 +64,66 @@ const AttendanceSettings = () => {
     } catch (err) {}
   };
 
+  // Delete Furlough
+  const [modalFurloughTypeDelete, setModalFurloughTypeDelete] = useState(false);
+  const [furloughTypeDeleteData, setFurloughTypeDeleteData] = useState("");
+  let dataFurloughTypeId = "";
+  const showModalDeleteFurlough = async (furloughTypeId) => {
+    dataFurloughTypeId = furloughTypeId;
+    setFurloughTypeDeleteData(dataFurloughTypeId);
+    setModalFurloughTypeDelete(true);
+  };
+
+  // Add Furlough Type
+  const [isModalAddOpened, setIsModalAddOpened] = useState(false);
+
+  // Edit Furlough Type
+  const [modalFurloughTypeEdit, setModalFurloughTypeEdit] = useState(false);
+  const [furloughTypeEdit, setFurloughTypeEdit] = useState([]);
+  const fetchDataFurloughTypeEdit = async () => {
+    const result = await axios.get(
+      `/api/furlough_type/${dataFurloughTypeId}`,
+      ConfigHeader
+    );
+    setFurloughTypeEdit(result.data.data);
+    setModalFurloughTypeEdit(true);
+  };
+  const setModalEditFurlough = async (furloughTypeId) => {
+    dataFurloughTypeId = furloughTypeId;
+    await fetchDataFurloughTypeEdit();
+  };
+
+  // Edit Attendance Status
+  const [modalAttendanceStatusEdit, setModalAttendanceStatusEdit] = useState(false);
+  const [attendanceStatusEdit, setAttendanceStatusEdit] = useState([]);
+  const fetchDataAttendanceStatusEdit = async () => {
+    const result = await axios.get(
+      `/api/attendance_status/${dataAttendanceStatusId}`,
+      ConfigHeader
+    );
+    setAttendanceStatusEdit(result.data.data);
+    setModalAttendanceStatusEdit(true);
+  };
+  const setModalEditAttendance = async (attendanceStatusId) => {
+    dataAttendanceStatusId = attendanceStatusId;
+    await fetchDataAttendanceStatusEdit();
+  };
+
+  
+
+  // Add Attendance Status
+  const [isModalAttendanceStatusAddOpened, setIsModalAttendanceStatusAddOpened] = useState(false);
+
+  // Delete Attendance
+  const [modalAttendanceStatusDelete, setModalAttendanceStatusDelete] = useState(false);
+  const [attendanceStatusDeleteData, setAttendanceStatusDeleteData] = useState("");
+  let dataAttendanceStatusId = "";
+  const showModalDeleteAttendance = async (attedanceStatusId) => {
+    dataAttendanceStatusId = attedanceStatusId;
+    setAttendanceStatusDeleteData(dataAttendanceStatusId);
+    setModalAttendanceStatusDelete(true);
+  };
+
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -85,13 +149,17 @@ const AttendanceSettings = () => {
           </div>
           <div className="flex justify-between items-center ">
             <div>
-              <Link to="#">
-                <ButtonNormal
-                  bg="bg-green-600 "
-                  icon="akar-icons:plus"
-                  text="Add"
-                />
-              </Link>
+            <ButtonNormal
+                bg="bg-green-600 "
+                icon="bi:plus"
+                text="Add"
+                onClick={() => setIsModalAddOpened(!isModalAddOpened)}
+              />
+              <ModalAddFurloughType
+                isOpen={isModalAddOpened}
+                setIsOpen={setIsModalAddOpened}
+                title="Tambah Karyawan"
+              />
             </div>
             <Search onChange={handleSearchFurlough} />
           </div>
@@ -118,11 +186,22 @@ const AttendanceSettings = () => {
                       <td>{dataFurlough.data[row].max}</td>
                       <td>{dataFurlough.data[row].type}</td>
                       <td>
-                        <div className="flex justify-center text-center">
-                          <ButtonNormal
-                            bg="bg-blue-500 "
-                            icon="carbon:view"
-                            text=" "
+                      <div className="flex justify-center gap-1">
+                          <ButtonSmall
+                            bg="bg-yellow-500"
+                            icon="fa6-solid:pen-to-square"
+                            colorIcon="text-white"
+                            onClick={() =>
+                              setModalEditFurlough(dataFurlough.data[row].furTypeId)
+                            }
+                          />
+                          <ButtonSmall
+                            bg="bg-red-500"
+                            icon="ci:trash-full"
+                            colorIcon="text-white"
+                            onClick={() =>
+                              showModalDeleteFurlough(dataFurlough.data[row].furTypeId)
+                            }
                           />
                         </div>
                       </td>
@@ -136,6 +215,25 @@ const AttendanceSettings = () => {
               </tbody>
             </table>
           </div>
+          {modalFurloughTypeEdit && (
+            <ModalEdit
+              isOpen={modalFurloughTypeEdit}
+              setIsOpen={setModalFurloughTypeEdit}
+              title="Edit Furlough Type"
+              typeData="furlough_type"
+              data={furloughTypeEdit}
+            />
+          )}
+
+          {modalFurloughTypeDelete && (
+            <ModalDelete
+              isOpen={modalFurloughTypeDelete}
+              setIsOpen={setModalFurloughTypeDelete}
+              title="Delete Furlough Type"
+              typeData="furlough_type"
+              data={furloughTypeDeleteData}
+            />
+          )}
           <Pagination
             activePage={dataFurlough.current_page ? dataFurlough.current_page : 0}
             itemsCountPerPage={dataFurlough?.per_page ? dataFurlough?.per_page : 0}
@@ -154,7 +252,20 @@ const AttendanceSettings = () => {
           <div>
             <p className="text-xl font-bold">Attendance Status</p>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-between items-center ">
+            <div>
+            <ButtonNormal
+                bg="bg-green-600 "
+                icon="bi:plus"
+                text="Add"
+                onClick={() => setIsModalAttendanceStatusAddOpened(!isModalAttendanceStatusAddOpened)}
+              />
+              <ModalAddAttendanceStatus
+                isOpen={isModalAttendanceStatusAddOpened}
+                setIsOpen={setIsModalAttendanceStatusAddOpened}
+                title="Tambah Karyawan"
+              />
+            </div>
             <Search onChange={handleSearchAttendance} />
           </div>
 
@@ -175,13 +286,24 @@ const AttendanceSettings = () => {
                       className=" shadow "
                     >
                       <td>{index + 1}</td>
-                      <td>{dataAttendanceStatus.data[row].status}</td>
+                      <td className="">{dataAttendanceStatus.data[row].status}</td>
                       <td>
-                        <div className="flex justify-center text-center">
-                          <ButtonNormal
-                            bg="bg-blue-500 "
-                            icon="carbon:view"
-                            text=" "
+                      <div className="flex justify-center gap-1">
+                          <ButtonSmall
+                            bg="bg-yellow-500"
+                            icon="fa6-solid:pen-to-square"
+                            colorIcon="text-white"
+                            onClick={() =>
+                              setModalEditAttendance(dataAttendanceStatus.data[row].attendanceStatusId)
+                            }
+                          />
+                          <ButtonSmall
+                            bg="bg-red-500"
+                            icon="ci:trash-full"
+                            colorIcon="text-white"
+                            onClick={() =>
+                              showModalDeleteAttendance(dataAttendanceStatus.data[row].attendanceStatusId)
+                            }
                           />
                         </div>
                       </td>
@@ -195,6 +317,26 @@ const AttendanceSettings = () => {
               </tbody>
             </table>
           </div>
+          {modalAttendanceStatusEdit && (
+            <ModalEdit
+              isOpen={modalAttendanceStatusEdit}
+              setIsOpen={setModalAttendanceStatusEdit}
+              title="Edit Attendance Status"
+              typeData="attendance_status"
+              data={attendanceStatusEdit}
+            />
+          )}
+
+          {modalAttendanceStatusDelete && (
+            <ModalDelete
+              isOpen={modalAttendanceStatusDelete}
+              setIsOpen={setModalAttendanceStatusDelete}
+              title="Delete Attendance Status"
+              typeData="attendance_status"
+              data={attendanceStatusDeleteData}
+            />
+          )}
+
           <Pagination
             activePage={dataAttendanceStatus.current_page ? dataAttendanceStatus.current_page : 0}
             itemsCountPerPage={dataAttendanceStatus?.per_page ? dataAttendanceStatus?.per_page : 0}
