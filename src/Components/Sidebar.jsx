@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import LoginImg from "../assets/Logo.png";
+import LoginImg from "../assets/oranye-logo.png";
 import axios from "axios";
 import ConfigHeader from "../Pages/Auth/ConfigHeader";
 
@@ -144,8 +144,8 @@ const Sidebar = () => {
                     <div className="p-2.5 mt-1 flex items-center justify-between">
                         <div className="flex items-center justify-center text-center">
 
-                            <img src={LoginImg} alt="" className="w-32" />
-
+                            <img src={LoginImg} alt="" className="w-16" />
+                            <span className="font-bold md:text-base text-sm p-2 text-start">HR Information System</span>
                         </div>
                         <div className="flex items-center">
                             <button

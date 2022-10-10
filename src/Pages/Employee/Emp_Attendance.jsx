@@ -94,7 +94,7 @@ const FurloughCard = () => {
                             </tbody>
                         </table>
                         <div className="flex justify-end">
-                            <button class="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
+                            <button className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
                                 Submit
                             </button>
                         </div>
@@ -190,7 +190,7 @@ const WorkPermitCard = () => {
                             </tr>
                         </table>
                         <div className="flex justify-end">
-                            <button class="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
+                            <button className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
                                 Submit
                             </button>
                         </div>
@@ -265,7 +265,7 @@ export default function KaryawanKehadiran() {
                         </div>
                     </div>
                     <div className="flex w-full basis-1/2 md:min-h-full shadow-xl items-start justify-center rounded-xl pr-4 border-2 border-gray-100 md:border-0">
-                        <div class="w-full py-4 sm:px-0 ml-4">
+                        <div className="w-full py-4 sm:px-0 ml-4">
                             <div className="flex space-x-1 rounded-xl p-1 mt-1">
                                 <p className="text-md font-semibold">
                                     Overtime
@@ -343,7 +343,7 @@ export default function KaryawanKehadiran() {
                                         </tr>
                                     </table>
                                     <div className="flex justify-end">
-                                        <button class="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
+                                        <button className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
                                             Submit
                                         </button>
                                     </div>
@@ -395,7 +395,7 @@ export default function KaryawanKehadiran() {
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-green-800">
+                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-green-800">
                                         Pending
                                     </span>
                                 </td>
