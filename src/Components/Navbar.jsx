@@ -204,7 +204,7 @@ export default function Navbar() {
                         className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1"
                         id="navbar-sticky"
                     >
-                        <ul className="flex flex-colbg-white rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
+                        <ul className="flex flex-col bg-white rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                             <li>
                                 <Link to="/">
                                     <button
