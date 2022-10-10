@@ -88,6 +88,28 @@ const AttendanceSettings = () => {
     setFurloughTypeEdit(result.data.data);
     setModalFurloughTypeEdit(true);
   };
+  const setModalEditFurlough = async (furloughTypeId) => {
+    dataFurloughTypeId = furloughTypeId;
+    await fetchDataFurloughTypeEdit();
+  };
+
+  // Edit Attendance Status
+  const [modalAttendanceStatusEdit, setModalAttendanceStatusEdit] = useState(false);
+  const [attendanceStatusEdit, setAttendanceStatusEdit] = useState([]);
+  const fetchDataAttendanceStatusEdit = async () => {
+    const result = await axios.get(
+      `/api/attendance_status/${dataAttendanceStatusId}`,
+      ConfigHeader
+    );
+    setAttendanceStatusEdit(result.data.data);
+    setModalAttendanceStatusEdit(true);
+  };
+  const setModalEditAttendance = async (attendanceStatusId) => {
+    dataAttendanceStatusId = attendanceStatusId;
+    await fetchDataAttendanceStatusEdit();
+  };
+
+  
 
   // Add Attendance Status
   const [isModalAttendanceStatusAddOpened, setIsModalAttendanceStatusAddOpened] = useState(false);
@@ -170,7 +192,7 @@ const AttendanceSettings = () => {
                             icon="fa6-solid:pen-to-square"
                             colorIcon="text-white"
                             onClick={() =>
-                              setModalFurloughTypeEdit(dataFurlough.data[row].furTypeId)
+                              setModalEditFurlough(dataFurlough.data[row].furTypeId)
                             }
                           />
                           <ButtonSmall
@@ -271,6 +293,9 @@ const AttendanceSettings = () => {
                             bg="bg-yellow-500"
                             icon="fa6-solid:pen-to-square"
                             colorIcon="text-white"
+                            onClick={() =>
+                              setModalEditAttendance(dataAttendanceStatus.data[row].attendanceStatusId)
+                            }
                           />
                           <ButtonSmall
                             bg="bg-red-500"
@@ -292,6 +317,15 @@ const AttendanceSettings = () => {
               </tbody>
             </table>
           </div>
+          {modalAttendanceStatusEdit && (
+            <ModalEdit
+              isOpen={modalAttendanceStatusEdit}
+              setIsOpen={setModalAttendanceStatusEdit}
+              title="Edit Attendance Status"
+              typeData="attendance_status"
+              data={attendanceStatusEdit}
+            />
+          )}
 
           {modalAttendanceStatusDelete && (
             <ModalDelete

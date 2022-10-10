@@ -8,7 +8,7 @@ const EditFormFurloughType = (data) => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [max, setMax] = useState("");
-
+  
   useEffect(() => {
     setName(data.data.name);
     setType(data.data.type);
@@ -22,19 +22,10 @@ const EditFormFurloughType = (data) => {
       type: type,
       max: max,
     }
-    console.log(dataEdit);
-    let formData = new FormData();
-      for (let key in dataEdit) {
-        formData.append(key, dataEdit[key]);
-      }
     await axios
-    .post(
+    .put(
       `/api/furlough_type/${data.data.furTypeId}`,
-      formData,
-      {
-        'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer 19|NddCRKTaiRGXgPr5C6XnahjadTa6c2KI6RlJzMzT`
-      }
+      dataEdit,ConfigHeader
     )
       .then((res) => {
         console.log("berhasil");
