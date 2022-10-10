@@ -5,6 +5,7 @@ import EditFormEmployee from './EditFormEmp';
 import EditFormPartner from './EditFormPartner';
 import EditFormFurloughType from './EditFormFurloughType';
 import EditFormAttendanceStatus from './EditFormAttendanceStatus';
+import EditFormAllowance from './EditFormAllowance';
 
 const ModalEdit = (props) => {
     const { isOpen, setIsOpen } = props;
@@ -40,6 +41,9 @@ const ModalEdit = (props) => {
             )}
             {typeData === 'attendance_status' && (
                 <EditFormAttendanceStatus data={data} />
+            )}
+            {typeData === 'allowance' && (
+                <EditFormAllowance data={data} />
             )}
             {/* {typeData === 'attendance' && (
                 

@@ -8,13 +8,16 @@ import ModalDelete from "../../Components/Modal/ModalDelete";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
 import Pagination from "react-js-pagination";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import ModalAddAllowance from "../../Components/Modal/AddAllowance";
+import ModalEdit from "../../Components/Modal/ModalEdit";
 
 const Allowance = () => {
   const [dataAllowance, setDataAllowance] = useState([]);
   const [modalAllowanceDelete, setModalAllowanceDelete] = useState(false);
   const [allowanceDeleteData, setAllowanceDeleteData] = useState("");
+  const paramsData = useParams();
 
   const fetchDataAllowance = async (page = 1, search = "") => {
     const result = await axios.get(
@@ -26,19 +29,38 @@ const Allowance = () => {
 
   useEffect(() => {
     fetchDataAllowance();
-  }, []);
+  }, [paramsData]);
 
   const handleSearchAllowance = (e) => {
     try {
       fetchDataAllowance(1, e.target.value);
     } catch (err) {}
   };
-  
+
   let dataAllowanceId = "";
   const showModalDelete = async (allowanceId) => {
     dataAllowanceId = allowanceId;
     setAllowanceDeleteData(dataAllowanceId);
     setModalAllowanceDelete(true);
+  };
+
+  // Add Allowance
+  const [isModalAddOpened, setIsModalAddOpened] = useState(false);
+
+  // Edit Allowance
+  const [modalAllowanceEdit, setModalAllowanceEdit] = useState(false);
+  const [allowanceEdit, setAllowanceEdit] = useState([]);
+  const fetchDataAllowanceEdit = async () => {
+    const result = await axios.get(
+      `/api/allowance/${dataAllowanceId}`,
+      ConfigHeader
+    );
+    setAllowanceEdit(result.data.data);
+    setModalAllowanceEdit(true);
+  };
+  const setModalEditAllowance = async (allowanceId) => {
+    dataAllowanceId = allowanceId;
+    await fetchDataAllowanceEdit();
   };
 
   return (
@@ -48,13 +70,13 @@ const Allowance = () => {
         Keterangan="Manage Allowance PT.OSHA Technology"
       />
       <div className="flex justify-between">
-      <SimpleCard
-        bgColor=""
-        Title="Number of Allowance"
-        Icon="fa-solid:hand-holding-usd"
-      />
+        <SimpleCard
+          bgColor=""
+          Title="Number of Allowance"
+          Icon="fa-solid:hand-holding-usd"
+        />
 
-<div className="flex my-8 text-sm font-semibold text-gray-600">
+        <div className="flex my-8 text-sm font-semibold text-gray-600">
           <Link to="../allowanceAdd">
             <button>
               <Icon
@@ -64,13 +86,23 @@ const Allowance = () => {
             </button>
           </Link>
         </div>
-        </div>
+      </div>
 
       <div className="space-y-2 border rounded shadow p-2">
         <div className="flex justify-center">
           <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
             <div className="flex gap-4">
-              <ButtonNormal bg="bg-green-600 " icon="bi:plus" text="Add" />
+              <ButtonNormal
+                bg="bg-green-600 "
+                icon="bi:plus"
+                text="Add"
+                onClick={() => setIsModalAddOpened(!isModalAddOpened)}
+              />
+              <ModalAddAllowance
+                isOpen={isModalAddOpened}
+                setIsOpen={setIsModalAddOpened}
+                title="Tambah Karyawan"
+              />
             </div>
             <Search onChange={handleSearchAllowance} />
           </div>
@@ -93,13 +125,13 @@ const Allowance = () => {
                   Object.keys(dataAllowance.data).map((row, index) => (
                     <tr key={dataAllowance.data[row].id}>
                       <td>{index + 1}</td>
-                      <td class="text-start">
+                      <td >
                         {dataAllowance.data[row].role.role}
                       </td>
-                      <td class="text-start">
+                      <td >
                         {dataAllowance.data[row].typeAllowance.type}
                       </td>
-                      <td class="text-start">
+                      <td >
                         {dataAllowance.data[row].typeAllowance.nominal}
                       </td>
                       <td className="w-24">
@@ -108,6 +140,9 @@ const Allowance = () => {
                             bg="bg-yellow-500"
                             icon="fa6-solid:pen-to-square"
                             colorIcon="text-white"
+                            onClick={() =>
+                              setModalEditAllowance(dataAllowance.data[row].id)
+                            }
                           />
                           <ButtonSmall
                             bg="bg-red-500"
@@ -129,6 +164,15 @@ const Allowance = () => {
               </tbody>
             </table>
           </div>
+          {modalAllowanceEdit && (
+            <ModalEdit
+              isOpen={modalAllowanceEdit}
+              setIsOpen={setModalAllowanceEdit}
+              title="Edit Allowance"
+              typeData="allowance"
+              data={allowanceEdit}
+            />
+          )}
           {modalAllowanceDelete && (
             <ModalDelete
               isOpen={modalAllowanceDelete}
@@ -139,19 +183,23 @@ const Allowance = () => {
             />
           )}
         </div>
-          <Pagination
-            activePage={dataAllowance.current_page ? dataAllowance.current_page : 0}
-            itemsCountPerPage={dataAllowance?.per_page ? dataAllowance?.per_page : 0}
-            totalItemsCount={dataAllowance?.total ? dataAllowance?.total : 0}
-            onChange={(pageNumber) => {
-              fetchDataAllowance(pageNumber);
-            }}
-            innerClass="flex justify-center items-center gap-2 my-8 "
-            pageRangeDisplayed={8}
-            itemClass="text-sm font-semibold text-slate-600 rounded-full px-2 hover:bg-slate-100 "
-            linkClass="page-link"
-            activeClass="bg-slate-100 font-bold"
-          />
+        <Pagination
+          activePage={
+            dataAllowance.current_page ? dataAllowance.current_page : 0
+          }
+          itemsCountPerPage={
+            dataAllowance?.per_page ? dataAllowance?.per_page : 0
+          }
+          totalItemsCount={dataAllowance?.total ? dataAllowance?.total : 0}
+          onChange={(pageNumber) => {
+            fetchDataAllowance(pageNumber);
+          }}
+          innerClass="flex justify-center items-center gap-2 my-8 "
+          pageRangeDisplayed={8}
+          itemClass="text-sm font-semibold text-slate-600 rounded-full px-2 hover:bg-slate-100 "
+          linkClass="page-link"
+          activeClass="bg-slate-100 font-bold"
+        />
       </div>
     </div>
   );
