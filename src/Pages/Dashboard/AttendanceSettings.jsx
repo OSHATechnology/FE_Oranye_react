@@ -25,7 +25,6 @@ const AttendanceSettings = () => {
         ConfigHeader
       );
       setDataFurlough(result.data.data);
-      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +40,6 @@ const AttendanceSettings = () => {
         ConfigHeader
       );
       setDataAttendanceStatus(result.data.data);
-      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +58,7 @@ const AttendanceSettings = () => {
 
   const handleSearchAttendance = (e) => {
     try {
-        fetchDataAttendanceStatus(1, e.target.value);
+      fetchDataAttendanceStatus(1, e.target.value);
     } catch (err) {}
   };
 

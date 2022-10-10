@@ -10,6 +10,7 @@ import ConfigHeader from "../Auth/ConfigHeader";
 import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import ModalAddAllowance from "../../Components/Modal/AddAllowance";
 
 const Allowance = () => {
   const [dataAllowance, setDataAllowance] = useState([]);
@@ -33,13 +34,16 @@ const Allowance = () => {
       fetchDataAllowance(1, e.target.value);
     } catch (err) {}
   };
-  
+
   let dataAllowanceId = "";
   const showModalDelete = async (allowanceId) => {
     dataAllowanceId = allowanceId;
     setAllowanceDeleteData(dataAllowanceId);
     setModalAllowanceDelete(true);
   };
+
+  // Add Allowance
+  const [isModalAddOpened, setIsModalAddOpened] = useState(false);
 
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -48,13 +52,13 @@ const Allowance = () => {
         Keterangan="Manage Allowance PT.OSHA Technology"
       />
       <div className="flex justify-between">
-      <SimpleCard
-        bgColor=""
-        Title="Number of Allowance"
-        Icon="fa-solid:hand-holding-usd"
-      />
+        <SimpleCard
+          bgColor=""
+          Title="Number of Allowance"
+          Icon="fa-solid:hand-holding-usd"
+        />
 
-<div className="flex my-8 text-sm font-semibold text-gray-600">
+        <div className="flex my-8 text-sm font-semibold text-gray-600">
           <Link to="../allowanceAdd">
             <button>
               <Icon
@@ -64,13 +68,23 @@ const Allowance = () => {
             </button>
           </Link>
         </div>
-        </div>
+      </div>
 
       <div className="space-y-2 border rounded shadow p-2">
         <div className="flex justify-center">
           <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
             <div className="flex gap-4">
-              <ButtonNormal bg="bg-green-600 " icon="bi:plus" text="Add" />
+              <ButtonNormal
+                bg="bg-green-600 "
+                icon="bi:plus"
+                text="Add"
+                onClick={() => setIsModalAddOpened(!isModalAddOpened)}
+              />
+              <ModalAddAllowance
+                isOpen={isModalAddOpened}
+                setIsOpen={setIsModalAddOpened}
+                title="Tambah Karyawan"
+              />
             </div>
             <Search onChange={handleSearchAllowance} />
           </div>
@@ -139,19 +153,23 @@ const Allowance = () => {
             />
           )}
         </div>
-          <Pagination
-            activePage={dataAllowance.current_page ? dataAllowance.current_page : 0}
-            itemsCountPerPage={dataAllowance?.per_page ? dataAllowance?.per_page : 0}
-            totalItemsCount={dataAllowance?.total ? dataAllowance?.total : 0}
-            onChange={(pageNumber) => {
-              fetchDataAllowance(pageNumber);
-            }}
-            innerClass="flex justify-center items-center gap-2 my-8 "
-            pageRangeDisplayed={8}
-            itemClass="text-sm font-semibold text-slate-600 rounded-full px-2 hover:bg-slate-100 "
-            linkClass="page-link"
-            activeClass="bg-slate-100 font-bold"
-          />
+        <Pagination
+          activePage={
+            dataAllowance.current_page ? dataAllowance.current_page : 0
+          }
+          itemsCountPerPage={
+            dataAllowance?.per_page ? dataAllowance?.per_page : 0
+          }
+          totalItemsCount={dataAllowance?.total ? dataAllowance?.total : 0}
+          onChange={(pageNumber) => {
+            fetchDataAllowance(pageNumber);
+          }}
+          innerClass="flex justify-center items-center gap-2 my-8 "
+          pageRangeDisplayed={8}
+          itemClass="text-sm font-semibold text-slate-600 rounded-full px-2 hover:bg-slate-100 "
+          linkClass="page-link"
+          activeClass="bg-slate-100 font-bold"
+        />
       </div>
     </div>
   );
