@@ -16,78 +16,82 @@ const FurloughCard = () => {
                 <div className="basis-3/4 m-4">
                     <form action="">
                         <table className="w-full">
-                            <tr>
-                                <td className="w-24">
-                                    <p className="mr-2 text-md">ID</p>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name=""
-                                        id=""
-                                        placeholder="Id Employee"
-                                        className="rounded w-full border border-gray-300"
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p className="mr-2 text-md">Name</p>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name=""
-                                        id=""
-                                        placeholder="Name Employee"
-                                        className="rounded w-full border border-gray-300"
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p className="mr-2 text-md">Type</p>
-                                </td>
-                                <td>
-                                    <select
-                                        name=""
-                                        id=""
-                                        className="rounded w-full border border-gray-300"
-                                    >
-                                        <option value="">Cuti Hamil</option>
-                                        <option value="">Cuti Nikah</option>
-                                        <option value="">Cuti We</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p className="mr-2 text-md">Start Date</p>
-                                </td>
-                                <td>
-                                    <input
-                                        type="date"
-                                        name=""
-                                        id=""
-                                        placeholder="Start Date"
-                                        className="rounded w-full border border-gray-300"
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p className="mr-2 text-md">End Date</p>
-                                </td>
-                                <td>
-                                    <input
-                                        type="date"
-                                        name=""
-                                        id=""
-                                        placeholder="End Date"
-                                        className="rounded w-full border border-gray-300"
-                                    />
-                                </td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td className="w-24">
+                                        <p className="mr-2 text-md">ID</p>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="text"
+                                            name=""
+                                            id=""
+                                            readOnly
+                                            placeholder="Id Employee"
+                                            className="rounded w-full border border-gray-300"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p className="mr-2 text-md">Name</p>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="text"
+                                            name=""
+                                            id=""
+                                            readOnly
+                                            placeholder="Name Employee"
+                                            className="rounded w-full border border-gray-300"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p className="mr-2 text-md">Type</p>
+                                    </td>
+                                    <td>
+                                        <select
+                                            name=""
+                                            id=""
+                                            className="rounded w-full border border-gray-300"
+                                        >
+                                            <option value="">Cuti Hamil</option>
+                                            <option value="">Cuti Nikah</option>
+                                            <option value="">Cuti We</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p className="mr-2 text-md">Start Date</p>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="date"
+                                            name=""
+                                            id=""
+                                            placeholder="Start Date"
+                                            className="rounded w-full border border-gray-300"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p className="mr-2 text-md">End Date</p>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="date"
+                                            name=""
+                                            id=""
+                                            placeholder="End Date"
+                                            className="rounded w-full border border-gray-300"
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                         <div className="flex justify-end">
                             <button class="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
@@ -120,6 +124,7 @@ const WorkPermitCard = () => {
                                         type="text"
                                         name=""
                                         id=""
+                                        readOnly
                                         placeholder="Id Employee"
                                         className="rounded w-full border border-gray-300"
                                     />
@@ -134,6 +139,7 @@ const WorkPermitCard = () => {
                                         type="text"
                                         name=""
                                         id=""
+                                        readOnly
                                         placeholder="Name Employee"
                                         className="rounded w-full border border-gray-300"
                                     />
@@ -214,7 +220,7 @@ export default function KaryawanKehadiran() {
             <div className="flex justify-center mt-8 mb-2">
                 <div className="justify-end flex md:w-4/5 ">
                     <button className="w-fit h-fit bg-yellow-500 rounded p-1">
-                <Icon icon="akar-icons:bell" className="text-center text-lg text-black" />
+                        <Icon icon="akar-icons:bell" className="text-center text-lg text-black" />
                     </button>
                 </div>
             </div>
@@ -279,6 +285,7 @@ export default function KaryawanKehadiran() {
                                                     type="text"
                                                     name=""
                                                     id=""
+                                                    readOnly
                                                     placeholder="Id Employee"
                                                     className="rounded w-full border border-gray-300"
                                                 />
@@ -295,6 +302,7 @@ export default function KaryawanKehadiran() {
                                                     type="text"
                                                     name=""
                                                     id=""
+                                                    readOnly
                                                     placeholder="ID Assigned"
                                                     className="rounded w-full border border-gray-300"
                                                 />
@@ -395,7 +403,7 @@ export default function KaryawanKehadiran() {
                                     <button className="bg-blue-600 rounded p-1"><Icon icon="carbon:view" className="text-white"></Icon></button>
                                 </td>
                             </tr>
-                           
+
                         </tbody>
                     </table>
                 </div>

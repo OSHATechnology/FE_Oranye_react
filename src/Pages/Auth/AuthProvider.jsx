@@ -23,4 +23,6 @@ const AuthRedirect = (user) => {
   return '/login'
 }
 
-export { GetAuthData, GetTokenData, AuthRedirect };
+const AuthData = JSON.parse(sessionStorage.getItem('user'));
+
+export { GetAuthData, GetTokenData, AuthRedirect, AuthData };
