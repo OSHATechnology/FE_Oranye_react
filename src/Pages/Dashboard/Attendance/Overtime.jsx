@@ -8,6 +8,7 @@ import ConfigHeader from "../../Auth/ConfigHeader";
 import moment from "moment";
 import ModalDetail from "../../../Components/Modal/ModalDetail";
 import Search from "../../../Components/Search";
+import Pagination from "react-js-pagination";
 
 const Overtime = () => {
   // const [isOpen, setIsOpen] = useState(false);
@@ -32,16 +33,16 @@ const Overtime = () => {
     setModalOvertime(true);
   }
 
+  const fetchDataOvertime = async (page = 1, search = "") => {
+    const result = await axios.get(
+      `/api/overtime?search=${search}&page=${page}`,
+      ConfigHeader
+    );
+    setDataOvertime(result.data.data.data);
+    setTotalOvertime(result.data.data.length);
+  };
   useEffect(() => {
     
-    const fetchDataOvertime = async () => {
-      const result = await axios.get(
-        `/api/overtime`,
-        ConfigHeader
-      );
-      setDataOvertime(result.data.data.data);
-      setTotalOvertime(result.data.data.length);
-    };
 
     fetchDataOvertime().catch((err) => {
       console.log(err.message);
@@ -64,6 +65,12 @@ const Overtime = () => {
   //   },
   // ];
 
+  const handleSearch = (e) => {
+    try {
+      fetchDataOvertime(1, e.target.value);
+    } catch (err) {}
+  };
+
   return (
     <div className="w-full space-y-4">
       <div className="flex gap-8">
@@ -82,7 +89,7 @@ const Overtime = () => {
           </p>
         </div>
         <div className="flex gap-2 md:justify-end">
-          <Search />
+          <Search onChange={handleSearch}/>
           <ButtonSmall
             icon="ant-design:filter-outlined"
             onClick={() => setIsModalFilterOpened(!isModalFilterOpened)}
@@ -154,6 +161,23 @@ const Overtime = () => {
               data={overtimeDetail}
             />
           )}
+          <Pagination
+          activePage={
+            dataOvertime.current_page ? dataOvertime.current_page : 0
+          }
+          itemsCountPerPage={
+            dataOvertime?.per_page ? dataOvertime?.per_page : 0
+          }
+          totalItemsCount={dataOvertime?.total ? dataOvertime?.total : 0}
+          onChange={(pageNumber) => {
+            fetchDataOvertime(pageNumber);
+          }}
+          innerClass="flex justify-center items-center gap-2 my-8 "
+          pageRangeDisplayed={8}
+          itemClass="text-sm font-semibold text-slate-600 rounded-full px-2 hover:bg-slate-100 "
+          linkClass="page-link"
+          activeClass="bg-slate-100 font-bold"
+        />
       </div>
     </div>
   );

@@ -1,10 +1,55 @@
 import { Icon } from "@iconify/react";
+import axios from "axios";
 import moment from "moment";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import TitleDashboard from "../../Components/TitleDashboard";
+import ConfigHeader from "../Auth/ConfigHeader";
 
 const LoanPayment = () => {
+  const paramsData = useParams();
+  const [datainstalment, setDataInstalment] = useState([]);
+
+  const [dataLoan, setDataLoan] = useState([
+    {
+      loanId: "",
+      name: "",
+      employee: {
+        id: "",
+        name: "",
+      },
+      createdBy: {
+        id: "",
+        employee: "",
+      },
+      nominal: "",
+      loanDate: "",
+      paymentDate: "",
+      status: "",
+    },
+  ]);
+
+  const fetchInstalmentData = async () => {
+    try {
+      const res = await axios.get(`/api/instalment_by_loan/${paramsData.id}`, ConfigHeader);
+      setDataInstalment(res.data.data);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  useEffect(() => {
+    const fetchDataLoan = async () => {
+      const data = await axios.get(`/api/loan/${paramsData.id}`, ConfigHeader);
+      setDataLoan(data.data.data);
+    };
+    fetchDataLoan().catch((err) => {
+      console.log(err.message);
+    });
+    fetchInstalmentData();
+  }, [paramsData]);
+
+
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -30,28 +75,28 @@ const LoanPayment = () => {
                     <tr>
                         <td>Nama</td>
                         <td className="px-3">:</td>
-                        <td>Fachrian</td>
+                        <td>{dataLoan.employee ? dataLoan.employee.name : ""}</td>
                     </tr>
                     <tr>
                         <td>Jenis Pinjaman</td>
                         <td className="px-3">:</td>
-                        <td>Kesehatan</td>
+                        <td>{dataLoan.name}</td>
                     </tr>
                     <tr>
                         <td>Jumlah Pinjaman</td>
                         <td className="px-3">:</td>
-                        <td>300.000</td>
+                        <td>{dataLoan.nominal}</td>
                     </tr>
                     <tr>
                         <td>Tanggal Pinjaman</td>
                         <td className="px-3">:</td>
-                        <td>{moment().format("DD MMMM YYYY")}</td>
+                        <td>{moment(dataLoan.loanDate).format("DD MMMM YYYY")}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center border border-gray-100 rounded shadow p-2">
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
           <table className=" w-full text-center overflow-x-scroll">
             <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
@@ -63,12 +108,29 @@ const LoanPayment = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              <tr>
+            {
+                datainstalment.data ? Object.keys(datainstalment.data).map((row, index) => (
+                  <tr key={datainstalment.data[row].id} className=" shadow ">
+                    <td>{index + 1}</td>
+                    <td>{moment(datainstalment.data[row].date).format("DD MMMM YYYY")}</td>
+                    <td>{datainstalment.data[row].nominal}</td>
+                    <td>{datainstalment.data[row].remainder}</td>
+                    {/* <td>
+                      <ButtonSmall
+                        bg="bg-red-500"
+                        icon="bi:trash"
+                        onClick={() => showModalDelete(datainstalment.data[row].id)}
+                      />
+                    </td> */}
+                  </tr> 
+                )) : <tr><td colSpan="5">Loading</td></tr>
+              }
+              {/* <tr>
                 <td>1</td>
                 <td>{moment().format("MMMM YYYY")}</td>
                 <td>100.000</td>
                 <td>200.000</td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>

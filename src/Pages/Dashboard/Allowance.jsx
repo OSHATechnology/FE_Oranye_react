@@ -101,7 +101,7 @@ const Allowance = () => {
               <ModalAddAllowance
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
-                title="Tambah Karyawan"
+                title="Tambah Allowance"
               />
             </div>
             <Search onChange={handleSearchAllowance} />

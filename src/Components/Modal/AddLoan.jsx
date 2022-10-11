@@ -5,39 +5,39 @@ import React, { useState, useEffect } from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 
-const AddAllowance = ({ isOpen, setIsOpen, title }) => {
-  const [role, setRole] = useState("");
-  const [type, setType] = useState("");
+const AddLoan = ({ isOpen, setIsOpen, title }) => {
+  const [employee, setEmployee] = useState("");
+  const [name, setName] = useState("");
   const [nominal, setNominal] = useState("");
-  const [dataRole, setDataRole] = useState([]);
-  const [dataType, setDataType] = useState([]);
+  const [loanDate, setLoanDate] = useState("");
+  const [paymentDate, setPaymentDate] = useState("");
+  const [dataEmployee, setDataEmployee] = useState([]);
 
   useEffect(() => {
-    const fetchDataRole = async () => {
-      const data = await axios.get(`/api/roles`, ConfigHeader);
-      setDataRole(data.data.data.data);
+    const fetchDataEmployee = async () => {
+      const data = await axios.get(`/api/employee`, ConfigHeader);
+      setDataEmployee(data.data.data.data);
     };
-
-    const fetchDataType = async () => {
-      const data = await axios.get(`/api/type_of_allowance`, ConfigHeader);
-      setDataType(data.data.data.data);
-    };
-
-    fetchDataRole();
-    fetchDataType();
+    fetchDataEmployee();
   }, []);
 
   function changeDataToNull() {
-    setRole("");
-    setType("");
+    setEmployee("");
+    setName("");
     setNominal("");
+    setLoanDate("");
+    setPaymentDate("");
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      roleId: role,
-      typeId: type,
+      empId: employee,
+      name: name,
+      nominal: nominal,
+      loanDate: loanDate,
+      paymentDate: paymentDate,
+      status: 0,
     };
 
     try {
@@ -45,7 +45,8 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
       for (let key in data) {
         formData.append(key, data[key]);
       }
-      const rslt = await axios.post("/api/allowance", formData, ConfigHeader);
+      console.log(FormData);
+      const rslt = await axios.post("/api/loan", formData, ConfigHeader);
       console.log(rslt);
       //   setIsOpen(false);
 
@@ -65,7 +66,7 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
           "fixed inset-0 z-10 flex items-center justify-center overflow-y-auto bg-gray-800/50"
         }
       >
-        <div className="items-start bg-white h-fit w-full md:w-1/5 p-4 border-2 rounded space-y-4">
+        <div className="items-start bg-white h-fit w-full md:w-2/5 p-4 border-2 rounded space-y-4">
           <div className="flex text-center text-xl font-bold justify-between ">
             {title}
             <button className=" float-right" onClick={() => setIsOpen(false)}>
@@ -79,24 +80,60 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
             <form id="allowance_form" onSubmit={handleSubmit}>
               <div className="">
-                <p className="text-sm font-extrabold text-gray-600">Jabatan</p>
+                <p className="text-sm font-extrabold text-gray-600">Employee Name</p>
                 <select
-                  name="role"
+                  name="employee"
                   id=""
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => setRole(e.target.value)}
+                  onChange={(e) => setEmployee(e.target.value)}
                 >
                   <option value="-" selected disabled>
-                    -- select role --
+                    -- select Employee --
                   </option>
-                  {dataRole.map((row, index) => (
-                    <option value={row.roleId} key={index}>
-                      {row.nameRole}
+                  {dataEmployee.map((row, index) => (
+                    <option value={row.employeeId} key={index}>
+                      {row.name}
                     </option>
                   ))}
                 </select>
               </div>
               <div className="">
+                <p className="text-sm font-extrabold text-gray-600">Loan Name</p>
+                <input
+                  type="text"
+                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="">
+                <p className="text-sm font-extrabold text-gray-600">Nominal</p>
+                <input
+                  type="text"
+                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                  value={nominal}
+                  onChange={(e) => setNominal(e.target.value)}
+                />
+              </div>
+              <div className="">
+                <p className="text-sm font-extrabold text-gray-600">Loan Date</p>
+                <input
+                  type="date"
+                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                  value={loanDate}
+                  onChange={(e) => setLoanDate(e.target.value)}
+                />
+              </div>
+              <div className="">
+                <p className="text-sm font-extrabold text-gray-600">Payment Date</p>
+                <input
+                  type="date"
+                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                  value={paymentDate}
+                  onChange={(e) => setPaymentDate(e.target.value)}
+                />
+              </div>
+              {/* <div className="">
                 <p className="text-sm font-extrabold text-gray-600">
                   Tunjangan
                 </p>
@@ -133,7 +170,7 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
                   value={nominal}
                   onChange={(e) => setNominal(e.target.value)}
                 />
-              </div>
+              </div> */}
             </form>
           </div>
 
@@ -153,4 +190,4 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
   );
 };
 
-export default AddAllowance;
+export default AddLoan;
