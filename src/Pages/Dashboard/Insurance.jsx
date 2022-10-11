@@ -7,9 +7,17 @@ import Search from "../../Components/Search";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
 
-const Insurance = () => {
-  const [dataInsurance, setDataInsurance] = useState([]);
+const fecthListItem = async (insuranceId) => {
+  const response = await axios.get(
+    "api/insurance_item?insuranceId=" + insuranceId,
+    ConfigHeader
+  );
+  return response.data;
+};
 
+const Insurance = (data) => {
+  const [dataInsurance, setDataInsurance] = useState([]);
+  const [listItem, setListItem] = useState([]);
   const fetchDataInsurance = async (page = 1, search = "") => {
     const result = await axios.get(
       `/api/insurance?search=${search}&page=${page}`,
@@ -20,7 +28,11 @@ const Insurance = () => {
 
   useEffect(() => {
     fetchDataInsurance();
-  }, []);
+    data.insuranceId !== undefined &&
+      fecthListItem(data.insuranceId).then((data) => {
+        setListItem(data);
+      });
+  }, [data.insuranceId]);
 
   const handleSearch = (e) => {
     try {
@@ -42,7 +54,7 @@ const Insurance = () => {
               <ButtonNormal bg="bg-green-600 " icon="bi:plus" text="Add" />
             </div>
 
-            <Search onChange={handleSearch}/>
+            <Search onChange={handleSearch} />
           </div>
         </div>
 
@@ -81,7 +93,7 @@ const Insurance = () => {
               <tbody className="text-xs md:text-xs font-medium">
                 {dataInsurance.data ? (
                   Object.keys(dataInsurance.data).map((row, index) => (
-                    <tr key={dataInsurance.data[row].insuranceId}>
+                    <tr key={dataInsurance.data[row].id}>
                       <td>{index + 1}</td>
                       <td>{dataInsurance.data[row].name}</td>
                       <td>{dataInsurance.data[row].company}</td>
@@ -95,6 +107,22 @@ const Insurance = () => {
                           <li>Layanan 1</li>
                           <li>Layanan 2</li>
                         </ul>
+                        {/* <ul className="list-disc">
+                          {listItem.data[row].data
+                            ? Object.keys(listItem.data[row].data).map(
+                                (key1, index1) => {
+                                  return (
+                                    <li key={index1}>
+                                      {
+                                        listItem.data[row].data[key1]
+                                          .name
+                                      }
+                                    </li>
+                                  );
+                                }
+                              )
+                            : null}
+                        </ul> */}
                       </td>
                       <td>
                         <ul>
@@ -109,13 +137,20 @@ const Insurance = () => {
                         </ul>
                       </td>
                       <td className="w-24">
-                        <div>
+                        {/* <div>
                           <Link to={`../manageInsurance`}>
                             <span className="text-white bg-slate-600 rounded p-1">
                               Manage
                             </span>
                           </Link>
-                        </div>
+                        </div> */}
+                        <div className="flex justify-center gap-1">
+                        <Link to={`../manageInsurance/${dataInsurance.data[row].id}`}>
+                        <span className="text-white bg-slate-600 rounded p-1">
+                              Manage
+                            </span>
+                        </Link>
+                      </div>
                       </td>
                     </tr>
                   ))

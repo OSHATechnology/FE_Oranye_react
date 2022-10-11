@@ -49,7 +49,6 @@ const LoanPayment = () => {
     fetchInstalmentData();
   }, [paramsData]);
 
-  console.log(datainstalment)
 
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -97,7 +96,7 @@ const LoanPayment = () => {
             </table>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center border border-gray-100 rounded shadow p-2">
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
           <table className=" w-full text-center overflow-x-scroll">
             <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
