@@ -7,6 +7,7 @@ import ButtonNormal from "../../../Components/ButtonNormal";
 import ButtonSmall from "../../../Components/ButtonSmall";
 import Search from "../../../Components/Search";
 import ConfigHeader from "../../Auth/ConfigHeader";
+import ModalAddLoan from "../../../Components/Modal/AddLoan";
 
 const Kredit = () => {
   const [dataLoan, setDataLoan] = useState([]);
@@ -28,7 +29,7 @@ const Kredit = () => {
       fetchDataLoan(1, e.target.value);
     } catch (err) {}
   };
-
+  console.log(dataLoan);
   // Add Loan
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
 
@@ -42,6 +43,13 @@ const Kredit = () => {
             text="Add"
             onClick={() => setIsModalAddOpened(!isModalAddOpened)}
           />
+
+          <ModalAddLoan
+            isOpen={isModalAddOpened}
+            setIsOpen={setIsModalAddOpened}
+            title="Tambah Allowance"
+          />
+
           <Search onChange={handleSearch} />
         </div>
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
@@ -49,9 +57,9 @@ const Kredit = () => {
             <thead className="bg-slate-200 h-10 border-b border-slate-500 text-xs md:text-sm">
               <tr className="">
                 <th className=" py-2">No</th>
-                <th className="">Nama Employee</th>
-                <th className="">Tanggal Pinjam</th>
-                <th className="">Status Lunas</th>
+                <th className="">Employee Name</th>
+                <th className="">Loan Date</th>
+                <th className="">Paid Status</th>
                 <th className="">Action</th>
               </tr>
             </thead>
@@ -62,7 +70,7 @@ const Kredit = () => {
                     <td>{index + 1}</td>
                     <td>{dataLoan.data[row].employee.name}</td>
                     <td>{dataLoan.data[row].loanDate}</td>
-                    <td>{dataLoan.data[row].status}</td>
+                    <td>{(dataLoan.data[row].status)?'Lunas' : 'Belum Lunas'}</td>
                     <td className="w-24">
                       <div className="flex justify-center gap-1">
                         <Link to={"../LoanPayment"}>
