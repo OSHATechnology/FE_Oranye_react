@@ -222,8 +222,8 @@ const CardRequest = () => {
                                 leaveRequest?.map((item, index) => (
                                     <tr key={index}>
                                         <td className="text-xs font-medium md:text-base">{item?.type}</td>
-                                        <td className="text-xs text-gray-500 md:text-base">{item?.requestAt && item?.requestAt}</td>
-                                        <td className="text-xs text-gray-500 md:text-base">{item?.confirmedAt && item?.confirmedAt}</td>
+                                        <td className="text-xs text-gray-500 md:text-base">{item?.requestAt && moment(item?.requestAt).format('H:m DD MMMM Y')}</td>
+                                        <td className="text-xs text-gray-500 md:text-base">{item?.confirmedAt && moment(item?.confirmedAt).format('H:m DD MMMM Y')}</td>
                                         {item?.status === "Confirmed" && (
                                             <td className="text-xs md:text-base text-green-500">{item?.status}</td>
                                         )}

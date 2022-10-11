@@ -1,52 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { Tab } from "@headlessui/react";
+import ConfigHeader from "../Auth/ConfigHeader";
+import axios from "axios";
+import Spinner2 from "../../Components/Spinner2";
+import LogoImg from "../../assets/oranye-logo.png";
+import moment from "moment";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
 const FurloughCard = () => {
+    const [typeFurlough, setTypeFurlough] = useState('');
+    const [startAt, setStartAt] = useState('');
+    const [endAt, setEndAt] = useState('');
+    const [listTypeFurlough, setListTypeFurlough] = useState([]);
+
+    const fecthTypeFurlough = async () => {
+        const res = await axios.get('/api/furlough_type?show_all=true', ConfigHeader);
+        setListTypeFurlough(res.data.data);
+    }
+
+    const handleFurlough = (e) => {
+        e.preventDefault();
+        try {
+            const data = {
+                type: "furlough",
+                type_furlough: typeFurlough,
+                start_at: startAt,
+                end_at: endAt
+            }
+            const resp = axios.post('/api/my/add-leave-request', data, ConfigHeader);
+            resp.then(res => {
+                console.log(res);
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fecthTypeFurlough();
+    }, [])
+
     return (
         <div className="">
             <div className="flex flex-row w-full">
                 <div className="flex basis-1/4 items-center justify-center">
-                    <img src="assets/Logo.png" alt="" />
+                    <img src={LogoImg} alt="" />
                 </div>
                 <div className="basis-3/4 m-4">
-                    <form action="">
+                    <form onSubmit={handleFurlough}>
                         <table className="w-full">
                             <tbody>
-                                <tr>
-                                    <td className="w-24">
-                                        <p className="mr-2 text-md">ID</p>
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            name=""
-                                            id=""
-                                            readOnly
-                                            placeholder="Id Employee"
-                                            className="rounded w-full border border-gray-300"
-                                        />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p className="mr-2 text-md">Name</p>
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            name=""
-                                            id=""
-                                            readOnly
-                                            placeholder="Name Employee"
-                                            className="rounded w-full border border-gray-300"
-                                        />
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td>
                                         <p className="mr-2 text-md">Type</p>
@@ -55,11 +62,13 @@ const FurloughCard = () => {
                                         <select
                                             name=""
                                             id=""
+                                            onChange={(e) => setTypeFurlough(e.target.value)}
                                             className="rounded w-full border border-gray-300"
                                         >
-                                            <option value="">Cuti Hamil</option>
-                                            <option value="">Cuti Nikah</option>
-                                            <option value="">Cuti We</option>
+                                            <option value="-">-- Select Type--</option>
+                                            {listTypeFurlough.length > 0 && listTypeFurlough.map((item, index) => (
+                                                <option key={index} value={item.furTypeId}>{item.name}</option>
+                                            ))}
                                         </select>
                                     </td>
                                 </tr>
@@ -72,6 +81,7 @@ const FurloughCard = () => {
                                             type="date"
                                             name=""
                                             id=""
+                                            onChange={(e) => setStartAt(e.target.value)}
                                             placeholder="Start Date"
                                             className="rounded w-full border border-gray-300"
                                         />
@@ -86,6 +96,7 @@ const FurloughCard = () => {
                                             type="date"
                                             name=""
                                             id=""
+                                            onChange={(e) => setEndAt(e.target.value)}
                                             placeholder="End Date"
                                             className="rounded w-full border border-gray-300"
                                         />
@@ -94,8 +105,8 @@ const FurloughCard = () => {
                             </tbody>
                         </table>
                         <div className="flex justify-end">
-                            <button className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
-                                Submit
+                            <button type="submit" className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
+                                Request Furlough
                             </button>
                         </div>
                     </form>
@@ -106,92 +117,87 @@ const FurloughCard = () => {
 };
 
 const WorkPermitCard = () => {
+    const [dataWorkPermit, setDataWorkPermit] = useState({
+        start_at: '',
+        end_at: '',
+    });
+
+    const handleWorkPermit = (e) => {
+        e.preventDefault();
+        try {
+            const data = {
+                type: "work_permit",
+                ...dataWorkPermit
+            }
+            const resp = axios.post('/api/my/add-leave-request', data, ConfigHeader);
+            resp.then(res => {
+                console.log(res);
+            })
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div className="flex">
             <div className="flex flex-row w-full">
                 <div className="flex basis-1/4 items-center justify-center">
-                    <img src="assets/Logo.png" alt="" />
+                    <img src={LogoImg} alt="" />
                 </div>
                 <div className="basis-3/4 m-4">
-                    <form action="">
+                    <form onSubmit={handleWorkPermit}>
                         <table className="w-full">
-                            <tr>
-                                <td className="w-24">
-                                    <p className="mr-2 text-md">ID</p>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name=""
-                                        id=""
-                                        readOnly
-                                        placeholder="Id Employee"
-                                        className="rounded w-full border border-gray-300"
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p className="mr-2 text-md">Name</p>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name=""
-                                        id=""
-                                        readOnly
-                                        placeholder="Name Employee"
-                                        className="rounded w-full border border-gray-300"
-                                    />
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <p className="mr-2 text-md">Start Date</p>
-                                </td>
-                                <td>
-                                    <input
-                                        type="date"
-                                        name=""
-                                        id=""
-                                        placeholder="Start Date"
-                                        className="rounded w-full border border-gray-300"
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p className="mr-2 text-md">End Date</p>
-                                </td>
-                                <td>
-                                    <input
-                                        type="date"
-                                        name=""
-                                        id=""
-                                        placeholder="End Date"
-                                        className="rounded w-full border border-gray-300"
-                                    />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p className="mr-2 text-md">Picture</p>
-                                </td>
-                                <td colSpan="2">
-                                    <input
-                                        type="file"
-                                        name=""
-                                        id=""
-                                        placeholder="End Date"
-                                        className="rounded w-full border border-gray-300"
-                                    />
-                                </td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <p className="mr-2 text-md">Start Date</p>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="datetime-local"
+                                            name=""
+                                            id=""
+                                            onChange={(e) => setDataWorkPermit({ ...dataWorkPermit, start_at: e.target.value })}
+                                            placeholder="Start Date"
+                                            className="rounded w-full border border-gray-300"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p className="mr-2 text-md">End Date</p>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="datetime-local"
+                                            name=""
+                                            id=""
+                                            onChange={(e) => setDataWorkPermit({ ...dataWorkPermit, end_at: e.target.value })}
+                                            placeholder="End Date"
+                                            className="rounded w-full border border-gray-300"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p className="mr-2 text-md">Picture</p>
+                                    </td>
+                                    <td colSpan="2">
+                                        <input
+                                            type="file"
+                                            name=""
+                                            id=""
+                                            placeholder="End Date"
+                                            className="rounded w-full border border-gray-300"
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                         <div className="flex justify-end">
-                            <button className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
-                                Submit
+                            <button type="submit" className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
+                                Request Work Permit
                             </button>
                         </div>
                     </form>
@@ -215,8 +221,52 @@ export default function KaryawanKehadiran() {
         },
     ];
 
+    const getColorStatus = (status) => {
+        switch (status.toLowerCase()) {
+            case "confirmed":
+                return "text-green-800";
+            case "rejected":
+                return "text-red-800";
+            case "waiting for approved":
+                return "text-yellow-800";
+            default:
+                return "text-gray-800";
+        }
+    };
+
+    const getIconType = (type) => {
+        switch (type.toLowerCase()) {
+            // iconify
+            case "furlough":
+                return <Icon icon="bi:airplane-engines-fill" className="text-xl mr-1" />;
+            case "work permit":
+                return "";
+            default:
+                return "";
+        }
+    };
+
+    const [leaveRequest, setLeaveRequest] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const fetchDataLeaveRequest = async () => {
+        try {
+            const response = await axios.get(`/api/my/leave-requests?show_all=true`, ConfigHeader);
+            setLeaveRequest(response.data.data);
+            console.log(response.data.data);
+            setIsLoading(true);
+        } catch (error) {
+            console.log("failed fetch data leave request");
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchDataLeaveRequest();
+    }, []);
+
     return (
-        <div className="">
+        <div className="pb-4">
             <div className="flex justify-center mt-8 mb-2">
                 <div className="justify-end flex md:w-4/5 ">
                     <button className="w-fit h-fit bg-yellow-500 rounded p-1">
@@ -274,77 +324,46 @@ export default function KaryawanKehadiran() {
                             <div className="mt-6">
                                 <form action="">
                                     <table className="w-full">
-                                        <tr>
-                                            <td>
-                                                <p className="mr-2 text-md">
-                                                    ID
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="text"
-                                                    name=""
-                                                    id=""
-                                                    readOnly
-                                                    placeholder="Id Employee"
-                                                    className="rounded w-full border border-gray-300"
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p className="mr-2 text-md">
-                                                    ID Assigned
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="text"
-                                                    name=""
-                                                    id=""
-                                                    readOnly
-                                                    placeholder="ID Assigned"
-                                                    className="rounded w-full border border-gray-300"
-                                                />
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <p className="mr-2 text-md">
-                                                    Start
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="date"
-                                                    name=""
-                                                    id=""
-                                                    placeholder="Start Date"
-                                                    className="rounded w-full border border-gray-300"
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p className="mr-2 text-md">
-                                                    End
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="date"
-                                                    name=""
-                                                    id=""
-                                                    placeholder="End Date"
-                                                    className="rounded w-full border border-gray-300"
-                                                />
-                                            </td>
-                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <p className="mr-2 text-md">
+                                                        Start Time
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        type="datetime-local"
+                                                        name=""
+                                                        id=""
+                                                        placeholder="Start Date"
+                                                        required
+                                                        className="rounded w-full border border-gray-300"
+                                                    />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p className="mr-2 text-md">
+                                                        End Time
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        type="datetime-local"
+                                                        name=""
+                                                        id=""
+                                                        required
+                                                        placeholder="End Date"
+                                                        className="rounded w-full border border-gray-300"
+                                                    />
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                     <div className="flex justify-end">
                                         <button className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
-                                            Submit
+                                            Request Overtime
                                         </button>
                                     </div>
                                 </form>
@@ -364,46 +383,45 @@ export default function KaryawanKehadiran() {
                         <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
                             <tr className="">
                                 <th className=" py-2">No</th>
-                                <th className="">Name</th>
-                                <th className="">Date</th>
                                 <th className="">Type</th>
+                                <th className="">Requested At</th>
+                                <th className="">Confirmed At</th>
                                 <th className="">Status</th>
                                 <th className="">Action</th>
                             </tr>
                         </thead>
                         <tbody className="text-xs md:text-sm font-medium">
-                            <tr className=" shadow ">
-                                <td>1</td>
-                                <td>
-                                    <div className="text-center flex items-center justify-center md:space-x-4">
-                                        <img
-                                            src="assets/PP.png"
-                                            alt=""
-                                            className="w-10"
-                                        />
-                                        <span>Tatang Suherman</span>
-                                    </div>
-                                </td>
-                                <td>06 Sept 2022</td>
-                                <td>
-                                    <div className="flex items-center justify-center py-4">
-                                        <Icon
-                                            icon="bi:airplane-engines-fill"
-                                            className="text-xl mr-1"
-                                        />
-                                        <span>Furlough</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-green-800">
-                                        Pending
-                                    </span>
-                                </td>
-                                <td>
-                                    <button className="bg-blue-600 rounded p-1"><Icon icon="carbon:view" className="text-white"></Icon></button>
-                                </td>
-                            </tr>
-
+                            {isLoading ? (
+                                leaveRequest?.data?.map((data, index) => (
+                                    <tr key={data.id} className="border-b border-gray-200">
+                                        <td className="py-2">{index + 1}</td>
+                                        <td>
+                                            <div className="flex items-center justify-center py-4">
+                                                {getIconType(data.type)}
+                                                <span>{data.type}</span>
+                                            </div>
+                                        </td>
+                                        <td>{moment(data.requestAt).format('H:m DD MMMM Y')}</td>
+                                        <td>{moment(data.confirmedAt).format('H:m DD MMMM Y')}</td>
+                                        <td>
+                                            <span className={"px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 " + getColorStatus(data.status)}>
+                                                {data.status}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300">
+                                                <Icon icon="carbon:view" className="text-white" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="6" className="p-2">
+                                        <Spinner2 />
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
