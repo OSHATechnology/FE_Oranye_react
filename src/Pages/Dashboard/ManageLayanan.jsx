@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import ButtonNormal from '../../Components/ButtonNormal'
 import ButtonSmall from '../../Components/ButtonSmall'
 import Search from '../../Components/Search'
+import SimpleCard from '../../Components/SimpleCard'
 import TitleDashboard from '../../Components/TitleDashboard'
 
 const ManageLayanan = () => {
@@ -13,7 +14,7 @@ const ManageLayanan = () => {
         Title="Insurance Details"
         Keterangan="Detailed information of Insurance"
       />
-
+      
 <div className="flex gap-2 items-center">
         <Link
           to="../insurance"
@@ -31,6 +32,28 @@ const ManageLayanan = () => {
         </button>
         
       </div>
+
+<div className="flex gap-2">
+        <SimpleCard
+          bgColor=" hover:bg-slate-100"
+          Title="Insurance Name"
+          Icon=""
+          // Count={dataTeam.name}
+        />
+        <SimpleCard
+          bgColor=" hover:bg-slate-100"
+          Title="Company Name"
+          Icon=""
+          // Count={dataTeam.leadBy ? dataTeam.leadBy.employee : ""}
+        />
+        <SimpleCard
+          bgColor=" hover:bg-slate-100"
+          Title="Address"
+          Icon=""
+          // Count={dataTeam.createdBy ? dataTeam.createdBy.employee : ""}
+        />
+      </div>
+
 
     <div className='space-y-2'>
       <div className="flex justify-center mt-16">

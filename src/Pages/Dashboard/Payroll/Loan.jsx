@@ -59,6 +59,7 @@ const Kredit = () => {
                 <th className=" py-2">No</th>
                 <th className="">Employee Name</th>
                 <th className="">Loan Date</th>
+                <th className="">Payment Date</th>
                 <th className="">Paid Status</th>
                 <th className="">Action</th>
               </tr>
@@ -70,10 +71,11 @@ const Kredit = () => {
                     <td>{index + 1}</td>
                     <td>{dataLoan.data[row].employee.name}</td>
                     <td>{dataLoan.data[row].loanDate}</td>
+                    <td>{dataLoan.data[row].paymentDate}</td>
                     <td>{(dataLoan.data[row].status)?'Lunas' : 'Belum Lunas'}</td>
                     <td className="w-24">
                       <div className="flex justify-center gap-1">
-                        <Link to={"../LoanPayment"}>
+                        <Link to={`../LoanPayment/${dataLoan.data[row].loanId}`}>
                           <ButtonSmall
                             bg="bg-blue-600"
                             icon="carbon:view"

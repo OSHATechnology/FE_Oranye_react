@@ -55,17 +55,17 @@ const Insurance = () => {
                     No
                   </th>
                   <th rowSpan={2} className="border">
-                    Name
+                    Insurance Name
                   </th>
                   <th rowSpan={2} className="border">
-                    Name PT
+                    Company Name
                   </th>
                   <th rowSpan={2} className="border">
                     Address
                   </th>
 
                   <th colSpan={3} className="border">
-                    Layanan Asuransi
+                    Insurance Service
                   </th>
 
                   <th rowSpan={2} className="border">
@@ -73,9 +73,9 @@ const Insurance = () => {
                   </th>
                 </tr>
                 <tr>
-                  <th className="border">Nama Layanan</th>
-                  <th className="border">Type Layanan</th>
-                  <th className="border">Persen</th>
+                  <th className="border">Service Name</th>
+                  <th className="border">Service Type</th>
+                  <th className="border">Percen</th>
                 </tr>
               </thead>
               <tbody className="text-xs md:text-xs font-medium">
