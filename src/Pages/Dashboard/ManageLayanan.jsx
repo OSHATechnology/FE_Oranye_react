@@ -128,7 +128,7 @@ const ManageLayanan = () => {
                   <ButtonSmall bg="bg-red-500" icon="bi:trash" />
                 </td>
               </tr> */}
-              {dataItem.map((item,index) => {
+              {/* {dataItem.map((item,index) => {
               {console.log(item)}
                 <tr key={item.insItemId} className=" shadow ">
                   <td>{index + 1}</td>
@@ -139,23 +139,24 @@ const ManageLayanan = () => {
                     <ButtonSmall bg="bg-red-500" icon="bi:trash" />
                   </td>
               </tr> 
-              })}
+              })} */}
               <tr>
                 <td>asd</td>
               </tr>
-              {/* {
-                dataItem.data ? Object.keys(dataItem.data).map((row, index) => (
-                  <tr key={dataItem.data[row].id} className=" shadow ">
+              {
+                dataInsurance.data ? (
+                  Object.keys(dataInsurance.data)).map((row, index) => (
+                  <tr key={dataInsurance.data[row].id} className=" shadow ">
                     <td>{index + 1}</td>
-                    <td>{dataItem.data[row].name}</td>
-                    <td>{dataItem.data[row].type}</td>
-                    <td>{dataItem.data[row].percent}</td>
+                    <td>{dataInsurance.data[row].name}</td>
+                    <td>{dataInsurance.data[row].type}</td>
+                    <td>{dataInsurance.data[row].percent}</td>
                     <td>
                   <ButtonSmall bg="bg-red-500" icon="bi:trash" />
                 </td>
                   </tr> 
                 )) : <tr><td colSpan="5">Loading</td></tr>
-              } */}
+              }
             </tbody>
           </table>
         </div>

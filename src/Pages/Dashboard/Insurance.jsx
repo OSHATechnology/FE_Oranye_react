@@ -30,7 +30,6 @@ const Insurance = (data) => {
     fetchDataInsurance();
     data.insuranceId !== undefined &&
       fecthListItem(data.insuranceId).then((data) => {
-        setListItem(data);
       });
   }, [data.insuranceId]);
 
@@ -93,7 +92,7 @@ const Insurance = (data) => {
               <tbody className="text-xs md:text-xs font-medium">
                 {dataInsurance.data ? (
                   Object.keys(dataInsurance.data).map((row, index) => (
-                    <tr key={dataInsurance.data[row].id}>
+                    <tr key={dataInsurance.data[row].id} className="border-b border-gray-200">
                       <td>{index + 1}</td>
                       <td>{dataInsurance.data[row].name}</td>
                       <td>{dataInsurance.data[row].company}</td>
@@ -103,18 +102,18 @@ const Insurance = (data) => {
                         </p>
                       </td>
                       <td>
-                        <ul className="list-none">
+                        {/* <ul className="list-none">
                           <li>Layanan 1</li>
                           <li>Layanan 2</li>
-                        </ul>
-                        {/* <ul className="list-disc">
-                          {listItem.data[row].data
-                            ? Object.keys(listItem.data[row].data).map(
+                        </ul> */}
+                        <ul className="list-disc px-6 text-start">
+                          {dataInsurance?.data[row]?.data
+                            ? Object.keys(dataInsurance.data[row].data).map(
                                 (key1, index1) => {
                                   return (
                                     <li key={index1}>
                                       {
-                                        listItem.data[row].data[key1]
+                                        dataInsurance.data[row].data[key1]
                                           .name
                                       }
                                     </li>
@@ -122,18 +121,42 @@ const Insurance = (data) => {
                                 }
                               )
                             : null}
-                        </ul> */}
-                      </td>
-                      <td>
-                        <ul>
-                          <li>Layanan Kesehatan</li>
-                          <li>Layanan Kesehatan</li>
                         </ul>
                       </td>
                       <td>
-                        <ul>
-                          <li>5%</li>
-                          <li>5%</li>
+                      <ul className=" px-6 text-start">
+                          {dataInsurance?.data[row]?.data
+                            ? Object.keys(dataInsurance.data[row].data).map(
+                                (key1, index1) => {
+                                  return (
+                                    <li key={index1}>
+                                      {
+                                        dataInsurance.data[row].data[key1]
+                                          .type
+                                      }
+                                    </li>
+                                  );
+                                }
+                              )
+                            : null}
+                        </ul>
+                      </td>
+                      <td>
+                      <ul className=" px-6 ">
+                          {dataInsurance?.data[row]?.data
+                            ? Object.keys(dataInsurance.data[row].data).map(
+                                (key1, index1) => {
+                                  return (
+                                    <li key={index1}>
+                                      {
+                                        dataInsurance.data[row].data[key1]
+                                          .percent
+                                      }
+                                    </li>
+                                  );
+                                }
+                              )
+                            : null}
                         </ul>
                       </td>
                       <td className="w-24">
