@@ -5,13 +5,17 @@ import { Link, useParams } from "react-router-dom";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
 import Search from "../../Components/Search";
-import SimpleCard from "../../Components/SimpleCard";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
+import ModalAdd from "../../Components/Modal/AddInsuranceItem";
+import ModalDelete from "../../Components/Modal/ModalDelete";
+import Pagination from "react-js-pagination";
 
 const ManageLayanan = () => {
   const paramsData = useParams();
   const [dataItem, setDataItem] = useState([]);
+  const [insuranceItemDeleteData, setInsuranceItemDeleteData] = useState("");
+  const [modalInsuranceItemDelete, setModalInsuranceItemDelete] = useState(false);
 
   const [dataInsurance, setDataInsurance] = useState([
     {
@@ -22,32 +26,43 @@ const ManageLayanan = () => {
     },
   ]);
 
-  // const fetchItemData = async () => {
-  //   try {
-  //     const res = await axios.get(`/api/insurance_item/${paramsData.id}`, ConfigHeader);
-  //     setDataItem(res.data.data);
-  //     // console.log(res.data.data)
-  //   } catch (err) {
-  //     console.log(err.response);
-  //   }
-  // };
+  const fetchDataInsurance = async (page = 1,search = "") => {
+    const data = await axios.get(
+      `/api/insurance/${paramsData.id}?search=${search}&page=${page}`,
+      ConfigHeader
+    );
+    setDataInsurance(data.data.data);
+    console.log(data.data.data)
+    setDataItem(data.data.data.data)
+    
+  };
+
 
   useEffect(() => {
-    const fetchDataInsurance = async () => {
-      const data = await axios.get(
-        `/api/insurance/${paramsData.id}`,
-        ConfigHeader
-      );
-      setDataInsurance(data.data.data);
-      console.log(data.data.data)
-      setDataItem(data.data.data.data)
-      
-    };
     fetchDataInsurance().catch((err) => {
       console.log(err.message);
     });
     // fetchItemData();
   }, [paramsData]);
+
+  // delete
+  let dataInsuranceId = "";
+  const showModalDelete = async (insuranceId) => {
+    dataInsuranceId = insuranceId;
+    setInsuranceItemDeleteData(dataInsuranceId);
+    setModalInsuranceItemDelete(true);
+  };
+
+  const handleSearch = (e) => {
+    try{
+      fetchDataInsurance(1,e.target.value);
+    }catch(err){
+
+    }
+  }
+
+  // Add Insurance Item
+  const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -74,12 +89,12 @@ const ManageLayanan = () => {
         </button>
       </div>
 
-      <div className="border border-gray-100 rounded shadow  p-2 space-y-2">
+      <div className="border border-gray-100 rounded shadow  p-2 space-y-4">
         <div>
           <table className="text-sm font-semibold text-slate-600">
             <tbody>
               <tr>
-                <td>Insurance Nama</td>
+                <td>Insurance Name</td>
                 <td className="px-3">:</td>
                 <td>{dataInsurance.name}</td>
               </tr>
@@ -100,10 +115,21 @@ const ManageLayanan = () => {
         <div className="flex justify-center mt-16">
           <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
             <div className="flex gap-4">
-              <ButtonNormal bg="bg-green-600 " icon="bi:plus" text="Add" />
+              <ButtonNormal 
+              bg="bg-green-600 " 
+              icon="bi:plus" 
+              text="Add"
+              onClick={() => setIsModalAddOpened(!isModalAddOpened)}
+               />
+               <ModalAdd
+              isOpen={isModalAddOpened}
+              setIsOpen={setIsModalAddOpened}
+              title="Add Member"
+              data={dataInsurance}
+            />
             </div>
 
-            <Search />
+            <Search onChange={handleSearch} />
           </div>
         </div>
 
@@ -112,38 +138,32 @@ const ManageLayanan = () => {
             <thead className="bg-gray-100 h-10 border-b border-gray-400">
               <tr>
                 <th>#</th>
-                <th>Nama Layanan</th>
-                <th>Type Layanan</th>
-                <th>Persen</th>
+                <th>Service Name</th>
+                <th>Service Type</th>
+                <th>Percent</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {/* <tr>
-                <td>1</td>
-                <td>Layanan 1</td>
-                <td>Layanan Kesehatan</td>
-                <td>5%</td>
-                <td>
-                  <ButtonSmall bg="bg-red-500" icon="bi:trash" />
-                </td>
-              </tr> */}
-              {/* {dataItem.map((item,index) => {
-              {console.log(item)}
-                <tr key={item.insItemId} className=" shadow ">
-                  <td>{index + 1}</td>
-                  <td>{item.name}</td>
-                  <td>{item.type}</td>
-                  <td>{item.percent}</td>
-                  <td>
-                    <ButtonSmall bg="bg-red-500" icon="bi:trash" />
-                  </td>
-              </tr> 
-              })} */}
-              <tr>
-                <td>asd</td>
-              </tr>
               {
+                dataItem ? (
+                  Object.keys(dataItem)).map((row, index) => (
+                  <tr key={dataItem[row].insItemId} className=" shadow ">
+                    <td>{index + 1}</td>
+                    <td>{dataItem[row].name}</td>
+                    <td>{dataItem[row].type}</td>
+                    <td>{dataItem[row].percent}</td>
+                    <td>
+                    <ButtonSmall
+                        bg="bg-red-500"
+                        icon="bi:trash"
+                        onClick={() => showModalDelete(dataItem[row].insItemId)}
+                      />
+                </td>
+                  </tr> 
+                )) : <tr><td colSpan="5">Loading</td></tr>
+              }
+              {/* {
                 dataInsurance.data ? (
                   Object.keys(dataInsurance.data)).map((row, index) => (
                   <tr key={dataInsurance.data[row].id} className=" shadow ">
@@ -152,14 +172,40 @@ const ManageLayanan = () => {
                     <td>{dataInsurance.data[row].type}</td>
                     <td>{dataInsurance.data[row].percent}</td>
                     <td>
-                  <ButtonSmall bg="bg-red-500" icon="bi:trash" />
+                    <ButtonSmall
+                        bg="bg-red-500"
+                        icon="bi:trash"
+                        onClick={() => showModalDelete(dataInsurance.data[row].id)}
+                      />
                 </td>
                   </tr> 
                 )) : <tr><td colSpan="5">Loading</td></tr>
-              }
+              } */}
             </tbody>
           </table>
+          {modalInsuranceItemDelete && (
+            <ModalDelete
+              isOpen={modalInsuranceItemDelete}
+              setIsOpen={setModalInsuranceItemDelete}
+              title="Delete Service"
+              typeData="insurance_item"
+              data={insuranceItemDeleteData}
+            />
+          )}
         </div>
+        <Pagination 
+          activePage={dataInsurance.current_page ? dataInsurance.current_page : 0}
+          itemsCountPerPage={dataInsurance?.per_page ? dataInsurance?.per_page : 0 }
+          totalItemsCount={dataInsurance?.total ? dataInsurance?.total : 0}
+          onChange={(pageNumber) => {
+            fetchDataInsurance(pageNumber)
+          }}
+          innerClass="flex justify-center items-center gap-2 my-8 "
+          pageRangeDisplayed={8}
+          itemClass="text-sm font-semibold text-slate-600 rounded-full px-2 hover:bg-slate-100 "
+          linkClass="page-link"
+          activeClass="bg-slate-100 font-bold"
+        />
       </div>
     </div>
   );
