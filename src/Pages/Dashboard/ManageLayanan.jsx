@@ -10,6 +10,7 @@ import ConfigHeader from "../Auth/ConfigHeader";
 import ModalAdd from "../../Components/Modal/AddInsuranceItem";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import Pagination from "react-js-pagination";
+import ModalManage from "../../Components/Modal/ManageInsurance";
 
 const ManageLayanan = () => {
   const paramsData = useParams();
@@ -37,11 +38,21 @@ const ManageLayanan = () => {
     
   };
 
+  // const fetchDataItem = async (page = 1,search = "") => {
+  //   try {
+  //     const res = await axios.get(`api/insurance_item?insuranceId=${paramsData.id}&search=${search}&page=${page}`, ConfigHeader);
+  //     setDataItem(res.data.data);
+  //   } catch (err) {
+  //     console.log(err.response);
+  //   }
+  // };
+
 
   useEffect(() => {
     fetchDataInsurance().catch((err) => {
       console.log(err.message);
     });
+    // fetchDataItem();
     // fetchItemData();
   }, [paramsData]);
 
@@ -63,6 +74,9 @@ const ManageLayanan = () => {
 
   // Add Insurance Item
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
+
+  // Manage Insurance
+  const [isModalManageOpened, setIsModalManageOpened] = useState(false);
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -76,17 +90,26 @@ const ManageLayanan = () => {
           className="flex gap-1 items-center text-blue-400 hover:text-blue-700 w-fit"
         >
           <Icon icon="bi:arrow-left" className="text-sm  font-medium"></Icon>
+          
           <p className="text-sm  font-medium hover:font-bold">
             Back to Insurance
           </p>
+          
+        
         </Link>
         <p className="font-bold text-blue-800">|</p>
 
-        <button>
+        <button onClick={() => setIsModalManageOpened(!isModalManageOpened)}>
           <p className="text-sm  font-medium hover:font-bold text-blue-400 hover:text-blue-700 w-fit">
             Manage This Insurance
           </p>
-        </button>
+          </button>
+        <ModalManage
+          isOpen={isModalManageOpened}
+          setIsOpen={setIsModalManageOpened}
+          title="Manage This Team"
+          data={dataInsurance}
+          />
       </div>
 
       <div className="border border-gray-100 rounded shadow  p-2 space-y-4">

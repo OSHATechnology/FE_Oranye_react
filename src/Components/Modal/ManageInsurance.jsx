@@ -13,15 +13,14 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data }) => {
     const [dataInsurance, setDataInsurance] = useState([]);
 
     useEffect(() => {
-        setNameTeam(data.name);
-        setLeadById(data.companyName);
-        setCreatedById(data.address);
-        getDataInsurance();
+        setName(data.name);
+        setCompanyName(data.company);
+        setAddress(data.address);
       }, [data]);
 
       const handleSubmit = async (e) => {
         e.preventDefault();
-        await axios.patch(`/api/insurance/${data.insuranceId}`, {
+        await axios.patch(`/api/insurance/${data.id}`, {
           name: name,
           companyName: companyName,
           address: address,
@@ -33,6 +32,15 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data }) => {
         });
       };
 
+      // delete
+      const [modalInsuranceDelete, setModalInsuranceDelete] = useState(false);
+      const [insuranceDeleteData, setInsuranceDeleteData] = useState("");
+      let dataInsuranceId = "";
+      const showModalDelete = async (insuranceId) => {
+        dataInsuranceId = insuranceId;
+        setInsuranceDeleteData(dataInsuranceId);
+        setModalInsuranceDelete(true);
+      };
   return (
     <>
       <Dialog
@@ -117,8 +125,8 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data }) => {
               bg="bg-red-500 "
               text="Delete Team"
               width="w-30"
-            //   onClick={() =>
-            //     showModalDelete(data.id)}
+              onClick={() =>
+                showModalDelete(data.id)}
             />
             <ButtonNormal
               bg="bg-yellow-500 "
@@ -128,15 +136,15 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data }) => {
               
             />
           </div>
-          {/* {modalTeamDelete && (
+          {modalInsuranceDelete && (
             <ModalDelete
-              isOpen={modalTeamDelete}
-              setIsOpen={setModalTeamDelete}
-              title="Delete Team"
-              typeData="team"
-              data={teamDeleteData}
+              isOpen={modalInsuranceDelete}
+              setIsOpen={setModalInsuranceDelete}
+              title="Delete Insurance"
+              typeData="insurance"
+              data={insuranceDeleteData}
             />
-          )} */}
+          )}
         </div>
       </Dialog>
     </>

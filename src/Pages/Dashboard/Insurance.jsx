@@ -6,16 +6,18 @@ import ButtonNormal from "../../Components/ButtonNormal";
 import Search from "../../Components/Search";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
+import ModalAdd from "../../Components/Modal/AddInsurance";
 
-const fecthListItem = async (insuranceId) => {
-  const response = await axios.get(
-    "api/insurance_item?insuranceId=" + insuranceId,
-    ConfigHeader
-  );
-  return response.data;
-};
+// const fecthListItem = async (insuranceId) => {
+//   const response = await axios.get(
+//     "api/insurance_item?insuranceId=" + insuranceId,
+//     ConfigHeader
+//   );
+//   return response.data;
+// };
 
 const Insurance = (data) => {
+  const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [dataInsurance, setDataInsurance] = useState([]);
   const [listItem, setListItem] = useState([]);
   const fetchDataInsurance = async (page = 1, search = "") => {
@@ -28,9 +30,8 @@ const Insurance = (data) => {
 
   useEffect(() => {
     fetchDataInsurance();
-    data.insuranceId !== undefined &&
-      fecthListItem(data.insuranceId).then((data) => {
-      });
+    // data.insuranceId !== undefined &&
+    //   fecthListItem(data.insuranceId).then((data) => {});
   }, [data.insuranceId]);
 
   const handleSearch = (e) => {
@@ -50,7 +51,17 @@ const Insurance = (data) => {
         <div className="flex justify-center">
           <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
             <div className="flex gap-4">
-              <ButtonNormal bg="bg-green-600 " icon="bi:plus" text="Add" />
+              <ButtonNormal
+                bg="bg-green-600 "
+                icon="bi:plus"
+                text="Add"
+                onClick={() => setIsModalAddOpened(!isModalAddOpened)}
+              />
+              <ModalAdd
+                isOpen={isModalAddOpened}
+                setIsOpen={setIsModalAddOpened}
+                title="Add New Team"
+              />
             </div>
 
             <Search onChange={handleSearch} />
@@ -92,7 +103,10 @@ const Insurance = (data) => {
               <tbody className="text-xs md:text-xs font-medium">
                 {dataInsurance.data ? (
                   Object.keys(dataInsurance.data).map((row, index) => (
-                    <tr key={dataInsurance.data[row].id} className="border-b border-gray-200">
+                    <tr
+                      key={dataInsurance.data[row].id}
+                      className="border-b border-gray-200"
+                    >
                       <td>{index + 1}</td>
                       <td>{dataInsurance.data[row].name}</td>
                       <td>{dataInsurance.data[row].company}</td>
@@ -106,16 +120,13 @@ const Insurance = (data) => {
                           <li>Layanan 1</li>
                           <li>Layanan 2</li>
                         </ul> */}
-                        <ul className="list-disc px-6 text-start">
+                        <ul className="list-disc px-6 text-start ">
                           {dataInsurance?.data[row]?.data
                             ? Object.keys(dataInsurance.data[row].data).map(
                                 (key1, index1) => {
                                   return (
                                     <li key={index1}>
-                                      {
-                                        dataInsurance.data[row].data[key1]
-                                          .name
-                                      }
+                                      {dataInsurance.data[row].data[key1].name}
                                     </li>
                                   );
                                 }
@@ -124,16 +135,13 @@ const Insurance = (data) => {
                         </ul>
                       </td>
                       <td>
-                      <ul className=" px-6 text-start">
+                        <ul className=" px-6 text-start">
                           {dataInsurance?.data[row]?.data
                             ? Object.keys(dataInsurance.data[row].data).map(
                                 (key1, index1) => {
                                   return (
                                     <li key={index1}>
-                                      {
-                                        dataInsurance.data[row].data[key1]
-                                          .type
-                                      }
+                                      {dataInsurance.data[row].data[key1].type}
                                     </li>
                                   );
                                 }
@@ -142,7 +150,7 @@ const Insurance = (data) => {
                         </ul>
                       </td>
                       <td>
-                      <ul className=" px-6 ">
+                        <ul className=" px-6 ">
                           {dataInsurance?.data[row]?.data
                             ? Object.keys(dataInsurance.data[row].data).map(
                                 (key1, index1) => {
@@ -168,12 +176,14 @@ const Insurance = (data) => {
                           </Link>
                         </div> */}
                         <div className="flex justify-center gap-1">
-                        <Link to={`../manageInsurance/${dataInsurance.data[row].id}`}>
-                        <span className="text-white bg-slate-600 rounded p-1">
+                          <Link
+                            to={`../manageInsurance/${dataInsurance.data[row].id}`}
+                          >
+                            <span className="text-white bg-slate-600 rounded p-1">
                               Manage
                             </span>
-                        </Link>
-                      </div>
+                          </Link>
+                        </div>
                       </td>
                     </tr>
                   ))
