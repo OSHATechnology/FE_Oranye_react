@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-import { Tab } from "@headlessui/react";
+import { Menu, Tab, Transition } from "@headlessui/react";
 import ConfigHeader from "../Auth/ConfigHeader";
 import axios from "axios";
 import Spinner2 from "../../Components/Spinner2";
 import LogoImg from "../../assets/oranye-logo.png";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -248,6 +249,10 @@ export default function KaryawanKehadiran() {
 
     const [leaveRequest, setLeaveRequest] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [reqOvertime, setReqOvertime] = useState({
+        start_at: '',
+        end_at: '',
+    });
 
     const fetchDataLeaveRequest = async () => {
         try {
@@ -261,18 +266,75 @@ export default function KaryawanKehadiran() {
         }
     }
 
+    const handleOvertime = (e) => {
+        e.preventDefault();
+        const data = {
+            type: "overtime",
+            ...reqOvertime
+        }
+
+        try {
+            const resp = axios.post('/api/my/add-leave-request', data, ConfigHeader);
+            resp.then(res => {
+                console.log(res);
+            })
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     useEffect(() => {
         fetchDataLeaveRequest();
     }, []);
 
     return (
         <div className="pb-4">
-            <div className="flex justify-center mt-8 mb-2">
-                <div className="justify-end flex md:w-4/5 ">
+            <div className="flex justify-end md:w-4/5 mt-8 mb-2">
+                <Menu as="div" className="relative inline-block text-left">
+                    <div>
+                        <Menu.Button className="inline-flex w-full justify-center rounded-md bg-yellow-500 bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                            <Icon icon="akar-icons:bell" className="text-center text-lg text-black" />
+                        </Menu.Button>
+                    </div>
+                    <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                    >
+                        <Menu.Items className="absolute top-0 right-12 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div className="px-1 py-1">
+                                <Menu.Item>
+                                    <div className="">
+                                        this content notification
+                                    </div>
+                                </Menu.Item>
+                            </div>
+                            <div className="px-1 py-1 ">
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <Link to="../notification"
+                                            className={`${active ? 'bg-gray-400 text-white' : 'text-gray-900'
+                                                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                        >
+                                            Show All Notification
+                                        </Link>
+                                    )}
+                                </Menu.Item>
+                            </div>
+                        </Menu.Items>
+                    </Transition>
+                </Menu>
+                {/* <div className="justify-end flex md:w-4/5 ">
                     <button className="w-fit h-fit bg-yellow-500 rounded p-1">
                         <Icon icon="akar-icons:bell" className="text-center text-lg text-black" />
                     </button>
-                </div>
+                </div> */}
             </div>
             <div className="flex justify-center ">
                 <div className=" items-start justify-center md:min-h-1/3 md:flex md:flex-row md:w-4/5 md:gap-4 space-y-8 md:space-y-0">
@@ -322,7 +384,7 @@ export default function KaryawanKehadiran() {
                                 </p>
                             </div>
                             <div className="mt-6">
-                                <form action="">
+                                <form action="" onSubmit={handleOvertime}>
                                     <table className="w-full">
                                         <tbody>
                                             <tr>
@@ -339,6 +401,7 @@ export default function KaryawanKehadiran() {
                                                         placeholder="Start Date"
                                                         required
                                                         className="rounded w-full border border-gray-300"
+                                                        onChange={(e) => setReqOvertime({ ...reqOvertime, start_at: e.target.value })}
                                                     />
                                                 </td>
                                             </tr>
@@ -356,13 +419,14 @@ export default function KaryawanKehadiran() {
                                                         required
                                                         placeholder="End Date"
                                                         className="rounded w-full border border-gray-300"
+                                                        onChange={(e) => setReqOvertime({ ...reqOvertime, end_at: e.target.value })}
                                                     />
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                     <div className="flex justify-end">
-                                        <button className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
+                                        <button type="submit" className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300 mt-2">
                                             Request Overtime
                                         </button>
                                     </div>
@@ -387,7 +451,6 @@ export default function KaryawanKehadiran() {
                                 <th className="">Requested At</th>
                                 <th className="">Confirmed At</th>
                                 <th className="">Status</th>
-                                <th className="">Action</th>
                             </tr>
                         </thead>
                         <tbody className="text-xs md:text-sm font-medium">
@@ -401,17 +464,29 @@ export default function KaryawanKehadiran() {
                                                 <span>{data.type}</span>
                                             </div>
                                         </td>
-                                        <td>{moment(data.requestAt).format('H:m DD MMMM Y')}</td>
-                                        <td>{moment(data.confirmedAt).format('H:m DD MMMM Y')}</td>
                                         <td>
-                                            <span className={"px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 " + getColorStatus(data.status)}>
-                                                {data.status}
-                                            </span>
+
+                                            <div className="flex items-center justify-center py-4">
+                                                <span>
+                                                    {data?.requestAt ? (
+                                                        moment(data?.requestAt).format('H:m DD MMMM Y')
+                                                    ) : (
+                                                        '-'
+                                                    )}
+                                                </span>
+                                            </div>
                                         </td>
                                         <td>
-                                            <button className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300">
-                                                <Icon icon="carbon:view" className="text-white" />
-                                            </button>
+                                            <div className="flex items-center justify-center py-4">
+                                                <span>
+                                                    {data?.confirmedAt ? moment(data?.confirmedAt).format('H:m DD MMMM Y') : '-'}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span className={"px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 " + getColorStatus(data.status)}>
+                                                {data.status ? data.status : '-'}
+                                            </span>
                                         </td>
                                     </tr>
                                 ))

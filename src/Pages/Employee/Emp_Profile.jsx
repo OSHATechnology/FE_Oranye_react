@@ -10,6 +10,7 @@ export default function KaryawanProfile(props) {
     const fetchDataEmp = async () => {
         const response = await axios.get(`/api/employee/` + empAuthId, ConfigHeader);
         setEmployee(response.data.data);
+        console.log(response.data.data);
     }
     useEffect(() => {
         fetchDataEmp();

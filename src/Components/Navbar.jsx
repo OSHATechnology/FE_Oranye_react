@@ -188,9 +188,7 @@ export default function Navbar() {
                                         type="button"
                                         className="py-2.5 px-5 mr-2 text-sm font-medium text-gray-900  bg-white rounded-lg  hover:bg-gray-900 hover:text-white focus:bg-gray-900 focus:text-white w-40"
                                     >
-                                        <a href="#" aria-current="page">
-                                            Home
-                                        </a>
+                                        Home
                                     </button>
                                 </Link>
                             </li>
@@ -200,29 +198,29 @@ export default function Navbar() {
                                         type="button"
                                         className="py-2.5 px-5 mr-2 text-sm font-medium text-gray-900  bg-white rounded-lg  hover:bg-gray-900 hover:text-white focus:bg-gray-900 focus:text-white w-40"
                                     >
-                                        <a href="#" aria-current="page">
-                                            Profile
-                                        </a>
+                                        Profile
                                     </button>
                                 </Link>
                             </li>
                             <li>
-                                <Link to="Attendance">
+                                <Link to="attendance">
                                     <button
                                         type="button"
                                         className="py-2.5 px-5 mr-2  text-sm font-medium text-gray-900  bg-white rounded-lg  hover:bg-gray-900 hover:text-white w-40"
                                     >
-                                        <a href="#">Attendance</a>
+                                        Attendance
                                     </button>
                                 </Link>
                             </li>
                             <li>
-                                <button
-                                    type="button"
-                                    className="py-2.5 px-5 mr-2  text-sm font-medium text-gray-900  bg-white rounded-lg  hover:bg-gray-900 hover:text-white w-40"
-                                >
-                                    <a href="#">Performance</a>
-                                </button>
+                                <Link to="Performance">
+                                    <button
+                                        type="button"
+                                        className="py-2.5 px-5 mr-2  text-sm font-medium text-gray-900  bg-white rounded-lg  hover:bg-gray-900 hover:text-white w-40"
+                                    >
+                                        Performance
+                                    </button>
+                                </Link>
                             </li>
                         </ul>
                     </div>

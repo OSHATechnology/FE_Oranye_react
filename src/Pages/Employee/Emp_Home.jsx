@@ -10,13 +10,22 @@ const empAuthId = AuthData?.id ? AuthData?.id : 0;
 
 const CardProfileEmployee = () => {
     const [employee, setEmployee] = useState({});
+    const [totalLeave, setTotalLeave] = useState(0);
+    const [totalAbsent, setTotalAbsent] = useState(0);
 
     const fetchDataEmp = async () => {
         const response = await axios.get(`/api/employee/` + empAuthId, ConfigHeader);
         setEmployee(response.data.data);
     }
+
+    const fetchDataLeave = async () => {
+        const response = await axios.get('/api/count?type=total-leave&empId=' + empAuthId, ConfigHeader);
+        setTotalLeave(response.data.data);
+    }
+
     useEffect(() => {
         fetchDataEmp();
+        fetchDataLeave();
     }, []);
 
     return (
@@ -41,11 +50,13 @@ const CardProfileEmployee = () => {
                     <div className="flex flex-row gap-24 my-8">
                         <div className="text-center">
                             <p className="text-md text-black">Total Leave</p>
-                            <p className="text-sm text-gray-600 font-medium">0</p>
+                            <p className="text-sm text-gray-600 font-medium">{totalLeave}</p>
                         </div>
                         <div className="text-center">
-                            <p className="text-md text-black">Total Absent</p>
-                            <p className="text-sm text-gray-600 font-medium">0</p>
+                            <p className="text-md text-black">Joined At</p>
+                            <p className="text-sm text-gray-600 font-medium">
+                                {employee?.joinedAt ? moment(employee?.joinedAt).format("DD MMMM YYYY") : ".."}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -224,17 +235,17 @@ const CardRequest = () => {
                                         <td className="text-xs font-medium md:text-base">{item?.type}</td>
                                         <td className="text-xs text-gray-500 md:text-base">{item?.requestAt && moment(item?.requestAt).format('H:m DD MMMM Y')}</td>
                                         <td className="text-xs text-gray-500 md:text-base">{item?.confirmedAt && moment(item?.confirmedAt).format('H:m DD MMMM Y')}</td>
-                                        {item?.status === "Confirmed" && (
+                                        {item?.status.toLowerCase() === "confirmed" && (
                                             <td className="text-xs md:text-base text-green-500">{item?.status}</td>
                                         )}
-                                        {item?.status === "Rejected" && (
+                                        {item?.status.toLowerCase() === "rejected" && (
                                             <td className="text-xs md:text-base text-red-500">{item?.status}
                                                 <button className="ml-3 rounded-md border border-gray-300 bg-white py-1 px-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none ">
                                                     <Icon className="text-red-500" icon={"bx:message-alt-error"}></Icon>
                                                 </button>
                                             </td>
                                         )}
-                                        {item?.status === "Waiting For Approved" && (
+                                        {item?.status.toLowerCase() === "waiting for approved" && (
                                             <td className="text-xs md:text-base text-yellow-500">{item?.status}</td>
                                         )}
                                     </tr>
@@ -265,7 +276,7 @@ export default function Emp_Home() {
             const response = await axios.post(`/api/my/attendance`, {
                 type: "in",
             }, ConfigHeader);
-            console.log(response);
+            alert(response.data.message);
         } catch (error) {
             alert(error?.response?.data?.data);
         }
@@ -276,7 +287,7 @@ export default function Emp_Home() {
             const response = await axios.post(`/api/my/attendance`, {
                 type: "out",
             }, ConfigHeader);
-            console.log(response);
+            alert(response.data.message);
         } catch (error) {
             alert(error?.response?.data?.data);
         }
