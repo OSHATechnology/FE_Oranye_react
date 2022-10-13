@@ -34,14 +34,14 @@ const ManageLayanan = () => {
     );
     setDataInsurance(data.data.data);
     console.log(data.data.data)
-    setDataItem(data.data.data.data)
+    setDataItem(data.data.data.data.data)
     
   };
 
   // const fetchDataItem = async (page = 1,search = "") => {
   //   try {
-  //     const res = await axios.get(`api/insurance_item?insuranceId=${paramsData.id}&search=${search}&page=${page}`, ConfigHeader);
-  //     setDataItem(res.data.data);
+  //     const res = await axios.get(`api/insurance_item?search=${search}&page=${page}`, ConfigHeader);
+  //     setDataItem(res.data.data.data);
   //   } catch (err) {
   //     console.log(err.response);
   //   }
@@ -52,6 +52,7 @@ const ManageLayanan = () => {
     fetchDataInsurance().catch((err) => {
       console.log(err.message);
     });
+    // fetchDataItem(); 
   }, [paramsData]);
 
   // delete
@@ -215,9 +216,9 @@ const ManageLayanan = () => {
           )}
         </div>
         <Pagination 
-          activePage={dataInsurance.current_page ? dataInsurance.current_page : 0}
-          itemsCountPerPage={dataInsurance?.per_page ? dataInsurance?.per_page : 0 }
-          totalItemsCount={dataInsurance?.total ? dataInsurance?.total : 0}
+          activePage={dataInsurance.data.current_page ? dataInsurance.data.current_page : 0}
+          itemsCountPerPage={dataInsurance.data?.per_page ? dataInsurance.data?.per_page : 0 }
+          totalItemsCount={dataInsurance.data?.total ? dataInsurance.data?.total : 0}
           onChange={(pageNumber) => {
             fetchDataInsurance(pageNumber)
           }}
