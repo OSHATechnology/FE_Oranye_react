@@ -215,7 +215,8 @@ const EmployeeDetail = () => {
             width= "w-10"
             />
             </Link>
-            <Link to={"Family"}>
+            <Link to={`family`}
+                          >
             <ButtonNormal
             bg="bg-slate-400 hover:bg-slate-600 "
             icon="ic:round-family-restroom"

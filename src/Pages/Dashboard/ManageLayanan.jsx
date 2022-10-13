@@ -52,8 +52,6 @@ const ManageLayanan = () => {
     fetchDataInsurance().catch((err) => {
       console.log(err.message);
     });
-    // fetchDataItem();
-    // fetchItemData();
   }, [paramsData]);
 
   // delete

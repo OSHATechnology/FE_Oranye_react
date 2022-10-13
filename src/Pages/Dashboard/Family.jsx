@@ -1,10 +1,61 @@
 import { Icon } from '@iconify/react'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from 'react-router-dom'
 import ButtonSmall from "../../Components/ButtonSmall";
 import TitleDashboard from '../../Components/TitleDashboard'
+import ConfigHeader from '../Auth/ConfigHeader';
 
-const Family = () => {
+const Family = (data) => {
+  const paramsData = useParams();
+  const [dataFamily, setDataFamily] = useState([]);
+  const [dataEmp, setDataEmp] = useState([
+    {
+      employeeId: "",
+      name: "",
+      photo: "",
+      birthDate: "",
+      gender: "",
+      role: "",
+      email: "",
+      phone: "",
+      address: "",
+      isActive: "",
+      emailVerifiedAt: "",
+      joinedAt: "",
+      resignedAt: "",
+      statusHire: {
+        id: "",
+        status: "",
+      },
+    },
+  ]);
+  
+
+  const fetchDataEmp = async () => {
+    const data = await axios.get(
+      `/api/family`,
+      ConfigHeader
+    );
+    setDataFamily(data.data.data.data);
+  };
+console.log(paramsData);
+  console.log(dataEmp);
+
+  useEffect(() => {
+    const fetchDataEmp = async () => {
+      const data = await axios.get(
+        `/api/employee/${paramsData.id}`,
+        ConfigHeader
+      );
+      setDataEmp(data.data.data);
+    };
+
+    fetchDataEmp().catch((err) => {
+      console.log(err.message);
+    });
+  }, [paramsData]);
+
   return (
     <div className="w-full md:mx-8 space-y-8">
         <TitleDashboard
@@ -14,7 +65,7 @@ const Family = () => {
 
 <div className="flex gap-2 items-center">
         <Link
-          to="../emp"
+          to={`../emp/${dataEmp.employeeId}`}
           className="flex gap-1 items-center text-blue-400 hover:text-blue-700 w-fit"
         >
           <Icon icon="bi:arrow-left" className="text-sm  font-medium"></Icon>
@@ -30,7 +81,7 @@ const Family = () => {
                     <tr>
                         <td>Nama</td>
                         <td className="px-3">:</td>
-                        <td>Fachrian</td>
+                        <td>{dataEmp.name}</td>
                     </tr>
                     <tr>
                         <td>Banyak Keluarga</td>
