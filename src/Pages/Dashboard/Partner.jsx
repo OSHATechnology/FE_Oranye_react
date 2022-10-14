@@ -6,7 +6,6 @@ import ModalAdd from "../../Components/Modal/PartnerAdd";
 import ModalEdit from "../../Components/Modal/ModalEdit";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import ConfigHeader from "../Auth/ConfigHeader";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import ModalDetail from "../../Components/Modal/ModalDetail";
@@ -23,7 +22,6 @@ const Partner = () => {
   const [partnerDetail, setPartnerDetail] = useState([]);
   const [partnerEdit, setPartnerEdit] = useState([]);
   const [partnerDeleteData, setPartnerDeleteData] = useState("");
-  const [dataPagePartner, setDataPagePartner] = useState([]);
 
   let dataPartnerId = "";
   const showModalDetail = async (partnerId) => {
@@ -57,16 +55,6 @@ const Partner = () => {
     await fetchDataPartnerEdit();
   };
 
-  // const fetchPartnerData = async (page = 1) => {
-  //   try {
-
-  //     const res = await axios.get(`api/partners&page=${page}&search=`, ConfigHeader);
-  //     setDataPagePartner(res.data.data);
-  //   } catch (err) {
-  //     console.log(err.response);
-  //   }
-  // };
-
   const fetchDataPartner = async (page = 1, search = "") => {
     try {
       const result = await axios.get(`/api/partners?search=${search}&page=${page}`, ConfigHeader);
@@ -84,27 +72,9 @@ const Partner = () => {
     }
   }
 
-
-
   useEffect(() => {
-
-    // fetchPartnerData();
     fetchDataPartner();
   }, []);
-  // const fetchDataPartner = async () => {
-  //   const result = await axios.get(`/api/partners`, ConfigHeader);
-  //   setDataPartner(result.data.data);
-  // };
-
-
-  // useEffect(() => {
-
-  //   fetchDataPartner().catch((err) => {
-  //     console.log(err.message);
-  //   });
-  // }, []);
-
-  // 
 
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -128,6 +98,7 @@ const Partner = () => {
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
                 title="Add Partner"
+                action={fetchDataPartner}
               />
             </div>
             {/* <div className="flex space-x-2 items-center">
@@ -158,43 +129,6 @@ const Partner = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {/* {dataPartner?.data ? dataPartner?.data?.map((row, index) => (
-                <tr key={row.id} className=" shadow ">
-                  <td>{index + 1}</td>
-                  <td>
-                    <div className="text-center flex items-center justify-center md:space-x-4">
-                      <img src={row.photo} alt={"photo of "+row.name} className="w-10" />
-                    </div>
-                  </td>
-                  <td>{row.name}</td>
-                  <td>{row.address}</td>
-                  <td>{moment(row.joinedAt).format("DD MMMM YYYY")}</td>
-                  <td>
-                    <div className="flex justify-center gap-1">
-                      <ButtonSmall
-                        bg="bg-blue-600"
-                        icon="carbon:view"
-                        colorIcon="text-white"
-                        onClick={() => showModalDetail(row.id)}
-                      />
-
-                      <ButtonSmall
-                        bg="bg-yellow-500"
-                        icon="fa6-solid:pen-to-square"
-                        colorIcon="text-white"
-                        onClick={() => showModalEdit(row.id)}
-                      />
-                      <ButtonSmall
-                        bg="bg-red-500"
-                        icon="ci:trash-full"
-                        colorIcon="text-white"
-                        onClick={() =>
-                          showModalDelete(row.id)}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              )) : <tr><td colSpan="6">Loading</td></tr> } */}
               {
                 dataPartner.data ? Object.keys(dataPartner.data).map((row, index) =>
                 (

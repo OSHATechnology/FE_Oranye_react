@@ -12,7 +12,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const FurloughCard = () => {
+const FurloughCard = (props) => {
   const [typeFurlough, setTypeFurlough] = useState("");
   const [startAt, setStartAt] = useState("");
   const [endAt, setEndAt] = useState("");
@@ -37,7 +37,8 @@ const FurloughCard = () => {
       };
       const resp = axios.post("/api/my/add-leave-request", data, ConfigHeader);
       resp.then((res) => {
-        console.log(res);
+        alert(res.data.message);
+        props.actionRefresh();
       });
     } catch (error) {
       console.log(error);
@@ -126,7 +127,7 @@ const FurloughCard = () => {
   );
 };
 
-const WorkPermitCard = () => {
+const WorkPermitCard = (props) => {
   const [dataWorkPermit, setDataWorkPermit] = useState({
     start_at: "",
     end_at: "",
@@ -141,7 +142,8 @@ const WorkPermitCard = () => {
       };
       const resp = axios.post("/api/my/add-leave-request", data, ConfigHeader);
       resp.then((res) => {
-        console.log(res);
+        alert(res.data.message);
+        props.actionRefresh();
       });
       console.log(data);
     } catch (error) {
@@ -231,16 +233,29 @@ const WorkPermitCard = () => {
 };
 
 export default function KaryawanKehadiran() {
+  const [leaveRequest, setLeaveRequest] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [reqOvertime, setReqOvertime] = useState({
+    start_at: "",
+    end_at: "",
+  });
+  const [notifications, setNotifications] = useState([]);
+
+  const refreshTable = () => {
+    setIsLoading(false);
+    fetchDataLeaveRequest();
+  };
+
   const actionType = [
     {
       id: 1,
       name: "Furlough",
-      component: <FurloughCard />,
+      component: <FurloughCard actionRefresh={refreshTable} />,
     },
     {
       id: 2,
       name: "Work Permit",
-      component: <WorkPermitCard />,
+      component: <WorkPermitCard actionRefresh={refreshTable} />,
     },
   ];
 
@@ -271,12 +286,14 @@ export default function KaryawanKehadiran() {
     }
   };
 
-  const [leaveRequest, setLeaveRequest] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [reqOvertime, setReqOvertime] = useState({
-    start_at: "",
-    end_at: "",
-  });
+  const fetchDataNotification = async (limit = 10) => {
+    try {
+      const response = await axios.get("/api/my/notification?limit=" + limit, ConfigHeader);
+      setNotifications(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const fetchDataLeaveRequest = async () => {
     try {
@@ -285,7 +302,6 @@ export default function KaryawanKehadiran() {
         ConfigHeader
       );
       setLeaveRequest(response.data.data);
-      console.log(response.data.data);
       setIsLoading(true);
     } catch (error) {
       console.log("failed fetch data leave request");
@@ -303,7 +319,8 @@ export default function KaryawanKehadiran() {
     try {
       const resp = axios.post("/api/my/add-leave-request", data, ConfigHeader);
       resp.then((res) => {
-        console.log(res);
+        alert(res.data.message);
+        refreshTable();
       });
       console.log(data);
     } catch (error) {
@@ -384,9 +401,8 @@ export default function KaryawanKehadiran() {
                   {({ active }) => (
                     <Link
                       to="../notification"
-                      className={`${
-                        active ? "font-bold" : "text-gray-900"
-                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      className={`${active ? "font-bold" : "text-gray-900"
+                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
                       <p className="text-xs text-blue-600">Show All Notification</p>
                     </Link>
