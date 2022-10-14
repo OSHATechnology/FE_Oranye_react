@@ -215,6 +215,8 @@ const ManageLayanan = () => {
             />
           )}
         </div>
+        {dataInsurance.data && (
+
         <Pagination 
           activePage={dataInsurance.data.current_page ? dataInsurance.data.current_page : 0}
           itemsCountPerPage={dataInsurance.data?.per_page ? dataInsurance.data?.per_page : 0 }
@@ -228,6 +230,7 @@ const ManageLayanan = () => {
           linkClass="page-link"
           activeClass="bg-slate-100 font-bold"
         />
+        )}
       </div>
     </div>
   );

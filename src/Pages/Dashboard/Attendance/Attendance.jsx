@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
 import SimpleCard from "../../../Components/SimpleCard";
 import { Icon } from "@iconify/react";
@@ -10,6 +10,8 @@ import ConfigHeader from "../../Auth/ConfigHeader";
 import ModalDetail from "../../../Components/Modal/ModalDetail";
 import Search from "../../../Components/Search";
 import Pagination from "react-js-pagination";
+import { Menu, Tab, Transition } from "@headlessui/react";
+import { Link } from "react-router-dom";
 
 const Attendance = () => {
   const [isModalAccOpened, setIsModalAccOpened] = useState(false);
@@ -85,7 +87,85 @@ const Attendance = () => {
         />
       </div>
       <div className="border rounded shadow p-2 space-y-2">
-        <div className="flex  justify-end">
+        <div className="flex  justify-between">
+        <Menu as="div" className="relative inline-block text-left">
+          <div>
+            <Menu.Button className="inline-flex w-full justify-center rounded-md bg-yellow-500 bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+              <Icon
+                icon="akar-icons:bell"
+                className="text-center text-lg text-black"
+              />
+            </Menu.Button>
+          </div>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95"
+          >
+            <Menu.Items className="absolute top-0 right-12 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div className="px-1 py-1">
+                <Menu.Item>
+                  <div className="">
+                    <p className="font-bold text-gray-600 text-sm px-2">
+                      Notifications
+                    </p>
+                  </div>
+                </Menu.Item>
+              </div>
+              <div className="px-1 py-1">
+                <Menu.Item>
+                  <div className="flex items-center gap-2 px-2">
+                    <div>
+                      <Icon icon={"bxs:plane"}></Icon>
+                    </div>
+                    <div className="text-xs">
+                      <div>
+                        <p className="font-semibold text-gray-600">
+                          Furlough for 06 Desember
+                        </p>
+                      </div>
+                      <div className="flex font-thin text-gray-400">
+                        <div>
+                          <p>12 June 22</p>
+                        </div>
+                        <div>
+                          <p>|</p>
+                        </div>
+                        <div>
+                          <p>08:00 A.M</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <Icon
+                        icon={"akar-icons:circle-check"}
+                        className="text-green-600"
+                      ></Icon>
+                    </div>
+                  </div>
+                </Menu.Item>
+              </div>
+              <div className="px-1 py-1 ">
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link
+                      to="../notification"
+                      className={`${
+                        active ? "font-bold" : "text-gray-900"
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    >
+                      <p className="text-xs text-blue-600">Show All Notification</p>
+                    </Link>
+                  )}
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Transition>
+        </Menu>
           <Search onChange={handleSearch}/>
         </div>
         <div>

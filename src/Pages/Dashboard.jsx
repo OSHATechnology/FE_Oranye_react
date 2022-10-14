@@ -28,6 +28,7 @@ import Salary from './Dashboard/Salary';
 import DetailSalary from './Dashboard/DetailSalary';
 import { AuthRedirect } from './Auth/AuthProvider';
 import AllowanceAdd from './Dashboard/AllowanceAdd';
+import LeaveRequest from './Dashboard/Attendance/LeaveRequest';
 // import Spinner from '../Components/Spinner';
 
 export default function Dashboard(props) {
@@ -53,6 +54,7 @@ export default function Dashboard(props) {
                         <Route index element={<Attendance />} />
                         <Route path="Today" element={<Today />} />
                         <Route path="Overtime" element={<Overtime />} />
+                        <Route path="LeaveRequest" element={<LeaveRequest />} />
                     </Route>
                     <Route path="payroll" element={<Payroll />}>
                         <Route index element={<GrossSalary />} />

@@ -16,6 +16,7 @@ const Attendance = () => {
           <Link to="../hadir" className=" hover:text-black">Attendance</Link>
           <Link to="Today" className=" hover:text-black">Today</Link>
           <Link to="Overtime" className=" hover:text-black">Overtime</Link>
+          <Link to="LeaveRequest" className=" hover:text-black">Request</Link>
         </div>
         <div className="flex my-8 text-sm font-semibold text-gray-600">
           <Link to="../attendanceSettings">

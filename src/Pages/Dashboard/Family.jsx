@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react'
 import axios from 'axios';
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from 'react-router-dom'
+import ButtonNormal from '../../Components/ButtonNormal';
 import ButtonSmall from "../../Components/ButtonSmall";
 import TitleDashboard from '../../Components/TitleDashboard'
 import ConfigHeader from '../Auth/ConfigHeader';
@@ -32,15 +33,15 @@ const Family = (data) => {
   ]);
   
 
-  const fetchDataEmp = async () => {
+  const fetchDataFamily = async () => {
     const data = await axios.get(
-      `/api/family`,
+      `/api/employee_family?empId=${paramsData.id}`,
       ConfigHeader
     );
-    setDataFamily(data.data.data.data);
+    setDataFamily(data.data.data);
   };
-console.log(paramsData);
-  console.log(dataEmp);
+// console.log(paramsData);
+//   console.log(dataEmp);
 
   useEffect(() => {
     const fetchDataEmp = async () => {
@@ -54,8 +55,9 @@ console.log(paramsData);
     fetchDataEmp().catch((err) => {
       console.log(err.message);
     });
+    fetchDataFamily();
   }, [paramsData]);
-
+console.log(dataFamily);
   return (
     <div className="w-full md:mx-8 space-y-8">
         <TitleDashboard
@@ -76,6 +78,7 @@ console.log(paramsData);
       </div>
 
       <div>
+     
             <table className="text-sm font-semibold text-slate-600">
                 <tbody>
                     <tr>
@@ -91,9 +94,19 @@ console.log(paramsData);
                 </tbody>
             </table>
         </div>
+        <div className='space-y-2 p-2 border border-gray-100 shadow'>
+        <div className="flex gap-4">
+              <ButtonNormal 
+              bg="bg-green-600 " 
+              icon="bi:plus" 
+              text="Add"
+               />
+            </div>
 
         <div className="flex justify-center">
+          
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
+        
           <table className=" w-full text-center overflow-x-scroll">
             <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
               <tr className="">
@@ -106,7 +119,7 @@ console.log(paramsData);
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              <tr>
+              {/* <tr>
                 <td>1</td>
                 <td>125.235</td>
                 <td>Fachrian</td>
@@ -126,12 +139,38 @@ console.log(paramsData);
                       />
                     </div>
                 </td>
-              </tr>
+              </tr> */}
+              {dataFamily.data ? (
+                Object.keys(dataFamily.data).map((row, index) => (
+                  <tr key={dataFamily.data[row].id}>
+                    <td>{index + 1}</td>
+                    <td>{dataFamily.data[row].identityNumber}</td>
+                    <td>{dataFamily.data[row].name}</td>
+                    <td>{dataFamily.data[row].status.status}</td>
+                    <td>{(dataFamily.data[row].isAlive)}</td>
+                    <td className="w-24">
+                      <div className="flex justify-center gap-1">
+                        <Link to={`../LoanPayment/${dataFamily.data[row].loanId}`}>
+                          <ButtonSmall
+                            bg="bg-blue-600"
+                            icon="carbon:view"
+                            colorIcon="text-white"
+                          />
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">Loading</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
       </div>
-
+      </div>
     </div>
   )
 }
