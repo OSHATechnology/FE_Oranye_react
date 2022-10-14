@@ -41,7 +41,7 @@ export default function Dashboard(props) {
     }, [props, navigate])
 
     return (
-        <div className="flex h-screen">
+        <div className="flex h-max">
             <AuthenticatedLayout
                 auth={props.auth}
                 errors={props.errors}

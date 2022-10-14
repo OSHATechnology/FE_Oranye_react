@@ -5,11 +5,12 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 
-const TeamAdd = ({ isOpen, setIsOpen, title }) => {
+const TeamAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const [name, setName] = useState("");
   const [leadBy, setLeadBy] = useState("");
   const [createdBy, setCreatedBy] = useState("");
   const [dataEmployee, setDataEmployee] = useState([]);
+  const actionRefresh = action ? action : null;
 
   useEffect(() => {
 
@@ -39,6 +40,7 @@ const TeamAdd = ({ isOpen, setIsOpen, title }) => {
       const rslt = await axios.post('/api/team',data ,ConfigHeader);
       console.log(rslt);
       setIsOpen(false);
+      actionRefresh !== null && actionRefresh();
 
       changeDataToNull();
     } catch (error) {

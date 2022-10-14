@@ -6,7 +6,7 @@ import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
 
-const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
+const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const [firtsName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,7 +21,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
   const [gender, setGender] = useState("");
   const [role, setRole] = useState("");
   const [dataRole, setDataRole] = useState([]);
-
+  const actionRefresh = action ? action : null;
 
   function changeDataToNull() {
     setFirstName("");
@@ -39,41 +39,41 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
     setRole("");
   }
   useEffect(() => {
-
     const fetchDataRole = async () => {
       const data = await axios.get(`/api/roles`, ConfigHeader);
       setDataRole(data.data.data.data);
-    }
-    fetchDataRole()
+    };
+    fetchDataRole();
+    setIsOpen(false);
+    actionRefresh !== null && actionRefresh();
   }, []);
 
   const handleSubmitEmp = async (e) => {
     e.preventDefault();
     const data = {
-      'firstName': firtsName,
-      'lastName': lastName,
-      'phone': phone,
-      'gender': gender,
-      'address': address,
-      'password': password,
-      'city': city,
-      'photo': photo,
-      'nation': nation,
-      'birthDate': birthDate,
-      'joinedAt': joinedAt,
-      'email': email,
-      'roleId': role,
-      'isActive': 1,
-      'statusHireId': 1
+      firstName: firtsName,
+      lastName: lastName,
+      phone: phone,
+      gender: gender,
+      address: address,
+      password: password,
+      city: city,
+      photo: photo,
+      nation: nation,
+      birthDate: birthDate,
+      joinedAt: joinedAt,
+      email: email,
+      roleId: role,
+      isActive: 1,
+      statusHireId: 1,
     };
-
 
     try {
       let formData = new FormData();
       for (let key in data) {
         formData.append(key, data[key]);
       }
-      const rslt = await axios.post('/api/employee', formData, ConfigHeader);
+      const rslt = await axios.post("/api/employee", formData, ConfigHeader);
       console.log(rslt);
       setIsOpen(false);
 
@@ -104,7 +104,11 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
             </button>
           </div>
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
-            <form id="emp_form" onSubmit={handleSubmitEmp} encType="multipart/form-data">
+            <form
+              id="emp_form"
+              onSubmit={handleSubmitEmp}
+              encType="multipart/form-data"
+            >
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">
                   First Name
@@ -180,12 +184,14 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
                 <select
                   name="gender"
                   id=""
+             
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  
                   onChange={(e) => setGender(e.target.value)}
                 >
-                  <option value="man" disabled selected>-- Select Gender --</option>
-                  <option value="man" >Male</option>
+                  <option value="man" disabled selected>
+                    -- Select Gender --
+                  </option>
+                  <option value="man">Male</option>
                   <option value="woman">Female</option>
                 </select>
               </div>
@@ -255,7 +261,9 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
                   onChange={(e) => setRole(e.target.value)}
                 >
-                  <option value='-' selected disabled>-- select role --</option>
+                  <option value="-" selected disabled>
+                    -- select role --
+                  </option>
                   {dataRole.map((row, index) => (
                     <option value={row.roleId} key={index}>
                       {row.nameRole}
@@ -268,7 +276,11 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title }) => {
 
           <div className="flex justify-end gap-2">
             <ButtonNormal bg="bg-gray-400 " text="Cancel" width="w-16" />
-            <button type="submit" form="emp_form" className="bg-green-600 rounded text-white px-2">
+            <button
+              type="submit"
+              form="emp_form"
+              className="bg-green-600 rounded text-white px-2"
+            >
               submit
             </button>
           </div>

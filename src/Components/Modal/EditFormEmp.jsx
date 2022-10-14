@@ -4,7 +4,7 @@ import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
 
-const EditFormEmployee = (data) => {
+const EditFormEmployee = (data, action = null) => {
   const [isOpen, setIsOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -21,6 +21,7 @@ const EditFormEmployee = (data) => {
   const [role, setRole] = useState("");
   const [dataRole, setDataRole] = useState([]);
   const [statusHire, setStatusHire] = useState("");
+  const actionRefresh = action ? action : null;
 
   const fetchDataRole = async () => {
     try {
@@ -80,8 +81,11 @@ const EditFormEmployee = (data) => {
       }
     )
       .then((res) => {
-        console.log("berhasil");
         setIsOpen(false);
+      actionRefresh !== null && actionRefresh();
+        console.log("berhasil");
+      //   setIsOpen(false);
+      // actionRefresh !== null && actionRefresh();
       })
       .catch((err) => {
         console.log(err.response);

@@ -5,10 +5,11 @@ import ButtonNormal from '../ButtonNormal'
 import ConfigHeader from '../../Pages/Auth/ConfigHeader'
 import axios from "axios";
 
-const Modal = ({ isOpen, setIsOpen, title, typeData, data }) => {
+const Modal = ({ isOpen, setIsOpen, title, typeData, data, action = null }) => {
     const [dataId, setDataId] = useState(null)
     const typeDelete = typeData ? typeData : null;
     const [endPoint, setEndPoint] = useState(null)
+    const actionRefresh = action ? action : null;
 
     useEffect(() => {
         if(data !== null){
@@ -57,6 +58,7 @@ const Modal = ({ isOpen, setIsOpen, title, typeData, data }) => {
         }catch(e){
             console.log(e)
         }
+        
     }, [])
 
     const handleDelete = () => {
@@ -75,6 +77,8 @@ const Modal = ({ isOpen, setIsOpen, title, typeData, data }) => {
                 })
             }
             deleteData()
+            setIsOpen(false);
+      actionRefresh !== null && actionRefresh();
         }catch(e){
             console.log(e)
         }
