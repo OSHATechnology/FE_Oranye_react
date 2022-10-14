@@ -61,6 +61,7 @@ const Insurance = (data) => {
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
                 title="Add New Team"
+                action={fetchDataInsurance}
               />
             </div>
 

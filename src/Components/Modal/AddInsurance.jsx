@@ -5,11 +5,12 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 
-const AddInsurance = ({ isOpen, setIsOpen, title }) => {
+const AddInsurance = ({ isOpen, setIsOpen, title, action = null }) => {
     const [name, setName] = useState("");
     const [companyName, setCompanyName] = useState("");
     const [address, setAddress] = useState("");
     const [dataInsurance, setDataInsurance] = useState([]);
+    const actionRefresh = action ? action : null;
 
     function changeDataToNull() {
         setName("");
@@ -40,7 +41,7 @@ const AddInsurance = ({ isOpen, setIsOpen, title }) => {
           const rslt = await axios.post('/api/insurance',data ,ConfigHeader);
           console.log(rslt);
           setIsOpen(false);
-    
+          actionRefresh !== null && actionRefresh();
           changeDataToNull();
         } catch (error) {
           console.log(error);
