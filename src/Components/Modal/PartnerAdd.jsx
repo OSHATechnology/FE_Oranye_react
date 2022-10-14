@@ -5,7 +5,7 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 
-const PartnerAdd = ({ isOpen, setIsOpen, title }) => {
+const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
@@ -16,6 +16,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title }) => {
   const [assignedBy, setAssignedBy] = useState("");
 
   const [dataEmployee, setDataEmployee] = useState([]);
+  const actionRefresh = action ? action : null;
 
   function changeDataToNull() {
     setName("");
@@ -56,7 +57,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title }) => {
       }
       const rslt = await axios.post("/api/partners", formData, ConfigHeader);
       setIsOpen(false);
-
+      actionRefresh !== null && actionRefresh();
       changeDataToNull();
     } catch (error) {
       console.log(error);
