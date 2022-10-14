@@ -140,6 +140,7 @@ const TeamMembers = () => {
               setIsOpen={setIsModalAddOpened}
               title="Add Member"
               data={dataTeam}
+              action={fetchMemberData}
             />
           </div>
          
@@ -182,6 +183,7 @@ const TeamMembers = () => {
               title="Delete Member"
               typeData="member"
               data={memberDeleteData}
+              action={fetchMemberData}
             />
           )}
         </div>
