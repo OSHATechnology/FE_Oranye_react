@@ -15,6 +15,9 @@ const EditFormPartner = (data) => {
   const [photo, setPhoto] = useState();
   const [joinedAt, setJoinedAt] = useState("");
   const [dataEmployee, setDataEmployee] = useState([]);
+  // baru
+  const loadData = data.handleFetchData ? data.handleFetchData : () => { };
+  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
 
   const fetchDataEmp = async () => {
     try {
@@ -79,7 +82,8 @@ const EditFormPartner = (data) => {
         }
       )
       .then((res) => {
-        setIsOpen(false);
+        closeModal()
+        loadData()
       })
       .catch((err) => {
         console.log(err);
@@ -203,16 +207,8 @@ const EditFormPartner = (data) => {
           bg="bg-gray-400 "
           text="Cancel"
           width="w-16"
-          onClick={() => setIsOpen(false)}
+          onClick={closeModal}
         />
-        {/* <ButtonNormal
-          bg="bg-green-600 "
-          // onClick={handleSubmit}
-          text="Save"
-          width="w-16"
-          type="submit" 
-          form="partner_form"
-        /> */}
         <button type="submit" form="partner_form" className="w-16 bg-green-600 rounded text-white">Save</button>
       </div>
     </div>

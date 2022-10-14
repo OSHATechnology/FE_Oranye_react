@@ -2,7 +2,6 @@ import { Icon } from "@iconify/react";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
@@ -42,58 +41,63 @@ const AllowanceAdd = () => {
     setNominal("");
   }
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      name: name,
+      nominal: nominal,
+    };
+    alert(data.name)
+    alert(data.nominal)
+
+    try {
+      let formData = new FormData();
+      for (let key in data) {
+        formData.append(key, data[key]);
+      }
+      const rslt = await axios.post(
+        "/api/type_of_allowance",
+        formData,
+        ConfigHeader
+      );
+
+      fetchDataAllowance();
+
+      changeDataToNull();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Update
+  const UpdateAllowanceComponent = () => {
+
+    const handleUpdate = async (e) => {
       e.preventDefault();
-      const data = {
+      const dataEdit = {
         name: name,
         nominal: nominal,
-      };
-  
-      try {
-        let formData = new FormData();
-        for (let key in data) {
-          formData.append(key, data[key]);
-        }
-        const rslt = await axios.post(
-          "/api/type_of_allowance",
-          formData,
-          ConfigHeader
-        );
-  
-        changeDataToNull();
-      } catch (error) {
-        console.log(error);
       }
-    };
-
-    // Update
-    const UpdateAllowanceComponent = () => {
-
-      const handleUpdate = async (e) => {
-        e.preventDefault();
-        const dataEdit = {
-          name: name,
-          nominal: nominal,
-        }
-        await axios
+      await axios
         .put(
           `/api/type_of_allowance/${id}`,
-          dataEdit,ConfigHeader
+          dataEdit, ConfigHeader
         )
-          .then((res) => {
-            console.log("berhasil");
-            setIsUpdate(false);
-            setName("");
-            setNominal("");
-          })
-          .catch((err) => {
-            console.log(err.response);
-          });
-      };
+        .then((res) => {
+          console.log("berhasil");
+          setIsUpdate(false);
+          setName("");
+          setNominal("");
+          fetchDataAllowance();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    };
 
 
     return (
-    <div className="border border-slate-100 rounded shadow p-4 space-y-8">
+      <div className="border border-slate-100 rounded shadow p-4 space-y-8">
         <div>
           <p className="font-bold text-slate-700">Form Update Allowance</p>
         </div>
@@ -132,7 +136,7 @@ const AllowanceAdd = () => {
                 save
               </button>
               <button
-                type="submit"
+                type="button"
                 form="attendance_status_form"
                 className="w-full border border-gray-600 rounded mt-2 text-gray-600 h-8"
                 onClick={() => {
@@ -152,12 +156,12 @@ const AllowanceAdd = () => {
 
   const AddAllowanceComponent = (e) => {
     return (
-    <div className="border border-slate-100 rounded shadow p-4 space-y-8">
+      <div className="border border-slate-100 rounded shadow p-4 space-y-8">
         <div>
           <p className="font-bold text-slate-700">Form Add Allowance</p>
         </div>
         <div className="space-y-2">
-          <form id="" onSubmit={handleSubmit}>
+          <form id="attendance_status_form" onSubmit={handleSubmit}>
             <div className="md:flex gap-4 justify-between w-full">
               <div className="w-full">
                 <p className="text-sm font-medium text-slate-700">
@@ -197,7 +201,7 @@ const AllowanceAdd = () => {
     )
   }
 
-  
+
 
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -250,7 +254,7 @@ const AllowanceAdd = () => {
                             setName(dataAllowance.data[row].name)
                             setNominal(dataAllowance.data[row].nominal)
                           }
-                          
+
                         }
                       />
                       <ButtonSmall

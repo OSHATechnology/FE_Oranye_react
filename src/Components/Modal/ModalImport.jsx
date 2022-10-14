@@ -14,8 +14,7 @@ const Modal = ({ isOpen, setIsOpen, title }) => {
         url = "format-import-employee.xlsx";
         break;
     }
-
-    axios.get(url);
+    return axios.getUri() + '/' + url;
   };
 
   const handleSubmit = async (e) => {
@@ -49,49 +48,48 @@ const Modal = ({ isOpen, setIsOpen, title }) => {
           onSubmit={handleSubmit}
           encType="multipart/form-data"
         >
-        <div className="items-start bg-white min-h-1-2  p-4 border-2 rounded space-y-4">
-          <div className="flex text-center text-base font-bold justify-between ">
-            {title}
-            <button className=" float-right" onClick={() => setIsOpen(false)}>
-              {" "}
-              <Icon
-                icon="eva:close-outline"
-                className="text-lg text-gray-500 "
-              />
-            </button>
-          </div>
-          <div className="l">
-            <input
-              type="file"
-              className="rounded border border-gray-600"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-          </div>
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-1 text-sm text-blue-400 hover:text-blue-700 hover:font-bold">
-              <Icon
-                icon="bi:download"
-                className="text-blue-700 text-xs font-extrabold"
-              ></Icon>
-              <a
-                href="#download-format"
-                onClick={downloadFormat("emp")}
-                className=""
-              >
-                Download Format
-              </a>
+          <div className="items-start bg-white min-h-1-2  p-4 border-2 rounded space-y-4">
+            <div className="flex text-center text-base font-bold justify-between ">
+              {title}
+              <button className=" float-right" onClick={() => setIsOpen(false)}>
+                {" "}
+                <Icon
+                  icon="eva:close-outline"
+                  className="text-lg text-gray-500 "
+                />
+              </button>
             </div>
-            <div className=" flex gap-2">
-              <ButtonNormal
-                bg="bg-gray-400 "
-                text="Cancel"
-                width="w-16"
-                onClick={() => setIsOpen(false)}
+            <div className="l">
+              <input
+                type="file"
+                className="rounded border border-gray-600"
+                onChange={(e) => setFile(e.target.files[0])}
               />
-              <ButtonNormal type="submit" bg="bg-green-600 " text="Import" width="w-16" />
+            </div>
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-1 text-sm text-blue-400 hover:text-blue-700 hover:font-bold">
+                <Icon
+                  icon="bi:download"
+                  className="text-blue-700 text-xs font-extrabold"
+                ></Icon>
+                <a
+                  href={downloadFormat("emp")}
+                  className=""
+                >
+                  Download Format
+                </a>
+              </div>
+              <div className=" flex gap-2">
+                <ButtonNormal
+                  bg="bg-gray-400 "
+                  text="Cancel"
+                  width="w-16"
+                  onClick={() => setIsOpen(false)}
+                />
+                <ButtonNormal type="submit" bg="bg-green-600 " text="Import" width="w-16" />
+              </div>
             </div>
           </div>
-        </div>
         </form>
       </Dialog>
     </>

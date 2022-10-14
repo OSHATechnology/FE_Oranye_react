@@ -37,7 +37,7 @@ const Insurance = (data) => {
   const handleSearch = (e) => {
     try {
       fetchDataInsurance(1, e.target.value);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   console.log(dataInsurance);
@@ -101,7 +101,67 @@ const Insurance = (data) => {
                 </tr>
               </thead>
               <tbody className="text-xs md:text-xs font-medium">
-                {dataInsurance.data ? (
+                {
+                  dataInsurance.data ? (
+                    Object.keys(dataInsurance.data).map((item, index) => {
+                      data = dataInsurance.data[item];
+                      let colSpan = dataInsurance.data[item].data ? dataInsurance.data[item].data.length : 1;
+
+
+                      let dataItem = dataInsurance.data[item].data ? dataInsurance.data[item].data : [];
+                      return (
+                        <>
+                          <tr key={index} className='border border-gray-200'>
+                            <td rowSpan={colSpan}>{index + 1}</td>
+                            <td rowSpan={colSpan}>{data.name}</td>
+                            <td rowSpan={colSpan}>{data.company}</td>
+                            <td className="w-80" rowSpan={colSpan}>
+                              <div className=" text-start flex-wrap">
+                                {data.address}
+                              </div>
+                            </td>
+                            {dataItem.length > 0 ? (
+                              <>
+                                <td className="text-start">{dataItem[0].name}</td>
+                                <td>{dataItem[0].type}</td>
+                                <td>{dataItem[0].percent}%</td>
+                              </>
+                            ) : (
+                              <td colSpan={3}>-</td>
+                            )}
+                            <td className="w-24" rowSpan={colSpan}>
+                              <div className="flex justify-center gap-1">
+                                <Link
+                                  to={`../manageInsurance/${data.id}`}
+                                >
+                                  <span className="text-white bg-slate-600 rounded p-1">
+                                    Manage
+                                  </span>
+                                </Link>
+                              </div>
+                            </td>
+                          </tr>
+                          {dataItem.map((item, index) => {
+                            if (index !== 0) {
+                              return (
+                                <tr key={index} className="border border-gray-200">
+                                  <td className="text-start">{item.name}</td>
+                                  <td>{item.type}</td>
+                                  <td>{item.percent}%</td>
+                                </tr>
+                              );
+                            }
+                          })}
+                        </>
+                      )
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan={8}>No Data</td>
+                    </tr>
+                  )
+                }
+                {/* {dataInsurance.data ? (
                   Object.keys(dataInsurance.data).map((row, index) => (
                     <tr
                       key={dataInsurance.data[row].id}
@@ -116,21 +176,17 @@ const Insurance = (data) => {
                         </p>
                       </td>
                       <td>
-                        {/* <ul className="list-none">
-                          <li>Layanan 1</li>
-                          <li>Layanan 2</li>
-                        </ul> */}
                         <ul className="list-disc px-6 text-start ">
                           {dataInsurance?.data[row]?.data
                             ? Object.keys(dataInsurance.data[row].data).map(
-                                (key1, index1) => {
-                                  return (
-                                    <li key={index1}>
-                                      {dataInsurance.data[row].data[key1].name}
-                                    </li>
-                                  );
-                                }
-                              )
+                              (key1, index1) => {
+                                return (
+                                  <li key={index1}>
+                                    {dataInsurance.data[row].data[key1].name}
+                                  </li>
+                                );
+                              }
+                            )
                             : null}
                         </ul>
                       </td>
@@ -138,14 +194,14 @@ const Insurance = (data) => {
                         <ul className=" px-6 text-start">
                           {dataInsurance?.data[row]?.data
                             ? Object.keys(dataInsurance.data[row].data).map(
-                                (key1, index1) => {
-                                  return (
-                                    <li key={index1}>
-                                      {dataInsurance.data[row].data[key1].type}
-                                    </li>
-                                  );
-                                }
-                              )
+                              (key1, index1) => {
+                                return (
+                                  <li key={index1}>
+                                    {dataInsurance.data[row].data[key1].type}
+                                  </li>
+                                );
+                              }
+                            )
                             : null}
                         </ul>
                       </td>
@@ -153,28 +209,21 @@ const Insurance = (data) => {
                         <ul className=" px-6 ">
                           {dataInsurance?.data[row]?.data
                             ? Object.keys(dataInsurance.data[row].data).map(
-                                (key1, index1) => {
-                                  return (
-                                    <li key={index1}>
-                                      {
-                                        dataInsurance.data[row].data[key1]
-                                          .percent
-                                      }
-                                    </li>
-                                  );
-                                }
-                              )
+                              (key1, index1) => {
+                                return (
+                                  <li key={index1}>
+                                    {
+                                      dataInsurance.data[row].data[key1]
+                                        .percent
+                                    }
+                                  </li>
+                                );
+                              }
+                            )
                             : null}
                         </ul>
                       </td>
                       <td className="w-24">
-                        {/* <div>
-                          <Link to={`../manageInsurance`}>
-                            <span className="text-white bg-slate-600 rounded p-1">
-                              Manage
-                            </span>
-                          </Link>
-                        </div> */}
                         <div className="flex justify-center gap-1">
                           <Link
                             to={`../manageInsurance/${dataInsurance.data[row].id}`}
@@ -191,7 +240,7 @@ const Insurance = (data) => {
                   <tr>
                     <td colSpan="5">Loading</td>
                   </tr>
-                )}
+                )} */}
               </tbody>
             </table>
           </div>

@@ -11,6 +11,7 @@ import moment from "moment";
 import ModalDetail from "../../Components/Modal/ModalDetail";
 import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
+import Spinner2 from "../../Components/Spinner2";
 
 const Partner = () => {
   const [modalPartnerDelete, setModalPartnerDelete] = useState(false);
@@ -168,7 +169,9 @@ const Partner = () => {
                       </div>
                     </td>
                   </tr>
-                )) : <tr><td colSpan="5">Loading</td></tr>
+                )) : <tr><td colSpan="5">
+                  <Spinner2 />
+                </td></tr>
               }
             </tbody>
           </table>
@@ -188,6 +191,7 @@ const Partner = () => {
               title="Edit Partner"
               typeData="partner"
               data={partnerEdit}
+              action={fetchDataPartner}
             />
           )}
           {modalPartnerDelete && (
