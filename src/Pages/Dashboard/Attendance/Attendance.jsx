@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
 import SimpleCard from "../../../Components/SimpleCard";
 import { Icon } from "@iconify/react";
-// import Modal from "../../../Components/Modal/ModalAttendance";
 import ModalDecline from "../../../Components/Modal/ModalDecline";
 import ModalAcc from "../../../Components/Modal/ModalAccept";
 import axios from "axios";
@@ -11,7 +10,6 @@ import ModalDetail from "../../../Components/Modal/ModalDetail";
 import Search from "../../../Components/Search";
 import Pagination from "react-js-pagination";
 import { Menu, Tab, Transition } from "@headlessui/react";
-import { Link } from "react-router-dom";
 
 const Attendance = () => {
   const [isModalAccOpened, setIsModalAccOpened] = useState(false);
@@ -27,6 +25,13 @@ const Attendance = () => {
     dataAttendanceId = attendanceId;
     await fetchDataAttendanceDetail();
   };
+
+  const filterMenu = [
+    { label: "all", checked: true },
+    { label: "yesterday", checked: false },
+    { label: "last week", checked: false },
+    { label: "last month", checked: false },
+  ];
 
   const fetchDataAttendanceDetail = async () => {
     const result = await axios.get(
@@ -46,7 +51,7 @@ const Attendance = () => {
     }
   };
 
-  const fetchDataAttendance = async (page = 1,search = "") => {
+  const fetchDataAttendance = async (page = 1, search = "") => {
     try {
       const result = await axios.get(`/api/attendance?search=${search}&page=${page}`, ConfigHeader);
       setDataAttendance(result.data.data);
@@ -64,10 +69,10 @@ const Attendance = () => {
   }, []);
 
   const handleSearch = (e) => {
-    try{
-      fetchDataAttendance(1,e.target.value);
-    }catch(err){
-  
+    try {
+      fetchDataAttendance(1, e.target.value);
+    } catch (err) {
+
     }
   }
   return (
@@ -88,63 +93,57 @@ const Attendance = () => {
       </div>
       <div className="border rounded shadow p-2 space-y-2">
         <div className="flex  justify-between">
-        <Menu as="div" className="relative inline-block text-left">
-          <div>
-            <Menu.Button className="inline-flex w-full justify-center rounded-md bg-slate-600 bg-opacity-70 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-              <Icon
-                icon="ant-design:filter-outlined"
-                className="text-center text-lg text-white"
-              />
-            </Menu.Button>
-          </div>
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="absolute left-0 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div className="px-1 py-1 space-y-2">
-                <Menu.Item>
-                  <div className=" flex items-center px-2">
-                    <input type="radio" className="w-2.5 h-2.5" />
-                    <p className="font-semibold text-gray-600 text-sm px-2">
-                      Last day
-                    </p>
-                  </div>
-                </Menu.Item>
-                <Menu.Item>
-                  <div className=" flex items-center px-2">
-                    <input type="radio" className="w-2.5 h-2.5" />
-                    <p className="font-semibold text-gray-600 text-sm px-2">
-                      Last Week
-                    </p>
-                  </div>
-                </Menu.Item>
-                <Menu.Item>
-                  <div className=" flex items-center px-2">
-                    <input type="radio" className="w-2.5 h-2.5" />
-                    <p className="font-semibold text-gray-600 text-sm px-2">
-                      Last Month
-                    </p>
-                  </div>
-                </Menu.Item>
-              </div>
-              <div className="px-1 py-1 ">
-                <Menu.Item>
-                  <div className="px-2 flex items-center justify-center gap-2">
-                  <p className="text-xs font-semibold">Date </p>
-                  <input type="date" name="" id="" className="h-6 rounded border border-gray-400 text-xs text-gray-600"  />
-                  </div>
-                </Menu.Item>
-              </div>
-            </Menu.Items>
-          </Transition>
-        </Menu>
-          <Search onChange={handleSearch}/>
+          <Menu as="div" className="relative inline-block text-left">
+            {({ open }) => (
+              <>
+                <div>
+                  <Menu.Button className="inline-flex w-full justify-center rounded-md bg-slate-600 bg-opacity-70 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                    <Icon
+                      icon="ant-design:filter-outlined"
+                      className="text-center text-lg text-white"
+                    />
+                  </Menu.Button>
+                </div>
+                <Transition
+                  as={Fragment}
+                  show={open}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute left-0 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" static>
+                    <div className="px-1 py-1 space-y-2">
+                      {filterMenu.map((item, index) => (
+                        <Menu.Item>
+                          <div className=" flex items-center px-2 hover:bg-gray-100">
+                            <input type="radio" id={'opt' + index} className="w-2.5 h-2.5" checked={item.checked} onClick={() => {
+                              filterMenu.forEach((item) => {
+                                item.checked = false;
+                              })
+                              item.checked = true;
+                            }} />
+                            <label className="font-semibold text-gray-600 text-sm px-2" htmlFor={'opt' + index}>{item.label}</label>
+                          </div>
+                        </Menu.Item>
+                      ))}
+                    </div>
+                    <div className="px-1 py-1 ">
+                      <Menu.Item disabled>
+                        <div className="px-2 flex items-center gap-2">
+                          <label htmlFor="customDate" className="text-xs font-semibold">Custom: </label>
+                          <input type="month" name="" id="customDate" className="h-6 rounded border border-gray-400 text-xs text-gray-600" />
+                        </div>
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </>
+            )}
+          </Menu>
+          <Search onChange={handleSearch} />
         </div>
         <div>
 
@@ -160,50 +159,38 @@ const Attendance = () => {
               </tr>
             </thead>
             <tbody className="text-xs font-medium text-slate-700 md:text-sm">
-            {
-              dataAttendance.data ? Object.keys(dataAttendance.data).map((row, index) =>
-              (
-                <tr key={dataAttendance.data[row].id} className=" shadow ">
-                  <td>{index + 1}</td>
-                  <td>{dataAttendance.data[row].employee.name}</td>
-                  <td>{dataAttendance.data[row].attendanceStatus.status}</td>
-                  <td>{dataAttendance.data[row].typeInOut}</td>
-                  <td>{dataAttendance.data[row].timeAttend}</td>
-                  <td>
-                  <div className="flex justify-center gap-2">
-                  <ButtonSmall
-                    bg="bg-blue-600"
-                    icon="carbon:view"
-                    colorIcon="text-white"
-                    onClick={() => showModalDetail(dataAttendance.data[row].id)}
-                  />
-                  {/* <ButtonSmall
-                    bg="bg-green-600"
-                    icon="akar-icons:check"
-                    onClick={() => setIsModalAccOpened(!isModalAccOpened)}
-                  /> */}
-                  <ModalAcc
-                    isOpen={isModalAccOpened}
-                    setIsOpen={setIsModalAccOpened}
-                    title="Accept Request"
-                  />
-                  {/* <ButtonSmall
-                    bg="bg-red-600"
-                    icon="akar-icons:block"
-                    onClick={() =>
-                      setIsModalDeclineOpened(!isModalDeclineOpened)
-                    }
-                  /> */}
-                  <ModalDecline
-                    isOpen={isModalDeclineOpened}
-                    setIsOpen={setIsModalDeclineOpened}
-                    title="Decline Request"
-                  />
-                </div>
-                  </td>
-                </tr> 
-              )) : <tr><td colSpan="5">Loading</td></tr>
-            }              
+              {
+                dataAttendance.data ? Object.keys(dataAttendance.data).map((row, index) =>
+                (
+                  <tr key={dataAttendance.data[row].id} className=" shadow ">
+                    <td>{index + 1}</td>
+                    <td>{dataAttendance.data[row].employee.name}</td>
+                    <td>{dataAttendance.data[row].attendanceStatus.status}</td>
+                    <td>{dataAttendance.data[row].typeInOut}</td>
+                    <td>{dataAttendance.data[row].timeAttend}</td>
+                    <td>
+                      <div className="flex justify-center gap-2">
+                        <ButtonSmall
+                          bg="bg-blue-600"
+                          icon="carbon:view"
+                          colorIcon="text-white"
+                          onClick={() => showModalDetail(dataAttendance.data[row].id)}
+                        />
+                        <ModalAcc
+                          isOpen={isModalAccOpened}
+                          setIsOpen={setIsModalAccOpened}
+                          title="Accept Request"
+                        />
+                        <ModalDecline
+                          isOpen={isModalDeclineOpened}
+                          setIsOpen={setIsModalDeclineOpened}
+                          title="Decline Request"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                )) : <tr><td colSpan="5">Loading</td></tr>
+              }
             </tbody>
           </table>
         </div>
@@ -216,9 +203,9 @@ const Attendance = () => {
             data={attendanceDetail}
           />
         )}
-        <Pagination 
+        <Pagination
           activePage={dataAttendance.current_page ? dataAttendance.current_page : 0}
-          itemsCountPerPage={dataAttendance?.per_page ? dataAttendance?.per_page : 0 }
+          itemsCountPerPage={dataAttendance?.per_page ? dataAttendance?.per_page : 0}
           totalItemsCount={dataAttendance?.total ? dataAttendance?.total : 0}
           onChange={(pageNumber) => {
             fetchDataAttendance(pageNumber)
