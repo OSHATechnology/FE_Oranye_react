@@ -157,7 +157,7 @@ const AllowanceAdd = () => {
           <p className="font-bold text-slate-700">Form Add Allowance</p>
         </div>
         <div className="space-y-2">
-          <form id="" onSubmit={handleSubmit}>
+          <form id="attendance_status_form" onSubmit={handleSubmit}>
             <div className="md:flex gap-4 justify-between w-full">
               <div className="w-full">
                 <p className="text-sm font-medium text-slate-700">
@@ -280,6 +280,7 @@ const AllowanceAdd = () => {
           title="Delete Allowance"
           typeData="allowance_settings"
           data={allowanceDeleteData}
+          action={fetchDataAllowance}
         />
       )}
     </div>

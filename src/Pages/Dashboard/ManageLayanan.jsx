@@ -108,6 +108,7 @@ const ManageLayanan = () => {
           setIsOpen={setIsModalManageOpened}
           title="Manage This Team"
           data={dataInsurance}
+          action={fetchDataInsurance}
           />
       </div>
 

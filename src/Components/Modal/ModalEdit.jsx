@@ -9,6 +9,10 @@ import EditFormAllowance from './EditFormAllowance';
 
 const ModalEdit = (props) => {
     const { isOpen, setIsOpen } = props;
+    const action = () => {
+        setIsOpen(false);
+        // action = props.action ? props.action : null;
+    }
 
     const [data,setData] = useState([]);
 
@@ -31,19 +35,19 @@ const ModalEdit = (props) => {
         </div>
         <div className="w-full overflow-y-auto h-3/4">
             {typeData === 'employee' && (
-                <EditFormEmployee data={data} />
+                <EditFormEmployee data={data} action={action} />
             )}
             {typeData === 'partner' && (
-                <EditFormPartner data={data} />
+                <EditFormPartner data={data} action={action} />
             )}
             {typeData === 'furlough_type' && (
-                <EditFormFurloughType data={data} />
+                <EditFormFurloughType data={data} action={action} />
             )}
             {typeData === 'attendance_status' && (
-                <EditFormAttendanceStatus data={data} />
+                <EditFormAttendanceStatus data={data} action={action} />
             )}
             {typeData === 'allowance' && (
-                <EditFormAllowance data={data} />
+                <EditFormAllowance data={data} action={action} />
             )}
             {/* {typeData === 'attendance' && (
                 
