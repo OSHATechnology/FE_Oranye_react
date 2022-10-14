@@ -197,6 +197,7 @@ const Partner = () => {
               title="Delete Partner"
               typeData="partner"
               data={partnerDeleteData}
+              action={fetchDataPartner}
             />
           )}
         </div>
