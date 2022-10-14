@@ -102,6 +102,7 @@ const Allowance = () => {
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
                 title="Tambah Allowance"
+                action={fetchDataAllowance}
               />
             </div>
             <Search onChange={handleSearchAllowance} />
@@ -180,6 +181,7 @@ const Allowance = () => {
               title="Delete Allowance"
               typeData="allowance"
               data={allowanceDeleteData}
+              action={fetchDataAllowance}
             />
           )}
         </div>

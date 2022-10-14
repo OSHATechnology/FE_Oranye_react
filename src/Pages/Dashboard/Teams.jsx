@@ -14,22 +14,13 @@ import Pagination from "react-js-pagination";
 const Teams = () => {
   const [totalTeam, setTotalTeam] = useState(0);
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
-
   const [dataTeam, setDataTeam] = useState([]);
-
-//   const fetchDataTeam = async () => {
-//     const result = await axios.get(`/api/team`, ConfigHeader);
-//     setTotalTeam(result.data.data.data.length);
-// };
-
-
 
 const fetchDataTeam = async (page = 1,search = "") => {
   try {
     const result = await axios.get(`/api/team?search=${search}&page=${page}`, ConfigHeader);
     setDataTeam(result.data.data);
     setTotalTeam(result.data.data.data.length);
-    // setDataEmployee(result.data.data.data);
   } catch (error) {
     console.log(error);
   }
@@ -45,14 +36,6 @@ const handleSearch = (e) => {
 
   useEffect(() => {
     fetchDataTeam();
-    // axios
-    //   .get(`/api/team`, ConfigHeader)
-    //   .then((res) => {
-    //     setDataTeam(res.data.data.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   }, []);
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -83,6 +66,7 @@ const handleSearch = (e) => {
               isOpen={isModalAddOpened}
               setIsOpen={setIsModalAddOpened}
               title="Add New Team"
+              action={fetchDataTeam}
             />
             </div>
             <Search onChange={handleSearch}/>

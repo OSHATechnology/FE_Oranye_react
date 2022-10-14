@@ -52,7 +52,6 @@ const Employee = () => {
         ConfigHeader
       );
       setDataEmployee(result.data.data);
-      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -88,7 +87,8 @@ const Employee = () => {
               <ModalAdd
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
-                title="Tambah Karyawan"
+                title="Tambah Employee"
+                action={fetchDataEmployee}
               />
               <ButtonNormal
                 bg="bg-slate-500 "
@@ -186,6 +186,7 @@ const Employee = () => {
               title="Edit Employee"
               typeData="employee"
               data={employeeEdit}
+              action={fetchDataEmployee}
             />
           )}
           {modalEmployeeDelete && (
@@ -195,6 +196,7 @@ const Employee = () => {
               title="Delete Employee"
               typeData="employee"
               data={empDeleteData}
+              action={fetchDataEmployee}
             />
           )}
         </div>

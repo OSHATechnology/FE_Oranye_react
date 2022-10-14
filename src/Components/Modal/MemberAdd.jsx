@@ -5,7 +5,7 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 
-const MemberAdd = ({ isOpen, setIsOpen, title, ...data }) => {
+const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
   const [teamName, setTeamName] = useState("");
   const [empId, setEmpId] = useState("");
   const [assignedBy, setAssignedBy] = useState("");
@@ -13,6 +13,7 @@ const MemberAdd = ({ isOpen, setIsOpen, title, ...data }) => {
   const [dataTeam, setDataTeam] = useState({});
 
   const [dataEmployee, setDataEmployee] = useState([]);
+  const actionRefresh = action ? action : null;
 
   function changeDataToNull() {
     setEmpId("");
@@ -41,6 +42,7 @@ const MemberAdd = ({ isOpen, setIsOpen, title, ...data }) => {
       const rslt = await axios.post(`/api/team_member`, data, ConfigHeader);
       console.log(rslt);
       setIsOpen(false);
+      actionRefresh !== null && actionRefresh();
 
       changeDataToNull();
     } catch (error) {

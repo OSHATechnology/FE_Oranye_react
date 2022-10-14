@@ -5,12 +5,13 @@ import React, { useState, useEffect } from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 
-const AddAllowance = ({ isOpen, setIsOpen, title }) => {
+const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
   const [role, setRole] = useState("");
   const [type, setType] = useState("");
   const [nominal, setNominal] = useState("");
   const [dataRole, setDataRole] = useState([]);
   const [dataType, setDataType] = useState([]);
+  const actionRefresh = action ? action : null;
 
   useEffect(() => {
     const fetchDataRole = async () => {
@@ -48,7 +49,8 @@ const AddAllowance = ({ isOpen, setIsOpen, title }) => {
       const rslt = await axios.post("/api/allowance", formData, ConfigHeader);
       console.log(rslt);
       //   setIsOpen(false);
-
+      setIsOpen(false);
+      actionRefresh !== null && actionRefresh();
       changeDataToNull();
     } catch (error) {
       console.log(error);

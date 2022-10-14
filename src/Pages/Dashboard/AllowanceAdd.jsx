@@ -284,6 +284,7 @@ const AllowanceAdd = () => {
           title="Delete Allowance"
           typeData="allowance_settings"
           data={allowanceDeleteData}
+          action={fetchDataAllowance}
         />
       )}
     </div>

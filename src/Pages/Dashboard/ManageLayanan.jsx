@@ -108,6 +108,7 @@ const ManageLayanan = () => {
           setIsOpen={setIsModalManageOpened}
           title="Manage This Team"
           data={dataInsurance}
+          action={fetchDataInsurance}
           />
       </div>
 
@@ -148,6 +149,7 @@ const ManageLayanan = () => {
               setIsOpen={setIsModalAddOpened}
               title="Add Member"
               data={dataInsurance}
+              action={fetchDataInsurance}
             />
             </div>
 
@@ -212,6 +214,7 @@ const ManageLayanan = () => {
               title="Delete Service"
               typeData="insurance_item"
               data={insuranceItemDeleteData}
+              action={fetchDataInsurance}
             />
           )}
         </div>

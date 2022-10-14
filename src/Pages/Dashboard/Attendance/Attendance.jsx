@@ -90,10 +90,10 @@ const Attendance = () => {
         <div className="flex  justify-between">
         <Menu as="div" className="relative inline-block text-left">
           <div>
-            <Menu.Button className="inline-flex w-full justify-center rounded-md bg-yellow-500 bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+            <Menu.Button className="inline-flex w-full justify-center rounded-md bg-slate-600 bg-opacity-70 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
               <Icon
-                icon="akar-icons:bell"
-                className="text-center text-lg text-black"
+                icon="ant-design:filter-outlined"
+                className="text-center text-lg text-white"
               />
             </Menu.Button>
           </div>
@@ -106,18 +106,36 @@ const Attendance = () => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute top-0 right-12 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div className="px-1 py-1">
+            <Menu.Items className="absolute left-0 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div className="px-1 py-1 space-y-2">
                 <Menu.Item>
-                  <div className="">
-                    <p className="font-bold text-gray-600 text-sm px-2">
-                      Notifications
+                  <div className=" flex items-center px-2">
+                    <input type="radio" className="w-2.5 h-2.5" />
+                    <p className="font-semibold text-gray-600 text-sm px-2">
+                      Last day
+                    </p>
+                  </div>
+                </Menu.Item>
+                <Menu.Item>
+                  <div className=" flex items-center px-2">
+                    <input type="radio" className="w-2.5 h-2.5" />
+                    <p className="font-semibold text-gray-600 text-sm px-2">
+                      Last Week
+                    </p>
+                  </div>
+                </Menu.Item>
+                <Menu.Item>
+                  <div className=" flex items-center px-2">
+                    <input type="radio" className="w-2.5 h-2.5" />
+                    <p className="font-semibold text-gray-600 text-sm px-2">
+                      Last Month
                     </p>
                   </div>
                 </Menu.Item>
               </div>
-              <div className="px-1 py-1">
+              {/* <div className="px-1 py-1">
                 <Menu.Item>
+                  
                   <div className="flex items-center gap-2 px-2">
                     <div>
                       <Icon icon={"bxs:plane"}></Icon>
@@ -148,19 +166,24 @@ const Attendance = () => {
                     </div>
                   </div>
                 </Menu.Item>
-              </div>
+              </div> */}
               <div className="px-1 py-1 ">
                 <Menu.Item>
-                  {({ active }) => (
+                  <div className="px-2 flex items-center gap-2">
+              <p><p className="text-xs font-semibold">Custom : </p></p>
+                  <input type="date" name="" id="" className="h-6 rounded border border-gray-400 text-xs text-gray-600"  />
+                  </div>
+                  {/* {({ active }) => (
                     <Link
-                      to="../notification"
+                      // to="../notification"
                       className={`${
                         active ? "font-bold" : "text-gray-900"
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                     >
-                      <p className="text-xs text-blue-600">Show All Notification</p>
+                      <Icon icon="akar-icons:plus"></Icon>
+                      <p className="text-xs ">Custom Date</p>
                     </Link>
-                  )}
+                  )} */}
                 </Menu.Item>
               </div>
             </Menu.Items>

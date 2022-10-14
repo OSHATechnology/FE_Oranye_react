@@ -6,13 +6,14 @@ import ModalDelete from "../../Components/Modal/ModalDelete";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import axios from "axios";
 
-const ManageTeam = ({ isOpen, setIsOpen, title, data }) => {
+const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
   const [nameTeam, setNameTeam] = useState('');
   const [leadById, setLeadById] = useState('');
   const [createdById, setCreatedById] = useState('');
   const [dataEmployee, setDataEmployee] = useState([]);
   const [modalTeamDelete, setModalTeamDelete] = useState(false);
   const [teamDeleteData, setTeamDeleteData] = useState("");
+  const actionRefresh = action ? action : null;
   // console.log(data);
   let dataTeamId = "";
   const showModalDelete = async (teamId) => {
@@ -42,6 +43,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data }) => {
     }, ConfigHeader)
     .then((res) => {
       setIsOpen(false);
+      actionRefresh !== null && actionRefresh();
     }).catch((err) => {
       alert(err.response.data.message);
     });

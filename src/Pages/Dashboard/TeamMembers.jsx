@@ -63,11 +63,11 @@ const TeamMembers = () => {
     }
   }
 
+  const fetchDataTeam = async () => {
+    const data = await axios.get(`/api/team/${paramsData.id}`, ConfigHeader);
+    setDataTeam(data.data.data);
+  };
   useEffect(() => {
-    const fetchDataTeam = async () => {
-      const data = await axios.get(`/api/team/${paramsData.id}`, ConfigHeader);
-      setDataTeam(data.data.data);
-    };
     fetchMemberData();
     fetchDataTeam().catch((err) => {
       console.log(err.message);
@@ -100,6 +100,8 @@ const TeamMembers = () => {
           setIsOpen={setIsModalManageOpened}
           title="Manage This Team"
           data={dataTeam}
+          action={fetchDataTeam}
+
         />
         {/* </Link> */}
       </div>
@@ -140,6 +142,7 @@ const TeamMembers = () => {
               setIsOpen={setIsModalAddOpened}
               title="Add Member"
               data={dataTeam}
+              action={fetchMemberData}
             />
           </div>
          
@@ -182,6 +185,7 @@ const TeamMembers = () => {
               title="Delete Member"
               typeData="member"
               data={memberDeleteData}
+              action={fetchMemberData}
             />
           )}
         </div>

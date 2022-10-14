@@ -142,7 +142,7 @@ const LeaveRequest = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5">Loading</td>
+                  <td colSpan="7">Loading</td>
                 </tr>
               )}
             </tbody>
