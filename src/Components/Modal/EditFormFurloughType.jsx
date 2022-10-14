@@ -8,6 +8,9 @@ const EditFormFurloughType = (data) => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [max, setMax] = useState("");
+  const loadData = data.handleFetchData ? data.handleFetchData : () => { };
+  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
+
   
   useEffect(() => {
     setName(data.data.name);
@@ -29,7 +32,8 @@ const EditFormFurloughType = (data) => {
     )
       .then((res) => {
         console.log("berhasil");
-        setIsOpen(false);
+        closeModal()
+        loadData()
       })
       .catch((err) => {
         console.log(err.response);
@@ -85,7 +89,7 @@ const EditFormFurloughType = (data) => {
           bg="bg-gray-400 "
           text="Cancel"
           width="w-16"
-          onClick={() => setIsOpen(false)}
+          onClick={closeModal}
         />
         <button
           type="submit"

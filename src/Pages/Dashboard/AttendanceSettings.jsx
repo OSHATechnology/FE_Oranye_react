@@ -221,6 +221,7 @@ const AttendanceSettings = () => {
               title="Edit Furlough Type"
               typeData="furlough_type"
               data={furloughTypeEdit}
+              action={fetchDataFurlough}
             />
           )}
 
@@ -325,6 +326,7 @@ const AttendanceSettings = () => {
               title="Edit Attendance Status"
               typeData="attendance_status"
               data={attendanceStatusEdit}
+              action={fetchDataAttendanceStatus}
             />
           )}
 

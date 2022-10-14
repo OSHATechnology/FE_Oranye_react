@@ -6,7 +6,9 @@ import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 const EditFormAttendanceStatus = (data) => {
   const [isOpen, setIsOpen] = useState(false);
   const [status, setStatus] = useState("");
-console.log(data);
+  const loadData = data.handleFetchData ? data.handleFetchData : () => { };
+  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
+
   useEffect(() => {
     setStatus(data.data.status);
   }, [data.data]);
@@ -23,7 +25,8 @@ console.log(data);
     )
       .then((res) => {
         console.log("berhasil");
-        setIsOpen(false);
+        closeModal()
+        loadData()
       })
       .catch((err) => {
         console.log(err.response);
@@ -57,7 +60,7 @@ console.log(data);
           bg="bg-gray-400 "
           text="Cancel"
           width="w-16"
-          onClick={() => setIsOpen(false)}
+          onClick={closeModal}
         />
         <button
           type="submit"

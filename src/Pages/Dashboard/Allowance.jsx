@@ -172,6 +172,7 @@ const Allowance = () => {
               title="Edit Allowance"
               typeData="allowance"
               data={allowanceEdit}
+              action={fetchDataAllowance}
             />
           )}
           {modalAllowanceDelete && (

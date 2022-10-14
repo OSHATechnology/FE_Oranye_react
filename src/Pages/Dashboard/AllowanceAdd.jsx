@@ -47,8 +47,6 @@ const AllowanceAdd = () => {
       name: name,
       nominal: nominal,
     };
-    alert(data.name)
-    alert(data.nominal)
 
     try {
       let formData = new FormData();
