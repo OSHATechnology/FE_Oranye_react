@@ -157,6 +157,7 @@ const AttendanceSettings = () => {
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
                 title="Tambah Karyawan"
+                action={fetchDataFurlough}
               />
             </div>
             <Search onChange={handleSearchFurlough} />
@@ -230,6 +231,7 @@ const AttendanceSettings = () => {
               title="Delete Furlough Type"
               typeData="furlough_type"
               data={furloughTypeDeleteData}
+              action={fetchDataFurlough}
             />
           )}
           <Pagination
@@ -262,6 +264,7 @@ const AttendanceSettings = () => {
                 isOpen={isModalAttendanceStatusAddOpened}
                 setIsOpen={setIsModalAttendanceStatusAddOpened}
                 title="Tambah Karyawan"
+                action={fetchDataAttendanceStatus}
               />
             </div>
             <Search onChange={handleSearchAttendance} />
@@ -332,6 +335,7 @@ const AttendanceSettings = () => {
               title="Delete Attendance Status"
               typeData="attendance_status"
               data={attendanceStatusDeleteData}
+              action={fetchDataAttendanceStatus}
             />
           )}
 

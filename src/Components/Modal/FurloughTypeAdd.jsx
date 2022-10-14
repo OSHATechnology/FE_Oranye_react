@@ -5,10 +5,11 @@ import React, { useState, useEffect } from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 
-const FurloughAdd = ({ isOpen, setIsOpen, title }) => {
+const FurloughAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [max, setMax] = useState("");
+  const actionRefresh = action ? action : null;
 
   function changeDataToNull() {
     setName("");
@@ -33,7 +34,7 @@ const FurloughAdd = ({ isOpen, setIsOpen, title }) => {
     const rslt = await axios.post('/api/furlough_type', formData, ConfigHeader);
     console.log(rslt);
     setIsOpen(false);
-
+    actionRefresh !== null && actionRefresh();
     changeDataToNull();
   } catch (error) {
     console.log(error);

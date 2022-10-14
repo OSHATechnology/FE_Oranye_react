@@ -133,57 +133,12 @@ const Attendance = () => {
                   </div>
                 </Menu.Item>
               </div>
-              {/* <div className="px-1 py-1">
-                <Menu.Item>
-                  
-                  <div className="flex items-center gap-2 px-2">
-                    <div>
-                      <Icon icon={"bxs:plane"}></Icon>
-                    </div>
-                    <div className="text-xs">
-                      <div>
-                        <p className="font-semibold text-gray-600">
-                          Furlough for 06 Desember
-                        </p>
-                      </div>
-                      <div className="flex font-thin text-gray-400">
-                        <div>
-                          <p>12 June 22</p>
-                        </div>
-                        <div>
-                          <p>|</p>
-                        </div>
-                        <div>
-                          <p>08:00 A.M</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <Icon
-                        icon={"akar-icons:circle-check"}
-                        className="text-green-600"
-                      ></Icon>
-                    </div>
-                  </div>
-                </Menu.Item>
-              </div> */}
               <div className="px-1 py-1 ">
                 <Menu.Item>
-                  <div className="px-2 flex items-center gap-2">
-              <p><p className="text-xs font-semibold">Custom : </p></p>
+                  <div className="px-2 flex items-center justify-center gap-2">
+                  <p className="text-xs font-semibold">Date </p>
                   <input type="date" name="" id="" className="h-6 rounded border border-gray-400 text-xs text-gray-600"  />
                   </div>
-                  {/* {({ active }) => (
-                    <Link
-                      // to="../notification"
-                      className={`${
-                        active ? "font-bold" : "text-gray-900"
-                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    >
-                      <Icon icon="akar-icons:plus"></Icon>
-                      <p className="text-xs ">Custom Date</p>
-                    </Link>
-                  )} */}
                 </Menu.Item>
               </div>
             </Menu.Items>
