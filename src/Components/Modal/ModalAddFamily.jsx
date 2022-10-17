@@ -28,9 +28,8 @@ const ModalAddMember = ({ isOpen, setIsOpen, title, action = null , ...data }) =
           identityNumber: identityNumber,
           name: name,
           statusId: status,
-          isAlive: isAlive,
-        };
-    
+          isAlive: isAlive ? 1 : 0,
+        }; 
         try {
           let formData = new FormData();
           for (let key in data) {
@@ -119,7 +118,7 @@ const ModalAddMember = ({ isOpen, setIsOpen, title, action = null , ...data }) =
                   
                   onChange={(e) => setStatus(e.target.value)}
                 >
-                  <option value="1" disabled selected>-- Select Type --</option>
+                  <option value="1" disabled selected>-- Select Status --</option>
                   <option value="1" >Husband</option>
                   <option value="2">Wife</option>
                   <option value="3">The first child</option>
@@ -128,14 +127,15 @@ const ModalAddMember = ({ isOpen, setIsOpen, title, action = null , ...data }) =
                   <option value="6">Other child</option>
                 </select>
               </div>
-              <div className="">
-                <p className="text-sm font-extrabold text-gray-600">isAlive</p>
+              <div className="flex gap-2 items-center my-1">
+                <p  className="text-sm font-extrabold text-gray-600">isAlive</p>
                 <input
-                  type="text"
+                  type="checkbox"
                   placeholder="Is Alive"
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  value={isAlive}
-                  onChange={(e) => setIsAlive(e.target.value)}
+                  checked={isAlive ? true : false}
+                  className="rounded  border border-gray-300 text-xs text-gray-700 font-medium"
+                  // value={isAlive}
+                  onChange={(e) => setIsAlive(!isAlive)}
                 />
               </div>
               

@@ -22,7 +22,7 @@ const SimpleCard = (props) => {
 SimpleCard.defaultProps = {
     bgColor: "bg-white",
     Title: "Title",
-    Icon: "mdi:account",
+    Icon: " ",
     Count: 0,
 };
 

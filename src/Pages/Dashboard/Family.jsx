@@ -7,6 +7,9 @@ import ButtonSmall from "../../Components/ButtonSmall";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
 import ModalAdd from "../../Components/Modal/ModalAddFamily";
+import ModalDelete from "../../Components/Modal/ModalDelete";
+import ModalEdit from "../../Components/Modal/ModalEdit";
+import SimpleCard from "../../Components/SimpleCard";
 
 const Family = (data) => {
   const paramsData = useParams();
@@ -56,9 +59,37 @@ const Family = (data) => {
     fetchDataFamily();
   }, [paramsData]);
 
- // Add Allowance
- const [isModalAddOpened, setIsModalAddOpened] = useState(false);
-// console.log(data);
+  // Add Family
+  const [isModalAddOpened, setIsModalAddOpened] = useState(false);
+
+   // Edit 
+   const [modalFamilyEdit, setModalFamilyEdit] = useState(false);
+   const [familyEditData, setFamilyEditData] = useState([]);
+   const fetchDataFamilyEdit = async () => {
+     const result = await axios.get(
+       `/api/employee_family/${dataFamilyId}`,
+       ConfigHeader
+     );
+     setFamilyEditData(result.data.data);
+     setModalFamilyEdit(true);
+   };
+   const setModalEditFamily = async (familyId) => {
+     dataFamilyId = familyId;
+     await fetchDataFamilyEdit();
+   };
+
+  // delete
+  const [familyDeleteData, setFamilyDeleteData] = useState("");
+  const [modalFamilyDelete, setModalFamilyDelete] =
+    useState(false);
+  let dataFamilyId = "";
+  const showModalDelete = async (familyId) => {
+    dataFamilyId = familyId;
+    setFamilyDeleteData(dataFamilyId);
+    setModalFamilyDelete(true);
+  };
+  
+  console.log(familyEditData);
 
   // console.log(dataFamily);
   return (
@@ -80,7 +111,12 @@ const Family = (data) => {
         </Link>
       </div>
 
-      <div>
+      <SimpleCard 
+      Title="Employee Name"
+      Count={dataEmp.name}
+      />
+
+      {/* <div>
         <table className="text-sm font-semibold text-slate-600">
           <tbody>
             <tr>
@@ -95,7 +131,7 @@ const Family = (data) => {
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> */}
       <div className="space-y-2 p-2 border border-gray-100 shadow">
         <div className="flex gap-4">
           <ButtonNormal
@@ -123,7 +159,7 @@ const Family = (data) => {
                   <th className="">Name</th>
                   <th className="">Status</th>
                   <th className="">isAlive</th>
-                  {/* <th className="">Action</th> */}
+                  <th className="">Action</th>
                 </tr>
               </thead>
               <tbody className="text-xs md:text-sm font-medium">
@@ -134,7 +170,27 @@ const Family = (data) => {
                       <td>{dataFamily.data[row].identityNumber}</td>
                       <td>{dataFamily.data[row].name}</td>
                       <td>{dataFamily.data[row].status.status}</td>
-                      <td>{dataFamily.data[row].isAlive}</td>
+                      <td>{dataFamily.data[row].statusAlive}</td>
+                      <td>
+                      <div className="flex justify-center gap-1">
+                        <ButtonSmall
+                          bg="bg-yellow-500"
+                          icon="fa6-solid:pen-to-square"
+                          colorIcon="text-white"
+                          onClick={() =>
+                            setModalEditFamily(dataFamily.data[row].id)
+                          }
+                          
+                        />
+                        <ButtonSmall
+                          bg="bg-red-500"
+                          icon="bi:trash"
+                          onClick={() =>
+                            showModalDelete(dataFamily.data[row].id)
+                          }
+                        />
+                      </div>
+                      </td>
                     </tr>
                   ))
                 ) : (
@@ -144,6 +200,26 @@ const Family = (data) => {
                 )}
               </tbody>
             </table>
+            {modalFamilyEdit && (
+            <ModalEdit
+              isOpen={modalFamilyEdit}
+              setIsOpen={setModalFamilyEdit}
+              title="Edit Membber from Family"
+              typeData="family"
+              data={familyEditData}
+              action={fetchDataFamily}
+            />
+          )}
+            {modalFamilyDelete && (
+              <ModalDelete
+                isOpen={modalFamilyDelete}
+                setIsOpen={setModalFamilyDelete}
+                title="Delete Family Member"
+                typeData="family"
+                data={familyDeleteData}
+                action={fetchDataFamily}
+              />
+            )}
           </div>
         </div>
       </div>

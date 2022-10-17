@@ -8,6 +8,7 @@ import EditFormAttendanceStatus from "./EditFormAttendanceStatus";
 import EditFormAllowance from "./EditFormAllowance";
 import EditFormInsuranceItem from "./EditFormInsuranceItem";
 import FormEditMember from "./FormEditMember";
+import EditFormFamily from "./EditFormFamily";
 
 const ModalEdit = (props) => {
   const { isOpen, setIsOpen } = props;
@@ -26,6 +27,7 @@ const ModalEdit = (props) => {
   }, [props.data]);
 
   const typeData = props.typeData ? props.typeData : "default";
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
@@ -106,6 +108,14 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
+                />
+              )}
+              {typeData === "family" && (
+                <EditFormFamily
+                  data={data}
+                  handleCloseModal={handleCloseModal}
+                  handleFetchData={handleFetchData}
+                
                 />
               )}
               
