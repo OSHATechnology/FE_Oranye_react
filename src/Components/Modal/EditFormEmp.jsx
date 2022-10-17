@@ -4,7 +4,7 @@ import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
 
-const EditFormEmployee = (data, action = null) => {
+const EditFormEmployee = (data) => {
   const [isOpen, setIsOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -21,7 +21,8 @@ const EditFormEmployee = (data, action = null) => {
   const [role, setRole] = useState("");
   const [dataRole, setDataRole] = useState([]);
   const [statusHire, setStatusHire] = useState("");
-  const actionRefresh = action ? action : null;
+  const loadData = data.handleFetchData ? data.handleFetchData : () => { };
+  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
 
   const fetchDataRole = async () => {
     try {
@@ -74,11 +75,9 @@ const EditFormEmployee = (data, action = null) => {
     await axios
       .post(`/api/employee/${data.data.employeeId}`, formData, ConfigHeader)
       .then((res) => {
-        setIsOpen(false);
-        actionRefresh !== null && actionRefresh();
         console.log("berhasil");
-        //   setIsOpen(false);
-        // actionRefresh !== null && actionRefresh();
+        closeModal()
+        loadData()
       })
       .catch((err) => {
         console.log(err.response);
@@ -244,7 +243,7 @@ const EditFormEmployee = (data, action = null) => {
           bg="bg-gray-400 "
           text="Cancel"
           width="w-16"
-          onClick={actionRefresh}
+          onClick={closeModal}
         />
         <button
           type="submit"

@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
+import moment from "moment";
 
 const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
   const [teamName, setTeamName] = useState("");
@@ -18,7 +19,8 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
   function changeDataToNull() {
     setEmpId("");
     setAssignedBy("");
-    setJoinedAt("");
+    // setJoinedAt(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
+    setJoinedAt(new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate());
   }
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
   useEffect(() => {
     setDataTeam(data.data);
   }, [data]);
-  
+  console.log(dataTeam)
   return (
     <>
       <Dialog
@@ -113,26 +115,6 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
                   ))}
                 </select>
               </div>
-              {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">
-                  Assigned By
-                </p>
-                <select
-                  name="Employee"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => setAssignedBy(e.target.value)}
-                >
-                  <option value="-" selected disabled>
-                    -- select Employee --
-                  </option>
-                  {dataEmployee.map((row, index) => (
-                    <option value={row.employeeId} key={index}>
-                      {row.name}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Join At</p>
                 <input

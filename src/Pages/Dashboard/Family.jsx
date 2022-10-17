@@ -1,11 +1,12 @@
-import { Icon } from '@iconify/react'
-import axios from 'axios';
+import { Icon } from "@iconify/react";
+import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from 'react-router-dom'
-import ButtonNormal from '../../Components/ButtonNormal';
+import { Link, useParams } from "react-router-dom";
+import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
-import TitleDashboard from '../../Components/TitleDashboard'
-import ConfigHeader from '../Auth/ConfigHeader';
+import TitleDashboard from "../../Components/TitleDashboard";
+import ConfigHeader from "../Auth/ConfigHeader";
+import ModalAdd from "../../Components/Modal/ModalAddFamily";
 
 const Family = (data) => {
   const paramsData = useParams();
@@ -31,7 +32,6 @@ const Family = (data) => {
       },
     },
   ]);
-  
 
   const fetchDataFamily = async () => {
     const data = await axios.get(
@@ -40,8 +40,6 @@ const Family = (data) => {
     );
     setDataFamily(data.data.data);
   };
-// console.log(paramsData);
-//   console.log(dataEmp);
 
   useEffect(() => {
     const fetchDataEmp = async () => {
@@ -57,15 +55,20 @@ const Family = (data) => {
     });
     fetchDataFamily();
   }, [paramsData]);
-console.log(dataFamily);
+
+ // Add Allowance
+ const [isModalAddOpened, setIsModalAddOpened] = useState(false);
+// console.log(data);
+
+  // console.log(dataFamily);
   return (
     <div className="w-full md:mx-8 space-y-8">
-        <TitleDashboard
+      <TitleDashboard
         Title="Family from Employee"
         Keterangan="Information about family from family"
       />
 
-<div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center">
         <Link
           to={`../emp/${dataEmp.employeeId}`}
           className="flex gap-1 items-center text-blue-400 hover:text-blue-700 w-fit"
@@ -78,101 +81,74 @@ console.log(dataFamily);
       </div>
 
       <div>
-     
-            <table className="text-sm font-semibold text-slate-600">
-                <tbody>
-                    <tr>
-                        <td>Nama</td>
-                        <td className="px-3">:</td>
-                        <td>{dataEmp.name}</td>
-                    </tr>
-                    <tr>
-                        <td>Banyak Keluarga</td>
-                        <td className="px-3">:</td>
-                        <td>5 Orang</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div className='space-y-2 p-2 border border-gray-100 shadow'>
+        <table className="text-sm font-semibold text-slate-600">
+          <tbody>
+            <tr>
+              <td>Nama</td>
+              <td className="px-3">:</td>
+              <td>{dataEmp.name}</td>
+            </tr>
+            <tr>
+              <td>Banyak Keluarga</td>
+              <td className="px-3">:</td>
+              <td>5 Orang</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div className="space-y-2 p-2 border border-gray-100 shadow">
         <div className="flex gap-4">
-              <ButtonNormal 
-              bg="bg-green-600 " 
-              icon="bi:plus" 
-              text="Add"
-               />
-            </div>
+          <ButtonNormal
+            bg="bg-green-600 "
+            icon="bi:plus"
+            text="Add"
+            onClick={() => setIsModalAddOpened(!isModalAddOpened)}
+          />
+          <ModalAdd
+            isOpen={isModalAddOpened}
+            setIsOpen={setIsModalAddOpened}
+            title="Add Family"
+            data={dataEmp}
+            action={fetchDataFamily}
+          />
+        </div>
 
         <div className="flex justify-center">
-          
-        <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
-        
-          <table className=" w-full text-center overflow-x-scroll">
-            <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
-              <tr className="">
-                <th className=" py-2">No</th>
-                <th className="">No Identitas</th>
-                <th className="">Nama</th>
-                <th className="">Status Keluarga</th>
-                <th className="">Hidup / Mati</th>
-                <th className="">Action</th>
-              </tr>
-            </thead>
-            <tbody className="text-xs md:text-sm font-medium">
-              {/* <tr>
-                <td>1</td>
-                <td>125.235</td>
-                <td>Fachrian</td>
-                <td>Ayah</td>
-                <td>Hidup</td>
-                <td>
-                <div className="flex justify-center gap-1">
-                      <ButtonSmall
-                        bg="bg-yellow-500"
-                        icon="fa6-solid:pen-to-square"
-                        colorIcon="text-white"
-                      />
-                      <ButtonSmall
-                        bg="bg-red-500"
-                        icon="ci:trash-full"
-                        colorIcon="text-white"
-                      />
-                    </div>
-                </td>
-              </tr> */}
-              {dataFamily.data ? (
-                Object.keys(dataFamily.data).map((row, index) => (
-                  <tr key={dataFamily.data[row].id}>
-                    <td>{index + 1}</td>
-                    <td>{dataFamily.data[row].identityNumber}</td>
-                    <td>{dataFamily.data[row].name}</td>
-                    <td>{dataFamily.data[row].status.status}</td>
-                    <td>{(dataFamily.data[row].isAlive)}</td>
-                    <td className="w-24">
-                      <div className="flex justify-center gap-1">
-                        <Link to={`../LoanPayment/${dataFamily.data[row].loanId}`}>
-                          <ButtonSmall
-                            bg="bg-blue-600"
-                            icon="carbon:view"
-                            colorIcon="text-white"
-                          />
-                        </Link>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5">Loading</td>
+          <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
+            <table className=" w-full text-center overflow-x-scroll">
+              <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
+                <tr className="">
+                  <th className=" py-2">No</th>
+                  <th className="">Identity Number</th>
+                  <th className="">Name</th>
+                  <th className="">Status</th>
+                  <th className="">isAlive</th>
+                  {/* <th className="">Action</th> */}
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="text-xs md:text-sm font-medium">
+                {dataFamily.data ? (
+                  Object.keys(dataFamily.data).map((row, index) => (
+                    <tr key={dataFamily.data[row].id}>
+                      <td>{index + 1}</td>
+                      <td>{dataFamily.data[row].identityNumber}</td>
+                      <td>{dataFamily.data[row].name}</td>
+                      <td>{dataFamily.data[row].status.status}</td>
+                      <td>{dataFamily.data[row].isAlive}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5">Loading</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Family
+export default Family;

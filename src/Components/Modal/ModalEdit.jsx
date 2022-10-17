@@ -6,6 +6,8 @@ import EditFormPartner from "./EditFormPartner";
 import EditFormFurloughType from "./EditFormFurloughType";
 import EditFormAttendanceStatus from "./EditFormAttendanceStatus";
 import EditFormAllowance from "./EditFormAllowance";
+import EditFormInsuranceItem from "./EditFormInsuranceItem";
+import FormEditMember from "./FormEditMember";
 
 const ModalEdit = (props) => {
   const { isOpen, setIsOpen } = props;
@@ -64,7 +66,13 @@ const ModalEdit = (props) => {
 
             <div className="text-center text-base font-bold">{props.title}</div>
             <div className="w-full overflow-y-auto h-3/4">
-              {typeData === "employee" && <EditFormEmployee data={data} />}
+              {typeData === "employee" && (
+                <EditFormEmployee
+                  data={data}
+                  handleCloseModal={handleCloseModal}
+                  handleFetchData={handleFetchData}
+                />
+              )}
               {typeData === "partner" && (
                 <EditFormPartner
                   data={data}
@@ -73,14 +81,18 @@ const ModalEdit = (props) => {
                 />
               )}
               {typeData === "furlough_type" && (
-                <EditFormFurloughType data={data}
-                handleCloseModal={handleCloseModal}
-                handleFetchData={handleFetchData} />
+                <EditFormFurloughType
+                  data={data}
+                  handleCloseModal={handleCloseModal}
+                  handleFetchData={handleFetchData}
+                />
               )}
               {typeData === "attendance_status" && (
-                <EditFormAttendanceStatus data={data}
-                handleCloseModal={handleCloseModal}
-                handleFetchData={handleFetchData} />
+                <EditFormAttendanceStatus
+                  data={data}
+                  handleCloseModal={handleCloseModal}
+                  handleFetchData={handleFetchData}
+                />
               )}
               {typeData === "allowance" && (
                 <EditFormAllowance
@@ -89,6 +101,14 @@ const ModalEdit = (props) => {
                   handleFetchData={handleFetchData}
                 />
               )}
+              {typeData === "insurance_item" && (
+                <EditFormInsuranceItem
+                  data={data}
+                  handleCloseModal={handleCloseModal}
+                  handleFetchData={handleFetchData}
+                />
+              )}
+              
             </div>
           </div>
         </Transition.Child>
