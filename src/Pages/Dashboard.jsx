@@ -29,6 +29,7 @@ import DetailSalary from './Dashboard/DetailSalary';
 import { AuthRedirect } from './Auth/AuthProvider';
 import AllowanceAdd from './Dashboard/AllowanceAdd';
 import LeaveRequest from './Dashboard/Attendance/LeaveRequest';
+import NetSalary from './Dashboard/Payroll/NetSalary';
 // import Spinner from '../Components/Spinner';
 
 export default function Dashboard(props) {
@@ -59,6 +60,7 @@ export default function Dashboard(props) {
                     <Route path="payroll" element={<Payroll />}>
                         <Route index element={<GrossSalary />} />
                         <Route path="SalaryDeductions" element={<SalaryDeductions />} />
+                        <Route path="NetSalary" element={<NetSalary />} />
                         <Route path="Loan" element={<Loan />} />
                     </Route>
                     <Route path="emp" element={<Emp />} />

@@ -1,8 +1,7 @@
-import moment from "moment";
 import React from "react";
 import Search from "../../../Components/Search";
 
-const GrossSalary = () => {
+const NetSalary = () => {
   return (
     <div className="w-full space-y-2 border rounded shadow p-2">
       <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
@@ -15,12 +14,10 @@ const GrossSalary = () => {
           </button>
         </div> */}
         <div className="px-2 flex items-center gap-2">
-          {/* <label htmlFor="month">{moment().format("MMMM")}</label> */}
           <input
             type="month"
-            // defaultValue={moment().format("MMMM")}
             name=""
-            id="month"
+            id="customDate"
             className="h-6 rounded border border-gray-400 text-xs text-gray-600"
           />
         </div>
@@ -33,11 +30,9 @@ const GrossSalary = () => {
             <tr>
               <th>No</th>
               <th>Employee</th>
-              <th>Gaji Pokok</th>
-              <th>Overtime</th>
-              <th>Insentif</th>
-              <th>Bonus</th>
-              <th>Total</th>
+              <th>Gross Salary</th>
+              <th>Salary Deduction</th>
+              <th>Net Salary</th>
             </tr>
           </thead>
           <tbody className="text-sm font-medium text-slate-600 text-center">
@@ -49,17 +44,15 @@ const GrossSalary = () => {
                   <p>Employee 1</p>
                 </div>
               </td>
-              <td>8.000.000</td>
-              <td>16 Hours</td>
-              <td>600.000</td>
-              <td>2.000.000</td>
               <td>14.250.000</td>
+              <td>1.162.500</td>
+              <td>13.087.500</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default GrossSalary;
+export default NetSalary
