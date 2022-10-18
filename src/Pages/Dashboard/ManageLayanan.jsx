@@ -11,6 +11,7 @@ import ModalAdd from "../../Components/Modal/AddInsuranceItem";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import Pagination from "react-js-pagination";
 import ModalManage from "../../Components/Modal/ManageInsurance";
+import ModalEdit from "../../Components/Modal/ModalEdit";
 
 const ManageLayanan = () => {
   const paramsData = useParams();
@@ -34,6 +35,23 @@ const ManageLayanan = () => {
     );
     setDataInsurance(data.data.data);
     setDataItem(data.data.data.data.data);
+  };
+  let dataInsuranceItemId = "";
+
+  // Edit 
+  const [modalInsuranceItemEdit, setModalInsuranceItemEdit] = useState(false);
+  const [insuranceItemEditData, setInsuranceItemEditData] = useState([]);
+  const fetchDataFurloughTypeEdit = async () => {
+    const result = await axios.get(
+      `/api/insurance_item/${dataInsuranceItemId}`,
+      ConfigHeader
+    );
+    setInsuranceItemEditData(result.data.data);
+    setModalInsuranceItemEdit(true);
+  };
+  const setModalEditInsuranceItem = async (insuranceItemId) => {
+    dataInsuranceItemId = insuranceItemId;
+    await fetchDataFurloughTypeEdit();
   };
 
 
@@ -166,17 +184,37 @@ const ManageLayanan = () => {
                       <td>{dataItem[row].type}</td>
                       <td>{dataItem[row].percent}</td>
                       <td>
-                        <ButtonSmall
-                          bg="bg-red-500"
-                          icon="bi:trash"
-                          onClick={() => showModalDelete(dataItem[row].insItemId)}
-                        />
+                        <div className="flex justify-center gap-1">
+
+                          <ButtonSmall
+                            bg="bg-yellow-500"
+                            icon="fa6-solid:pen-to-square"
+                            colorIcon="text-white"
+                            onClick={() =>
+                              setModalEditInsuranceItem(dataItem[row].insItemId)}
+                          />
+                          <ButtonSmall
+                            bg="bg-red-500"
+                            icon="bi:trash"
+                            onClick={() => showModalDelete(dataItem[row].insItemId)}
+                          />
+                        </div>
                       </td>
                     </tr>
                   )) : <tr><td colSpan="5">Loading</td></tr>
               }
             </tbody>
           </table>
+          {modalInsuranceItemEdit && (
+            <ModalEdit
+              isOpen={modalInsuranceItemEdit}
+              setIsOpen={setModalInsuranceItemEdit}
+              title="Edit Insurance Service"
+              typeData="insurance_item"
+              data={insuranceItemEditData}
+              action={fetchDataInsurance}
+            />
+          )}
           {modalInsuranceItemDelete && (
             <ModalDelete
               isOpen={modalInsuranceItemDelete}

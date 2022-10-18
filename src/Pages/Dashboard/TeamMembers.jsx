@@ -13,6 +13,7 @@ import moment from "moment";
 import { Icon } from "@iconify/react";
 import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
+import ModalEdit from "../../Components/Modal/ModalEdit";
 
 const TeamMembers = () => {
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
@@ -167,11 +168,13 @@ const TeamMembers = () => {
                     <td>{dataMember.data[row].assignedBy.name}</td>
                     <td>{moment(dataMember.data[row].joinedAt).format("DD MMMM YYYY")}</td>
                     <td>
+                    <div className="flex justify-center gap-1">
                       <ButtonSmall
                         bg="bg-red-500"
                         icon="bi:trash"
                         onClick={() => showModalDelete(dataMember.data[row].id)}
                       />
+                      </div>
                     </td>
                   </tr> 
                 )) : <tr><td colSpan="5">Loading</td></tr>

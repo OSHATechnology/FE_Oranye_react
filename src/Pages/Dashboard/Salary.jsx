@@ -1,16 +1,67 @@
 import { Icon } from '@iconify/react'
+import axios from 'axios';
 import moment from 'moment'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from 'react-router-dom'
 import ButtonSmall from '../../Components/ButtonSmall'
 import TitleDashboard from '../../Components/TitleDashboard'
+import ConfigHeader from '../Auth/ConfigHeader';
 
-const Salary = () => {
+const Salary = (data) => {
+  const paramsData = useParams();
+  const [dataSalary, setDataSalary] = useState([]);
+  const [dataEmp, setDataEmp] = useState([
+    {
+      employeeId: "",
+      name: "",
+      photo: "",
+      birthDate: "",
+      gender: "",
+      role: "",
+      email: "",
+      phone: "",
+      address: "",
+      isActive: "",
+      emailVerifiedAt: "",
+      joinedAt: "",
+      resignedAt: "",
+      statusHire: {
+        id: "",
+        status: "",
+      },
+    },
+  ]);
+
+  const fetchDataSalary = async () => {
+    const data = await axios.get(
+      `/api/basic_salary_by_employee?empId=${paramsData.id}`,
+      ConfigHeader
+    );
+    setDataSalary(data.data.data);
+  };
+
+  useEffect(() => {
+    const fetchDataEmp = async () => {
+      const data = await axios.get(
+        `/api/employee/${paramsData.id}`,
+        ConfigHeader
+      );
+      setDataEmp(data.data.data);
+    };
+
+    fetchDataEmp().catch((err) => {
+      console.log(err.message);
+    });
+    fetchDataSalary();
+  }, [paramsData]);
+console.log(dataSalary);
+
+
   return (
     <div className="w-full md:mx-8 space-y-8">
         <TitleDashboard
         Title="Salary from Employee"
-        Keterangan="Information about salary from family"
+        Keterangan="Information about salary from Employee"
       />
 
 <div className="flex gap-2 items-center">
