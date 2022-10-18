@@ -9,79 +9,56 @@ import ConfigHeader from "../../Auth/ConfigHeader";
 import ModalDetail from "../../../Components/Modal/ModalDetail";
 import Search from "../../../Components/Search";
 import Pagination from "react-js-pagination";
+import moment from "moment/moment";
 
 const LeaveRequest = () => {
   const [isModalAccOpened, setIsModalAccOpened] = useState(false);
   const [isModalDeclineOpened, setIsModalDeclineOpened] = useState(false);
-  const [dataAttendance, setDataAttendance] = useState([]);
-  const [dataOvertime, setDataOvertime] = useState([]);
+  const [dataRequest, setDataRequest] = useState([]);
+  const [confirmData, setConfirmData] = useState({ id: "", type: "" });
+  const [declineData, setDeclineData] = useState({ id: "", type: "" });
 
-  const [modalAttendance, setModalAttendance] = useState(false);
-  const [attendanceDetail, setAttendanceDetail] = useState([]);
-
-  let dataAttendanceId = "";
-  const showModalDetail = async (attendanceId) => {
-    dataAttendanceId = attendanceId;
-    await fetchDataAttendanceDetail();
-  };
-
-  const fetchDataAttendanceDetail = async () => {
-    const result = await axios.get(
-      `/api/attendance/${dataAttendanceId}`,
-      ConfigHeader
-    );
-    setAttendanceDetail(result.data.data);
-    setModalAttendance(true);
-  };
-
-  const fetchDataOvertime = async () => {
+  const fetchDataRequest = async (page = 1, search = "") => {
     try {
-      const result = await axios.get(`/api/overtime`, ConfigHeader);
-      setDataOvertime(result.data.data.data);
+      const result = await axios.get(`/api/leave-requests?search=${search}&page=${page}`, ConfigHeader);
+      setDataRequest(result.data.data);
     } catch (error) {
       console.log(error);
     }
   };
-
-  const fetchDataAttendance = async (page = 1, search = "") => {
-    try {
-      const result = await axios.get(
-        `/api/attendance?search=${search}&page=${page}`,
-        ConfigHeader
-      );
-      setDataAttendance(result.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchDataOvertime();
-
-    fetchDataAttendance().catch((err) => {
-      console.log(err.message);
-    });
-  }, []);
 
   const handleSearch = (e) => {
     try {
-      fetchDataAttendance(1, e.target.value);
-    } catch (err) {}
+      fetchDataRequest(1, e.target.value);
+    } catch (err) { }
   };
+
+  const handleAcceptRequest = async (id, type) => {
+    try {
+      setConfirmData({ id, type });
+      setIsModalAccOpened(true);
+    } catch (err) { }
+  };
+
+  const handleDeclineRequest = async (id, type) => {
+    try {
+      setDeclineData({ id, type });
+      setIsModalDeclineOpened(true);
+    } catch (err) { }
+  };
+
+  useEffect(() => {
+    fetchDataRequest();
+  }, []);
+
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 pb-10">
       <div className="md:flex  md:gap-8 space-y-4 md:space-y-0">
         <SimpleCard
           bgColor=""
           Title="Request"
           Icon="fluent:mail-20-filled"
-          Count="7"
-        />
-        <SimpleCard
-          bgColor=""
-          Title="Approved"
-          Icon="fa6-solid:envelope-circle-check"
-          Count="7"
+          Count={dataRequest?.total ? dataRequest?.total : 0}
         />
       </div>
       <div className="border rounded shadow p-2 space-y-2">
@@ -93,7 +70,7 @@ const LeaveRequest = () => {
             <thead className="bg-slate-200 h-10 border-b border-slate-500">
               <tr>
                 <th rowSpan="2">No</th>
-                <th rowSpan="2">EMployee</th>
+                <th rowSpan="2">Employee</th>
                 <th rowSpan="2">Type</th>
                 <th colSpan="2">Request Date</th>
                 <th rowSpan="2">Filing Date</th>
@@ -105,36 +82,47 @@ const LeaveRequest = () => {
               </tr>
             </thead>
             <tbody className="text-xs font-medium text-slate-700 md:text-sm">
-              {dataAttendance.data ? (
-                Object.keys(dataAttendance.data).map((row, index) => (
-                  <tr key={dataAttendance.data[row].id} className=" shadow ">
+              {dataRequest.data ? (
+                Object.keys(dataRequest.data).map((row, index) => (
+                  <tr key={index} className=" shadow ">
                     <td>{index + 1}</td>
-                    <td>{dataAttendance.data[row].employee.name}</td>
-                    <td>{dataAttendance.data[row].attendanceStatus.status}</td>
-                    <td>{dataAttendance.data[row].timeAttend}</td>
-                    <td>{dataAttendance.data[row].timeAttend}</td>
-                    <td>{dataAttendance.data[row].timeAttend}</td>
-                    {/* <td>{dataAttendance.data[row].typeInOut}</td> */}
+                    <td>
+                      <div className="flex flex-col text-start">
+                        {dataRequest.data[row].employee ? (
+                          <>
+                            <span className="text-gray-500 font-bold">
+                              {dataRequest.data[row].employee.id}
+                            </span>
+                            <span className="">
+                              {dataRequest.data[row].employee.name}
+                            </span>
+                            <span className="font-thin">
+                              {dataRequest.data[row].employee.role}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-2xl font-bold">-</span>
+                        )}
+                      </div>
+                    </td>
+                    <td>{dataRequest.data[row].type}</td>
+                    <td>{dataRequest.data[row].startAt}</td>
+                    <td>{dataRequest.data[row].endAt}</td>
+                    <td>{dataRequest.data[row].requestAt ? moment(dataRequest.data[row].requestAt).format("H:m DD-MM-YYYY") : "-"}</td>
                     <td>
                       <div className="flex justify-center gap-2">
-                        {/* <ButtonSmall
-                      bg="bg-blue-600"
-                      icon="carbon:view"
-                      colorIcon="text-white"
-                      onClick={() => showModalDetail(dataAttendance.data[row].id)}
-                    /> */}
                         <ButtonSmall
                           bg="bg-green-600"
                           icon="akar-icons:check"
-                          onClick={() => setIsModalAccOpened(!isModalAccOpened)}
+                          onClick={() => {
+                            handleAcceptRequest(dataRequest.data[row].id, dataRequest.data[row].type)
+                          }}
                         />
 
                         <ButtonSmall
                           bg="bg-red-600"
                           icon="akar-icons:block"
-                          onClick={() =>
-                            setIsModalDeclineOpened(!isModalDeclineOpened)
-                          }
+                          onClick={() => handleDeclineRequest(dataRequest.data[row].id, dataRequest.data[row].type)}
                         />
                       </div>
                     </td>
@@ -148,35 +136,30 @@ const LeaveRequest = () => {
             </tbody>
           </table>
         </div>
-        {/* {modalAttendance && (
-            <ModalDetail
-              isOpen={modalAttendance}
-              setIsOpen={setModalAttendance}
-              title="Detail Attendance"
-              typeData="attendance"
-              data={attendanceDetail}
-            />
-          )} */}
         <ModalAcc
           isOpen={isModalAccOpened}
           setIsOpen={setIsModalAccOpened}
           title="Accept Request"
+          data={confirmData}
+          action={fetchDataRequest}
         />
         <ModalDecline
           isOpen={isModalDeclineOpened}
           setIsOpen={setIsModalDeclineOpened}
           title="Decline Request"
+          data={declineData}
+          action={fetchDataRequest}
         />
         <Pagination
           activePage={
-            dataAttendance.current_page ? dataAttendance.current_page : 0
+            dataRequest.current_page ? dataRequest.current_page : 0
           }
           itemsCountPerPage={
-            dataAttendance?.per_page ? dataAttendance?.per_page : 0
+            dataRequest?.per_page ? dataRequest?.per_page : 0
           }
-          totalItemsCount={dataAttendance?.total ? dataAttendance?.total : 0}
+          totalItemsCount={dataRequest?.total ? dataRequest?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataAttendance(pageNumber);
+            fetchDataRequest(pageNumber);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}

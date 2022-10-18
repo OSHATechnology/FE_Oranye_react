@@ -26,6 +26,12 @@ const FurloughCard = (props) => {
     setListTypeFurlough(res.data.data);
   };
 
+  const clearInput = () => {
+    setTypeFurlough("");
+    setStartAt("");
+    setEndAt("");
+  };
+
   const handleFurlough = (e) => {
     e.preventDefault();
     try {
@@ -39,6 +45,7 @@ const FurloughCard = (props) => {
       resp.then((res) => {
         alert(res.data.message);
         props.actionRefresh();
+        clearInput();
       });
     } catch (error) {
       console.log(error);
@@ -133,6 +140,13 @@ const WorkPermitCard = (props) => {
     end_at: "",
   });
 
+  const clearInput = () => {
+    setDataWorkPermit({
+      start_at: "",
+      end_at: "",
+    });
+  };
+
   const handleWorkPermit = (e) => {
     e.preventDefault();
     try {
@@ -144,6 +158,7 @@ const WorkPermitCard = (props) => {
       resp.then((res) => {
         alert(res.data.message);
         props.actionRefresh();
+        clearInput();
       });
       console.log(data);
     } catch (error) {
@@ -246,6 +261,13 @@ export default function KaryawanKehadiran() {
     fetchDataLeaveRequest();
   };
 
+  const clearInputReqOvertime = () => {
+    setReqOvertime({
+      start_at: "",
+      end_at: "",
+    });
+  };
+
   const actionType = [
     {
       id: 1,
@@ -319,10 +341,10 @@ export default function KaryawanKehadiran() {
     try {
       const resp = axios.post("/api/my/add-leave-request", data, ConfigHeader);
       resp.then((res) => {
+        clearInputReqOvertime();
         alert(res.data.message);
         refreshTable();
       });
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -474,6 +496,7 @@ export default function KaryawanKehadiran() {
                             id=""
                             placeholder="Start Date"
                             required
+                            value={reqOvertime.start_at}
                             className="rounded w-full border border-gray-300"
                             onChange={(e) =>
                               setReqOvertime({
@@ -494,6 +517,7 @@ export default function KaryawanKehadiran() {
                             name=""
                             id=""
                             required
+                            value={reqOvertime.end_at}
                             placeholder="End Date"
                             className="rounded w-full border border-gray-300"
                             onChange={(e) =>

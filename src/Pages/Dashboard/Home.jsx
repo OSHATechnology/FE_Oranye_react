@@ -56,7 +56,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="md:ml-8 space-y-8">
+        <div className="md:ml-8 space-y-8 pb-10">
             <TitleDashboard
                 Title="Property Dashboard"
                 Keterangan="Welcome, Admin!"

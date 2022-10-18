@@ -51,11 +51,11 @@ const Today = () => {
   const handleSearch = (e) => {
     try {
       fetchDataToday(1, e.target.value);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 pb-10">
       <div className="md:flex space-y-4 md:space-y-0 gap-8">
         <SimpleCard
           bgColor=""
@@ -102,7 +102,7 @@ const Today = () => {
                 <td>{index + 1}</td>
                 <td>
                   <div className="flex items-center justify-center gap-2">
-                    
+
                     <span>{row.employee.name}</span>
                   </div>
                 </td>
@@ -110,7 +110,7 @@ const Today = () => {
                   <div className="flex items-center justify-center">
                     <Icon icon={row.icon} className="text-xl mr-1" />
                     <span>{row.attendanceStatus.status}</span>
-                    
+
                   </div>
                 </td>
                 <td>{row.typeInOut}</td>
@@ -122,7 +122,7 @@ const Today = () => {
                     colorIcon="text-white"
                     onClick={() => showModalDetail(row.id)}
                   />
-                  
+
                 </td>
               </tr>
             ))}

@@ -28,7 +28,6 @@ const Overtime = () => {
 
   const fetchDataOvertimeDetail = async () => {
     const result = await axios.get(`/api/overtime/${dataOvertimeId}`, ConfigHeader);
-    console.log(result.data.data);
     setOvertimeDetail(result.data.data);
     setModalOvertime(true);
   }
@@ -42,37 +41,19 @@ const Overtime = () => {
     setTotalOvertime(result.data.data.length);
   };
   useEffect(() => {
-    
-
     fetchDataOvertime().catch((err) => {
       console.log(err.message);
     });
   }, []);
-  // const dataOvertime = [
-  //   {
-  //     id: "1",
-  //     img: "../assets/PP.png",
-  //     name: "Tatang Suherman",
-  //     hour: "2",
-  //     acc: "Tatang Suherman",
-  //   },
-  //   {
-  //     id: "2",
-  //     img: "../assets/Logo.png",
-  //     name: "Arunika",
-  //     hour: "Work",
-  //     acc: "Lead",
-  //   },
-  // ];
 
   const handleSearch = (e) => {
     try {
       fetchDataOvertime(1, e.target.value);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 pb-10">
       <div className="flex gap-8">
         <SimpleCard
           bgColor=""
@@ -82,25 +63,25 @@ const Overtime = () => {
         />
       </div>
       <div className="border rounded shadow p-2 space-y-2">
-      <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
-        <div>
-          <p className="text-xs md:text-sm font-medium text-slate-500">
-            {moment().format("dddd, DD MMMM YYYY")} | Overtime
-          </p>
+        <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
+          <div>
+            <p className="text-xs md:text-sm font-medium text-slate-500">
+              {moment().format("dddd, DD MMMM YYYY")} | Overtime
+            </p>
+          </div>
+          <div className="flex gap-2 md:justify-end">
+            <Search onChange={handleSearch} />
+            <ButtonSmall
+              icon="ant-design:filter-outlined"
+              onClick={() => setIsModalFilterOpened(!isModalFilterOpened)}
+            />
+            <ModalFilter
+              isOpen={isModalFilterOpened}
+              setIsOpen={setIsModalFilterOpened}
+              title="Filter Partner"
+            />
+          </div>
         </div>
-        <div className="flex gap-2 md:justify-end">
-          <Search onChange={handleSearch}/>
-          <ButtonSmall
-            icon="ant-design:filter-outlined"
-            onClick={() => setIsModalFilterOpened(!isModalFilterOpened)}
-          />
-          <ModalFilter
-            isOpen={isModalFilterOpened}
-            setIsOpen={setIsModalFilterOpened}
-            title="Filter Partner"
-          />
-        </div>
-      </div>
         <table className="w-full text-center overflow-x-scroll">
           <thead className="bg-slate-200 h-10 border-b border-slate-500">
             <tr>
@@ -108,6 +89,7 @@ const Overtime = () => {
               <th>Nama</th>
               <th>Hour</th>
               <th>Assigned By</th>
+              <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -123,47 +105,40 @@ const Overtime = () => {
                 </td>
                 <td className="w-2">
                   <span>
-                    {Math.round(moment.duration(moment(row.endAt, 'YYYY/MM/DD HH:mm').diff(moment(row.startAt, 'YYYY/MM/DD HH:mm'))).asHours())} hours 
+                    {Math.round(moment.duration(moment(row.endAt, 'YYYY/MM/DD HH:mm').diff(moment(row.startAt, 'YYYY/MM/DD HH:mm'))).asHours())} hours
                   </span>
                   <span className="ml-2 text-xs font-thin text-slate-500">
-                  ({moment(row.startAt).format("HH:mm")} - {moment(row.endAt).format("HH:mm")})
+                    ({moment(row.startAt).format("HH:mm")} - {moment(row.endAt).format("HH:mm")})
                   </span>
                 </td>
                 <td>{row.assignedBy.name}</td>
                 <td>
-                <ButtonSmall
-                        bg="bg-blue-600"
-                        icon="carbon:view"
-                        colorIcon="text-white"
-                        onClick={() => showModalDetail(row.id)}
-                        />
-                  {/* <ButtonSmall
-                    bg="bg-pink-500"
+                  <span>{row.status}</span>
+                </td>
+                <td>
+                  <ButtonSmall
+                    bg="bg-blue-600"
                     icon="carbon:view"
-                    onClick={() => setIsOpen(!isOpen)}
+                    colorIcon="text-white"
+                    onClick={() => showModalDetail(row.id)}
                   />
-                  <Modal
-                    isOpen={isOpen}
-                    setIsOpen={setIsOpen}
-                    title="Info Detail"
-                  /> */}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         {modalOvertime && (
-            <ModalDetail
-              isOpen={modalOvertime}
-              setIsOpen={setModalOvertime}
-              title="Detail Overtime"
-              typeData="overtime"
-              data={overtimeDetail}
-            />
-          )}
-          <Pagination
+          <ModalDetail
+            isOpen={modalOvertime}
+            setIsOpen={setModalOvertime}
+            title="Detail Overtime"
+            typeData="overtime"
+            data={overtimeDetail}
+          />
+        )}
+        <Pagination
           activePage={
-            dataOvertime.current_page ? dataOvertime.current_page : 0
+            dataOvertime?.current_page ? dataOvertime.current_page : 0
           }
           itemsCountPerPage={
             dataOvertime?.per_page ? dataOvertime?.per_page : 0

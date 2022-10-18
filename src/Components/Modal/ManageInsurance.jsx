@@ -7,42 +7,42 @@ import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import axios from "axios";
 
 const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
-    const [name, setName] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [address, setAddress] = useState('');
-    const [dataInsurance, setDataInsurance] = useState([]);
-    const actionRefresh = action ? action : null;
+  const [name, setName] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [address, setAddress] = useState('');
+  const [dataInsurance, setDataInsurance] = useState([]);
+  const actionRefresh = action ? action : null;
 
-    useEffect(() => {
-        setName(data.name);
-        setCompanyName(data.company);
-        setAddress(data.address);
-      }, [data]);
+  useEffect(() => {
+    setName(data.name);
+    setCompanyName(data.company);
+    setAddress(data.address);
+  }, [data]);
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        await axios.patch(`/api/insurance/${data.id}`, {
-          name: name,
-          companyName: companyName,
-          address: address,
-        }, ConfigHeader)
-        .then((res) => {
-          setIsOpen(false);
-          actionRefresh !== null && actionRefresh();
-        }).catch((err) => {
-          alert(err.response.data.message);
-        });
-      };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios.patch(`/api/insurance/${data.id}`, {
+      name: name,
+      companyName: companyName,
+      address: address,
+    }, ConfigHeader)
+      .then((res) => {
+        setIsOpen(false);
+        actionRefresh !== null && actionRefresh();
+      }).catch((err) => {
+        alert(err.response.data.message);
+      });
+  };
 
-      // delete
-      const [modalInsuranceDelete, setModalInsuranceDelete] = useState(false);
-      const [insuranceDeleteData, setInsuranceDeleteData] = useState("");
-      let dataInsuranceId = "";
-      const showModalDelete = async (insuranceId) => {
-        dataInsuranceId = insuranceId;
-        setInsuranceDeleteData(dataInsuranceId);
-        setModalInsuranceDelete(true);
-      };
+  // delete
+  const [modalInsuranceDelete, setModalInsuranceDelete] = useState(false);
+  const [insuranceDeleteData, setInsuranceDeleteData] = useState("");
+  let dataInsuranceId = "";
+  const showModalDelete = async (insuranceId) => {
+    dataInsuranceId = insuranceId;
+    setInsuranceDeleteData(dataInsuranceId);
+    setModalInsuranceDelete(true);
+  };
   return (
     <>
       <Dialog
@@ -103,23 +103,6 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
                 className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
               />
             </div>
-            {/* <div className="">
-              <p className="text-sm font-extrabold text-gray-600">Team Maker</p>
-              <select
-                defaultValue={createdById}
-                name="createdBy"
-                placeholder="Leader Team"
-                id=""
-                className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                onChange={(e) => setCreatedById(e.target.value)}
-              >
-                {dataEmployee.map((item, index) => (
-                  <option value={item.employeeId} key={index}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            </div> */}
           </div>
 
           <div className="flex justify-between">
@@ -135,7 +118,7 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
               onClick={handleSubmit}
               text="Save"
               width="w-16"
-              
+
             />
           </div>
           {modalInsuranceDelete && (
@@ -145,7 +128,7 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
               title="Delete Insurance"
               typeData="insurance"
               data={insuranceDeleteData}
-            
+              action={() => window.location.reload}
             />
           )}
         </div>

@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import RupiahMoneyFormat from "../../Components/RupiahMoneyFormat";
 import Spinner2 from "../../Components/Spinner2";
 import { AuthData } from "../Auth/AuthProvider";
 import ConfigHeader from "../Auth/ConfigHeader";
@@ -76,42 +77,71 @@ const CardProfileEmployee = () => {
     );
 };
 const CardPinjaman = () => {
+    const [loan, setLoan] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    const fetchDataLoan = async () => {
+        const response = await axios.get('/api/my/loan', ConfigHeader);
+        setLoan(response.data.data);
+        console.log(response.data.data);
+        setIsLoading(true);
+    }
+
+    useEffect(() => {
+        fetchDataLoan();
+    }, []);
+
     return (
         <div className="">
             <div className="flex flex-col w-full md:w-full border border-gray-300 shadow space-y-7  rounded">
-                {isLoading ? (
-                    <>
-                        <div className="flex items-center gap-4 justify-start ml-4 mt-5">
-                            <div>
-                                <Icon className="text-5xl text-white bg-gray-600 rounded-full p-2" icon={"healthicons:money-bag"}></Icon>
+                {isLoading ?
+                    (loan.length !== 0 && loan?.totalLoan > 0) ? (
+                        <>
+                            <div className="flex items-center gap-4 justify-start ml-4 mt-5">
+                                <div>
+                                    <Icon className="text-5xl text-white bg-gray-600 rounded-full p-2" icon={"healthicons:money-bag"}></Icon>
+                                </div>
+                                <div>
+                                    <p className="font-bold text-gray-600">Pinjaman</p>
+                                    <p className="text-xs font-medium text-gray-400">{moment().format("dddd, DD MMMM YYYY")}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p className="font-bold text-gray-600">Pinjaman</p>
-                                <p className="text-xs font-medium text-gray-400">{moment().format("dddd, DD MMMM YYYY")}</p>
+                            <div className="flex justify-between mx-8 text-sm font-medium text-gray-600">
+                                <div className="">
+                                    <p>Total Pinjaman</p>
+                                    <p>Telah Bayar</p>
+                                    <p>Sisa Bayar</p>
+                                </div>
+                                <div className="text-end">
+                                    <p>
+                                        <RupiahMoneyFormat num={loan?.totalLoan ?? 0} />
+                                    </p>
+                                    <p>
+                                        <RupiahMoneyFormat num={loan?.totalPaid ?? 0} />
+                                    </p>
+                                    <p>
+                                        <RupiahMoneyFormat num={loan?.totalUnPaid ?? 0} />
+                                    </p>
+                                </div>
                             </div>
+                            <div className="w-full  px-8 text-center py-2">
+                                <p className="border-t border-gray-600">
+                                    {loan?.totalUnPaid > 0 && (
+                                        "Belum Lunas"
+                                    )}
+                                </p>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="flex w-full h-20 items-center justify-center select-none">
+                            <Icon className="text-3xl text-white bg-gray-600 rounded-full p-2 mr-2" icon={"healthicons:money-bag"}></Icon>
+                            <p className="text-lg font-semibold text-gray-600">No Loan</p>
                         </div>
-                        <div className="flex justify-between mx-8 text-sm font-medium text-gray-600">
-                            <div className="">
-                                <p>Total Pinjaman</p>
-                                <p>Telah Bayar</p>
-                                <p>Sisa Bayar</p>
-                            </div>
-                            <div>
-                                <p>300.000</p>
-                                <p>100.000</p>
-                                <p>200.000</p>
-                            </div>
+                    ) : (
+                        <div className="w-full text-center m-4">
+                            <Spinner2 />
                         </div>
-                        <div className="w-full  px-8 text-center py-2">
-                            <p className="border-t border-gray-600">Belum Lunas</p>
-                        </div>
-                    </>
-                ) : (
-                    <div className="w-full text-center m-4">
-                        <Spinner2 />
-                    </div>
-                )}
+                    )}
             </div>
         </div>
     );
@@ -130,7 +160,7 @@ const CardStatusAttendance = (props) => {
 
     useEffect(() => {
         fetchDataAttendance();
-    }, []);
+    }, [props.refresh]);
 
     return (
         <div className="md:mb-8">
@@ -245,7 +275,7 @@ const CardRequest = () => {
                                                 </button>
                                             </td>
                                         )}
-                                        {item?.status.toLowerCase() === "waiting for approved" && (
+                                        {item?.status.toLowerCase() === "pending" && (
                                             <td className="text-xs md:text-base text-yellow-500">{item?.status}</td>
                                         )}
                                     </tr>
@@ -264,6 +294,7 @@ const CardRequest = () => {
 
 export default function Emp_Home() {
     const [time, setTime] = useState(moment().format("MMMM Do YYYY, hh:mm:ss"));
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         setInterval(() => {
@@ -277,6 +308,7 @@ export default function Emp_Home() {
                 type: "in",
             }, ConfigHeader);
             alert(response.data.message);
+            setRefresh(!refresh)
         } catch (error) {
             alert(error?.response?.data?.data);
         }
@@ -288,14 +320,13 @@ export default function Emp_Home() {
                 type: "out",
             }, ConfigHeader);
             alert(response.data.message);
+            setRefresh(!refresh)
         } catch (error) {
             alert(error?.response?.data?.data);
         }
     }
 
-
     return (
-
         <div className="flex justify-center pb-3">
 
             <div className="gap-4 items-start justify-center w-screen md:min-h-1/3  md:w-4/5 mt-4 space-y-2 md:space-y-4 px-2">
@@ -319,7 +350,7 @@ export default function Emp_Home() {
                     </div>
                     <div className="w-full md:w-2/5 justify-center space-y-2 md:space-y-4">
                         <CardPinjaman />
-                        <CardStatusAttendance />
+                        <CardStatusAttendance refresh={refresh} />
                     </div>
                 </div>
 

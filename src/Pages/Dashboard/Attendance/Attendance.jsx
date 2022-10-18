@@ -76,7 +76,7 @@ const Attendance = () => {
     }
   }
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 pb-10">
       <div className="md:flex  md:gap-8 space-y-4 md:space-y-0">
         <SimpleCard
           bgColor=""

@@ -27,32 +27,20 @@ const ManageLayanan = () => {
     },
   ]);
 
-  const fetchDataInsurance = async (page = 1,search = "") => {
+  const fetchDataInsurance = async (page = 1, search = "") => {
     const data = await axios.get(
       `/api/insurance/${paramsData.id}?search=${search}&page=${page}`,
       ConfigHeader
     );
     setDataInsurance(data.data.data);
-    console.log(data.data.data)
-    setDataItem(data.data.data.data.data)
-    
+    setDataItem(data.data.data.data.data);
   };
-
-  // const fetchDataItem = async (page = 1,search = "") => {
-  //   try {
-  //     const res = await axios.get(`api/insurance_item?search=${search}&page=${page}`, ConfigHeader);
-  //     setDataItem(res.data.data.data);
-  //   } catch (err) {
-  //     console.log(err.response);
-  //   }
-  // };
 
 
   useEffect(() => {
     fetchDataInsurance().catch((err) => {
-      console.log(err.message);
+      window.location.href = "/dashboard/insurance";
     });
-    // fetchDataItem(); 
   }, [paramsData]);
 
   // delete
@@ -64,9 +52,9 @@ const ManageLayanan = () => {
   };
 
   const handleSearch = (e) => {
-    try{
-      fetchDataInsurance(1,e.target.value);
-    }catch(err){
+    try {
+      fetchDataInsurance(1, e.target.value);
+    } catch (err) {
 
     }
   }
@@ -89,12 +77,12 @@ const ManageLayanan = () => {
           className="flex gap-1 items-center text-blue-400 hover:text-blue-700 w-fit"
         >
           <Icon icon="bi:arrow-left" className="text-sm  font-medium"></Icon>
-          
+
           <p className="text-sm  font-medium hover:font-bold">
             Back to Insurance
           </p>
-          
-        
+
+
         </Link>
         <p className="font-bold text-blue-800">|</p>
 
@@ -102,14 +90,14 @@ const ManageLayanan = () => {
           <p className="text-sm  font-medium hover:font-bold text-blue-400 hover:text-blue-700 w-fit">
             Manage This Insurance
           </p>
-          </button>
+        </button>
         <ModalManage
           isOpen={isModalManageOpened}
           setIsOpen={setIsModalManageOpened}
           title="Manage This Team"
           data={dataInsurance}
           action={fetchDataInsurance}
-          />
+        />
       </div>
 
       <div className="border border-gray-100 rounded shadow  p-2 space-y-4">
@@ -138,19 +126,19 @@ const ManageLayanan = () => {
         <div className="flex justify-center mt-16">
           <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
             <div className="flex gap-4">
-              <ButtonNormal 
-              bg="bg-green-600 " 
-              icon="bi:plus" 
-              text="Add"
-              onClick={() => setIsModalAddOpened(!isModalAddOpened)}
-               />
-               <ModalAdd
-              isOpen={isModalAddOpened}
-              setIsOpen={setIsModalAddOpened}
-              title="Add Member"
-              data={dataInsurance}
-              action={fetchDataInsurance}
-            />
+              <ButtonNormal
+                bg="bg-green-600 "
+                icon="bi:plus"
+                text="Add"
+                onClick={() => setIsModalAddOpened(!isModalAddOpened)}
+              />
+              <ModalAdd
+                isOpen={isModalAddOpened}
+                setIsOpen={setIsModalAddOpened}
+                title="Add Member"
+                data={dataInsurance}
+                action={fetchDataInsurance}
+              />
             </div>
 
             <Search onChange={handleSearch} />
@@ -172,39 +160,21 @@ const ManageLayanan = () => {
               {
                 dataItem ? (
                   Object.keys(dataItem)).map((row, index) => (
-                  <tr key={dataItem[row].insItemId} className=" shadow ">
-                    <td>{index + 1}</td>
-                    <td>{dataItem[row].name}</td>
-                    <td>{dataItem[row].type}</td>
-                    <td>{dataItem[row].percent}</td>
-                    <td>
-                    <ButtonSmall
-                        bg="bg-red-500"
-                        icon="bi:trash"
-                        onClick={() => showModalDelete(dataItem[row].insItemId)}
-                      />
-                </td>
-                  </tr> 
-                )) : <tr><td colSpan="5">Loading</td></tr>
+                    <tr key={dataItem[row].insItemId} className=" shadow ">
+                      <td>{index + 1}</td>
+                      <td>{dataItem[row].name}</td>
+                      <td>{dataItem[row].type}</td>
+                      <td>{dataItem[row].percent}</td>
+                      <td>
+                        <ButtonSmall
+                          bg="bg-red-500"
+                          icon="bi:trash"
+                          onClick={() => showModalDelete(dataItem[row].insItemId)}
+                        />
+                      </td>
+                    </tr>
+                  )) : <tr><td colSpan="5">Loading</td></tr>
               }
-              {/* {
-                dataInsurance.data ? (
-                  Object.keys(dataInsurance.data)).map((row, index) => (
-                  <tr key={dataInsurance.data[row].id} className=" shadow ">
-                    <td>{index + 1}</td>
-                    <td>{dataInsurance.data[row].name}</td>
-                    <td>{dataInsurance.data[row].type}</td>
-                    <td>{dataInsurance.data[row].percent}</td>
-                    <td>
-                    <ButtonSmall
-                        bg="bg-red-500"
-                        icon="bi:trash"
-                        onClick={() => showModalDelete(dataInsurance.data[row].id)}
-                      />
-                </td>
-                  </tr> 
-                )) : <tr><td colSpan="5">Loading</td></tr>
-              } */}
             </tbody>
           </table>
           {modalInsuranceItemDelete && (
@@ -220,19 +190,19 @@ const ManageLayanan = () => {
         </div>
         {dataInsurance.data && (
 
-        <Pagination 
-          activePage={dataInsurance.data.current_page ? dataInsurance.data.current_page : 0}
-          itemsCountPerPage={dataInsurance.data?.per_page ? dataInsurance.data?.per_page : 0 }
-          totalItemsCount={dataInsurance.data?.total ? dataInsurance.data?.total : 0}
-          onChange={(pageNumber) => {
-            fetchDataInsurance(pageNumber)
-          }}
-          innerClass="flex justify-center items-center gap-2 my-8 "
-          pageRangeDisplayed={8}
-          itemClass="text-sm font-semibold text-slate-600 rounded-full px-2 hover:bg-slate-100 "
-          linkClass="page-link"
-          activeClass="bg-slate-100 font-bold"
-        />
+          <Pagination
+            activePage={dataInsurance.data.current_page ? dataInsurance.data.current_page : 0}
+            itemsCountPerPage={dataInsurance.data?.per_page ? dataInsurance.data?.per_page : 0}
+            totalItemsCount={dataInsurance.data?.total ? dataInsurance.data?.total : 0}
+            onChange={(pageNumber) => {
+              fetchDataInsurance(pageNumber)
+            }}
+            innerClass="flex justify-center items-center gap-2 my-8 "
+            pageRangeDisplayed={8}
+            itemClass="text-sm font-semibold text-slate-600 rounded-full px-2 hover:bg-slate-100 "
+            linkClass="page-link"
+            activeClass="bg-slate-100 font-bold"
+          />
         )}
       </div>
     </div>
