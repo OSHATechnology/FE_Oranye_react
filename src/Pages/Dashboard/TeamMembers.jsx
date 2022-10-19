@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
 import SimpleCard from "../../Components/SimpleCard";
@@ -21,6 +21,7 @@ const TeamMembers = () => {
   const paramsData = useParams();
   const [memberDeleteData, setMemberDeleteData] = useState("");
   const [modalMemberDelete, setModalMemberDelete] = useState(false);
+  const navigate = useNavigate();
 
   const [dataMember, setDataMember] = useState([]);
 
@@ -32,20 +33,7 @@ const TeamMembers = () => {
   };
 
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
-  const [dataTeam, setDataTeam] = useState([
-    {
-      id: "",
-      name: "",
-      leadBy: {
-        id: "",
-        employee: "",
-      },
-      createdBy: {
-        id: "",
-        employee: "",
-      },
-    },
-  ]);
+  const [dataTeam, setDataTeam] = useState([]);
 
   const fetchMemberData = async (page = 1,search = "") => {
     try {
@@ -68,11 +56,17 @@ const TeamMembers = () => {
     const data = await axios.get(`/api/team/${paramsData.id}`, ConfigHeader);
     setDataTeam(data.data.data);
   };
+  const refresh = () => {
+    window.location.reload();
+  };
+  
   useEffect(() => {
     fetchMemberData();
     fetchDataTeam().catch((err) => {
-      console.log(err.message);
+      navigate('../team');
     });
+    
+    // console.log(`id : ` + dataTeam.id)
   }, [paramsData]);
 
   return (
@@ -101,7 +95,7 @@ const TeamMembers = () => {
           setIsOpen={setIsModalManageOpened}
           title="Manage This Team"
           data={dataTeam}
-          action={fetchDataTeam}
+          action={refresh}
 
         />
         {/* </Link> */}

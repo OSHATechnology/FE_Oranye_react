@@ -55,7 +55,7 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
   useEffect(() => {
     setDataTeam(data.data);
   }, [data]);
-  console.log(dataTeam)
+  // console.log(dataTeam)
   return (
     <>
       <Dialog
