@@ -5,6 +5,7 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
+import Select from "react-select";
 
 const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const [firtsName, setFirstName] = useState("");
@@ -67,7 +68,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
       isActive: 1,
       statusHireId: 1,
     };
-
+    // console.log(data)
     try {
       let formData = new FormData();
       for (let key in data) {
@@ -82,6 +83,33 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
       console.log(error);
     }
   };
+
+  // React Select
+  const options = dataRole.map((item) => {
+    return {
+      value: item.roleId,
+      label: item.nameRole,
+    };
+  });
+
+  const styleSelect = {
+    option: (base, state) => ({
+      ...base,
+      height: "100%",
+      fontSize: "10px",
+    }),
+
+    control: (base, state) => ({
+      ...base,
+      height: "20px",
+      fontSize: "12px",
+    }),
+  };
+
+  const handleChange = (selectedOption) => {
+    setRole(selectedOption.value);
+  };
+
   return (
     <>
       <Dialog
@@ -255,7 +283,17 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Role</p>
-                <select
+                <Select
+                  styles={styleSelect}
+                  options={options}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChange}
+                  menuPortalTarget={
+                    document.querySelector("#emp_form")
+                  }
+                />
+                {/* <select
                   name="role"
                   id=""
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
@@ -269,7 +307,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
                       {row.nameRole}
                     </option>
                   ))}
-                </select>
+                </select> */}
               </div>
             </form>
           </div>

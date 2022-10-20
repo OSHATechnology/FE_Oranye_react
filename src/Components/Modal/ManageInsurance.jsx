@@ -43,6 +43,11 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
     setInsuranceDeleteData(dataInsuranceId);
     setModalInsuranceDelete(true);
   };
+
+  const refresh = () => {
+    window.location.reload();
+  };
+
   return (
     <>
       <Dialog
@@ -128,7 +133,8 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
               title="Delete Insurance"
               typeData="insurance"
               data={insuranceDeleteData}
-              action={() => window.location.reload}
+              // action={() => window.location.reload}
+              action={refresh}
             />
           )}
         </div>

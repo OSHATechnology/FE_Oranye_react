@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
+import Select from "react-select";
 
 const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const [name, setName] = useState("");
@@ -37,6 +38,27 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
     fetchDataEmployee();
   }, []);
 
+  const options = dataEmployee.map((item) => {
+    return {
+      value: item.employeeId,
+      label: item.firstName + " " + item.lastName,
+    };
+  });
+
+  const styleSelect = {
+    option: (base, state) => ({
+      ...base,
+      height: "100%",
+      fontSize: "10px",
+    }),
+
+    control: (base, state) => ({
+      ...base,
+      height: "20px",
+      fontSize: "12px",
+    }),
+  };
+
   const handleSubmitPartner = async (e) => {
     e.preventDefault();
     const data = {
@@ -49,6 +71,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
       joinedAt: joinedAt,
       assignedBy: assignedBy,
     };
+    console.log(data);
 
     try {
       let formData = new FormData();
@@ -64,6 +87,10 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
     }
   };
 
+  const handleChange = (selectedOption) => {
+    setAssignedBy(selectedOption.value);
+  };
+  
   return (
     <>
       <Dialog
@@ -158,30 +185,17 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
                 <p className="text-sm font-extrabold text-gray-600">
                   Assigned By
                 </p>
-                {/* <input
-                  type="text"
-                  placeholder="Assigned By"
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  value={assignedBy}
-                  onChange={(e) => setAssignedBy(e.target.value)}
-                /> */}
-                <select
-                  name="Employee"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => setAssignedBy(e.target.value)}
-                >
-                  <option value="-" selected disabled>
-                    -- select Leader --
-                  </option>
-                  {dataEmployee.map((row, index) => (
-                    <option value={row.employeeId} key={index}>
-                      {row.name}
-                    </option>
-                  ))}
-                </select>
+                <Select
+                  styles={styleSelect}
+                  options={options}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChange}
+                  menuPortalTarget={
+                    document.querySelector("#partner_form")
+                  }
+                />
               </div>
-
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Photo</p>
                 <input
@@ -212,7 +226,11 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
               width="w-16"
               onClick={() => setIsOpen(false)}
             />
-            <button type="submit" form="partner_form" className="bg-green-600 text-white rounded px-2">
+            <button
+              type="submit"
+              form="partner_form"
+              className="bg-green-600 text-white rounded px-2"
+            >
               submit
             </button>
             {/* <ButtonNormal bg="bg-green-600 " text="Add" width="w-16" /> */}

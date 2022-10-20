@@ -142,10 +142,10 @@ const Insurance = (data) => {
                               </div>
                             </td>
                           </tr>
-                          {dataItem.map((item, index) => {
-                            if (index !== 0) {
+                          {dataItem.map((item, index2) => {
+                            if (index2 !== 0) {
                               return (
-                                <tr key={index} className="border border-gray-200">
+                                <tr key={item.insItemId} className="border border-gray-200">
                                   <td className="text-start">{item.name}</td>
                                   <td>{item.type}</td>
                                   <td>{item.percent}%</td>

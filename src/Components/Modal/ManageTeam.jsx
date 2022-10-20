@@ -14,7 +14,6 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
   const [modalTeamDelete, setModalTeamDelete] = useState(false);
   const [teamDeleteData, setTeamDeleteData] = useState("");
   const actionRefresh = action ? action : null;
-  // console.log(data);
   let dataTeamId = "";
   const showModalDelete = async (teamId) => {
     dataTeamId = teamId;
@@ -47,6 +46,10 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
     }).catch((err) => {
       alert(err.response.data.message);
     });
+  };
+
+  const refresh = () => {
+    window.location.reload();
   };
 
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
@@ -150,6 +153,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
               title="Delete Team"
               typeData="team"
               data={teamDeleteData}
+              action={refresh}
             />
           )}
         </div>

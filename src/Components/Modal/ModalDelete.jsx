@@ -73,15 +73,14 @@ const Modal = ({ isOpen, setIsOpen, title, typeData, data, action = null }) => {
                 }
                 await axios.delete(`${endPoint}/${dataId}`, ConfigHeader)
                     .then(res => {
-                        console.log(res)
-                        setIsOpen(false)
+                        console.log(res);
+                        setIsOpen(false);
+                        actionRefresh !== null && actionRefresh();
                     }).catch(err => {
                         console.log(err)
                     })
             }
             deleteData()
-            setIsOpen(false);
-            actionRefresh !== null && actionRefresh();
         } catch (e) {
             console.log(e)
         }

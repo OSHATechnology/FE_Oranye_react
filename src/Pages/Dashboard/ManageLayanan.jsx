@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
 import Search from "../../Components/Search";
@@ -18,6 +18,7 @@ const ManageLayanan = () => {
   const [dataItem, setDataItem] = useState([]);
   const [insuranceItemDeleteData, setInsuranceItemDeleteData] = useState("");
   const [modalInsuranceItemDelete, setModalInsuranceItemDelete] = useState(false);
+  const navigate = useNavigate();
 
   const [dataInsurance, setDataInsurance] = useState([
     {
@@ -76,6 +77,10 @@ const ManageLayanan = () => {
 
     }
   }
+  
+  const refresh = () => {
+    window.location.reload();
+  };
 
   // Add Insurance Item
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
@@ -223,6 +228,7 @@ const ManageLayanan = () => {
               typeData="insurance_item"
               data={insuranceItemDeleteData}
               action={fetchDataInsurance}
+              
             />
           )}
         </div>

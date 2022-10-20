@@ -3,6 +3,7 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
+import Select from "react-select";
 
 const EditFormEmployee = (data) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,6 +83,33 @@ const EditFormEmployee = (data) => {
       .catch((err) => {
         console.log(err.response);
       });
+  };
+
+  // React Select
+  const options = dataRole.map((item) => {
+    return {
+      value: item.roleId,
+      label: item.nameRole,
+    };
+  });
+
+  const styleSelect = {
+    option: (base, state) => ({
+      ...base,
+      height: "100%",
+      fontSize: "10px",
+    }),
+
+    control: (base, state) => ({
+      ...base,
+      height: "20px",
+      fontSize: "12px",
+    }),
+  };
+
+  const handleChange = (selectedOption) => {
+    setRole(selectedOption.value);
+    console.log(selectedOption);
   };
 
   return (
@@ -207,8 +235,17 @@ const EditFormEmployee = (data) => {
 
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Role</p>
-
-            <select
+            <Select
+                  styles={styleSelect}
+                  options={options}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChange}
+                  // menuPortalTarget={
+                  //   document.querySelector("#employee_form")
+                  // }
+                />
+            {/* <select
               defaultValue={role}
               value={role}
               name="createdBy"
@@ -222,7 +259,7 @@ const EditFormEmployee = (data) => {
                   {item.nameRole}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
           <div className="flex items-center gap-2">
             <p className="text-sm font-extrabold text-gray-600">Status Aktif</p>

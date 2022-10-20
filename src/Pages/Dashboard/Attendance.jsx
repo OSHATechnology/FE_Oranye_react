@@ -13,7 +13,7 @@ const Attendance = () => {
     {
       name: "Attendance",
       link: "../hadir",
-      icon: "bi:calendar-check",
+      icon: "fa-regular:calendar-alt",
       as: 'hadir'
     },
     {
@@ -25,13 +25,13 @@ const Attendance = () => {
     {
       name: "Overtime",
       link: "Overtime",
-      icon: "bi:calendar-check",
+      icon: "mdi:calendar-clock",
       as: 'Overtime'
     },
     {
       name: "Leave Request",
       link: "LeaveRequest",
-      icon: "bi:calendar-check",
+      icon: "bi:envelope-check",
       as: 'LeaveRequest'
     },
   ];

@@ -48,6 +48,7 @@ const Kredit = () => {
             isOpen={isModalAddOpened}
             setIsOpen={setIsModalAddOpened}
             title="Tambah Allowance"
+            action={fetchDataLoan}
           />
 
           <Search onChange={handleSearch} />

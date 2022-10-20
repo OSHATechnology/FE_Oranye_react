@@ -4,14 +4,16 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
+import Select from "react-select";
 
-const AddLoan = ({ isOpen, setIsOpen, title }) => {
+const AddLoan = ({ isOpen, setIsOpen, title, action = null }) => {
   const [employee, setEmployee] = useState("");
   const [name, setName] = useState("");
   const [nominal, setNominal] = useState("");
   const [loanDate, setLoanDate] = useState("");
   const [paymentDate, setPaymentDate] = useState("");
   const [dataEmployee, setDataEmployee] = useState([]);
+  const actionRefresh = action ? action : null;
 
   useEffect(() => {
     const fetchDataEmployee = async () => {
@@ -39,6 +41,7 @@ const AddLoan = ({ isOpen, setIsOpen, title }) => {
       paymentDate: paymentDate,
       status: 0,
     };
+    console.log(data)
 
     try {
       let formData = new FormData();
@@ -49,11 +52,39 @@ const AddLoan = ({ isOpen, setIsOpen, title }) => {
       const rslt = await axios.post("/api/loan", formData, ConfigHeader);
       console.log(rslt);
       //   setIsOpen(false);
-
+      setIsOpen(false);
+      actionRefresh !== null && actionRefresh();
       changeDataToNull();
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // React Select
+  const options = dataEmployee.map((item) => {
+    return {
+      value: item.employeeId,
+      label: item.firstName + " " + item.lastName,
+    };
+  });
+
+  const styleSelect = {
+    option: (base, state) => ({
+      ...base,
+      height: "100%",
+      fontSize: "10px",
+    }),
+
+    control: (base, state) => ({
+      ...base,
+      height: "20px",
+      fontSize: "12px",
+    }),
+  };
+
+  const handleChange = (selectedOption) => {
+    setEmployee(selectedOption.value);
+    console.log(selectedOption);
   };
 
   return (
@@ -78,10 +109,20 @@ const AddLoan = ({ isOpen, setIsOpen, title }) => {
             </button>
           </div>
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
-            <form id="allowance_form" onSubmit={handleSubmit}>
+            <form id="add_allowance_form" onSubmit={handleSubmit}>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Employee Name</p>
-                <select
+                <Select
+                  styles={styleSelect}
+                  options={options}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChange}
+                  menuPortalTarget={
+                    document.getElementById("add_allowance_form")
+                  }
+                />
+                {/* <select
                   name="employee"
                   id=""
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
@@ -95,7 +136,7 @@ const AddLoan = ({ isOpen, setIsOpen, title }) => {
                       {row.name}
                     </option>
                   ))}
-                </select>
+                </select> */}
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Loan Name</p>
@@ -133,44 +174,6 @@ const AddLoan = ({ isOpen, setIsOpen, title }) => {
                   onChange={(e) => setPaymentDate(e.target.value)}
                 />
               </div>
-              {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">
-                  Tunjangan
-                </p>
-                <select
-                  name="allowance"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => {
-                    setType(e.target.value);
-                    setNominal(
-                      dataType.find((item) => item.id == e.target.value)
-                        ?.nominal
-                    );
-                  }}
-                >
-                  <option value="-" selected disabled>
-                    -- select Allowance --
-                  </option>
-                  {dataType.map((row, index) => (
-                    <option value={row.id} key={index}>
-                      {row.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="">
-                <p className="text-sm font-extrabold text-gray-600">Nominal</p>
-                <input
-                  type="text"
-                  disabled
-                  placeholder="nominal"
-                  className="rounded-lg w-full border border-gray-300 bg-gray-100 text-xs text-gray-700 font-medium"
-                  name="Status"
-                  value={nominal}
-                  onChange={(e) => setNominal(e.target.value)}
-                />
-              </div> */}
             </form>
           </div>
 
@@ -178,7 +181,7 @@ const AddLoan = ({ isOpen, setIsOpen, title }) => {
             <ButtonNormal bg="bg-gray-400 " text="Cancel" width="w-16" />
             <button
               type="submit"
-              form="allowance_form"
+              form="add_allowance_form"
               className="bg-green-600 rounded text-white px-2"
             >
               submit
