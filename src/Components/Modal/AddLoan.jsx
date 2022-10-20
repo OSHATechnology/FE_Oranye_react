@@ -5,13 +5,14 @@ import React, { useState, useEffect } from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 
-const AddLoan = ({ isOpen, setIsOpen, title }) => {
+const AddLoan = ({ isOpen, setIsOpen, title, action = null }) => {
   const [employee, setEmployee] = useState("");
   const [name, setName] = useState("");
   const [nominal, setNominal] = useState("");
   const [loanDate, setLoanDate] = useState("");
   const [paymentDate, setPaymentDate] = useState("");
   const [dataEmployee, setDataEmployee] = useState([]);
+  const actionRefresh = action ? action : null;
 
   useEffect(() => {
     const fetchDataEmployee = async () => {
@@ -49,7 +50,8 @@ const AddLoan = ({ isOpen, setIsOpen, title }) => {
       const rslt = await axios.post("/api/loan", formData, ConfigHeader);
       console.log(rslt);
       //   setIsOpen(false);
-
+      setIsOpen(false);
+      actionRefresh !== null && actionRefresh();
       changeDataToNull();
     } catch (error) {
       console.log(error);
@@ -133,44 +135,6 @@ const AddLoan = ({ isOpen, setIsOpen, title }) => {
                   onChange={(e) => setPaymentDate(e.target.value)}
                 />
               </div>
-              {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">
-                  Tunjangan
-                </p>
-                <select
-                  name="allowance"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => {
-                    setType(e.target.value);
-                    setNominal(
-                      dataType.find((item) => item.id == e.target.value)
-                        ?.nominal
-                    );
-                  }}
-                >
-                  <option value="-" selected disabled>
-                    -- select Allowance --
-                  </option>
-                  {dataType.map((row, index) => (
-                    <option value={row.id} key={index}>
-                      {row.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="">
-                <p className="text-sm font-extrabold text-gray-600">Nominal</p>
-                <input
-                  type="text"
-                  disabled
-                  placeholder="nominal"
-                  className="rounded-lg w-full border border-gray-300 bg-gray-100 text-xs text-gray-700 font-medium"
-                  name="Status"
-                  value={nominal}
-                  onChange={(e) => setNominal(e.target.value)}
-                />
-              </div> */}
             </form>
           </div>
 

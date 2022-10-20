@@ -4,6 +4,8 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
+import Select from "react-select";
+
 const EditFormPartner = (data) => {
   const [isOpen, setIsOpen] = useState(false);
   const [namePartner, setNamePartner] = useState("");
@@ -16,14 +18,14 @@ const EditFormPartner = (data) => {
   const [joinedAt, setJoinedAt] = useState("");
   const [dataEmployee, setDataEmployee] = useState([]);
   // baru
-  const loadData = data.handleFetchData ? data.handleFetchData : () => { };
-  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
+  const loadData = data.handleFetchData ? data.handleFetchData : () => {};
+  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => {};
 
   const fetchDataEmp = async () => {
     try {
       const result = await axios.get("api/employee", ConfigHeader);
       setDataEmployee(result.data.data.data);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -40,11 +42,6 @@ const EditFormPartner = (data) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if(photo !== data.data.photo){
-    //   console.log(photo)
-    //   alert("Please upload photo again");
-    //   return;
-    // }
     const dataEdit = {
       name: namePartner,
       description: description,
@@ -54,40 +51,50 @@ const EditFormPartner = (data) => {
       assignedBy: assignedById,
       joinedAt: joinedAt,
       photo: photo,
-    }
+    };
+    console.log(dataEdit)
     let formData = new FormData();
     for (let key in dataEdit) {
       formData.append(key, dataEdit[key]);
     }
-    // formData.append("name", namePartner);
-    // formData.append("description", description);
-    // formData.append("resposibleBy", resposibleBy);
-    // formData.append("phone", phone);
-    // formData.append("address", address);
-    // formData.append("assignedBy", assignedById);
-    // formData.append("joinedAt", joinedAt);
-    // // return;
-    // formData.append("photo", dataEdit.photo);
-    // console.log(dataEdit)
-
-    // ConfigHeader.headers["Content-Type"] = "multipart/form-data";
-    // console.log(dataEdit.photo);
     await axios
-      .post(
-        `/api/partners/${data.data.id}`,
-        formData,
-        {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer 19|NddCRKTaiRGXgPr5C6XnahjadTa6c2KI6RlJzMzT`
-        }
-      )
+      .post(`/api/partners/${data.data.id}`, formData, {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer 19|NddCRKTaiRGXgPr5C6XnahjadTa6c2KI6RlJzMzT`,
+      })
       .then((res) => {
-        closeModal()
-        loadData()
+        closeModal();
+        loadData();
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  // React Select
+  const options = dataEmployee.map((item) => {
+    return {
+      value: item.employeeId,
+      label: item.firstName + " " + item.lastName,
+    };
+  });
+
+  const styleSelect = {
+    option: (base, state) => ({
+      ...base,
+      height: "100%",
+      fontSize: "10px",
+    }),
+
+    // control: (base, state) => ({
+    //   ...base,
+    //   height: "20px",
+    //   fontSize: "12px",
+    // }),
+  };
+
+  const handleChange = (selectedOption) => {
+    setAssignedById(selectedOption.value);
   };
 
   return (
@@ -159,7 +166,15 @@ const EditFormPartner = (data) => {
           </div>
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Assigned By</p>
-            <select
+            <Select
+              styles={styleSelect}
+              options={options}
+              noOptionsMessage={() => "No data"}
+              classNamePrefix={""}
+              onChange={handleChange}
+              menuPortalTarget={document.querySelector("#partner_form")}
+            />
+            {/* <select
               name="assignedBy"
               placeholder="Assigned By"
               id=""
@@ -173,12 +188,7 @@ const EditFormPartner = (data) => {
                   {item.name}
                 </option>
               ))}
-            </select>
-            {/* <input
-            type="text"
-            placeholder="Assigned By"
-            className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-          /> */}
+            </select> */}
           </div>
 
           <div className="">
@@ -209,7 +219,13 @@ const EditFormPartner = (data) => {
           width="w-16"
           onClick={closeModal}
         />
-        <button type="submit" form="partner_form" className="w-16 bg-green-600 rounded text-white">Save</button>
+        <button
+          type="submit"
+          form="partner_form"
+          className="w-16 bg-green-600 rounded text-white"
+        >
+          Save
+        </button>
       </div>
     </div>
   );
