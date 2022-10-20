@@ -1,8 +1,24 @@
+import axios from "axios";
 import moment from "moment";
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import RupiahMoneyFormat from "../../../Components/RupiahMoneyFormat";
 import Search from "../../../Components/Search";
+import Spinner2 from "../../../Components/Spinner2";
+import ConfigHeader from "../../Auth/ConfigHeader";
 
 const GrossSalary = () => {
+  const [dataGross, setDataGross] = useState([]);
+
+  const fetchGrossSalary = async (search) => {
+    const response = await axios.get('api/salary?type=gross', ConfigHeader);
+    setDataGross(response.data);
+  };
+
+  useEffect(() => {
+    fetchGrossSalary();
+  }, []);
+
   return (
     <div className="w-full space-y-2 border rounded shadow p-2">
       <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
@@ -25,26 +41,34 @@ const GrossSalary = () => {
               <th>Employee</th>
               <th>Gaji Pokok</th>
               <th>Overtime</th>
-              <th>Insentif</th>
+              <th>Overtime Fee</th>
               <th>Bonus</th>
               <th>Total</th>
             </tr>
           </thead>
           <tbody className="text-sm font-medium text-slate-600 text-center">
-            <tr>
-                <td>1</td>
-                <td className="text-start">
+            {dataGross ? (
+              dataGross?.data?.data.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td className="text-start">
                     <div className="w-fit">
-                        <p className="text-xs text-slate-400">10119065</p>
-                        <p>Employee 1</p>
+                      <p className="text-xs text-slate-400">{item.empId}</p>
+                      <p>{item.empName}</p>
                     </div>
-                </td>
-                <td>8.000.000</td>
-                <td>16 Hours</td>
-                <td>600.000</td>
-                <td>2.000.000</td>
-                <td>14.250.000</td>
-            </tr>
+                  </td>
+                  <td><RupiahMoneyFormat num={item.basicSalary} /></td>
+                  <td>{item.totalOvertime !== 0 ? item.totalOvertime + ' Hrs' : '-'}</td>
+                  <td><RupiahMoneyFormat num={item.overtimeFee} /></td>
+                  <td><RupiahMoneyFormat num={item.totalBonus} /></td>
+                  <td><RupiahMoneyFormat num={item.total} /></td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7"><Spinner2 /></td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
