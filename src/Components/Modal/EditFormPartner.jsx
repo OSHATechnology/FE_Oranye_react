@@ -172,23 +172,9 @@ const EditFormPartner = (data) => {
               noOptionsMessage={() => "No data"}
               classNamePrefix={""}
               onChange={handleChange}
-              menuPortalTarget={document.querySelector("#partner_form")}
+              // menuPortalTarget={document.querySelector("#partner_form")}
             />
-            {/* <select
-              name="assignedBy"
-              placeholder="Assigned By"
-              id=""
-              className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-              onChange={(e) => setAssignedById(e.target.value)}
-              value={assignedById}
-              defaultValue={assignedById}
-            >
-              {dataEmployee.map((item, index) => (
-                <option value={item.employeeId} key={index}>
-                  {item.name}
-                </option>
-              ))}
-            </select> */}
+
           </div>
 
           <div className="">

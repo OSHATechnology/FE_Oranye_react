@@ -5,6 +5,7 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
+import Select from "react-select";
 
 const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
   const [teamName, setTeamName] = useState("");
@@ -56,6 +57,33 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
     setDataTeam(data.data);
   }, [data]);
   // console.log(dataTeam)
+
+  // React Select
+  const options = dataEmployee.map((item) => {
+    return {
+      value: item.employeeId,
+      label: item.firstName + " " + item.lastName,
+    };
+  });
+
+  const styleSelect = {
+    option: (base, state) => ({
+      ...base,
+      height: "100%",
+      fontSize: "10px",
+    }),
+
+    control: (base, state) => ({
+      ...base,
+      height: "20px",
+      fontSize: "12px",
+    }),
+  };
+
+  const handleChange = (selectedOption) => {
+    setEmpId(selectedOption.value);
+    console.log(selectedOption);
+  };
   return (
     <>
       <Dialog
@@ -99,7 +127,17 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
                 <p className="text-sm font-extrabold text-gray-600">
                   Employee Name
                 </p>
-                <select
+                <Select
+                  styles={styleSelect}
+                  options={options}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChange}
+                  menuPortalTarget={
+                    document.querySelector("#member_form")
+                  }
+                />
+                {/* <select
                   name="Employee"
                   id=""
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
@@ -113,7 +151,7 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
                       {row.name}
                     </option>
                   ))}
-                </select>
+                </select> */}
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Join At</p>

@@ -90,7 +90,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const handleChange = (selectedOption) => {
     setAssignedBy(selectedOption.value);
   };
-
+  
   return (
     <>
       <Dialog
