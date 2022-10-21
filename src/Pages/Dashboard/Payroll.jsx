@@ -43,15 +43,7 @@ const Payroll = () => {
         Keterangan="Management payroll for employee"
       />
       <div className="flex justify-between">
-
-        {/* <div className="flex my-8 space-x-8 font-semibold text-gray-500">
-          <Link to="../payroll" className=" hover:text-black">gross salary</Link>
-          <Link to="SalaryDeductions" className=" hover:text-black">salary deductions</Link>
-          <Link to="NetSalary" className=" hover:text-black">net salary</Link>
-          <Link to="Loan" className=" hover:text-black">loan</Link>
-        </div> */}
-
-<div className="my-8 space-x-8 text-gray-500">
+        <div className="my-8 space-x-8 text-gray-500">
           <ul className="flex flex-wrap text-sm text-center ">
             {PayrollTabs.map((tab, index) => (
               <li
