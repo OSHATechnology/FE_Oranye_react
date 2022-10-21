@@ -1,12 +1,18 @@
 import axios from "axios";
 import moment from "moment";
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { useEffect } from "react";
+=======
+import React, { useEffect, useState } from "react";
+>>>>>>> d212d48a4d56b00a090d1b69b71dfcb5e25cec07
 import Search from "../../../Components/Search";
+import ConfigHeader from "../../Auth/ConfigHeader";
 
 const SalaryDeductions = () => {
   const [dataDeduction, setDataDeduction] = useState([]);
 
+<<<<<<< HEAD
   const fetchDataDeduction = async (page = 1, search = "") => {
     try {
       const data = await axios.get(`/api/salary?type=deduction&search=${search}&page=${page}`);
@@ -21,6 +27,16 @@ const SalaryDeductions = () => {
     fetchDataDeduction();
   }, []);
 
+=======
+  const fetchDeductionSalary = async (search) => {
+    const response = await axios.get('api/salary?type=deduction', ConfigHeader);
+    setDataDeduction(response.data);
+  };
+
+  useEffect(() => {
+    fetchDeductionSalary();
+  }, []);
+>>>>>>> d212d48a4d56b00a090d1b69b71dfcb5e25cec07
   return (
     <div className="w-full space-y-8">
 
