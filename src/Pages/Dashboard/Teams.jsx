@@ -84,31 +84,6 @@ const handleSearch = (e) => {
                 </tr>
               </thead>
               <tbody className="text-xs md:text-sm font-medium">
-                {/* {dataTeam.map((row, index) => (
-                <tr key={row.id} className=" shadow ">
-                  <td>{index + 1}</td>
-                  
-                  <td>
-                    {row.name}
-                  </td>
-                  <td>{row.leadBy.employee}</td>
-                  <td>{row.createdBy.employee}</td>
-                  <td>
-                    <div className="flex justify-center gap-1">
-                      <Link to={`../team/${row.id}`}>
-                        <ButtonSmall
-                          bg="bg-blue-600"
-                          icon="carbon:view"
-                          colorIcon="text-white"
-                        />
-                      </Link>
-
-                
-                      
-                    </div>
-                  </td>
-                </tr> 
-                ))} */}
                 {
                 dataTeam.data ? Object.keys(dataTeam.data).map((row, index) =>
                 (
