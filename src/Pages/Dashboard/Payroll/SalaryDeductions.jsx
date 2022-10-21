@@ -1,15 +1,16 @@
 import axios from "axios";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 import Search from "../../../Components/Search";
 import ConfigHeader from "../../Auth/ConfigHeader";
+import Spinner2 from "../../../Components/Spinner2";
+import RupiahMoneyFormat from "../../../Components/RupiahMoneyFormat";
 
 const SalaryDeductions = () => {
   const [dataDeduction, setDataDeduction] = useState([]);
 
   const fetchDataDeduction = async (page = 1, search = "") => {
     try {
-      const data = await axios.get(`/api/salary?type=deduction&search=${search}&page=${page}`);
+      const data = await axios.get(`/api/salary?type=deduction&search=${search}&page=${page}`, ConfigHeader);
       setDataDeduction(data.data.data);
       console.log(data.data.data);
     } catch (error) {
@@ -50,20 +51,6 @@ const SalaryDeductions = () => {
             </tr>
           </thead>
           <tbody className="text-sm font-medium text-slate-600 text-center">
-            <tr>
-              <td>1</td>
-              <td className="text-start">
-                <div className="w-fit">
-                  <p className="text-xs text-slate-400">10119065</p>
-                  <p>Employee 1</p>
-                </div>
-              </td>
-              <td>100%</td>
-              <td>300.000</td>
-              <td>5 %</td>
-              <td>150.000</td>
-              <td>1.162.500</td>
-            </tr>
             {
               dataDeduction.data ? dataDeduction.data.map((item, index) => {
                 return (
@@ -76,14 +63,18 @@ const SalaryDeductions = () => {
                       </div>
                     </td>
                     <td>{item.percentAttendance} %</td>
-                    <td>{item.totalLoan}</td>
+                    <td><RupiahMoneyFormat num={item.totalLoan} />{ }</td>
                     <td>{item.totalTax} %</td>
-                    <td>{item.totalInsurance}</td>
-                    <td>{item.totalDeduction}</td>
+                    <td><RupiahMoneyFormat num={item.totalInsurance} /></td>
+                    <td><RupiahMoneyFormat num={item.totalDeduction} /></td>
                   </tr>
                 )
               }
-              ) : null
+              ) : (
+                <tr>
+                  <td colSpan="7" className="p-2"><Spinner2 /></td>
+                </tr>
+              )
             }
           </tbody>
         </table>
