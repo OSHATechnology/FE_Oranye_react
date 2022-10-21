@@ -5,6 +5,7 @@ import ButtonNormal from "../ButtonNormal";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import axios from "axios";
+import Select from "react-select";
 
 const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
   const [nameTeam, setNameTeam] = useState('');
@@ -53,6 +54,39 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
   };
 
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
+  
+  // React Select
+  const options = dataEmployee.map((item) => {
+    return {
+      value: item.employeeId,
+      label: item.firstName + " " + item.lastName,
+    };
+  });
+
+  const styleSelect = {
+    option: (base, state) => ({
+      ...base,
+      height: "100%",
+      fontSize: "10px",
+    }),
+
+    control: (base, state) => ({
+      ...base,
+      height: "20px",
+      fontSize: "12px",
+    }),
+  };
+
+  const handleChangeLeadTeam = (selectedOption) => {
+    setLeadById(selectedOption.value);
+    console.log(selectedOption);
+  };
+
+  const handleChangeTeamMaker = (selectedOption) => {
+    setCreatedById(selectedOption.value);
+    console.log(selectedOption);
+  };
+  console.log(options);
   return (
     <>
       <Dialog
@@ -91,37 +125,31 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
               <p className="text-sm font-extrabold text-gray-600">
                 Leader Team
               </p>
-              <select
-                defaultValue={leadById}
-                name="leadBy"
-                placeholder="Leader Team"
-                id=""
-                className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                onChange={(e) => setLeadById(e.target.value)}
-              >
-                {dataEmployee.map((item, index) => (
-                  <option value={item.employeeId} key={index}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+              <Select
+                  styles={styleSelect}
+                  options={options}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChangeLeadTeam}
+                  menuPortalTarget={
+                    document.querySelector("#team_form")
+                  }
+                />
             </div>
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">Team Maker</p>
-              <select
-                defaultValue={createdById}
-                name="createdBy"
-                placeholder="Leader Team"
-                id=""
-                className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                onChange={(e) => setCreatedById(e.target.value)}
-              >
-                {dataEmployee.map((item, index) => (
-                  <option value={item.employeeId} key={index}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+              <Select
+              // selectedValue={}
+              // defaultInputValue={createdById}
+                  styles={styleSelect}
+                  options={options}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChangeTeamMaker}
+                  menuPortalTarget={
+                    document.querySelector("#team_form")
+                  }
+                />
             </div>
           </div>
 
