@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
+import Select from "react-select";
 
 const EditFormAllowance = (data) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +43,7 @@ const EditFormAllowance = (data) => {
       roleId: role,
       typeId: type,
     };
+    console.log(dataEdit)
     await axios
       .put(`/api/allowance/${data.data.id}`, dataEdit, ConfigHeader)
       .then((res) => {
@@ -54,13 +56,63 @@ const EditFormAllowance = (data) => {
       });
   };
 
+  // React Select
+  const optionsRole = dataRole.map((item) => {
+    return {
+      value: item.roleId,
+      label: item.nameRole,
+    };
+  });
+
+  const optionsType = dataType.map((item) => {
+    return {
+      value: item.id,
+      label: item.name,
+    };
+  });
+
+  const styleSelect = {
+    option: (base, state) => ({
+      ...base,
+      height: "100%",
+      fontSize: "10px",
+    }),
+
+    control: (base, state) => ({
+      ...base,
+      height: "20px",
+      fontSize: "12px",
+    }),
+  };
+
+  const handleChangeRole = (selectedOption) => {
+    setRole(selectedOption.value);
+    console.log(selectedOption);
+  };
+
+  const handleChangeType = (selectedOption) => {
+    setType(selectedOption.value);
+    setNominal(
+      dataType.find((item) => item.id == selectedOption.value)?.nominal
+    );
+    console.log(selectedOption);
+  };
+
   return (
     <div className="space-y-2">
       <div className=" space-y-1">
         <form id="allowance_form" onSubmit={handleSubmit}>
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Jabatan</p>
-            <select
+            <Select
+                  styles={styleSelect}
+                  options={optionsRole}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChangeRole}
+                  menuPortalTarget={document.getElementById("allowance_form")}
+                />
+            {/* <select
               defaultValue={role}
               value={role}
               name="role"
@@ -76,11 +128,19 @@ const EditFormAllowance = (data) => {
                   {row.nameRole}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Tunjangan</p>
-            <select
+            <Select
+                  styles={styleSelect}
+                  options={optionsType}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChangeType}
+                  menuPortalTarget={document.getElementById("allowance_form")}
+                />
+            {/* <select
               defaultValue={type}
               value={type}
               name="allowance"
@@ -101,7 +161,7 @@ const EditFormAllowance = (data) => {
                   {row.name}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Nominal</p>

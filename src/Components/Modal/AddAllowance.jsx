@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
+import Select from "react-select";
 
 const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
   const [role, setRole] = useState("");
@@ -56,6 +57,48 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
       console.log(error);
     }
   };
+  // console.log(dataType)
+  // React Select
+  const optionsRole = dataRole.map((item) => {
+    return {
+      value: item.roleId,
+      label: item.nameRole,
+    };
+  });
+
+  const optionsType = dataType.map((item) => {
+    return {
+      value: item.id,
+      label: item.name,
+    };
+  });
+
+  const styleSelect = {
+    option: (base, state) => ({
+      ...base,
+      height: "100%",
+      fontSize: "10px",
+    }),
+
+    control: (base, state) => ({
+      ...base,
+      height: "20px",
+      fontSize: "12px",
+    }),
+  };
+
+  const handleChangeRole = (selectedOption) => {
+    setRole(selectedOption.value);
+    console.log(selectedOption);
+  };
+
+  const handleChangeType = (selectedOption) => {
+    setType(selectedOption.value);
+    setNominal(
+      dataType.find((item) => item.id == selectedOption.value)?.nominal
+    );
+    console.log(selectedOption);
+  };
 
   return (
     <>
@@ -82,7 +125,15 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
             <form id="allowance_form" onSubmit={handleSubmit}>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Jabatan</p>
-                <select
+                <Select
+                  styles={styleSelect}
+                  options={optionsRole}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChangeRole}
+                  menuPortalTarget={document.getElementById("allowance_form")}
+                />
+                {/* <select
                   name="role"
                   id=""
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
@@ -96,13 +147,21 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
                       {row.nameRole}
                     </option>
                   ))}
-                </select>
+                </select> */}
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">
                   Tunjangan
                 </p>
-                <select
+                <Select
+                  styles={styleSelect}
+                  options={optionsType}
+                  noOptionsMessage={() => "No data"}
+                  classNamePrefix={""}
+                  onChange={handleChangeType}
+                  menuPortalTarget={document.getElementById("allowance_form")}
+                />
+                {/* <select
                   name="allowance"
                   id=""
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
@@ -122,7 +181,7 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
                       {row.name}
                     </option>
                   ))}
-                </select>
+                </select> */}
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Nominal</p>
