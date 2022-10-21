@@ -6,9 +6,11 @@ import ConfigHeader from "../Auth/ConfigHeader";
 import moment from "moment";
 import { Icon } from "@iconify/react";
 import ButtonNormal from "../../Components/ButtonNormal";
+import { useNavigate } from "react-router-dom";
 
 const EmployeeDetail = () => {
   const paramsData = useParams();
+  const navigate = useNavigate();
   const [dataEmp, setDataEmp] = useState([
     {
       employeeId: "",
@@ -42,6 +44,7 @@ const EmployeeDetail = () => {
 
     fetchDataEmp().catch((err) => {
       console.log(err.message);
+      navigate('../emp');
     });
   }, [paramsData]);
 

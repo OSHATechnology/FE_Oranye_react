@@ -105,7 +105,7 @@ const Home = (props) => {
         </>
       )}
 
-      <TitleDashboard Title="Performa Absensi" Keterangan="" />
+      {/* <TitleDashboard Title="Performa Absensi" Keterangan="" />
       <div className="w-80 h-96 border border-gray-100 shadow rounded items-center text-center justify-center">
         <TitleDashboard Title="Total Role" Keterangan="" />
         <PieChart width={400} height={400}>
@@ -121,7 +121,7 @@ const Home = (props) => {
           />
           <Tooltip />
         </PieChart>
-      </div>
+      </div> */}
     </div>
   );
 };

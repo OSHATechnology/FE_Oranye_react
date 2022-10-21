@@ -37,7 +37,6 @@ const ModalAddMember = ({ isOpen, setIsOpen, title, action = null , ...data }) =
           }
           const rslt = await axios.post("/api/employee_family", formData, ConfigHeader);
           console.log(rslt);
-          //   setIsOpen(false);
           setIsOpen(false);
           actionRefresh !== null && actionRefresh();
           changeDataToNull();

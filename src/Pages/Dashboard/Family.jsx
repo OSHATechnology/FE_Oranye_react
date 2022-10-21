@@ -115,23 +115,6 @@ const Family = (data) => {
       Title="Employee Name"
       Count={dataEmp.name}
       />
-
-      {/* <div>
-        <table className="text-sm font-semibold text-slate-600">
-          <tbody>
-            <tr>
-              <td>Nama</td>
-              <td className="px-3">:</td>
-              <td>{dataEmp.name}</td>
-            </tr>
-            <tr>
-              <td>Banyak Keluarga</td>
-              <td className="px-3">:</td>
-              <td>5 Orang</td>
-            </tr>
-          </tbody>
-        </table>
-      </div> */}
       <div className="space-y-2 p-2 border border-gray-100 shadow">
         <div className="flex gap-4">
           <ButtonNormal

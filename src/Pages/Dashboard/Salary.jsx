@@ -4,6 +4,7 @@ import moment from 'moment'
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from 'react-router-dom'
 import ButtonSmall from '../../Components/ButtonSmall'
+import SimpleCard from '../../Components/SimpleCard';
 import TitleDashboard from '../../Components/TitleDashboard'
 import ConfigHeader from '../Auth/ConfigHeader';
 
@@ -34,7 +35,7 @@ const Salary = (data) => {
 
   const fetchDataSalary = async () => {
     const data = await axios.get(
-      `/api/basic_salary_by_employee?empId=${paramsData.id}`,
+      `/api/salary?empId=${paramsData.id}&type=net`,
       ConfigHeader
     );
     setDataSalary(data.data.data);
@@ -66,7 +67,7 @@ console.log(dataSalary);
 
 <div className="flex gap-2 items-center">
         <Link
-          to="../emp"
+          to={`../emp/${dataEmp.employeeId}`}
           className="flex gap-1 items-center text-blue-400 hover:text-blue-700 w-fit"
         >
           <Icon icon="bi:arrow-left" className="text-sm  font-medium"></Icon>
@@ -76,23 +77,31 @@ console.log(dataSalary);
         </Link>
       </div>
 
-      <div className="flex justify-center">
+      <SimpleCard 
+      Title="Employee Name"
+      Count={dataEmp.name}
+      />
+
+      <div className="flex justify-center border border-gray-100 rounded shadow">
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
+          
           <table className=" w-full text-center overflow-x-scroll">
             <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
               <tr className="">
                 <th className=" py-2">No</th>
-                <th className="">Nama</th>
-                <th className="">Tanggal Gajian</th>
-                <th className="">Gaji Bersih</th>
+                <th className="">Payday</th>
+                <th className="">Gross Salary</th>
+                <th className="">Salary Deduction</th>
+                <th className="">Net Salary</th>
                 <th className="">Action</th>
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
               <tr>
                 <td>1</td>
-                <td>Fachrian</td>
                 <td>{moment().format("MMMM YYYY")}</td>
+                <td>12.000.000</td>
+                <td>12.000.000</td>
                 <td>12.000.000</td>
                 <td>
                 <div className="flex justify-center gap-1">

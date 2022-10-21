@@ -11,8 +11,10 @@ import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
 import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
+import { AuthData } from "../Auth/AuthProvider";
 
 const Employee = () => {
+  const empAuthId = AuthData?.id ? AuthData?.id : 0;
   const [dataEmployee, setDataEmployee] = useState([]);
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   const [isModalImportOpened, setIsModalImportOpened] = useState(false);
@@ -160,6 +162,8 @@ const Employee = () => {
                             showModalEdit(dataEmployee.data[row].employeeId)
                           }
                         />
+                        {dataEmployee.data[row].employeeId !== empAuthId && (
+
                         <ButtonSmall
                           bg="bg-red-500"
                           icon="ci:trash-full"
@@ -168,6 +172,7 @@ const Employee = () => {
                             showModalDelete(dataEmployee.data[row].employeeId)
                           }
                         />
+                        )}
                       </div>
                     </td>
                   </tr>
