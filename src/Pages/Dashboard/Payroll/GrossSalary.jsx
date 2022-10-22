@@ -73,7 +73,7 @@ const GrossSalary = () => {
               ) : (
                 dataGross ? (
                   dataGross?.data?.data?.length > 0 ? (
-                    dataGross?.data?.data.map((item, index) => (
+                    dataGross?.data?.data?.map((item, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
                         <td className="text-start">

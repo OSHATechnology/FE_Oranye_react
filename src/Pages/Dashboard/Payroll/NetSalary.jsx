@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import RupiahMoneyFormat from "../../../Components/RupiahMoneyFormat";
 import Search from "../../../Components/Search";
@@ -6,16 +7,27 @@ import Spinner2 from "../../../Components/Spinner2";
 import ConfigHeader from "../../Auth/ConfigHeader";
 
 const NetSalary = () => {
+  const [month, setMonth] = useState(moment().format("YYYY-MM"));
   const [dataNet, setDataNet] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchDataNet = async (page = 1, search = "") => {
+  const fetchDataNet = async (monthSalary = month, page = 1, search = "") => {
     try {
-      const data = await axios.get(`/api/salary?type=net&search=${search}&page=${page}`, ConfigHeader);
+      const data = await axios.get(`/api/salary?type=net&month=${monthSalary}&search=${search}&page=${page}`, ConfigHeader);
       setDataNet(data.data.data);
+      setIsLoading(false);
     } catch (error) {
-      console.log(error.message);
+      alert(error.response.data.message);
+      setDataNet([]);
+      setIsLoading(false);
     }
   };
+
+  const handleSalary = async (e) => {
+    setMonth(e.target.value);
+    fetchDataNet(e.target.value);
+    setIsLoading(true);
+  }
 
   useEffect(() => {
     fetchDataNet();
@@ -28,8 +40,11 @@ const NetSalary = () => {
           <input
             type="month"
             name=""
-            id="customDate"
+            id="customMoth"
             className="h-6 rounded border border-gray-400 text-xs text-gray-600"
+            max={moment().format("YYYY-MM")}
+            value={month}
+            onChange={handleSalary}
           />
         </div>
         <Search />
@@ -47,8 +62,15 @@ const NetSalary = () => {
             </tr>
           </thead>
           <tbody className="text-sm font-medium text-slate-600 text-center">
+            {isLoading && (
+              <tr>
+                <td colSpan="5">
+                  <Spinner2 />
+                </td>
+              </tr>
+            )}
             {
-              dataNet.data ? dataNet.data.map((item, index) => {
+              dataNet.data && dataNet.data.map((item, index) => {
                 return (
                   <tr key={index}>
                     <td>{index + 1}</td>
@@ -63,11 +85,7 @@ const NetSalary = () => {
                     <td><RupiahMoneyFormat num={item.net_salary} /></td>
                   </tr>
                 );
-              }) : (
-                <tr>
-                  <td colSpan="5"><Spinner2 /></td>
-                </tr>
-              )
+              })
             }
           </tbody>
         </table>
