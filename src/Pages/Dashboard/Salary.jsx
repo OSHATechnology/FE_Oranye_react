@@ -8,10 +8,12 @@ import RupiahMoneyFormat from "../../Components/RupiahMoneyFormat";
 import SimpleCard from "../../Components/SimpleCard";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
+import { useNavigate } from "react-router-dom";
 
 const Salary = (data) => {
   const paramsData = useParams();
   const [dataSalary, setDataSalary] = useState([]);
+  const navigate = useNavigate();
   const [dataEmp, setDataEmp] = useState([
     {
       employeeId: "",
@@ -53,7 +55,10 @@ const Salary = (data) => {
 
   useEffect(() => {
     fetchDataSalary();
-    fetchDataEmp();
+    fetchDataEmp().catch((err) => {
+      console.log(err.message);
+      navigate('../emp');
+    });
   }, []);
 
   return (
