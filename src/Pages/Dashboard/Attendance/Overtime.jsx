@@ -78,7 +78,7 @@ const Overtime = () => {
             <ModalFilter
               isOpen={isModalFilterOpened}
               setIsOpen={setIsModalFilterOpened}
-              title="Filter Partner"
+              title="Filter"
             />
           </div>
         </div>

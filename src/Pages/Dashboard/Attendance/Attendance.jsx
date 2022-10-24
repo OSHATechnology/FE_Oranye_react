@@ -10,12 +10,14 @@ import ModalDetail from "../../../Components/Modal/ModalDetail";
 import Search from "../../../Components/Search";
 import Pagination from "react-js-pagination";
 import { Menu, Tab, Transition } from "@headlessui/react";
+import moment from "moment/moment";
 
 const Attendance = () => {
   const [isModalAccOpened, setIsModalAccOpened] = useState(false);
   const [isModalDeclineOpened, setIsModalDeclineOpened] = useState(false);
   const [dataAttendance, setDataAttendance] = useState([]);
   const [dataOvertime, setDataOvertime] = useState([]);
+  const [customDate, setCustomDate] = useState("");
 
   const [modalAttendance, setModalAttendance] = useState(false);
   const [attendanceDetail, setAttendanceDetail] = useState([]);
@@ -27,10 +29,10 @@ const Attendance = () => {
   };
 
   const filterMenu = [
-    { label: "all", checked: true },
-    { label: "yesterday", checked: false },
-    { label: "last week", checked: false },
-    { label: "last month", checked: false },
+    { label: "all", checked: true, value: "all" },
+    { label: "yesterday", checked: false, value: moment().subtract(1, "days").format("YYYY-MM-DD") },
+    { label: "last week", checked: false, value: moment().subtract(7, "days").format("YYYY-MM-DD") },
+    { label: "last month", checked: false, value: moment().subtract(1, "months").format("YYYY-MM-DD") },
   ];
 
   const fetchDataAttendanceDetail = async () => {
@@ -51,10 +53,21 @@ const Attendance = () => {
     }
   };
 
-  const fetchDataAttendance = async (page = 1, search = "") => {
+  const fetchDataAttendance = async (page = 1, search = "", filter = false, date = []) => {
     try {
-      const result = await axios.get(`/api/attendance?search=${search}&page=${page}`, ConfigHeader);
+      let endpoint;
+      if (filter) {
+        const arrayDates = date;
+        console.log(arrayDates);
+        const start = arrayDates[0] ? arrayDates[0] : moment().format("YYYY-MM-DD");
+        const end = arrayDates[1] ? arrayDates[1] : moment().format("YYYY-MM-DD");
+        endpoint = `/api/attendance?page=${page}&search=${search}&start=${start}&end=${end}`;
+      } else {
+        endpoint = `/api/attendance?page=${page}&search=${search}`;
+      }
+      const result = await axios.get(endpoint, ConfigHeader);
       setDataAttendance(result.data.data);
+      console.log(result.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -75,6 +88,31 @@ const Attendance = () => {
 
     }
   }
+
+  const handleFilter = (e) => {
+    filterMenu.forEach((item) => {
+      if (item.label === e.target.value) {
+        item.checked = true;
+        if (e.target.value === "all") {
+          fetchDataAttendance(1, "", false);
+        } else {
+          fetchDataAttendance(1, "", true, [item.value, moment().format("YYYY-MM-DD")]);
+        }
+
+        e.target.checked = true;
+      } else {
+        item.checked = false;
+      }
+    });
+  }
+
+  const handleCustomDate = (e) => {
+    filterMenu.forEach((item) => {
+      item.checked = false;
+    });
+    setCustomDate(e.target.value);
+  }
+
   return (
     <div className="w-full space-y-4 pb-10">
       <div className="md:flex  md:gap-8 space-y-4 md:space-y-0">
@@ -119,12 +157,7 @@ const Attendance = () => {
                       {filterMenu.map((item, index) => (
                         <Menu.Item>
                           <div className=" flex items-center px-2 hover:bg-gray-100">
-                            <input type="radio" id={'opt' + index} className="w-2.5 h-2.5" checked={item.checked} onClick={() => {
-                              filterMenu.forEach((item) => {
-                                item.checked = false;
-                              })
-                              item.checked = true;
-                            }} />
+                            <input type="radio" id={'opt' + index} className="w-2.5 h-2.5" defaultChecked={item.checked} value={item.label} onClick={handleFilter} />
                             <label className="font-semibold text-gray-600 text-sm px-2" htmlFor={'opt' + index}>{item.label}</label>
                           </div>
                         </Menu.Item>
@@ -134,7 +167,8 @@ const Attendance = () => {
                       <Menu.Item disabled>
                         <div className="px-2 flex items-center gap-2">
                           <label htmlFor="customDate" className="text-xs font-semibold">Custom: </label>
-                          <input type="month" name="" id="customDate" className="h-6 rounded border border-gray-400 text-xs text-gray-600" />
+                          <input type="month" name="" id="customDate" className="h-6 rounded border border-gray-400 text-xs text-gray-600" value={customDate}
+                            max={moment().format("YYYY-MM")} onChange={handleCustomDate} />
                         </div>
                       </Menu.Item>
                     </div>
