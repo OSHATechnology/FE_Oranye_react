@@ -8,6 +8,7 @@ import { AuthData } from "../Auth/AuthProvider";
 import ConfigHeader from "../Auth/ConfigHeader";
 
 const empAuthId = AuthData?.id ? AuthData?.id : 0;
+const empAuthRole = AuthData?.role ? AuthData?.role : "employee";
 
 const CardProfileEmployee = () => {
     const [employee, setEmployee] = useState({});
@@ -336,6 +337,11 @@ export default function Emp_Home() {
                         {time}
                     </div>
                     <div className="flex gap-2 mt-2 sm:mt-0">
+                        {empAuthRole === "admin" && (
+                            <a href="/dashboard" className="shadow w-32 block border-blue-600 border-2 rounded-full focus:outline-none focus:border-blue-600 px-4 py-2 text-blue-600 hover:bg-blue-600 hover:text-white">
+                                <span>Dashboard</span>
+                            </a>
+                        )}
                         <button className="shadow w-32 block border-blue-600 border-2 rounded-full focus:outline-none focus:border-blue-600 px-4 py-2 text-blue-600 hover:bg-blue-600 hover:text-white" onClick={handleClockIn}>
                             <span>Clock In!</span>
                         </button>
