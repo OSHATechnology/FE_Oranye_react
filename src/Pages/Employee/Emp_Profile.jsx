@@ -11,13 +11,10 @@ export default function KaryawanProfile(props) {
     const fetchDataEmp = async () => {
         const response = await axios.get(`/api/employee/` + empAuthId, ConfigHeader);
         setEmployee(response.data.data);
-        console.log(response.data.data);
     }
     useEffect(() => {
         fetchDataEmp();
     }, []);
-
-console.log(employee)
     return (
         <div className="flex justify-center">
             <div className=" items-start justify-center w-screen md:min-h-1/3 md:flex md:flex-row md:w-4/5">
@@ -25,10 +22,9 @@ console.log(employee)
                     <div className="bg-gray-50 md:w-full border m-3 rounded flex flex-col justify-content-center">
                         <div className="md:flex md:flex-row w-full">
                             <div className="flex basis-1/4 items-center justify-center">
-                            {employee?.photo ? (
-                                <img src={employee?.photo} alt="" className="w-36"/>
-                            ) : ".."}
-                                {/* <img src="assets/PP.png" alt="" /> */}
+                                {employee?.photo ? (
+                                    <img src={employee?.photo} alt="" className="w-36" />
+                                ) : ".."}
                             </div>
 
                             <div className="basis-3/4 m-4 text-center md:text-start">

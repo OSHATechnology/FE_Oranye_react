@@ -14,11 +14,11 @@ const GetTokenData = () => {
 
 const AuthRedirect = (user) => {
   if (user) {
-    if (user.role === "admin") {
-      return '/dashboard'
-    } else {
-      return '/'
-    }
+    // if (user.role === "admin") {
+    //   return '/dashboard'
+    // } else {
+    return '/'
+    // }
   }
   return '/login'
 }

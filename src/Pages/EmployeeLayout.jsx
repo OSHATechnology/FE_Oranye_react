@@ -12,8 +12,8 @@ const EmployeeLayout = ({ auth }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth.role !== 'employee') {
-      navigate(AuthRedirect(auth));
+    if (auth === null) {
+      navigate('/login');
     }
   }, [auth, navigate])
 

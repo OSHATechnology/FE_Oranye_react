@@ -16,7 +16,8 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const [joinedAt, setJoinedAt] = useState("");
   const [assignedBy, setAssignedBy] = useState("");
 
-  const [dataEmployee, setDataEmployee] = useState([]);
+  const [options, setOptions] = useState([]);
+  const [dataEmployee, setDataEmployee] = useState({});
   const actionRefresh = action ? action : null;
 
   function changeDataToNull() {
@@ -30,20 +31,22 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
     setAssignedBy("");
   }
 
-  useEffect(() => {
-    const fetchDataEmployee = async () => {
-      const data = await axios.get(`/api/employee`, ConfigHeader);
-      setDataEmployee(data.data.data.data);
-    };
-    fetchDataEmployee();
-  }, []);
+  const fetchDataEmployee = async (page = 1, search = "") => {
+    const data = await axios.get(`/api/employee?search=${search}&page=${page}`, ConfigHeader);
+    setDataEmployee(data.data.data.data);
+  };
 
-  const options = dataEmployee.map((item) => {
-    return {
-      value: item.employeeId,
-      label: item.firstName + " " + item.lastName,
-    };
-  });
+  const loadOptions = async (page = 1) => {
+    const data = fetchDataEmployee(page);
+    const newOpt = Object.keys(dataEmployee).map((d) => {
+      return {
+        value: dataEmployee[d].employeeId,
+        label: dataEmployee[d].firstName + " " + dataEmployee[d].lastName,
+      };
+    });
+    const opt = [...options, ...newOpt];
+    setOptions(opt);
+  };
 
   const styleSelect = {
     option: (base, state) => ({
@@ -71,7 +74,6 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
       joinedAt: joinedAt,
       assignedBy: assignedBy,
     };
-    console.log(data);
 
     try {
       let formData = new FormData();
@@ -90,7 +92,11 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const handleChange = (selectedOption) => {
     setAssignedBy(selectedOption.value);
   };
-  
+
+  useEffect(() => {
+    loadOptions();
+  }, []);
+
   return (
     <>
       <Dialog
@@ -194,6 +200,12 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
                   menuPortalTarget={
                     document.querySelector("#partner_form")
                   }
+                  captureMenuScroll={true}
+                  onMenuScrollToBottom={() => {
+                    // setPage(page + 1);
+                    loadOptions(2);
+                    console.log("scroll");
+                  }}
                 />
               </div>
               <div className="">

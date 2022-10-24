@@ -87,7 +87,7 @@ export default function Login(props) {
                                 htmlFor="employee_id"
                                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] hover:border-orange-500 peer-focus:left-0 peer-focus:text-orange-500 peer-focus:dark:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                             >
-                                Employee Id
+                                Employee Id or Email
                             </label>
                         </div>
                         <div className="relative z-0 w-3/4 group">
@@ -138,7 +138,7 @@ export default function Login(props) {
                             <span className="flex items-center justify-center space-x-1">
                                 <p className="text-xs">Forgot your password?</p>
                                 <a
-                                    href="#"
+                                    href="/forgot-password"
                                     className="text-xs  font-bold text-orange-600 hover:underline focus:text-orange-800"
                                 >
                                     Reset here

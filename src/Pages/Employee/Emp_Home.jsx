@@ -37,7 +37,7 @@ const CardProfileEmployee = () => {
 
                         <div className="mt-6 mb-4">
                             {employee?.photo ? (
-                                <img src={employee?.photo} alt="" className="w-36"/>
+                                <img src={employee?.photo} alt="" className="w-36" />
                             ) : ".."}
                         </div>
                         <div className="text-center ">
@@ -353,8 +353,6 @@ export default function Emp_Home() {
                         <CardStatusAttendance refresh={refresh} />
                     </div>
                 </div>
-
-
                 <CardRequest />
             </div>
 
