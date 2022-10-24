@@ -40,24 +40,21 @@ const Salary = (data) => {
       ConfigHeader
     );
     setDataSalary(data.data.data);
+    console.log(data.data.data);
+  };
+
+  const fetchDataEmp = async () => {
+    const data = await axios.get(
+      `/api/employee/${paramsData.id}`,
+      ConfigHeader
+    );
+    setDataEmp(data.data.data);
   };
 
   useEffect(() => {
-    const fetchDataEmp = async () => {
-      const data = await axios.get(
-        `/api/employee/${paramsData.id}`,
-        ConfigHeader
-      );
-      setDataEmp(data.data.data);
-    };
-
-    fetchDataEmp().catch((err) => {
-      console.log(err.message);
-    });
     fetchDataSalary();
-  }, [paramsData]);
-  // console.log(paramsData.id);
-  // console.log(dataSalary);
+    fetchDataEmp();
+  }, []);
 
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -80,7 +77,7 @@ const Salary = (data) => {
 
       <SimpleCard Title="Employee Name" Count={dataEmp.name} />
 
-      <div className="flex justify-center border border-gray-100 rounded shadow">
+      <div className="flex justify-center border border-gray-100 rounded shadow p-2">
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
           <table className=" w-full text-center overflow-x-scroll">
             <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
@@ -94,7 +91,45 @@ const Salary = (data) => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {dataSalary.data ? (
+              {
+                dataSalary ?
+                dataSalary.map((item, index) => (
+                  <tr key={dataSalary.id}>
+                    <td>{index + 1}</td>
+                    <td>
+                      {moment(item.salaryDate).format(
+                        "DD MMMM YYYY"
+                      )}
+                    </td>
+                    <td>
+                      <RupiahMoneyFormat num={item.gross} />
+                    </td>
+                    <td>
+                      <RupiahMoneyFormat num={0} />
+                    </td>
+                    <td>
+                      <RupiahMoneyFormat num={0} />
+                    </td>
+                     <td>
+                      <div className="flex justify-center gap-1">
+                      <Link to={`DetailSalary`}>
+                          <ButtonSmall
+                            bg="bg-blue-600"
+                            icon="carbon:view"
+                            colorIcon="text-white"
+                          />
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                )) 
+                : (
+                  <tr>
+                    <td colSpan="5">Loading</td>
+                  </tr>
+                )
+              }
+              {/* {dataSalary.data ? (
                 Object.keys(dataSalary.data).map((row, index) => (
                   <tr key={dataSalary.data[row].id}>
                     <td>{index + 1}</td>
@@ -112,10 +147,9 @@ const Salary = (data) => {
                     <td>
                       <RupiahMoneyFormat num={0} />
                     </td>
-                    {/* <td><RupiahMoneyFormat num={dataSalary.data[row].gross} /></td> */}
-                    <td>
+                     <td>
                       <div className="flex justify-center gap-1">
-                        <Link to={"DetailSalary"}>
+                      <Link to={`DetailSalary/${dataSalary.data[row].id}`}>
                           <ButtonSmall
                             bg="bg-blue-600"
                             icon="carbon:view"
@@ -130,7 +164,7 @@ const Salary = (data) => {
                 <tr>
                   <td colSpan="5">Loading</td>
                 </tr>
-              )}
+              )} */}
               {/* <tr>
                 <td>1</td>
                 <td>{moment().format("MMMM YYYY")}</td>
