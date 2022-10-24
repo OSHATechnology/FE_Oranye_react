@@ -56,10 +56,10 @@ const SalaryDeductions = () => {
             <tr>
               <th>No</th>
               <th>Employee</th>
-              <th>Kehadiran</th>
-              <th>Pinjaman</th>
-              <th>Pajak</th>
-              <th>BPJS</th>
+              <th>Attendance</th>
+              <th>Loan</th>
+              <th>Tax</th>
+              <th>Insurance</th>
               <th>Total</th>
             </tr>
           </thead>
@@ -101,31 +101,7 @@ const SalaryDeductions = () => {
                   )
               )
             }
-            {/* {
-              dataDeduction.data ? dataDeduction.data.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td className="text-start">
-                      <div className="w-fit">
-                        <p className="text-xs text-slate-400">{item.empId}</p>
-                        <p>{item.empName}</p>
-                      </div>
-                    </td>
-                    <td>{item.percentAttendance} %</td>
-                    <td><RupiahMoneyFormat num={item.totalLoan} />{ }</td>
-                    <td>{item.totalTax} %</td>
-                    <td><RupiahMoneyFormat num={item.totalInsurance} /></td>
-                    <td><RupiahMoneyFormat num={item.totalDeduction} /></td>
-                  </tr>
-                )
-              }
-              ) : (
-                <tr>
-                  <td colSpan="7" className="p-2"><Spinner2 /></td>
-                </tr>
-              )
-            } */}
+
           </tbody>
         </table>
       </div>
