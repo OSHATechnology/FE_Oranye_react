@@ -31,7 +31,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
     setPhone("");
     setPhoto({});
     setBirthDate("");
-    setJoinedAt("");
+    setJoinedAt(moment().format("DD/MM/YYYY"));
     setAddress("");
     setCity("");
     setNation("");

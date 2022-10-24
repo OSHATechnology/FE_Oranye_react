@@ -5,6 +5,7 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import Select from "react-select";
+import moment from "moment";
 
 const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const [name, setName] = useState("");
@@ -27,7 +28,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
     setResposibleBy("");
     setPhone("");
     setPhoto({});
-    setJoinedAt("");
+    setJoinedAt(moment().format("YYYY-MM-DD"));
     setAssignedBy("");
   }
 
@@ -96,7 +97,6 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   useEffect(() => {
     loadOptions();
   }, []);
-
   return (
     <>
       <Dialog

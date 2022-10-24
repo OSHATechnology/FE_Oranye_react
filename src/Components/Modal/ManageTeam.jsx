@@ -6,6 +6,7 @@ import ModalDelete from "../../Components/Modal/ModalDelete";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import axios from "axios";
 import Select from "react-select";
+import { useParams } from "react-router-dom";
 
 const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
   const [nameTeam, setNameTeam] = useState('');
@@ -14,6 +15,8 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
   const [dataEmployee, setDataEmployee] = useState([]);
   const [modalTeamDelete, setModalTeamDelete] = useState(false);
   const [teamDeleteData, setTeamDeleteData] = useState("");
+  const paramsData = useParams();
+  const [dataTeam, setDataTeam] = useState([]);
   const actionRefresh = action ? action : null;
   let dataTeamId = "";
   const showModalDelete = async (teamId) => {
@@ -27,11 +30,17 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
     setDataEmployee(data.data.data);
   };
 
+  const fetchDataTeam = async () => {
+    const data = await axios.get(`/api/team/${paramsData.id}`, ConfigHeader);
+    setDataTeam(data.data.data);
+  };
+
   useEffect(() => {
     setNameTeam(data.name);
     setLeadById(data.leadBy && data.leadBy.id);
     setCreatedById(data.createdBy && data.createdBy.id);
     getDataEmployee();
+    fetchDataTeam();
   }, [data]);
 
   const handleSubmit = async (e) => {
@@ -52,7 +61,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
   const refresh = () => {
     window.location.reload();
   };
-
+  // console.log(dataTeam);
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   
   // React Select
@@ -86,7 +95,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
     setCreatedById(selectedOption.value);
     console.log(selectedOption);
   };
-  console.log(options);
+  // console.log(options);
   return (
     <>
       <Dialog
@@ -125,10 +134,13 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
               <p className="text-sm font-extrabold text-gray-600">
                 Leader Team
               </p>
+              {console.log(dataTeam)}
               <Select
                   styles={styleSelect}
                   options={options}
                   noOptionsMessage={() => "No data"}
+                  defaultValue={{ label:dataTeam.leadBy ? dataTeam.leadBy.employee : "", value: dataTeam.leadBy ? dataTeam.leadBy.id : "" }}
+                  // defaultValue={options.leadById}
                   classNamePrefix={""}
                   onChange={handleChangeLeadTeam}
                   menuPortalTarget={
@@ -139,12 +151,11 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">Team Maker</p>
               <Select
-              // selectedValue={}
-              // defaultInputValue={createdById}
                   styles={styleSelect}
                   options={options}
                   noOptionsMessage={() => "No data"}
                   classNamePrefix={""}
+                  defaultValue={{ label:dataTeam.createdBy ? dataTeam.createdBy.employee : "", value: dataTeam.createdBy ? dataTeam.createdBy.id : "" }}
                   onChange={handleChangeTeamMaker}
                   menuPortalTarget={
                     document.querySelector("#team_form")

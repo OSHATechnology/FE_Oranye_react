@@ -57,9 +57,10 @@ const GrossSalary = () => {
             <tr>
               <th>No</th>
               <th>Employee</th>
-              <th>Gaji Pokok</th>
+              <th>Basic Salary</th>
               <th>Overtime</th>
               <th>Overtime Fee</th>
+              <th>Allowance</th>
               <th>Bonus</th>
               <th>Total</th>
             </tr>
@@ -85,6 +86,7 @@ const GrossSalary = () => {
                         <td><RupiahMoneyFormat num={item.basicSalary} /></td>
                         <td>{item.totalOvertime !== 0 ? item.totalOvertime + ' Hrs' : '-'}</td>
                         <td><RupiahMoneyFormat num={item.overtimeFee} /></td>
+                        <td><RupiahMoneyFormat num={0} /></td>
                         <td><RupiahMoneyFormat num={item.totalBonus} /></td>
                         <td><RupiahMoneyFormat num={item.total} /></td>
                       </tr>

@@ -110,7 +110,7 @@ const EditFormAllowance = (data) => {
                   noOptionsMessage={() => "No data"}
                   classNamePrefix={""}
                   onChange={handleChangeRole}
-                  menuPortalTarget={document.getElementById("allowance_form")}
+                  // menuPortalTarget={document.getElementById("allowance_form")}
                 />
             {/* <select
               defaultValue={role}
@@ -138,7 +138,7 @@ const EditFormAllowance = (data) => {
                   noOptionsMessage={() => "No data"}
                   classNamePrefix={""}
                   onChange={handleChangeType}
-                  menuPortalTarget={document.getElementById("allowance_form")}
+                  // menuPortalTarget={document.getElementById("allowance_form")}
                 />
             {/* <select
               defaultValue={type}
