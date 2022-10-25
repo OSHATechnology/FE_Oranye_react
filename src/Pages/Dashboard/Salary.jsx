@@ -9,9 +9,11 @@ import SimpleCard from "../../Components/SimpleCard";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
 import { useNavigate } from "react-router-dom";
+import ModalManage from "../../Components/Modal/ManageSalaryByEmployee";
 
 const Salary = (data) => {
   const paramsData = useParams();
+  const [isModalManageOpened, setIsModalManageOpened] = useState(false);
   const [dataSalary, setDataSalary] = useState([]);
   const navigate = useNavigate();
   const [dataEmp, setDataEmp] = useState([
@@ -78,12 +80,26 @@ const Salary = (data) => {
             Back to Dashboard Employee
           </p>
         </Link>
+        <p className="font-bold text-blue-800">|</p>
+        <button onClick={() => setIsModalManageOpened(!isModalManageOpened)}>
+          <p className="text-sm  font-medium hover:font-bold text-blue-400 hover:text-blue-700 w-fit">
+            Manage Salary
+          </p>
+        </button>
+        <ModalManage
+          isOpen={isModalManageOpened}
+          setIsOpen={setIsModalManageOpened}
+          title="Manage Salary Employee"
+          // data={dataTeam}
+          // action={refresh}
+
+        />
       </div>
 
       <SimpleCard Title="Employee Name" Count={dataEmp.name} />
 
-      <div className="flex justify-center border border-gray-100 rounded shadow p-2">
-        <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
+      <div className="flex justify-center border border-gray-100 rounded shadow p-2 ">
+        <div className="items-start min-w-screen md:flex md:flex-row w-full ">
           <table className=" w-full text-center overflow-x-scroll">
             <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
               <tr className="">
@@ -99,7 +115,7 @@ const Salary = (data) => {
               {
                 dataSalary ?
                 dataSalary.map((item, index) => (
-                  <tr key={dataSalary.id}>
+                  <tr key={item.id}>
                     <td>{index + 1}</td>
                     <td>
                       {moment(item.salaryDate).format(
@@ -117,7 +133,7 @@ const Salary = (data) => {
                     </td>
                      <td>
                       <div className="flex justify-center gap-1">
-                      <Link to={`DetailSalary`}>
+                      <Link to={`../DetailSalary/${item.id}`}>
                           <ButtonSmall
                             bg="bg-blue-600"
                             icon="carbon:view"

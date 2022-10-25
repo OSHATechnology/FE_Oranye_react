@@ -71,7 +71,7 @@ const Overtime = () => {
           </div>
           <div className="flex gap-2 md:justify-end">
             <Search onChange={handleSearch} />
-            <ButtonSmall
+            {/* <ButtonSmall
               icon="ant-design:filter-outlined"
               onClick={() => setIsModalFilterOpened(!isModalFilterOpened)}
             />
@@ -79,7 +79,7 @@ const Overtime = () => {
               isOpen={isModalFilterOpened}
               setIsOpen={setIsModalFilterOpened}
               title="Filter Partner"
-            />
+            /> */}
           </div>
         </div>
         <table className="w-full text-center overflow-x-scroll">

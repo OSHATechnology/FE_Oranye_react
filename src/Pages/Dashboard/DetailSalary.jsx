@@ -100,7 +100,7 @@ const DetailSalary = () => {
                 </p> */}
                 <p>Overtime fee</p>
                 <p className="font-semibold">Allowance & Insurance</p>
-                <p className="text-xs text-gray-400 list-none ml-2">
+                <p className="text-xs text-slate-600 list-none ml-2">
                   {detailSalary.allowance_item && detailSalary.allowance_item.map((item) => (
                     <li>{item.name}</li>
                   ))}
@@ -117,7 +117,7 @@ const DetailSalary = () => {
                 </p> */}
                 <p>{detailSalary.overtime_fee}</p>
                 <p className="font-semibold">&nbsp;</p>
-                <p className="text-xs text-gray-400 list-none ml-2">
+                <p className="text-xs text-slate-600 list-none ml-2">
                   {detailSalary.allowance_item && detailSalary.allowance_item.map((item) => (
                     <>
                     <li>{item.fee}</li>
