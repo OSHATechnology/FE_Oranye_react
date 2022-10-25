@@ -73,7 +73,8 @@ export default function Dashboard(props) {
                     <Route path="payroll/LoanPayment/:id" element={<LoanPayment />} />
                     <Route path="emp/:id/family" element={<Family />} />
                     <Route path="emp/:id/Salary" element={<Salary />} />
-                    <Route path="emp/:id/Salary/DetailSalary" element={<DetailSalary />} />
+                    {/* <Route path="emp/:id/Salary/DetailSalary" element={<DetailSalary />} /> */}
+                    <Route path="DetailSalary/:id" element={<DetailSalary />} />
                     <Route path="manageInsurance/:id" element={<ManageInsurance />} />
                     <Route path="emp/:id" element={<Detail />} />
                     <Route path="addRole" element={<AddRole />} />
