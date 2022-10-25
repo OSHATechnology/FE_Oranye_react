@@ -10,10 +10,12 @@ import ModalAdd from "../../Components/Modal/ModalAddFamily";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import ModalEdit from "../../Components/Modal/ModalEdit";
 import SimpleCard from "../../Components/SimpleCard";
+import { useNavigate } from "react-router-dom";
 
 const Family = (data) => {
   const paramsData = useParams();
   const [dataFamily, setDataFamily] = useState([]);
+  const navigate = useNavigate();
   const [dataEmp, setDataEmp] = useState([
     {
       employeeId: "",
@@ -55,6 +57,7 @@ const Family = (data) => {
 
     fetchDataEmp().catch((err) => {
       console.log(err.message);
+      navigate('../emp');
     });
     fetchDataFamily();
   }, [paramsData]);

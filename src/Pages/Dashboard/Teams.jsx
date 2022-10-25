@@ -20,9 +20,18 @@ const fetchDataTeam = async (page = 1,search = "") => {
   try {
     const result = await axios.get(`/api/team?search=${search}&page=${page}`, ConfigHeader);
     setDataTeam(result.data.data);
-    setTotalTeam(result.data.data.data.length);
+    // setTotalTeam(result.data.data.data.length);
   } catch (error) {
     console.log(error);
+  }
+};
+
+const fetchTotalTeam = async () => {
+  try {
+    const response = await axios.get("api/count?type=team", ConfigHeader);
+    setTotalTeam(response.data.data);
+  } catch (error) {
+    console.log("failed to fetch total team");
   }
 };
 
@@ -36,6 +45,7 @@ const handleSearch = (e) => {
 
   useEffect(() => {
     fetchDataTeam();
+    fetchTotalTeam();
   }, []);
   return (
     <div className="w-full md:mx-8 space-y-8">

@@ -14,6 +14,7 @@ import ModalAddAllowance from "../../Components/Modal/AddAllowance";
 import ModalEdit from "../../Components/Modal/ModalEdit";
 
 const Allowance = () => {
+  const [totalAllowance, setTotalAllowance] = useState(0);
   const [dataAllowance, setDataAllowance] = useState([]);
   const [modalAllowanceDelete, setModalAllowanceDelete] = useState(false);
   const [allowanceDeleteData, setAllowanceDeleteData] = useState("");
@@ -27,8 +28,18 @@ const Allowance = () => {
     setDataAllowance(result.data.data);
   };
 
+  const fecthTotalAllowance = async () => {
+    try {
+      const result = await axios.get(`api/count?type=allowance`, ConfigHeader);
+      setTotalAllowance(result.data.data);
+    } catch (error) {
+      console.log("failed to fetch total allowance");
+    }
+  };
+
   useEffect(() => {
     fetchDataAllowance();
+    fecthTotalAllowance();
   }, [paramsData]);
 
   const handleSearchAllowance = (e) => {
@@ -62,7 +73,7 @@ const Allowance = () => {
     dataAllowanceId = allowanceId;
     await fetchDataAllowanceEdit();
   };
-
+  console.log(totalAllowance)
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -74,6 +85,7 @@ const Allowance = () => {
           bgColor=""
           Title="Number of Allowance"
           Icon="fa-solid:hand-holding-usd"
+          Count={totalAllowance}
         />
 
         <div className="flex my-8 text-sm font-semibold text-gray-600">

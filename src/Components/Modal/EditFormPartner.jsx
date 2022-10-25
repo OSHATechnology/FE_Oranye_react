@@ -7,6 +7,7 @@ import moment from "moment";
 import Select from "react-select";
 
 const EditFormPartner = (data) => {
+  
   const [isOpen, setIsOpen] = useState(false);
   const [namePartner, setNamePartner] = useState("");
   const [description, setDescription] = useState("");
@@ -20,7 +21,7 @@ const EditFormPartner = (data) => {
   // baru
   const loadData = data.handleFetchData ? data.handleFetchData : () => {};
   const closeModal = data.handleCloseModal ? data.handleCloseModal : () => {};
-
+  
   const fetchDataEmp = async () => {
     try {
       const result = await axios.get("api/employee", ConfigHeader);
@@ -28,9 +29,15 @@ const EditFormPartner = (data) => {
     } catch (error) {}
   };
 
+  // const fetchDataTeam = async () => {
+  //   const data = await axios.get(`/api/partner/${paramsData.id}`, ConfigHeader);
+  //   setDataTeam(data.data.data);
+  // };
+
   useEffect(() => {
     fetchDataEmp();
     setNamePartner(data.data.name);
+    
     setDescription(data.data.description);
     setResposibleBy(data.data.resposibleBy);
     setPhone(data.data.phone);
@@ -52,7 +59,7 @@ const EditFormPartner = (data) => {
       joinedAt: joinedAt,
       photo: photo,
     };
-    console.log(dataEdit)
+    // console.log(dataEdit)
     let formData = new FormData();
     for (let key in dataEdit) {
       formData.append(key, dataEdit[key]);
@@ -86,17 +93,13 @@ const EditFormPartner = (data) => {
       fontSize: "10px",
     }),
 
-    // control: (base, state) => ({
-    //   ...base,
-    //   height: "20px",
-    //   fontSize: "12px",
-    // }),
   };
 
   const handleChange = (selectedOption) => {
     setAssignedById(selectedOption.value);
   };
-
+  const selectAssignedBy = data.data;
+  console.log(selectAssignedBy && selectAssignedBy.assignedBy && selectAssignedBy.assignedBy.name)
   return (
     <div>
       <div className="w-full h-3/4 overflow-y-auto space-y-1">
@@ -172,6 +175,7 @@ const EditFormPartner = (data) => {
               noOptionsMessage={() => "No data"}
               classNamePrefix={""}
               onChange={handleChange}
+              defaultValue={{ label: "selected" , value: selectAssignedBy && selectAssignedBy.assignedBy && selectAssignedBy.assignedBy.empId }}
               // menuPortalTarget={document.querySelector("#partner_form")}
             />
 
