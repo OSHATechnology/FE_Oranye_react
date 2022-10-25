@@ -3,6 +3,7 @@ import React, { useState, useEffect} from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 import ModalDelete from "../../Components/Modal/ModalDelete";
+import { Link } from "react-router-dom";
 
 const fecthListPermission = async (roleId) => {
     const response = await axios.get('api/role-permissions?roleId='+roleId,ConfigHeader);
@@ -87,9 +88,11 @@ const DetailRole = ({ ...data }) => {
 
 
             <div className="flex justify-between gap-2">
+            <Link to="../RoleEdit">
                 <ButtonNormal bg="bg-yellow-400 " icon="akar-icons:edit"  text="Edit" width="w-20" 
                 // onClick={() => setIsOpen(false)} 
                 />
+                </Link>
                 <ButtonNormal bg="bg-red-600 " icon="bx:trash"  text="Delete" width="w-20"
                 onClick={() =>
                     showModalDelete(data.roleId)}

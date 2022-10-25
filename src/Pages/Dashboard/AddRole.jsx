@@ -135,6 +135,14 @@ const AddRole = () => {
                         <input type="text"  className="w-full rounded h-8" onChange={(e) => setNameRole(e.target.value)} />
                     </div>
                 </div>
+                <div className="flex flex-row w-full items-center justify-center md:justify-start">
+                    <div className="basis-1/5 ">
+                        <p className="text-lg font-semibold text-gray-700">Salary by Role</p>
+                    </div>
+                    <div className="basis-4/5 ">
+                        <input type="text"  className="w-full rounded h-8"  />
+                    </div>
+                </div>
                 <div className="flex flex-row w-full items-start justify-center md:justify-start">
                     <div className="basis-1/5 ">
                         <p className="text-lg font-semibold text-gray-700">Role Description</p>
