@@ -34,6 +34,7 @@ const DetailSalary = () => {
   const fetchDataDetailSalary = async () => {
     const data = await axios.get(`/api/salary/${paramsData.id}`, ConfigHeader);
     setDetailSalary(data.data.data);
+    console.log(data.data.data);
   };
 
 
@@ -93,11 +94,6 @@ const DetailSalary = () => {
             <div className="flex">
               <div className="basis-3/5 text-xs md:text-sm text-slate-800 font-medium">
                 <p>Basic Salary</p>
-                {/* <p className="font-semibold">Allowance</p>
-                <p className="text-xs text-gray-400 list-none ml-2">
-                  <li>Allowance 1</li>
-                  <li>Allowance 2</li>
-                </p> */}
                 <p>Overtime fee</p>
                 <p className="font-semibold">Allowance & Insurance</p>
                 <p className="text-xs text-gray-400 list-none ml-2">
@@ -107,26 +103,21 @@ const DetailSalary = () => {
                 </p>
                 <p>Bonus</p>
                 <p className="font-bold ">Total</p>
-            </div>
-            <div className="basis-2/5  text-xs md:text-sm text-slate-800 font-medium text-right">
-                <p>{detailSalary.basic_salary}</p>
-                {/* <p className="font-semibold">300.000</p>
-                <p className="text-xs text-gray-400 list-none ml-2" >
-                  <li>100.000</li>
-                  <li>200.000</li>
-                </p> */}
-                <p>{detailSalary.overtime_fee}</p>
+              </div>
+              <div className="basis-2/5  text-xs md:text-sm text-slate-800 font-medium text-right">
+                <p><RupiahMoneyFormat num={detailSalary.basic_salary} disableRp={true} /></p>
+                <p><RupiahMoneyFormat num={detailSalary.overtime_fee} disableRp={true} /></p>
                 <p className="font-semibold">&nbsp;</p>
                 <p className="text-xs text-gray-400 list-none ml-2">
                   {detailSalary.allowance_item && detailSalary.allowance_item.map((item) => (
                     <>
-                    <li>{item.fee}</li>
+                      <li><RupiahMoneyFormat num={item.fee} disableRp={true} /></li>
                     </>
                   ))}
                 </p>
-                <p>{detailSalary.bonus}</p>
-                <p className="font-bold"><RupiahMoneyFormat num={detailSalary.gross} /></p>
-            </div>
+                <p><RupiahMoneyFormat num={detailSalary.bonus} disableRp={true} /></p>
+                <p className="font-bold"><RupiahMoneyFormat num={detailSalary.gross} disableRp={true} /></p>
+              </div>
             </div>
           </div>
           <div className="basis-1/2 ">
@@ -139,7 +130,6 @@ const DetailSalary = () => {
                 <p>Loan</p>
                 <p>Tax</p>
                 <p>Insurance</p>
-
                 <p className="font-bold ">Total</p>
               </div>
               <div className="basis-2/5  text-xs md:text-sm text-slate-800 font-medium">
@@ -147,7 +137,6 @@ const DetailSalary = () => {
                 <p>0</p>
                 <p>5%</p>
                 <p>0</p>
-
                 <p>23023</p>
               </div>
             </div>
@@ -160,7 +149,7 @@ const DetailSalary = () => {
                 <p className="font-bold ">Take Home Pay</p>
               </div>
               <div className="basis-2/5 text-right  text-xs md:text-sm text-slate-800 font-medium">
-                <p className="font-bold ">Rp. 10.00,-</p>
+                <p className="font-bold "><RupiahMoneyFormat num={detailSalary.net} />.00,-</p>
               </div>
             </div>
           </div>

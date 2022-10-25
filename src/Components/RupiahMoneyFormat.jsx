@@ -1,10 +1,11 @@
 import React from 'react'
 
 const RupiahMoneyFormat = (props) => {
-    const { num } = props;
-    const rupiah = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const { num, disableRp } = props;
+    const rupiah = num ? num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') : 0;
+    const withRpText = disableRp ? "" : "Rp. ";
     return (
-        <span>Rp. {rupiah}</span>
+        <span>{withRpText}{rupiah}</span>
     )
 }
 

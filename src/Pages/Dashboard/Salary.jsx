@@ -98,41 +98,50 @@ const Salary = (data) => {
             <tbody className="text-xs md:text-sm font-medium">
               {
                 dataSalary ?
-                dataSalary.map((item, index) => (
-                  <tr key={dataSalary.id}>
-                    <td>{index + 1}</td>
-                    <td>
-                      {moment(item.salaryDate).format(
-                        "DD MMMM YYYY"
-                      )}
-                    </td>
-                    <td>
-                      <RupiahMoneyFormat num={item.gross} />
-                    </td>
-                    <td>
-                      <RupiahMoneyFormat num={0} />
-                    </td>
-                    <td>
-                      <RupiahMoneyFormat num={0} />
-                    </td>
-                     <td>
-                      <div className="flex justify-center gap-1">
-                      <Link to={`DetailSalary`}>
-                          <ButtonSmall
-                            bg="bg-blue-600"
-                            icon="carbon:view"
-                            colorIcon="text-white"
-                          />
-                        </Link>
-                      </div>
-                    </td>
-                  </tr>
-                )) 
-                : (
-                  <tr>
-                    <td colSpan="5">Loading</td>
-                  </tr>
-                )
+                  dataSalary.length > 0 ? (
+                    dataSalary.map((item, index) => (
+                      <tr key={dataSalary.id}>
+                        <td>{index + 1}</td>
+                        <td>
+                          {item.salary_date && (
+                            moment(item.salary_date).format(
+                              "DD MMMM YYYY"
+                            )
+                          )}
+                        </td>
+                        <td>
+                          <RupiahMoneyFormat num={item.gross} />
+                        </td>
+                        <td>
+                          <RupiahMoneyFormat num={0} />
+                        </td>
+                        <td>
+                          <RupiahMoneyFormat num={0} />
+                        </td>
+                        <td>
+                          <div className="flex justify-center gap-1">
+                            <Link to={`DetailSalary`}>
+                              <ButtonSmall
+                                bg="bg-blue-600"
+                                icon="carbon:view"
+                                colorIcon="text-white"
+                              />
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className="py-2">
+                        No Data
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr>
+                      <td colSpan="5">Loading</td>
+                    </tr>
+                  )
               }
               {/* {dataSalary.data ? (
                 Object.keys(dataSalary.data).map((row, index) => (

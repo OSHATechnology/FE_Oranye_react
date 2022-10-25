@@ -86,7 +86,7 @@ const GrossSalary = () => {
                         <td><RupiahMoneyFormat num={item.basicSalary} /></td>
                         <td>{item.totalOvertime !== 0 ? item.totalOvertime + ' Hrs' : '-'}</td>
                         <td><RupiahMoneyFormat num={item.overtimeFee} /></td>
-                        <td><RupiahMoneyFormat num={0} /></td>
+                        <td><RupiahMoneyFormat num={item.totalAllowance} /></td>
                         <td><RupiahMoneyFormat num={item.totalBonus} /></td>
                         <td><RupiahMoneyFormat num={item.total} /></td>
                       </tr>
