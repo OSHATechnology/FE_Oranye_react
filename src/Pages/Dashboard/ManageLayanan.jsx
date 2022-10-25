@@ -117,7 +117,7 @@ const ManageLayanan = () => {
         <ModalManage
           isOpen={isModalManageOpened}
           setIsOpen={setIsModalManageOpened}
-          title="Manage This Team"
+          title="Manage This Insurance"
           data={dataInsurance}
           action={fetchDataInsurance}
         />
@@ -158,7 +158,7 @@ const ManageLayanan = () => {
               <ModalAdd
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
-                title="Add Member"
+                title="Add Insurance Service"
                 data={dataInsurance}
                 action={fetchDataInsurance}
               />

@@ -47,7 +47,7 @@ const Kredit = () => {
           <ModalAddLoan
             isOpen={isModalAddOpened}
             setIsOpen={setIsModalAddOpened}
-            title="Tambah Allowance"
+            title="Add Loan"
             action={fetchDataLoan}
           />
 
