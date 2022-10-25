@@ -125,7 +125,7 @@ const DetailSalary = () => {
                   ))}
                 </p>
                 <p>{detailSalary.bonus}</p>
-                <p className="font-bold"><RupiahMoneyFormat num={detailSalary.gross} /></p>
+                <p className="font-bold">{detailSalary.gross}</p>
             </div>
             </div>
           </div>

@@ -30,6 +30,7 @@ import { AuthRedirect } from './Auth/AuthProvider';
 import AllowanceAdd from './Dashboard/AllowanceAdd';
 import LeaveRequest from './Dashboard/Attendance/LeaveRequest';
 import NetSalary from './Dashboard/Payroll/NetSalary';
+import RoleEdit from './Dashboard/RoleEdit';
 // import Spinner from '../Components/Spinner';
 
 export default function Dashboard(props) {
@@ -76,6 +77,7 @@ export default function Dashboard(props) {
                     <Route path="manageInsurance/:id" element={<ManageInsurance />} />
                     <Route path="emp/:id" element={<Detail />} />
                     <Route path="addRole" element={<AddRole />} />
+                    <Route path="RoleEdit" element={<RoleEdit />} />
                     <Route path="attendanceSettings" element={<AttendanceSettings />} />
                     <Route path="allowanceAdd" element={<AllowanceAdd />} />
                 </Routes>
