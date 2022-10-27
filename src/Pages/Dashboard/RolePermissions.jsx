@@ -16,7 +16,7 @@ const RolePermissions = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [roleDetails, setRoleDetails] = useState([]);
   const [modalDetailsRole, setModalDetailsRole] = useState(false);
-  
+
   const fetchDataRole = async (page = 1, search = "") => {
     const result = await axios.get(
       `/api/roles?search=${search}&page=${page}`,
@@ -52,13 +52,13 @@ const RolePermissions = () => {
   const handleSearchRole = (e) => {
     try {
       fetchDataRole(1, e.target.value);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const handleSearchPermissions = (e) => {
     try {
       feacthDataPermissions(1, e.target.value);
-    } catch (err) {}
+    } catch (err) { }
   };
 
   return (
@@ -149,7 +149,7 @@ const RolePermissions = () => {
                 <tr>
                   <th>#</th>
                   <th className="w-1/2">Permission</th>
-                  <th className="w-1/2">Roles</th>
+                  <th className="w-1/2">Description</th>
                 </tr>
               </thead>
               <tbody className="text-sm font-medium text-gray-600">
@@ -164,14 +164,15 @@ const RolePermissions = () => {
                             bg="bg-blue-500 "
                             text="details"
                           /> */}
-                          {
+                          {/* {
                             dataPermissions.data[row].roles ? Object.keys(dataPermissions.data[row].roles).map((row2, index) => (
                                 <ButtonNormal
                                     bg="bg-blue-500 "
                                     text={dataPermissions.data[row].roles[row2].nameRole}
                                 />
                             )) : ''
-                          }
+                          } */}
+                          <span className="text-gray-600 text-xs">{dataPermissions.data[row].description}</span>
                         </div>
                       </td>
                     </tr>

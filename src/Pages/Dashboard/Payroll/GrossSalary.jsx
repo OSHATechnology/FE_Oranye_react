@@ -43,7 +43,7 @@ const GrossSalary = () => {
             name=""
             id="month"
             className="h-6 rounded border border-gray-400 text-xs text-gray-600"
-            max={moment().format("YYYY-MM")}
+            max={moment().add(1, 'M').format("YYYY-MM")}
             value={month}
             onChange={handleSalary}
           />

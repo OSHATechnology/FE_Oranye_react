@@ -1,6 +1,6 @@
 import TitleDashboard from "../../Components/TitleDashboard";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import ButtonNormal from "../../Components/ButtonNormal";
 import { Icon } from "@iconify/react";
 import axios from "axios";
@@ -19,16 +19,47 @@ const fectDataPermissions = async () => {
 };
 
 const RoleEdit = () => {
+  const [searchParams] = useSearchParams();
   const [listPermissions, setListPermissions] = useState([]);
   const [nameRole, setNameRole] = useState("");
   const [descriptionRole, setDescriptionRole] = useState("");
   const [listPermissionsRole, setListPermissionsRole] = useState([]);
+  const [basicSalaryRole, setBasicSalaryRole] = useState(0);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    fectDataPermissions().then((data) => {
-      setListPermissions(data.data);
-    });
-  }, []);
+  const fetchRole = async () => {
+    try {
+      const response = await axios.get(`api/roles/${searchParams.get('id')}`, ConfigHeader);
+      setNameRole(response.data.data.nameRole);
+      setDescriptionRole(response.data.data.description);
+    } catch (error) {
+
+    }
+  };
+
+  const fetchDataRolePermissions = async () => {
+    try {
+      const response = await axios.get(`api/role-permissions?roleId=${searchParams.get('id')}`, ConfigHeader);
+      const arrayItems = [];
+      response.data.data.map((item) => {
+        item.data.map((item2) => {
+          arrayItems.push(item2.id);
+        });
+      });
+      setListPermissionsRole(arrayItems);
+    } catch (error) {
+
+    }
+  };
+
+  const fetchSalaryRole = async () => {
+    try {
+      const response = await axios.get(`api/basic_salary_by_role/${searchParams.get('id')}`, ConfigHeader);
+      setBasicSalaryRole(response.data.data.fee);
+    } catch (error) {
+
+    }
+  };
 
   const togglePermissionGroup = (e) => {
     const id = e.target.id;
@@ -59,26 +90,43 @@ const RoleEdit = () => {
 
   const onChangePermission = (e) => {
     const isChecked = e.target.checked;
+    // let arrayPermissions = listPermissionsRole;
     if (isChecked) {
-      setListPermissionsRole([...listPermissionsRole, e.target.value]);
+      setListPermissionsRole([...listPermissionsRole, parseInt(e.target.value)]);
     } else {
-      const index = listPermissionsRole.indexOf(e.target.value);
-      listPermissionsRole.splice(index, 1);
-      setListPermissionsRole(listPermissionsRole);
+      const index = listPermissionsRole.indexOf(parseInt(e.target.value));
+      if (index > -1) {
+        listPermissionsRole.splice(index, 1);
+        setListPermissionsRole(listPermissionsRole);
+      }
     }
   };
 
-  const addRole = async (data) => {
+  const editRole = async (data) => {
     try {
-      const response = await axios.post("api/roles", data, ConfigHeader);
-      return response;
+      const response = await axios.put(`api/roles/${searchParams.get('id')}`, data, ConfigHeader);
+      console.log(response);
     } catch (error) {
       return error;
     }
   };
 
-  const addRolePermissions = async (roleId, data) => {
+  const editBasicSalaryRole = async (data) => {
     try {
+      const response = await axios.put(`api/basic_salary_by_role/${data.roleId}}`, data, ConfigHeader);
+      console.log(response);
+    } catch (error) {
+
+    }
+  }
+
+  const editRolePermissions = async (roleId, data) => {
+    try {
+      await axios.delete(`api/roles-permissions/detachAll`, {
+        data: {
+          roleId: roleId,
+        },
+      }, ConfigHeader);
       data.forEach(async (item) => {
         const response = await axios.post(
           "api/role-permissions",
@@ -101,21 +149,36 @@ const RoleEdit = () => {
       nameRole: nameRole,
       description: descriptionRole,
     };
+
+    const dataBasicSalary = {
+      roleId: searchParams.get('id'),
+      fee: basicSalaryRole,
+    };
+
     const dataRolePermissions = {
+      roleId: searchParams.get('id'),
       roles_permissions: listPermissionsRole,
     };
 
-    addRole(dataRole).then((data) => {
-      console.log(data);
-      if (data.status === 200) {
-        addRolePermissions(data.data.data.roleId, listPermissionsRole).then(
-          (data) => {
-            console.log("response : " + data);
-          }
-        );
-      }
+    editRole(dataRole).then((data) => {
+      editRolePermissions(dataRolePermissions.roleId, dataRolePermissions.roles_permissions).then((data) => {
+        console.log(data);
+      });
+      editBasicSalaryRole(dataBasicSalary).then((data) => {
+        console.log(data);
+      });
     });
   };
+
+  useEffect(() => {
+    fetchRole();
+    fetchDataRolePermissions().then(() => {
+      fectDataPermissions().then((data) => {
+        setListPermissions(data.data);
+      });
+      fetchSalaryRole();
+    });
+  }, []);
 
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -138,7 +201,7 @@ const RoleEdit = () => {
             <p className="text-lg font-semibold text-gray-700">Role Name</p>
           </div>
           <div className="basis-4/5 ">
-            <input type="text" className="w-full rounded h-8" />
+            <input type="text" className="w-full rounded h-8" value={nameRole} onChange={(e) => setNameRole(e.target.value)} />
           </div>
         </div>
         <div className="flex flex-row w-full items-center justify-center md:justify-start">
@@ -148,7 +211,7 @@ const RoleEdit = () => {
             </p>
           </div>
           <div className="basis-4/5 ">
-            <input type="text" className="w-full rounded h-8" />
+            <input type="number" value={basicSalaryRole} onChange={(e) => setBasicSalaryRole(e.target.value)} className="w-full rounded h-8" />
           </div>
         </div>
         <div className="flex flex-row w-full items-start justify-center md:justify-start">
@@ -164,6 +227,8 @@ const RoleEdit = () => {
               cols="30"
               rows="2"
               className="w-full rounded"
+              onChange={(e) => setDescriptionRole(e.target.value)}
+              value={descriptionRole}
             ></textarea>
           </div>
         </div>
@@ -211,6 +276,7 @@ const RoleEdit = () => {
                                     "rounded border border-gray-400 item-permission-" +
                                     item.id
                                   }
+                                  checked={listPermissionsRole.includes(permis.id)}
                                 />
                                 <label
                                   htmlFor={
@@ -263,6 +329,7 @@ const RoleEdit = () => {
                                     "rounded border border-gray-400 item-permission-" +
                                     item.id
                                   }
+                                  checked={listPermissionsRole.includes(permis.id)}
                                 />
                                 <label
                                   htmlFor={
