@@ -10,6 +10,7 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
   const [name, setName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [address, setAddress] = useState('');
+  const [dataRole, setDataRole] = useState([]);
   const [dataInsurance, setDataInsurance] = useState([]);
   const actionRefresh = action ? action : null;
 
@@ -17,6 +18,12 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
     setName(data.name);
     setCompanyName(data.company);
     setAddress(data.address);
+
+    const fetchDataRole = async () => {
+      const data = await axios.get(`/api/roles`, ConfigHeader);
+      setDataRole(data.data.data.data);
+    };
+    fetchDataRole();
   }, [data]);
 
   const handleSubmit = async (e) => {
@@ -71,7 +78,7 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
           </div>
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
             <div className="">
-              <p className="text-sm font-extrabold text-gray-600">Insura</p>
+              <p className="text-sm font-extrabold text-gray-600">Insurance</p>
               <input
                 type="text"
                 placeholder="Team Name"
@@ -108,6 +115,32 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
                 className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
               />
             </div>
+            <div className="">
+                <p className="text-sm font-extrabold text-gray-600">Role</p>
+                <div className="flex gap-4">
+                  {dataRole &&
+                    dataRole.map((item, index) => {
+                      return (
+                        <div>
+                          <div className="flex items-center gap-1">
+                            <input
+                              type="checkbox"
+                              id={"role" + item.roleId}
+                              value={item.roleId}
+                              className={
+                                "rounded border border-gray-400 item-permission-"
+                              }
+                            />
+                            <label
+                              htmlFor={"role" + item.roleId}
+                              className="text-sm font-medium text-gray-600"
+                            >{item.nameRole}</label>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
           </div>
 
           <div className="flex justify-between">

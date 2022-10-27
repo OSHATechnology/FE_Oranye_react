@@ -37,18 +37,8 @@ const ManageSalaryByEmployee = ({
             </button>
           </div>
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
-            {/* <div className="">
-            <p className="text-sm font-extrabold text-gray-600">Team Name</p>
-            <input
-              type="text"
-              placeholder="Team Name"
-          
-             
-              autoFocus
-              className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-            />
-          </div> */}
-            <div className="">
+        <div className="flex items-end gap-2">
+            <div className="w-full">
               <p className="text-sm font-extrabold text-gray-600">
                 Set Salary for Employee
               </p>
@@ -56,13 +46,15 @@ const ManageSalaryByEmployee = ({
                 type="text"
                 placeholder="Salary Employee"
                 autoFocus
-                className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                className="rounded w-full border border-gray-300 text-xs text-gray-700 font-medium"
               />
             </div>
+          
+          <div className="flex justify-center">
+            {/* <ButtonNormal bg="bg-red-500 " text="Delete Team" width="w-30" /> */}
+            <ButtonNormal bg="bg-green-500 " text="Save" width="w-16" />
           </div>
-          <div className="flex justify-between">
-            <ButtonNormal bg="bg-red-500 " text="Delete Team" width="w-30" />
-            <ButtonNormal bg="bg-yellow-500 " text="Save" width="w-16" />
+          </div>
           </div>
         </div>
       </Dialog>
