@@ -178,7 +178,7 @@ const AddLoan = ({ isOpen, setIsOpen, title, action = null }) => {
           </div>
 
           <div className="flex justify-end gap-2">
-            <ButtonNormal bg="bg-gray-400 " text="Cancel" width="w-16" />
+            <ButtonNormal bg="bg-gray-400 " text="Cancel" width="w-16" onClick={() => setIsOpen(false)} />
             <button
               type="submit"
               form="add_allowance_form"

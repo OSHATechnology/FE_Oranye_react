@@ -156,7 +156,7 @@ const AttendanceSettings = () => {
               <ModalAddFurloughType
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
-                title="Tambah Karyawan"
+                title="Add Furlough Type"
                 action={fetchDataFurlough}
               />
             </div>
@@ -264,7 +264,7 @@ const AttendanceSettings = () => {
               <ModalAddAttendanceStatus
                 isOpen={isModalAttendanceStatusAddOpened}
                 setIsOpen={setIsModalAttendanceStatusAddOpened}
-                title="Tambah Karyawan"
+                title="Add Attendance Status"
                 action={fetchDataAttendanceStatus}
               />
             </div>

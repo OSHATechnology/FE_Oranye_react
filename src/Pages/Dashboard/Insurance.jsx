@@ -8,14 +8,6 @@ import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
 import ModalAdd from "../../Components/Modal/AddInsurance";
 
-// const fecthListItem = async (insuranceId) => {
-//   const response = await axios.get(
-//     "api/insurance_item?insuranceId=" + insuranceId,
-//     ConfigHeader
-//   );
-//   return response.data;
-// };
-
 const Insurance = (data) => {
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [dataInsurance, setDataInsurance] = useState([]);
@@ -60,7 +52,7 @@ const Insurance = (data) => {
               <ModalAdd
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
-                title="Add New Team"
+                title="Add New Insurance"
                 action={fetchDataInsurance}
               />
             </div>

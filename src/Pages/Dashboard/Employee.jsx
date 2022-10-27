@@ -89,7 +89,7 @@ const Employee = () => {
               <ModalAdd
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
-                title="Tambah Employee"
+                title="Add Employee"
                 action={fetchDataEmployee}
               />
               <ButtonNormal
@@ -102,7 +102,7 @@ const Employee = () => {
               <ModalImport
                 isOpen={isModalImportOpened}
                 setIsOpen={setIsModalImportOpened}
-                title="Import Data Karyawan"
+                title="Import Employee"
               />
             </div>
 

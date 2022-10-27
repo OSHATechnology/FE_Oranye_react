@@ -113,7 +113,7 @@ const Allowance = () => {
               <ModalAddAllowance
                 isOpen={isModalAddOpened}
                 setIsOpen={setIsModalAddOpened}
-                title="Tambah Allowance"
+                title="Add Allowance"
                 action={fetchDataAllowance}
               />
             </div>

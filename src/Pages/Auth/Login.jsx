@@ -62,7 +62,7 @@ export default function Login(props) {
     return (
         <div className="flex items-center min-h-screen p-4 bg-amber-100 justify-center">
             <div className="flex flex-col w-screen overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md">
-                <div className="hidden p-4 py-6 h-full lg:h-auto bg-[url('assets/kantor.jpeg')] bg-cover bg-center md:flex md:w-60 md:flex-shrink-0  md:flex-col min-h-full md:items-center md:justify-evenly"></div>
+                <div className="hidden p-4 py-6 h-full lg:h-auto bg-[url('assets/oranye-login.png')] bg-cover bg-center md:flex md:w-60 md:flex-shrink-0  md:flex-col min-h-full md:items-center md:justify-evenly"></div>
                 <div className="p-5 bg-white md:flex-1">
                     <h3 className="my-4 text-2xl mb-16 text-orange-500 text-center font-bold">
                         Login

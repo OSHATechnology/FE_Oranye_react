@@ -42,7 +42,7 @@ const DetailSalary = () => {
     fetchDataDetailSalary()
 
   }, [paramsData]);
-  // console.log(detailSalary)
+  console.log(detailSalary)
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -79,8 +79,7 @@ const DetailSalary = () => {
               <tr>
                 <td>Role</td>
                 <td className="px-2">:</td>
-                <td>{detailSalary.employee && detailSalary.employee.role}</td>
-                {/* <td>{dataEmp.role && dataEmp.role.role}</td> */}
+                <td>{detailSalary.role}</td>
               </tr>
             </tbody>
           </table>
@@ -130,14 +129,26 @@ const DetailSalary = () => {
                 <p>Loan</p>
                 <p>Tax</p>
                 <p>Insurance</p>
+                <p className="text-xs text-slate-600 list-none ml-2">
+                  {detailSalary.allowance_item && detailSalary.allowance_item.map((item) => (
+                    <li>{item.name}</li>
+                  ))}
+                </p>
                 <p className="font-bold ">Total</p>
               </div>
               <div className="basis-2/5  text-xs md:text-sm text-slate-800 font-medium">
                 <p>5%</p>
-                <p>0</p>
-                <p>5%</p>
-                <p>0</p>
-                <p>23023</p>
+                <p>{detailSalary.loan}</p>
+                <p>{detailSalary.tax}</p>
+                <p>&nbsp;</p>
+                <p className="text-xs text-slate-600 list-none ml-2">
+                  {detailSalary.deduction_item && detailSalary.deduction_item.map((item) => (
+                    <>
+                      <li><RupiahMoneyFormat num={item.fee} disableRp={true} /></li>
+                    </>
+                  ))}
+                </p>
+                <p>{detailSalary.total_deduction}</p>
               </div>
             </div>
           </div>

@@ -62,7 +62,7 @@ const Salary = (data) => {
       navigate('../emp');
     });
   }, []);
-
+console.log(dataSalary)
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
