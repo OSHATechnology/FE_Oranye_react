@@ -10,6 +10,8 @@ const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) 
     const [name, setName] = useState("");
     const [type, setType] = useState("");
     const [percent, setPercent] = useState("");
+    
+  const [dataRole, setDataRole] = useState([]);
     const [dataInsuranceItem, setDataInsuranceItem] = useState({});
     const [dataInsurance, setDataInsurance] = useState({});
     const actionRefresh = action ? action : null;
@@ -20,14 +22,6 @@ const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) 
         setType("");
         setPercent("");
       }
-
-    //   useEffect(() => {
-    //     const fetchDataInsurance = async () => {
-    //       const data = await axios.get(`/api/insurance`, ConfigHeader);
-    //       setDataInsurance(data.data.data.data);
-    //     };
-    //     fetchDataInsurance();
-    //   }, []);
 
       const handleSubmit = async (e) => {
         e.preventDefault();
@@ -51,6 +45,11 @@ const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) 
 
       useEffect(() => {
         setDataInsurance(data.data);
+        const fetchDataRole = async () => {
+          const data = await axios.get(`/api/roles`, ConfigHeader);
+          setDataRole(data.data.data.data);
+        };
+        fetchDataRole();
       }, [data]);
 
   return (
@@ -91,47 +90,6 @@ const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) 
                   className="rounded-lg w-full bg-gray-100 border border-gray-300 text-xs text-gray-700 font-semibold"
                 />
               </div>
-
-              {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">
-                  Employee Name
-                </p>
-                <select
-                  name="Employee"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => setName(e.target.value)}
-                >
-                  <option value="-" selected disabled>
-                    -- Select Member --
-                  </option>
-                  {dataEmployee.map((row, index) => (
-                    <option value={row.employeeId} key={index}>
-                      {row.name}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
-              {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">
-                  Assigned By
-                </p>
-                <select
-                  name="Employee"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => setAssignedBy(e.target.value)}
-                >
-                  <option value="-" selected disabled>
-                    -- select Employee --
-                  </option>
-                  {dataEmployee.map((row, index) => (
-                    <option value={row.employeeId} key={index}>
-                      {row.name}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Service Name</p>
                 <input
@@ -144,13 +102,6 @@ const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) 
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Service Type</p>
-                {/* <input
-                  type="text"
-                  placeholder="type"
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                /> */}
                 <select
                   name="type"
                   id=""
@@ -173,7 +124,32 @@ const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) 
                   onChange={(e) => setPercent(e.target.value)}
                 />
               </div>
-              
+              <div className="">
+                <p className="text-sm font-extrabold text-gray-600">Role</p>
+                <div className="flex gap-4">
+                  {dataRole &&
+                    dataRole.map((item, index) => {
+                      return (
+                        <div>
+                          <div className="flex items-center gap-1">
+                            <input
+                              type="checkbox"
+                              id={"role" + item.roleId}
+                              value={item.roleId}
+                              className={
+                                "rounded border border-gray-400 item-permission-"
+                              }
+                            />
+                            <label
+                              htmlFor={"role" + item.roleId}
+                              className="text-sm font-medium text-gray-600"
+                            >{item.nameRole}</label>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
             </form>
           </div>
 

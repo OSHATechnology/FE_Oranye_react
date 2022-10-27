@@ -176,6 +176,7 @@ const ManageLayanan = () => {
                 <th>Service Name</th>
                 <th>Service Type</th>
                 <th>Percent</th>
+                <th>Role</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -188,6 +189,7 @@ const ManageLayanan = () => {
                       <td>{dataItem[row].name}</td>
                       <td>{dataItem[row].type}</td>
                       <td>{dataItem[row].percent}</td>
+                      <td>role</td>
                       <td>
                         <div className="flex justify-center gap-1">
 
