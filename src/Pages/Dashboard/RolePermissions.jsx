@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ButtonNormal from "../../Components/ButtonNormal";
-import ButtonSmall from "../../Components/ButtonSmall";
 import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
-import Modal from "../../Components/Modal/ModalRoleDetail";
 import { Link } from "react-router-dom";
 import ModalDetail from "../../Components/Modal/ModalDetail";
 import Search from "../../Components/Search";
@@ -13,7 +11,6 @@ import Pagination from "react-js-pagination";
 const RolePermissions = () => {
   const [dataRole, setDataRole] = useState([]);
   const [dataPermissions, setDataPermissions] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [roleDetails, setRoleDetails] = useState([]);
   const [modalDetailsRole, setModalDetailsRole] = useState(false);
 

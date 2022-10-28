@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
@@ -19,7 +19,7 @@ const AddInsurance = ({ isOpen, setIsOpen, title, action = null }) => {
   }
 
   useEffect(() => {
-   
+
   }, []);
 
   const handleSubmit = async (e) => {
@@ -102,7 +102,7 @@ const AddInsurance = ({ isOpen, setIsOpen, title, action = null }) => {
                   onChange={(e) => setAddress(e.target.value)}
                 ></textarea>
               </div>
-              
+
             </form>
           </div>
 

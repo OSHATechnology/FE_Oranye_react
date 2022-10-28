@@ -88,18 +88,26 @@ const RoleEdit = () => {
     roleId = [];
   };
 
-  const onChangePermission = (e) => {
-    const isChecked = e.target.checked;
-    // let arrayPermissions = listPermissionsRole;
-    if (isChecked) {
-      setListPermissionsRole([...listPermissionsRole, parseInt(e.target.value)]);
-    } else {
-      const index = listPermissionsRole.indexOf(parseInt(e.target.value));
-      if (index > -1) {
-        listPermissionsRole.splice(index, 1);
-        setListPermissionsRole(listPermissionsRole);
-      }
-    }
+  const onChangePermission = (e, permisId) => {
+    // const isChecked = e.target.checked;
+    // // let arrayPermissions = listPermissionsRole;
+    // if (isChecked) {
+    //   setListPermissionsRole([...listPermissionsRole, parseInt(e.target.value)]);
+    // } else {
+    //   const index = listPermissionsRole.indexOf(parseInt(e.target.value));
+    //   if (index > -1) {
+    //     listPermissionsRole.splice(index, 1);
+    //     setListPermissionsRole(listPermissionsRole);
+    //   }
+    // }
+    // console.log(e);
+    setListPermissionsRole(
+      listPermissionsRole.includes(permisId) ? listPermissionsRole.filter(
+        (item) => item !== parseInt(e.target.value)
+      )
+        : [...listPermissionsRole, parseInt(e.target.value)]
+    );
+    console.log(listPermissionsRole);
   };
 
   const editRole = async (data) => {
@@ -271,7 +279,7 @@ const RoleEdit = () => {
                                   type="checkbox"
                                   id={"permis_" + item.id + "_" + permis.id}
                                   value={permis.id}
-                                  onChange={onChangePermission}
+                                  onClick={(e) => onChangePermission(e, permis.id)}
                                   className={
                                     "rounded border border-gray-400 item-permission-" +
                                     item.id
@@ -324,7 +332,7 @@ const RoleEdit = () => {
                                   type="checkbox"
                                   id={"permis_" + item.id + "_" + permis.id}
                                   value={permis.id}
-                                  onChange={onChangePermission}
+                                  onClick={(e) => onChangePermission(e, permis.id)}
                                   className={
                                     "rounded border border-gray-400 item-permission-" +
                                     item.id

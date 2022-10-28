@@ -1,27 +1,34 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 
 const EditFormInsuranceItem = (data) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [dataRole, setDataRole] = useState([]);
   const [percent, setPercent] = useState("");
-  const loadData = data.handleFetchData ? data.handleFetchData : () => {};
-  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => {};
+  const [listRoleInsurance, setListRoleInsurance] = useState([]);
+  const loadData = data.handleFetchData ? data.handleFetchData : () => { };
+  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
+
+
+  const fetchDataRole = async () => {
+    try {
+      const data = await axios.get(`/api/roles`, ConfigHeader);
+      setDataRole(data.data.data.data);
+    } catch (error) {
+
+    }
+  };
 
   useEffect(() => {
     setName(data.data.name);
     setType(data.data.type);
     setPercent(data.data.percent);
-
-    const fetchDataRole = async () => {
-      const data = await axios.get(`/api/roles`, ConfigHeader);
-      setDataRole(data.data.data.data);
-    };
-    fetchDataRole();
+    setListRoleInsurance(data.data.roles ? data.data.roles.map((item) => item.roleId) : []);
+    fetchDataRole().then(() => {
+    });
   }, [data.data]);
 
   const handleSubmit = async (e) => {
@@ -42,7 +49,6 @@ const EditFormInsuranceItem = (data) => {
         console.log(err.response);
       });
   };
-console.log(dataRole)
   return (
     <div className="space-y-2">
       <div className=" space-y-1 mb-4">
@@ -85,31 +91,44 @@ console.log(dataRole)
             />
           </div>
           <div className="">
-                <p className="text-sm font-extrabold text-gray-600">Role</p>
-                <div className="flex gap-4">
-                  {dataRole &&
-                    dataRole.map((item, index) => {
-                      return (
-                        <div>
-                          <div className="flex items-center gap-1">
-                            <input
-                              type="checkbox"
-                              id={"role" + item.roleId}
-                              value={item.roleId}
-                              className={
-                                "rounded border border-gray-400 item-permission-"
-                              }
-                            />
-                            <label
-                              htmlFor={"role" + item.roleId}
-                              className="text-sm font-medium text-gray-600"
-                            >{item.nameRole}</label>
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
+            <p className="text-sm font-extrabold text-gray-600">Role</p>
+            <div className="flex gap-4">
+              {(dataRole && listRoleInsurance) &&
+                dataRole.map((item, index) => {
+                  return (
+                    <div>
+                      <div className="flex items-center gap-1">
+                        <input
+                          type="checkbox"
+                          id={"role" + item.roleId}
+                          value={item.roleId}
+                          className={
+                            "rounded border border-gray-400 item-permission-"
+                          }
+                          checked={listRoleInsurance.includes(item.roleId)}
+                          onClick={(e) => {
+                            setListRoleInsurance(
+                              listRoleInsurance.includes(item.roleId) ? listRoleInsurance.filter(
+                                (item) => item !== parseInt(e.target.value)
+                              )
+                                : [...listRoleInsurance, parseInt(e.target.value)]
+                            );
+                            console.log(listRoleInsurance);
+                          }}
+                        // onChange={(e) => {
+                        //   e.target.checked = false
+                        // }}
+                        />
+                        <label
+                          htmlFor={"role" + item.roleId}
+                          className="text-sm font-medium text-gray-600"
+                        >{item.nameRole}</label>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
         </form>
       </div>
 

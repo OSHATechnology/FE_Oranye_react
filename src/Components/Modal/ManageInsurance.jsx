@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
 import ModalDelete from "../../Components/Modal/ModalDelete";
@@ -101,17 +101,17 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
                 Address
               </p>
               <textarea
-                  name=""
-                  id=""
-                  cols="30"
-                  rows="5"
-                  placeholder="Address"
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                ></textarea>
+                name=""
+                id=""
+                cols="30"
+                rows="5"
+                placeholder="Address"
+                className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              ></textarea>
             </div>
-            
+
           </div>
 
           <div className="flex justify-between">
@@ -137,7 +137,6 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
               title="Delete Insurance"
               typeData="insurance"
               data={insuranceDeleteData}
-              // action={() => window.location.reload}
               action={refresh}
             />
           )}

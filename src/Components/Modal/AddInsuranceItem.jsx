@@ -6,51 +6,72 @@ import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 
 const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) => {
-    const [insuranceId, setInsuranceId] = useState("");
-    const [name, setName] = useState("");
-    const [type, setType] = useState("");
-    const [percent, setPercent] = useState("");
-    
+  const [insuranceId, setInsuranceId] = useState("");
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [percent, setPercent] = useState("");
+
   const [dataRole, setDataRole] = useState([]);
-    const [dataInsuranceItem, setDataInsuranceItem] = useState({});
-    const [dataInsurance, setDataInsurance] = useState({});
-    const actionRefresh = action ? action : null;
+  const [dataInsurance, setDataInsurance] = useState({});
+  const [listRoleInsurance, setListRoleInsurance] = useState([]);
+  const actionRefresh = action ? action : null;
 
-    function changeDataToNull() {
-        setInsuranceId("");
-        setName("");
-        setType("");
-        setPercent("");
-      }
+  function changeDataToNull() {
+    setInsuranceId("");
+    setName("");
+    setType("");
+    setPercent("");
+  }
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        const data = {
-          insuranceId: dataInsurance.id,
-          name: name,
-          type: type,
-          percent: percent,
-        };
-    
-        try {
-          const rslt = await axios.post(`/api/insurance_item`, data, ConfigHeader);
-          console.log(rslt);
-          setIsOpen(false);
-          actionRefresh !== null && actionRefresh();
-          changeDataToNull();
-        } catch (error) {
-          console.log(error);
-        }
-      };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      insuranceId: dataInsurance.id,
+      name: name,
+      type: type,
+      percent: percent,
+    };
 
-      useEffect(() => {
-        setDataInsurance(data.data);
-        const fetchDataRole = async () => {
-          const data = await axios.get(`/api/roles`, ConfigHeader);
-          setDataRole(data.data.data.data);
-        };
-        fetchDataRole();
-      }, [data]);
+    try {
+      const rslt = await axios.post(`/api/insurance_item`, data, ConfigHeader);
+
+      listRoleInsurance.map(async (item) => {
+        const rspn = await axios.post("api/insurance_item_role", {
+          insuranceItemId: rslt.data.data.id,
+          roleId: item,
+        }, ConfigHeader);
+        console.log(rspn);
+        return rspn
+      });
+      setIsOpen(false);
+      actionRefresh !== null && actionRefresh();
+      changeDataToNull();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDataRole = async () => {
+    const data = await axios.get(`/api/roles`, ConfigHeader);
+    setDataRole(data.data.data.data);
+  };
+
+  const handleListRoleInsurance = (e) => {
+    const { value } = e.target;
+    const data = listRoleInsurance;
+    const index = data.indexOf(value);
+    if (index === -1) {
+      data.push(value);
+    } else {
+      data.splice(index, 1);
+    }
+    setListRoleInsurance(data);
+  };
+
+  useEffect(() => {
+    setDataInsurance(data.data);
+    fetchDataRole();
+  }, [data.data]);
 
   return (
     <>
@@ -77,7 +98,7 @@ const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) 
             <form
               id="insurance_item_form"
               onSubmit={handleSubmit}
-             
+
             >
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">
@@ -106,7 +127,7 @@ const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) 
                   name="type"
                   id=""
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  
+
                   onChange={(e) => setType(e.target.value)}
                 >
                   <option value="allowance" disabled selected>-- Select Type --</option>
@@ -139,6 +160,7 @@ const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) 
                               className={
                                 "rounded border border-gray-400 item-permission-"
                               }
+                              onClick={handleListRoleInsurance}
                             />
                             <label
                               htmlFor={"role" + item.roleId}

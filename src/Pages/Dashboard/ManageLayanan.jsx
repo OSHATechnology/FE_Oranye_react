@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
 import Search from "../../Components/Search";
@@ -18,7 +18,6 @@ const ManageLayanan = () => {
   const [dataItem, setDataItem] = useState([]);
   const [insuranceItemDeleteData, setInsuranceItemDeleteData] = useState("");
   const [modalInsuranceItemDelete, setModalInsuranceItemDelete] = useState(false);
-  const navigate = useNavigate();
 
   const [dataInsurance, setDataInsurance] = useState([
     {
@@ -42,7 +41,7 @@ const ManageLayanan = () => {
   // Edit 
   const [modalInsuranceItemEdit, setModalInsuranceItemEdit] = useState(false);
   const [insuranceItemEditData, setInsuranceItemEditData] = useState([]);
-  const fetchDataFurloughTypeEdit = async () => {
+  const fetchDataIns = async () => {
     const result = await axios.get(
       `/api/insurance_item/${dataInsuranceItemId}`,
       ConfigHeader
@@ -52,7 +51,7 @@ const ManageLayanan = () => {
   };
   const setModalEditInsuranceItem = async (insuranceItemId) => {
     dataInsuranceItemId = insuranceItemId;
-    await fetchDataFurloughTypeEdit();
+    await fetchDataIns();
   };
 
 
@@ -77,7 +76,7 @@ const ManageLayanan = () => {
 
     }
   }
-  
+
   const refresh = () => {
     window.location.reload();
   };
@@ -189,7 +188,22 @@ const ManageLayanan = () => {
                       <td>{dataItem[row].name}</td>
                       <td>{dataItem[row].type}</td>
                       <td>{dataItem[row].percent}</td>
-                      <td>role</td>
+                      <td>
+                        {dataItem[row].roles ? (
+                          dataItem[row].roles.map((role, irole) => (
+                            <span className="" key={irole}>
+                              {role.nameRole}
+                              {irole < dataItem[row].roles.length - 1 ? (
+                                <span>, </span>
+                              ) : (
+                                ""
+                              )}
+                            </span>
+                          ))
+                        ) : (
+                          <span>-</span>
+                        )}
+                      </td>
                       <td>
                         <div className="flex justify-center gap-1">
 
@@ -230,7 +244,7 @@ const ManageLayanan = () => {
               typeData="insurance_item"
               data={insuranceItemDeleteData}
               action={fetchDataInsurance}
-              
+
             />
           )}
         </div>
