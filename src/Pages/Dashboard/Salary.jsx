@@ -129,10 +129,10 @@ console.log(dataSalary)
                           <RupiahMoneyFormat num={item.gross} />
                         </td>
                         <td>
-                          <RupiahMoneyFormat num={0} />
+                          <RupiahMoneyFormat num={item.total_deduction} />
                         </td>
                         <td>
-                          <RupiahMoneyFormat num={0} />
+                          <RupiahMoneyFormat num={item.net} />
                         </td>
                         <td>
                           <div className="flex justify-center gap-1">

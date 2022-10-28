@@ -9,27 +9,6 @@ import ConfigHeader from "../Auth/ConfigHeader";
 const DetailSalary = () => {
   const paramsData = useParams();
   const [detailSalary, setDetailSalary] = useState([]);
-  // const [dataEmp, setDataEmp] = useState([
-  //   {
-  //     employeeId: "",
-  //     name: "",
-  //     photo: "",
-  //     birthDate: "",
-  //     gender: "",
-  //     role: "",
-  //     email: "",
-  //     phone: "",
-  //     address: "",
-  //     isActive: "",
-  //     emailVerifiedAt: "",
-  //     joinedAt: "",
-  //     resignedAt: "",
-  //     statusHire: {
-  //       id: "",
-  //       status: "",
-  //     },
-  //   },
-  // ]);
 
   const fetchDataDetailSalary = async () => {
     const data = await axios.get(`/api/salary/${paramsData.id}`, ConfigHeader);
@@ -130,14 +109,14 @@ const DetailSalary = () => {
                 <p>Tax</p>
                 <p>Insurance</p>
                 <p className="text-xs text-slate-600 list-none ml-2">
-                  {detailSalary.allowance_item && detailSalary.allowance_item.map((item) => (
+                  {detailSalary.deduction_item && detailSalary.deduction_item.map((item) => (
                     <li>{item.name}</li>
                   ))}
                 </p>
                 <p className="font-bold ">Total</p>
               </div>
               <div className="basis-2/5  text-xs md:text-sm text-slate-800 font-medium">
-                <p>5%</p>
+                <p>{detailSalary.attendance}</p>
                 <p>{detailSalary.loan}</p>
                 <p>{detailSalary.tax}</p>
                 <p>&nbsp;</p>

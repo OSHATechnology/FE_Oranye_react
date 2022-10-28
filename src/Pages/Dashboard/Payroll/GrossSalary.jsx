@@ -33,7 +33,7 @@ const GrossSalary = () => {
   useEffect(() => {
     fetchGrossSalary();
   }, []);
-
+console.log(dataGross)
   return (
     <div className="w-full space-y-2 border rounded shadow p-2">
       <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
