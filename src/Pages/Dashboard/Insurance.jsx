@@ -12,6 +12,7 @@ const Insurance = (data) => {
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [dataInsurance, setDataInsurance] = useState([]);
   const [listItem, setListItem] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
   const fetchDataInsurance = async (page = 1, search = "") => {
     const result = await axios.get(
       `/api/insurance?search=${search}&page=${page}`,
@@ -22,13 +23,12 @@ const Insurance = (data) => {
 
   useEffect(() => {
     fetchDataInsurance();
-    // data.insuranceId !== undefined &&
-    //   fecthListItem(data.insuranceId).then((data) => {});
-  }, [data.insuranceId]);
+     }, [data.insuranceId]);
 
   const handleSearch = (e) => {
     try {
       fetchDataInsurance(1, e.target.value);
+      setSearchValue(e.target.value);
     } catch (err) { }
   };
 
@@ -154,86 +154,7 @@ const Insurance = (data) => {
                     </tr>
                   )
                 }
-                {/* {dataInsurance.data ? (
-                  Object.keys(dataInsurance.data).map((row, index) => (
-                    <tr
-                      key={dataInsurance.data[row].id}
-                      className="border-b border-gray-200"
-                    >
-                      <td>{index + 1}</td>
-                      <td>{dataInsurance.data[row].name}</td>
-                      <td>{dataInsurance.data[row].company}</td>
-                      <td className="w-80">
-                        <p className=" text-start flex-wrap">
-                          {dataInsurance.data[row].address}
-                        </p>
-                      </td>
-                      <td>
-                        <ul className="list-disc px-6 text-start ">
-                          {dataInsurance?.data[row]?.data
-                            ? Object.keys(dataInsurance.data[row].data).map(
-                              (key1, index1) => {
-                                return (
-                                  <li key={index1}>
-                                    {dataInsurance.data[row].data[key1].name}
-                                  </li>
-                                );
-                              }
-                            )
-                            : null}
-                        </ul>
-                      </td>
-                      <td>
-                        <ul className=" px-6 text-start">
-                          {dataInsurance?.data[row]?.data
-                            ? Object.keys(dataInsurance.data[row].data).map(
-                              (key1, index1) => {
-                                return (
-                                  <li key={index1}>
-                                    {dataInsurance.data[row].data[key1].type}
-                                  </li>
-                                );
-                              }
-                            )
-                            : null}
-                        </ul>
-                      </td>
-                      <td>
-                        <ul className=" px-6 ">
-                          {dataInsurance?.data[row]?.data
-                            ? Object.keys(dataInsurance.data[row].data).map(
-                              (key1, index1) => {
-                                return (
-                                  <li key={index1}>
-                                    {
-                                      dataInsurance.data[row].data[key1]
-                                        .percent
-                                    }
-                                  </li>
-                                );
-                              }
-                            )
-                            : null}
-                        </ul>
-                      </td>
-                      <td className="w-24">
-                        <div className="flex justify-center gap-1">
-                          <Link
-                            to={`../manageInsurance/${dataInsurance.data[row].id}`}
-                          >
-                            <span className="text-white bg-slate-600 rounded p-1">
-                              Manage
-                            </span>
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="5">Loading</td>
-                  </tr>
-                )} */}
+                
               </tbody>
             </table>
           </div>
@@ -247,7 +168,7 @@ const Insurance = (data) => {
           }
           totalItemsCount={dataInsurance?.total ? dataInsurance?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataInsurance(pageNumber);
+            fetchDataInsurance(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}

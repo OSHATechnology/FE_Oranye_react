@@ -16,6 +16,8 @@ import ModalEdit from "../../Components/Modal/ModalEdit";
 const AttendanceSettings = () => {
   const [dataFurlough, setDataFurlough] = useState([]);
   const [dataAttendanceStatus, setDataAttendanceStatus] = useState([]);
+  const [searchAttendanceValue, setSearchAttendanceValue] = useState("");
+  const [searchFurloughValue, setSearchFurloughValue] = useState("");
   const paramsData = useParams();
 
   const fetchDataFurlough = async (page = 1, search = "", per_page = 10) => {
@@ -53,12 +55,14 @@ const AttendanceSettings = () => {
   const handleSearchFurlough = (e) => {
     try {
       fetchDataFurlough(1, e.target.value);
+      setSearchFurloughValue(e.target.value);
     } catch (err) {}
   };
 
   const handleSearchAttendance = (e) => {
     try {
       fetchDataAttendanceStatus(1, e.target.value);
+      setSearchAttendanceValue(e.target.value);
     } catch (err) {}
   };
 
@@ -180,7 +184,7 @@ const AttendanceSettings = () => {
                       key={dataFurlough.data[row].furTypeId}
                       className=" shadow "
                     >
-                      <td>{index + 1}</td>
+                      <td>{parseInt(row) + 1}</td>
                       <td>{dataFurlough.data[row].name}</td>
                       <td>{dataFurlough.data[row].max}</td>
                       <td>{dataFurlough.data[row].type}</td>
@@ -240,7 +244,7 @@ const AttendanceSettings = () => {
             itemsCountPerPage={dataFurlough?.per_page ? dataFurlough?.per_page : 0}
             totalItemsCount={dataFurlough?.total ? dataFurlough?.total : 0}
             onChange={(pageNumber) => {
-              fetchDataFurlough(pageNumber);
+              fetchDataFurlough(pageNumber, searchFurloughValue);
             }}
             innerClass="flex justify-center items-center gap-2 my-8 "
             pageRangeDisplayed={8}
@@ -287,7 +291,7 @@ const AttendanceSettings = () => {
                       key={dataAttendanceStatus.data[row].attendanceStatusId}
                       className=" shadow "
                     >
-                      <td>{index + 1}</td>
+                      <td>{parseInt(row) + 1}</td>
                       <td className="">{dataAttendanceStatus.data[row].status}</td>
                       <td>
                       <div className="flex justify-center gap-1">
@@ -346,7 +350,7 @@ const AttendanceSettings = () => {
             itemsCountPerPage={dataAttendanceStatus?.per_page ? dataAttendanceStatus?.per_page : 0}
             totalItemsCount={dataAttendanceStatus?.total ? dataAttendanceStatus?.total : 0}
             onChange={(pageNumber) => {
-              fetchDataAttendanceStatus(pageNumber);
+              fetchDataAttendanceStatus(pageNumber, searchAttendanceValue);
             }}
             innerClass="flex justify-center items-center gap-2 my-8 "
             pageRangeDisplayed={8}

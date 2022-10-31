@@ -18,6 +18,7 @@ const Attendance = () => {
   const [dataAttendance, setDataAttendance] = useState([]);
   const [dataOvertime, setDataOvertime] = useState([]);
   const [customDate, setCustomDate] = useState("");
+  const [searchValue, setSearchValue] = useState("");
 
   const [modalAttendance, setModalAttendance] = useState(false);
   const [attendanceDetail, setAttendanceDetail] = useState([]);
@@ -84,6 +85,7 @@ const Attendance = () => {
   const handleSearch = (e) => {
     try {
       fetchDataAttendance(1, e.target.value);
+      setSearchValue(e.target.value);
     } catch (err) {
 
     }
@@ -197,7 +199,7 @@ const Attendance = () => {
                 dataAttendance.data ? Object.keys(dataAttendance.data).map((row, index) =>
                 (
                   <tr key={dataAttendance.data[row].id} className=" shadow ">
-                    <td>{index + 1}</td>
+                    <td>{parseInt(row) + 1}</td>
                     <td>{dataAttendance.data[row].employee.name}</td>
                     <td>{dataAttendance.data[row].attendanceStatus.status}</td>
                     <td>{dataAttendance.data[row].typeInOut}</td>
@@ -242,7 +244,7 @@ const Attendance = () => {
           itemsCountPerPage={dataAttendance?.per_page ? dataAttendance?.per_page : 0}
           totalItemsCount={dataAttendance?.total ? dataAttendance?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataAttendance(pageNumber)
+            fetchDataAttendance(pageNumber, searchValue)
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}

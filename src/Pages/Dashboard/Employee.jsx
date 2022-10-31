@@ -144,7 +144,6 @@ const Employee = () => {
                     <td>{dataEmployee.data[row].name}</td>
                     <td>{dataEmployee.data[row].email}</td>
                     <td>{dataEmployee.data[row].role.role}</td>
-                    {/* <td>{moment(dataEmployee.data[row].joinedAt).format("DD MMMM YYYY")}</td> */}
                     <td>
                       <div className="flex justify-center gap-1">
                         <Link

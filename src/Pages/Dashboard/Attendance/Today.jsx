@@ -18,6 +18,7 @@ const Today = () => {
 
   const [modalToday, setModalToday] = useState(false);
   const [todayDetail, setTodayDetail] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   let dataTodayId = "";
   const showModalDetail = async (todayId) => {
@@ -40,7 +41,8 @@ const Today = () => {
       `/api/attendance/today?search=${search}&page=${page}`,
       ConfigHeader
     );
-    setDataToday(result.data.data.data);
+    setDataToday(result.data.data);
+    console.log(result.data.data);
   };
   useEffect(() => {
     fetchDataToday().catch((err) => {
@@ -51,9 +53,9 @@ const Today = () => {
   const handleSearch = (e) => {
     try {
       fetchDataToday(1, e.target.value);
-    } catch (err) { }
+      setSearchValue(e.target.value);
+    } catch (err) {}
   };
-
   return (
     <div className="w-full space-y-4 pb-10">
       <div className="md:flex space-y-4 md:space-y-0 gap-8">
@@ -74,15 +76,6 @@ const Today = () => {
           </div>
           <div className="flex gap-2 md:justify-end">
             <Search onChange={handleSearch} />
-            {/* <ButtonSmall
-              icon="ant-design:filter-outlined"
-              onClick={() => setIsModalFilterOpened(!isModalFilterOpened)}
-            />
-            <ModalFilter
-              isOpen={isModalFilterOpened}
-              setIsOpen={setIsModalFilterOpened}
-              title="Filter Partner"
-            /> */}
           </div>
         </div>
         <table className="w-full text-center overflow-x-scroll">
@@ -97,66 +90,40 @@ const Today = () => {
             </tr>
           </thead>
           <tbody className="text-xs font-medium text-slate-700 md:text-sm">
-            {dataToday.map((row, index) => (
-              <tr key={row.id}>
-                <td>{index + 1}</td>
-                <td>
-                  <div className="flex items-center justify-center gap-2">
-
-                    <span>{row.employee.name}</span>
-                  </div>
-                </td>
-                <td>
-                  <div className="flex items-center justify-center">
-                    <Icon icon={row.icon} className="text-xl mr-1" />
-                    <span>{row.attendanceStatus.status}</span>
-
-                  </div>
-                </td>
-                <td>{row.typeInOut}</td>
-                <td>{row.timeAttend}</td>
-                <td>
-                  <ButtonSmall
-                    bg="bg-blue-600"
-                    icon="carbon:view"
-                    colorIcon="text-white"
-                    onClick={() => showModalDetail(row.id)}
-                  />
-
-                </td>
-              </tr>
-            ))}
-            {/* {dataToday.data ? (
-              Object.keys(dataToday.data).map((row, index) => (
-                <tr key={dataToday.data[row].id}>
-                  <td>{index + 1}</td>
-                  <td>{dataToday.data[row].employee.name}</td>
-                  <td>
-                    <div className="flex items-center justify-center">
-                      <Icon
-                        icon={dataToday.data[row].icon}
-                        className="text-xl mr-1"
+            {dataToday.data ? (
+              dataToday.data.map((row, index) => {
+                return (
+                  <tr key={row.id}>
+                    <td>{parseInt(row) + 1}</td>
+                    <td>
+                      <div className="flex items-center justify-center gap-2">
+                        <span>{row.employee.name}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center justify-center">
+                        <Icon icon={row.icon} className="text-xl mr-1" />
+                        <span>{row.attendanceStatus.status}</span>
+                      </div>
+                    </td>
+                    <td>{row.typeInOut}</td>
+                    <td>{row.timeAttend}</td>
+                    <td>
+                      <ButtonSmall
+                        bg="bg-blue-600"
+                        icon="carbon:view"
+                        colorIcon="text-white"
+                        onClick={() => showModalDetail(row.id)}
                       />
-                      <span>{dataToday.data[row].attendanceStatus.status}</span>
-                    </div>
-                  </td>
-                  <td>{dataToday.data[row].typeInOut}</td>
-                  <td>{dataToday.data[row].timeAttend}</td>
-                  <td className="w-24">
-                    <ButtonSmall
-                      bg="bg-blue-600"
-                      icon="carbon:view"
-                      colorIcon="text-white"
-                      onClick={() => showModalDetail(row.id)}
-                    />
-                  </td>
-                </tr>
-              ))
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
-                <td colSpan="5">Loading</td>
+                <td colSpan={6}>Loading</td>
               </tr>
-            )} */}
+            )}
           </tbody>
         </table>
         {modalToday && (
@@ -169,15 +136,11 @@ const Today = () => {
           />
         )}
         <Pagination
-          activePage={
-            dataToday.current_page ? dataToday.current_page : 0
-          }
-          itemsCountPerPage={
-            dataToday?.per_page ? dataToday?.per_page : 0
-          }
+          activePage={dataToday.current_page ? dataToday.current_page : 0}
+          itemsCountPerPage={dataToday?.per_page ? dataToday?.per_page : 0}
           totalItemsCount={dataToday?.total ? dataToday?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataToday(pageNumber);
+            fetchDataToday(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}

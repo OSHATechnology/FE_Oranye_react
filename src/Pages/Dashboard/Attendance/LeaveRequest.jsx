@@ -17,6 +17,7 @@ const LeaveRequest = () => {
   const [dataRequest, setDataRequest] = useState([]);
   const [confirmData, setConfirmData] = useState({ id: "", type: "" });
   const [declineData, setDeclineData] = useState({ id: "", type: "" });
+  const [searchValue, setSearchValue] = useState("");
 
   const fetchDataRequest = async (page = 1, search = "") => {
     try {
@@ -30,6 +31,7 @@ const LeaveRequest = () => {
   const handleSearch = (e) => {
     try {
       fetchDataRequest(1, e.target.value);
+      setSearchValue(e.target.value);
     } catch (err) { }
   };
 
@@ -85,7 +87,7 @@ const LeaveRequest = () => {
               {dataRequest.data ? (
                 Object.keys(dataRequest.data).map((row, index) => (
                   <tr key={index} className=" shadow ">
-                    <td>{index + 1}</td>
+                    <td>{parseInt(row) + 1}</td>
                     <td>
                       <div className="flex flex-col text-start">
                         {dataRequest.data[row].employee ? (
@@ -159,7 +161,7 @@ const LeaveRequest = () => {
           }
           totalItemsCount={dataRequest?.total ? dataRequest?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataRequest(pageNumber);
+            fetchDataRequest(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}

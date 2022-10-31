@@ -15,12 +15,12 @@ const Teams = () => {
   const [totalTeam, setTotalTeam] = useState(0);
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [dataTeam, setDataTeam] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
 const fetchDataTeam = async (page = 1,search = "") => {
   try {
     const result = await axios.get(`/api/team?search=${search}&page=${page}`, ConfigHeader);
     setDataTeam(result.data.data);
-    // setTotalTeam(result.data.data.data.length);
   } catch (error) {
     console.log(error);
   }
@@ -38,6 +38,7 @@ const fetchTotalTeam = async () => {
 const handleSearch = (e) => {
   try{
     fetchDataTeam(1,e.target.value);
+    setSearchValue(e.target.value);
   }catch(err){
 
   }
@@ -98,7 +99,7 @@ const handleSearch = (e) => {
                 dataTeam.data ? Object.keys(dataTeam.data).map((row, index) =>
                 (
                   <tr key={dataTeam.data[row].id} className=" shadow ">
-                    <td>{index + 1}</td>
+                    <td>{parseInt(row) + 1}</td>
                     <td>{dataTeam.data[row].name}</td>
                     <td>{dataTeam.data[row].leadBy.employee}</td>
                     <td>{dataTeam.data[row].createdBy.employee}</td>
@@ -112,35 +113,12 @@ const handleSearch = (e) => {
                           colorIcon="text-white"
                         />
                       </Link>
-                    {/* <Link to={`../emp/${dataEmployee.data[row].employeeId}`}>
-                        <ButtonSmall
-                          bg="bg-blue-600"
-                          icon="carbon:view"
-                          colorIcon="text-white"
-                        />
-                      </Link>
-
-                      <ButtonSmall
-                        bg="bg-yellow-500"
-                        icon="fa6-solid:pen-to-square"
-                        colorIcon="text-white"
-                        onClick={() => showModalEdit(dataEmployee.data[row].employeeId)}
-                      />
-                      <ButtonSmall
-                        bg="bg-red-500"
-                        icon="ci:trash-full"
-                        colorIcon="text-white"
-                        onClick={() =>
-                          showModalDelete(dataEmployee.data[row].employeeId)}
-                      /> */}
                       </div>
                     </td>
                   </tr> 
                 )) : <tr><td colSpan="5">Loading</td></tr>
               }
-                </tbody>
-
-              
+                </tbody>  
             </table>
           </div>
         <Pagination 
@@ -148,7 +126,7 @@ const handleSearch = (e) => {
           itemsCountPerPage={dataTeam?.per_page ? dataTeam?.per_page : 0 }
           totalItemsCount={dataTeam?.total ? dataTeam?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataTeam(pageNumber)
+            fetchDataTeam(pageNumber, searchValue)
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}
