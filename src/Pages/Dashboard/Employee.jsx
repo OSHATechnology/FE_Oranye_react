@@ -23,6 +23,7 @@ const Employee = () => {
   const paramsData = useParams();
   const [employeeEdit, setEmployeeEdit] = useState([]);
   const [empDeleteData, setEmpDeleteData] = useState("");
+  const [searchValue, setSearchValue] = useState("");
 
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
 
@@ -54,6 +55,7 @@ const Employee = () => {
         ConfigHeader
       );
       setDataEmployee(result.data.data);
+      console.log(result.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +64,8 @@ const Employee = () => {
   const handleSearch = (e) => {
     try {
       fetchDataEmployee(1, e.target.value);
-    } catch (err) {}
+      setSearchValue(e.target.value);
+    } catch (err) { }
   };
 
   useEffect(() => {
@@ -128,7 +131,7 @@ const Employee = () => {
                     key={dataEmployee.data[row].employeeId}
                     className=" shadow "
                   >
-                    <td>{index + 1}</td>
+                    <td>{parseInt(row) + 1}</td>
                     <td>
                       <div className="text-center flex items-center justify-center md:space-x-4">
                         <img
@@ -164,14 +167,14 @@ const Employee = () => {
                         />
                         {dataEmployee.data[row].employeeId !== empAuthId && (
 
-                        <ButtonSmall
-                          bg="bg-red-500"
-                          icon="ci:trash-full"
-                          colorIcon="text-white"
-                          onClick={() =>
-                            showModalDelete(dataEmployee.data[row].employeeId)
-                          }
-                        />
+                          <ButtonSmall
+                            bg="bg-red-500"
+                            icon="ci:trash-full"
+                            colorIcon="text-white"
+                            onClick={() =>
+                              showModalDelete(dataEmployee.data[row].employeeId)
+                            }
+                          />
                         )}
                       </div>
                     </td>
@@ -212,7 +215,7 @@ const Employee = () => {
           }
           totalItemsCount={dataEmployee?.total ? dataEmployee?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataEmployee(pageNumber);
+            fetchDataEmployee(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}
