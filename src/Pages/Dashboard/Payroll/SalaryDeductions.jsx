@@ -9,16 +9,19 @@ import moment from "moment";
 const SalaryDeductions = () => {
   const [month, setMonth] = useState(moment().format("YYYY-MM"));
   const [dataDeduction, setDataDeduction] = useState([]);
+  const [deductionData, setDeductionData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchDataDeduction = async (monthSalary = month, page = 1, search = "") => {
     try {
       const data = await axios.get(`/api/salary?type=deduction&month=${monthSalary}&search=${search}&page=${page}`, ConfigHeader);
       setDataDeduction(data.data.data);
+      setDeductionData(data.data.data);
       setIsLoading(false);
     } catch (error) {
       alert(error.response.data.message);
       setDataDeduction([]);
+      setDeductionData([]);
       setIsLoading(false);
     }
   };
@@ -27,7 +30,17 @@ const SalaryDeductions = () => {
     setMonth(e.target.value);
     fetchDataDeduction(e.target.value);
     setIsLoading(true);
-  }
+  };
+
+  const handleSearch = async (e) => {
+    try {
+      const result = deductionData.data.filter((item) => {
+        return item.empName.toLowerCase().includes(e.target.value.toLowerCase());
+      });
+      setDataDeduction({ ...deductionData, data: result });
+    } catch (err) { }
+  };
+
 
   useEffect(() => {
     fetchDataDeduction();
@@ -49,7 +62,7 @@ const SalaryDeductions = () => {
               className="h-6 rounded border border-gray-400 text-xs text-gray-600"
             />
           </div>
-          <Search />
+          <Search onChange={handleSearch} />
         </div>
         <table className="w-full">
           <thead className="bg-slate-200 h-10 border-b border-slate-500 font-bold ">

@@ -9,16 +9,19 @@ import ConfigHeader from "../../Auth/ConfigHeader";
 const NetSalary = () => {
   const [month, setMonth] = useState(moment().format("YYYY-MM"));
   const [dataNet, setDataNet] = useState([]);
+  const [netData, setNetData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchDataNet = async (monthSalary = month, page = 1, search = "") => {
     try {
       const data = await axios.get(`/api/salary?type=net&month=${monthSalary}&search=${search}&page=${page}`, ConfigHeader);
       setDataNet(data.data.data);
+      setNetData(data.data.data);
       setIsLoading(false);
     } catch (error) {
       alert(error.response.data.message);
       setDataNet([]);
+      setNetData([]);
       setIsLoading(false);
     }
   };
@@ -27,7 +30,17 @@ const NetSalary = () => {
     setMonth(e.target.value);
     fetchDataNet(e.target.value);
     setIsLoading(true);
-  }
+  };
+
+  const handleSearch = async (e) => {
+    try {
+      console.log(netData.data);
+      const result = netData.data.filter((item) => {
+        return item.empName.toLowerCase().includes(e.target.value.toLowerCase());
+      });
+      setDataNet({ ...netData, data: result });
+    } catch (err) { }
+  };
 
   useEffect(() => {
     fetchDataNet();
@@ -47,7 +60,7 @@ const NetSalary = () => {
             onChange={handleSalary}
           />
         </div>
-        <Search />
+        <Search onChange={handleSearch} />
       </div>
 
       <div>
