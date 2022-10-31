@@ -10,16 +10,19 @@ import ConfigHeader from "../../Auth/ConfigHeader";
 const GrossSalary = () => {
   const [month, setMonth] = useState(moment().format("YYYY-MM"));
   const [dataGross, setDataGross] = useState([]);
+  const [grossData, setGrossData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchGrossSalary = async (monthSalary = month) => {
     try {
       const response = await axios.get(`api/salary?type=gross&month=${monthSalary}`, ConfigHeader);
       setDataGross(response.data);
+      setGrossData(response.data);
       setIsLoading(false);
     } catch (error) {
       alert(error.response.data.message);
       setDataGross([]);
+      setGrossData([]);
       setIsLoading(false);
     }
   };
@@ -28,7 +31,16 @@ const GrossSalary = () => {
     setMonth(e.target.value);
     fetchGrossSalary(e.target.value);
     setIsLoading(true);
-  }
+  };
+
+  const handleSearch = async (e) => {
+    try {
+      const result = grossData.data.data.filter((item) => {
+        return item.empName.toLowerCase().includes(e.target.value.toLowerCase());
+      });
+      setDataGross({ ...grossData, data: { ...grossData.data, data: result } });
+    } catch (err) { }
+  };
 
   useEffect(() => {
     fetchGrossSalary();
@@ -47,7 +59,7 @@ const GrossSalary = () => {
             onChange={handleSalary}
           />
         </div>
-        <Search />
+        <Search onChange={handleSearch} />
       </div>
 
       <div>
