@@ -2,11 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
-import ModalDelete from "../../Components/Modal/ModalDelete";
-import ConfigHeader from "../../Pages/Auth/ConfigHeader";
-import axios from "axios";
-import Select from "react-select";
-import { useParams } from "react-router-dom";
 
 const ManageSalaryByEmployee = ({
   isOpen,
@@ -15,6 +10,8 @@ const ManageSalaryByEmployee = ({
   data,
   action = null,
 }) => {
+  const [salary, setSalary] = useState('');
+  
   return (
     <>
       <Dialog
