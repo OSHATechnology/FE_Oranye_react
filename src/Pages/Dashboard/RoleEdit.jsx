@@ -89,18 +89,6 @@ const RoleEdit = () => {
   };
 
   const onChangePermission = (e, permisId) => {
-    // const isChecked = e.target.checked;
-    // // let arrayPermissions = listPermissionsRole;
-    // if (isChecked) {
-    //   setListPermissionsRole([...listPermissionsRole, parseInt(e.target.value)]);
-    // } else {
-    //   const index = listPermissionsRole.indexOf(parseInt(e.target.value));
-    //   if (index > -1) {
-    //     listPermissionsRole.splice(index, 1);
-    //     setListPermissionsRole(listPermissionsRole);
-    //   }
-    // }
-    // console.log(e);
     setListPermissionsRole(
       listPermissionsRole.includes(permisId) ? listPermissionsRole.filter(
         (item) => item !== parseInt(e.target.value)

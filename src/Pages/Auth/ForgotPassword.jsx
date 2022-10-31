@@ -7,10 +7,15 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const resp = await axios.post('/api/forgot-password', {
-                email
-            })
-            console.log(resp)
+            await axios.get('/sanctum/csrf-cookie').then(response => {
+                const resp = axios.post('/api/forgot-password', {
+                    email
+                }).then((resp) => {
+                    alert(resp.data.data);
+                }).catch(err => {
+                    alert(err.data.data);
+                })
+            });
         } catch (error) {
             console.log(error)
         }

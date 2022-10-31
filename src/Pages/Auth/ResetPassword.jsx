@@ -1,6 +1,53 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 export default function Login() {
+    const paramData = useParams();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [password_confirmation, setPasswordConfirmation] = useState("");
+    const [token, setToken] = useState("");
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const data = {
+            token: token,
+            email: email,
+            password: password,
+            password_confirmation: password_confirmation,
+        };
+
+        try {
+            if (data.token === "") {
+                alert("Token is required");
+                return navigate('/login');
+            }
+
+            await axios.get('/sanctum/csrf-cookie').then(async response => {
+                await axios.post("/api/reset-password", data).then(resp => {
+                    console.log(resp);
+                    alert("Password has been reset");
+                    return navigate('/login');
+                }).catch(err => {
+                    console.log(err);
+                    alert("Password reset failed");
+                    return navigate('/login');
+                });
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        setEmail(searchParams.get("email") ? searchParams.get("email") : "");
+        setToken(paramData.token);
+    }, []);
+
     return (
         <div className="flex items-center min-h-screen p-4 bg-amber-100 justify-center">
             <div className="flex flex-col w-screen overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md">
@@ -12,15 +59,17 @@ export default function Login() {
                     <form
                         action="#"
                         className="flex flex-col items-center"
+                        onSubmit={handleSubmit}
                     >
                         <div className="relative z-0 w-3/4 group">
                             <input
-                                type="text"
+                                type="password"
                                 name=""
-                                id=""
+                                id="password"
                                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none hover:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                                 placeholder=" "
                                 required
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                             <label
                                 htmlFor=""
@@ -31,12 +80,13 @@ export default function Login() {
                         </div>
                         <div className="relative z-0 w-3/4 group">
                             <input
-                                type="text"
+                                type="password"
                                 name=""
-                                id=""
+                                id="password_confirmation"
                                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none hover:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
                                 placeholder=" "
                                 required
+                                onChange={(e) => setPasswordConfirmation(e.target.value)}
                             />
                             <label
                                 htmlFor="employee_id"
@@ -45,14 +95,6 @@ export default function Login() {
                                 Confirm New Password
                             </label>
                         </div>
-                        {/* <div className="flex items-center space-x-2 my-4">
-                            
-                            <p
-                                className="text-xs font-semibold text-gray-300"
-                            >
-                                We will send link reset password to your email
-                            </p>
-                        </div> */}
 
                         <div className="w-3/4 my-12">
                             <button
@@ -62,17 +104,6 @@ export default function Login() {
                                 Submit
                             </button>
                         </div>
-                        {/* <div className="flex flex-col my-4">
-                            <span className="flex items-center justify-center space-x-1">
-                                <p className="text-xs">Back to</p>
-                                <a
-                                    href="/login"
-                                    className="text-xs  font-bold text-orange-600 hover:underline focus:text-orange-800"
-                                >
-                                    Login
-                                </a>
-                            </span>
-                        </div> */}
                     </form>
                 </div>
             </div>

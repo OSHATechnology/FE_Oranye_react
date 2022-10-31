@@ -37,13 +37,27 @@ const EditFormInsuranceItem = (data) => {
       name: name,
       type: type,
       percent: percent,
+      roles: listRoleInsurance,
     };
+    console.log(dataEdit);
     await axios
       .put(`/api/insurance_item/${data.data.id}`, dataEdit, ConfigHeader)
-      .then((res) => {
-        console.log("berhasil");
-        closeModal();
-        loadData();
+      .then(async (res) => {
+        try {
+          await axios.delete(`/api/insurance_item_role/detachAll`, {
+            data: {
+              insuranceItemId: data.data.id
+            },
+          }, ConfigHeader);
+          dataEdit.roles.map((item) => {
+            axios.post(`/api/insurance_item_role`, { insuranceItemId: data.data.id, roleId: item }, ConfigHeader);
+          });
+        } catch (error) {
+          console.log(error);
+        } finally {
+          loadData();
+          closeModal();
+        }
       })
       .catch((err) => {
         console.log(err.response);
@@ -115,9 +129,6 @@ const EditFormInsuranceItem = (data) => {
                             );
                             console.log(listRoleInsurance);
                           }}
-                        // onChange={(e) => {
-                        //   e.target.checked = false
-                        // }}
                         />
                         <label
                           htmlFor={"role" + item.roleId}
