@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
@@ -18,7 +18,6 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   const [assignedBy, setAssignedBy] = useState("");
 
   const [options, setOptions] = useState([]);
-  const [dataEmployee, setDataEmployee] = useState({});
   const actionRefresh = action ? action : null;
 
   function changeDataToNull() {
@@ -32,21 +31,13 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
     setAssignedBy("");
   }
 
-  const fetchDataEmployee = async (page = 1, search = "") => {
-    const data = await axios.get(`/api/employee?search=${search}&page=${page}`, ConfigHeader);
-    setDataEmployee(data.data.data.data);
-  };
-
-  const loadOptions = async (page = 1) => {
-    const data = fetchDataEmployee(page);
-    const newOpt = Object.keys(dataEmployee).map((d) => {
-      return {
-        value: dataEmployee[d].employeeId,
-        label: dataEmployee[d].firstName + " " + dataEmployee[d].lastName,
-      };
-    });
-    const opt = [...options, ...newOpt];
-    setOptions(opt);
+  const fetchDataEmployee = async () => {
+    try {
+      const data = await axios.get(`/api/employee?showAll=1`, ConfigHeader);
+      return data.data.data;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const styleSelect = {
@@ -95,7 +86,16 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   };
 
   useEffect(() => {
-    loadOptions();
+    // loadOptions();
+    fetchDataEmployee().then((response) => {
+      const data = response.map((item) => {
+        return {
+          value: item.employeeId,
+          label: item.firstName + " " + item.lastName,
+        };
+      });
+      setOptions(data);
+    });
   }, []);
   return (
     <>
@@ -200,12 +200,6 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
                   menuPortalTarget={
                     document.querySelector("#partner_form")
                   }
-                  captureMenuScroll={true}
-                  onMenuScrollToBottom={() => {
-                    // setPage(page + 1);
-                    loadOptions(2);
-                    console.log("scroll");
-                  }}
                 />
               </div>
               <div className="">
