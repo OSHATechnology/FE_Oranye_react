@@ -18,7 +18,7 @@ const ManageLayanan = () => {
   const [dataItem, setDataItem] = useState([]);
   const [insuranceItemDeleteData, setInsuranceItemDeleteData] = useState("");
   const [modalInsuranceItemDelete, setModalInsuranceItemDelete] = useState(false);
-
+  const [searchValue, setSearchValue] = useState("");
   const [dataInsurance, setDataInsurance] = useState([
     {
       insuranceId: "",
@@ -72,6 +72,7 @@ const ManageLayanan = () => {
   const handleSearch = (e) => {
     try {
       fetchDataInsurance(1, e.target.value);
+      setSearchValue(e.target.value);
     } catch (err) {
 
     }
@@ -184,7 +185,7 @@ const ManageLayanan = () => {
                 dataItem ? (
                   Object.keys(dataItem)).map((row, index) => (
                     <tr key={dataItem[row].insItemId} className=" shadow ">
-                      <td>{index + 1}</td>
+                      <td>{parseInt(row) + 1}</td>
                       <td>{dataItem[row].name}</td>
                       <td>{dataItem[row].type}</td>
                       <td>{dataItem[row].percent}</td>
@@ -255,7 +256,7 @@ const ManageLayanan = () => {
             itemsCountPerPage={dataInsurance.data?.per_page ? dataInsurance.data?.per_page : 0}
             totalItemsCount={dataInsurance.data?.total ? dataInsurance.data?.total : 0}
             onChange={(pageNumber) => {
-              fetchDataInsurance(pageNumber)
+              fetchDataInsurance(pageNumber, searchValue)
             }}
             innerClass="flex justify-center items-center gap-2 my-8 "
             pageRangeDisplayed={8}

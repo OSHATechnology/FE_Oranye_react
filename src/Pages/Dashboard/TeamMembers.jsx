@@ -22,6 +22,7 @@ const TeamMembers = () => {
   const [memberDeleteData, setMemberDeleteData] = useState("");
   const [modalMemberDelete, setModalMemberDelete] = useState(false);
   const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
 
   const [dataMember, setDataMember] = useState([]);
 
@@ -47,6 +48,7 @@ const TeamMembers = () => {
   const handleSearch = (e) => {
     try{
       fetchMemberData(1,e.target.value);
+      setSearchValue(e.target.value); 
     }catch(err){
 
     }
@@ -157,7 +159,7 @@ const TeamMembers = () => {
               {
                 dataMember.data ? Object.keys(dataMember.data).map((row, index) => (
                   <tr key={dataMember.data[row].id} className=" shadow ">
-                    <td>{index + 1}</td>
+                    <td>{parseInt(row) + 1}</td>
                     <td>{dataMember.data[row].employee.name}</td>
                     <td>{dataMember.data[row].assignedBy.name}</td>
                     <td>{moment(dataMember.data[row].joinedAt).format("DD MMMM YYYY")}</td>
@@ -191,7 +193,7 @@ const TeamMembers = () => {
           itemsCountPerPage={dataMember?.per_page ? dataMember?.per_page : 0 }
           totalItemsCount={dataMember?.total ? dataMember?.total : 0}
           onChange={(pageNumber) => {
-            fetchMemberData(pageNumber)
+            fetchMemberData(pageNumber, searchValue)
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}

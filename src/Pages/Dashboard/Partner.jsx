@@ -23,6 +23,7 @@ const Partner = () => {
   const [partnerDetail, setPartnerDetail] = useState([]);
   const [partnerEdit, setPartnerEdit] = useState([]);
   const [partnerDeleteData, setPartnerDeleteData] = useState("");
+  const [searchValue, setSearchValue] = useState("");
 
   let dataPartnerId = "";
   const showModalDetail = async (partnerId) => {
@@ -68,6 +69,7 @@ const Partner = () => {
   const handleSearch = (e) => {
     try {
       fetchDataPartner(1, e.target.value);
+      setSearchValue(e.target.value);
     } catch (err) {
 
     }
@@ -102,18 +104,6 @@ const Partner = () => {
                 action={fetchDataPartner}
               />
             </div>
-            {/* <div className="flex space-x-2 items-center">
-            <input
-              type="text"
-              placeholder="Search"
-              className="rounded border border-gray-300 h-9 text-center w-72"
-            />
-            <ButtonSmall
-              bg="bg-gray-400"
-              icon="akar-icons:search"
-              colorIcon="text-white"
-            />
-          </div> */}
             <Search onChange={handleSearch} />
           </div>
         </div>
@@ -134,7 +124,7 @@ const Partner = () => {
                 dataPartner.data ? Object.keys(dataPartner.data).map((row, index) =>
                 (
                   <tr key={dataPartner.data[row].id} className=" shadow ">
-                    <td>{index + 1}</td>
+                    <td>{parseInt(row) + 1}</td>
                     <td>
                       <div className="text-center flex items-center justify-center md:space-x-4">
                         <img src={dataPartner.data[row].photo} alt={"photo of " + dataPartner.data[row].name} className="w-10 rounded-full" />
@@ -210,7 +200,7 @@ const Partner = () => {
           itemsCountPerPage={dataPartner?.per_page ? dataPartner?.per_page : 0}
           totalItemsCount={dataPartner?.total ? dataPartner?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataPartner(pageNumber)
+            fetchDataPartner(pageNumber, searchValue)
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}

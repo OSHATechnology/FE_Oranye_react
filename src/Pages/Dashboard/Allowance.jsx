@@ -19,6 +19,7 @@ const Allowance = () => {
   const [modalAllowanceDelete, setModalAllowanceDelete] = useState(false);
   const [allowanceDeleteData, setAllowanceDeleteData] = useState("");
   const paramsData = useParams();
+  const [searchValue, setSearchValue] = useState("");
 
   const fetchDataAllowance = async (page = 1, search = "") => {
     const result = await axios.get(
@@ -45,6 +46,7 @@ const Allowance = () => {
   const handleSearchAllowance = (e) => {
     try {
       fetchDataAllowance(1, e.target.value);
+      setSearchValue(e.target.value);
     } catch (err) {}
   };
 
@@ -137,7 +139,7 @@ const Allowance = () => {
                 {dataAllowance.data ? (
                   Object.keys(dataAllowance.data).map((row, index) => (
                     <tr key={dataAllowance.data[row].id}>
-                      <td>{index + 1}</td>
+                      <td>{parseInt(row) + 1}</td>
                       <td >
                         {dataAllowance.data[row].role.role}
                       </td>
@@ -207,7 +209,7 @@ const Allowance = () => {
           }
           totalItemsCount={dataAllowance?.total ? dataAllowance?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataAllowance(pageNumber);
+            fetchDataAllowance(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}

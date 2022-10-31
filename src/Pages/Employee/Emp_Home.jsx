@@ -38,7 +38,7 @@ const CardProfileEmployee = () => {
 
                         <div className="mt-6 mb-4">
                             {employee?.photo ? (
-                                <img src={employee?.photo} alt="" className="w-36" />
+                                <img src={employee?.photo} alt="" className="w-36 rounded-full" />
                             ) : ".."}
                         </div>
                         <div className="text-center ">

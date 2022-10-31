@@ -13,6 +13,8 @@ const RolePermissions = () => {
   const [dataPermissions, setDataPermissions] = useState([]);
   const [roleDetails, setRoleDetails] = useState([]);
   const [modalDetailsRole, setModalDetailsRole] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [searchPerValue, setSearchPerValue] = useState("");
 
   const fetchDataRole = async (page = 1, search = "") => {
     const result = await axios.get(
@@ -49,12 +51,14 @@ const RolePermissions = () => {
   const handleSearchRole = (e) => {
     try {
       fetchDataRole(1, e.target.value);
+      setSearchValue(e.target.value);
     } catch (err) { }
   };
 
   const handleSearchPermissions = (e) => {
     try {
       feacthDataPermissions(1, e.target.value);
+      setSearchPerValue(e.target.value);
     } catch (err) { }
   };
 
@@ -95,7 +99,7 @@ const RolePermissions = () => {
                 {dataRole.data ? (
                   Object.keys(dataRole.data).map((row, index) => (
                     <tr key={dataRole.data[row].roleId}>
-                      <td>{index + 1}</td>
+                      <td>{parseInt(row) + 1}</td>
                       <td class="text-start">{dataRole.data[row].nameRole}</td>
                       <td className="w-24">
                         <div className="flex justify-center text-center">
@@ -123,7 +127,7 @@ const RolePermissions = () => {
             itemsCountPerPage={dataRole?.per_page ? dataRole?.per_page : 0}
             totalItemsCount={dataRole?.total ? dataRole?.total : 0}
             onChange={(pageNumber) => {
-              fetchDataRole(pageNumber);
+              fetchDataRole(pageNumber, searchValue);
             }}
             innerClass="flex justify-center items-center gap-2 my-8 "
             pageRangeDisplayed={8}
@@ -153,22 +157,10 @@ const RolePermissions = () => {
                 {dataPermissions.data ? (
                   Object.keys(dataPermissions.data).map((row, index) => (
                     <tr key={dataPermissions.data[row].namePermissionId}>
-                      <td>{index + 1}</td>
+                      <td>{parseInt(row) + 1}</td>
                       <td class="text-start">{dataPermissions.data[row].namePermission}</td>
                       <td>
                         <div className="flex flex-wrap justify-start text-center gap-1 w-full">
-                          {/* <ButtonNormal
-                            bg="bg-blue-500 "
-                            text="details"
-                          /> */}
-                          {/* {
-                            dataPermissions.data[row].roles ? Object.keys(dataPermissions.data[row].roles).map((row2, index) => (
-                                <ButtonNormal
-                                    bg="bg-blue-500 "
-                                    text={dataPermissions.data[row].roles[row2].nameRole}
-                                />
-                            )) : ''
-                          } */}
                           <span className="text-gray-600 text-xs">{dataPermissions.data[row].description}</span>
                         </div>
                       </td>
@@ -187,7 +179,7 @@ const RolePermissions = () => {
             itemsCountPerPage={dataPermissions?.per_page ? dataPermissions?.per_page : 0}
             totalItemsCount={dataPermissions?.total ? dataPermissions?.total : 0}
             onChange={(pageNumber) => {
-              feacthDataPermissions(pageNumber);
+              feacthDataPermissions(pageNumber, searchPerValue);
             }}
             innerClass="flex justify-center items-center gap-2 my-8 "
             pageRangeDisplayed={8}

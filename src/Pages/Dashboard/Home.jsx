@@ -5,7 +5,7 @@ import PropertyMitra from "../../Components/PropertyMitra";
 import ConfigHeader from "../Auth/ConfigHeader";
 import axios from "axios";
 import moment from "moment";
-import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer } from "recharts";
 
 const Home = (props) => {
   const [dataPartner, setDataPartner] = useState([]);
@@ -67,7 +67,7 @@ const Home = (props) => {
     <div className="md:ml-8 space-y-8 pb-10">
       <TitleDashboard Title="Property Dashboard" Keterangan="Welcome, Admin!" />
 
-      <div className="flex flex-wrap md:flex-row gap-2">
+      {/* <div className="flex flex-wrap md:flex-row gap-2">
         <SimpleCard
           bgColor=""
           Title="Role Perusahaan"
@@ -86,9 +86,9 @@ const Home = (props) => {
           Icon="fluent:handshake-20-filled"
           Count={totalPartner}
         />
-      </div>
+      </div> */}
 
-      {showDataPartner && dataPartner.length > 0 && (
+      {/* {showDataPartner && dataPartner.length > 0 && (
         <>
           <TitleDashboard Title="Property Partner" Keterangan="" />
           <div className=" mt-4 max-h-80 overflow-y-auto space-y-4 md:flex-col">
@@ -103,7 +103,17 @@ const Home = (props) => {
             ))}
           </div>
         </>
-      )}
+      )} */}
+      <div>
+        <iframe
+          title="oranye-dash-admin"
+          width="1140"
+          height="541.25"
+          src="https://app.powerbi.com/reportEmbed?reportId=bc554b43-4f15-4c44-a26a-a37443bc28a1&autoAuth=true&ctid=101a63ed-7f15-42ed-9b65-d87f03d4ec7e"
+          frameborder="0"
+          allowFullScreen="true"
+        ></iframe>
+      </div>
 
       {/* <TitleDashboard Title="Performa Absensi" Keterangan="" />
       <div className="w-80 h-96 border border-gray-100 shadow rounded items-center text-center justify-center">

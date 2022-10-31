@@ -17,6 +17,7 @@ const Overtime = () => {
   const [totalOvertime, setTotalOvertime] = useState(0);
   const [modalOvertime, setModalOvertime] = useState(false);
   const [overtimeDetail, setOvertimeDetail] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   let dataOvertimeId = "";
   const showModalDetail = async (overtimeId) => {
@@ -24,20 +25,21 @@ const Overtime = () => {
     await fetchDataOvertimeDetail();
   };
 
-
-
   const fetchDataOvertimeDetail = async () => {
-    const result = await axios.get(`/api/overtime/${dataOvertimeId}`, ConfigHeader);
+    const result = await axios.get(
+      `/api/overtime/${dataOvertimeId}`,
+      ConfigHeader
+    );
     setOvertimeDetail(result.data.data);
     setModalOvertime(true);
-  }
+  };
 
   const fetchDataOvertime = async (page = 1, search = "") => {
     const result = await axios.get(
       `/api/overtime?search=${search}&page=${page}`,
       ConfigHeader
     );
-    setDataOvertime(result.data.data.data);
+    setDataOvertime(result.data.data);
     setTotalOvertime(result.data.data.length);
   };
   useEffect(() => {
@@ -49,7 +51,8 @@ const Overtime = () => {
   const handleSearch = (e) => {
     try {
       fetchDataOvertime(1, e.target.value);
-    } catch (err) { }
+      setSearchValue(e.target.value);
+    } catch (err) {}
   };
 
   return (
@@ -71,15 +74,6 @@ const Overtime = () => {
           </div>
           <div className="flex gap-2 md:justify-end">
             <Search onChange={handleSearch} />
-            {/* <ButtonSmall
-              icon="ant-design:filter-outlined"
-              onClick={() => setIsModalFilterOpened(!isModalFilterOpened)}
-            />
-            <ModalFilter
-              isOpen={isModalFilterOpened}
-              setIsOpen={setIsModalFilterOpened}
-              title="Filter Partner"
-            /> */}
           </div>
         </div>
         <table className="w-full text-center overflow-x-scroll">
@@ -94,7 +88,56 @@ const Overtime = () => {
             </tr>
           </thead>
           <tbody className="text-base font-medium text-slate-700 md:text-sm">
-            {dataOvertime.map((row, index) => (
+            {dataOvertime.data ? (
+              dataOvertime.data.map((row, index) => {
+                return (
+                  <tr key={row.id}>
+                    <td>{parseInt(row) + 1}</td>
+                    <td>
+                      <div className="flex items-center justify-center gap-2">
+                        <img src={row.img} alt="" className="w-8" />
+                        <span>{row.employeeId.name}</span>
+                      </div>
+                    </td>
+                    <td className="w-2">
+                      <span>
+                        {Math.round(
+                          moment
+                            .duration(
+                              moment(row.endAt, "YYYY/MM/DD HH:mm").diff(
+                                moment(row.startAt, "YYYY/MM/DD HH:mm")
+                              )
+                            )
+                            .asHours()
+                        )}{" "}
+                        hours
+                      </span>
+                      <span className="ml-2 text-xs font-thin text-slate-500">
+                        ({moment(row.startAt).format("HH:mm")} -{" "}
+                        {moment(row.endAt).format("HH:mm")})
+                      </span>
+                    </td>
+                    <td>{row.assignedBy.name}</td>
+                    <td>
+                      <span>{row.status}</span>
+                    </td>
+                    <td>
+                      <ButtonSmall
+                        bg="bg-blue-600"
+                        icon="carbon:view"
+                        colorIcon="text-white"
+                        onClick={() => showModalDetail(row.id)}
+                      />
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={6}>Loading</td>
+              </tr>
+            )}
+            {/* {dataOvertime.map((row, index) => (
               <tr key={row.id}>
                 <td>{index + 1}</td>
                 <td>
@@ -124,7 +167,7 @@ const Overtime = () => {
                   />
                 </td>
               </tr>
-            ))}
+            ))} */}
           </tbody>
         </table>
         {modalOvertime && (
@@ -145,7 +188,7 @@ const Overtime = () => {
           }
           totalItemsCount={dataOvertime?.total ? dataOvertime?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataOvertime(pageNumber);
+            fetchDataOvertime(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}
