@@ -44,7 +44,7 @@ const Salary = (data) => {
       ConfigHeader
     );
     setDataSalary(data.data.data);
-    console.log(data.data.data);
+    // console.log(data.data.data);
   };
 
   const fetchDataEmp = async () => {
@@ -66,7 +66,7 @@ const Salary = (data) => {
       navigate("../emp");
     });
   }, []);
-  console.log(dataSalary);
+  // console.log(dataSalary);
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard

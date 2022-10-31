@@ -55,7 +55,6 @@ const Employee = () => {
         ConfigHeader
       );
       setDataEmployee(result.data.data);
-      console.log(result.data.data);
     } catch (error) {
       console.log(error);
     }

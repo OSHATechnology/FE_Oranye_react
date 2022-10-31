@@ -61,7 +61,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
   const refresh = () => {
     window.location.reload();
   };
-  // console.log(dataTeam);
+  console.log(data);
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   
   // React Select
@@ -88,14 +88,11 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
 
   const handleChangeLeadTeam = (selectedOption) => {
     setLeadById(selectedOption.value);
-    console.log(selectedOption);
   };
 
   const handleChangeTeamMaker = (selectedOption) => {
     setCreatedById(selectedOption.value);
-    console.log(selectedOption);
   };
-  // console.log(options);
   return (
     <>
       <Dialog
@@ -134,7 +131,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
               <p className="text-sm font-extrabold text-gray-600">
                 Leader Team
               </p>
-              {console.log(dataTeam)}
+              {/* {console.log(dataTeam)} */}
               <Select
                   styles={styleSelect}
                   options={options}
