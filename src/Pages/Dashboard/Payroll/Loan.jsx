@@ -1,5 +1,4 @@
 import axios from "axios";
-import moment from "moment";
 import React, { useState, useEffect } from "react";
 import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
@@ -11,6 +10,7 @@ import ModalAddLoan from "../../../Components/Modal/AddLoan";
 
 const Kredit = () => {
   const [dataLoan, setDataLoan] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
   const fetchDataLoan = async (page = 1, search = "") => {
     const result = await axios.get(
       `/api/loan?search=${search}&page=${page}`,
@@ -27,7 +27,8 @@ const Kredit = () => {
   const handleSearch = (e) => {
     try {
       fetchDataLoan(1, e.target.value);
-    } catch (err) {}
+      setSearchValue(e.target.value);
+    } catch (err) { }
   };
   console.log(dataLoan);
   // Add Loan
@@ -69,11 +70,11 @@ const Kredit = () => {
               {dataLoan.data ? (
                 Object.keys(dataLoan.data).map((row, index) => (
                   <tr key={dataLoan.data[row].loanId}>
-                    <td>{index + 1}</td>
+                    <td>{parseInt(row) + 1}</td>
                     <td>{dataLoan.data[row].employee.name}</td>
                     <td>{dataLoan.data[row].loanDate}</td>
                     <td>{dataLoan.data[row].paymentDate}</td>
-                    <td>{(dataLoan.data[row].status)?'Lunas' : 'Belum Lunas'}</td>
+                    <td>{(dataLoan.data[row].status) ? 'Lunas' : 'Belum Lunas'}</td>
                     <td className="w-24">
                       <div className="flex justify-center gap-1">
                         <Link to={`../LoanPayment/${dataLoan.data[row].loanId}`}>
@@ -100,7 +101,7 @@ const Kredit = () => {
           itemsCountPerPage={dataLoan?.per_page ? dataLoan?.per_page : 0}
           totalItemsCount={dataLoan?.total ? dataLoan?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataLoan(pageNumber);
+            fetchDataLoan(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}

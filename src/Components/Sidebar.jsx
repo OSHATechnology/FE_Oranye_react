@@ -115,6 +115,14 @@ const Sidebar = () => {
             isActive: false,
             classAddon: "",
         },
+        {
+            id: 10,
+            icon: "ant-design:home-filled",
+            title: "Back to Home",
+            link: "/",
+            isActive: false,
+            classAddon: "",
+        },
         // {
         //     id: 6,
         //     icon: "carbon:update-now",

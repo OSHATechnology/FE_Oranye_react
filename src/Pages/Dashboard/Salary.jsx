@@ -55,14 +55,18 @@ const Salary = (data) => {
     setDataEmp(data.data.data);
   };
 
+  const refresh = () => {
+    window.location.reload();
+  };
+
   useEffect(() => {
     fetchDataSalary();
     fetchDataEmp().catch((err) => {
       console.log(err.message);
-      navigate('../emp');
+      navigate("../emp");
     });
   }, []);
-console.log(dataSalary)
+  console.log(dataSalary);
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -90,9 +94,8 @@ console.log(dataSalary)
           isOpen={isModalManageOpened}
           setIsOpen={setIsModalManageOpened}
           title="Manage Salary Employee"
-        // data={dataTeam}
-        // action={refresh}
-
+          data={dataSalary}
+          action={refresh}
         />
       </div>
 
@@ -112,53 +115,49 @@ console.log(dataSalary)
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {
-                dataSalary ?
-                  dataSalary.length > 0 ? (
-                    dataSalary.map((item, index) => (
-                      <tr key={dataSalary.id}>
-                        <td>{index + 1}</td>
-                        <td>
-                          {item.salary_date && (
-                            moment(item.salary_date).format(
-                              "DD MMMM YYYY"
-                            )
-                          )}
-                        </td>
-                        <td>
-                          <RupiahMoneyFormat num={item.gross} />
-                        </td>
-                        <td>
-                          <RupiahMoneyFormat num={item.total_deduction} />
-                        </td>
-                        <td>
-                          <RupiahMoneyFormat num={item.net} />
-                        </td>
-                        <td>
-                          <div className="flex justify-center gap-1">
-                            <Link to={`../DetailSalary/${item.id}`}>
-                              <ButtonSmall
-                                bg="bg-blue-600"
-                                icon="carbon:view"
-                                colorIcon="text-white"
-                              />
-                            </Link>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="6" className="py-2">
-                        No Data
+              {dataSalary ? (
+                dataSalary.length > 0 ? (
+                  dataSalary.map((item, index) => (
+                    <tr key={dataSalary.id}>
+                      <td>{index + 1}</td>
+                      <td>
+                        {item.salary_date &&
+                          moment(item.salary_date).format("DD MMMM YYYY")}
+                      </td>
+                      <td>
+                        <RupiahMoneyFormat num={item.gross} />
+                      </td>
+                      <td>
+                        <RupiahMoneyFormat num={item.total_deduction} />
+                      </td>
+                      <td>
+                        <RupiahMoneyFormat num={item.net} />
+                      </td>
+                      <td>
+                        <div className="flex justify-center gap-1">
+                          <Link to={`../DetailSalary/${item.id}`}>
+                            <ButtonSmall
+                              bg="bg-blue-600"
+                              icon="carbon:view"
+                              colorIcon="text-white"
+                            />
+                          </Link>
+                        </div>
                       </td>
                     </tr>
-                  ) : (
-                    <tr>
-                      <td colSpan="5">Loading</td>
-                    </tr>
-                  )
-              }
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="py-2">
+                      No Data
+                    </td>
+                  </tr>
+                )
+              ) : (
+                <tr>
+                  <td colSpan="5">Loading</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

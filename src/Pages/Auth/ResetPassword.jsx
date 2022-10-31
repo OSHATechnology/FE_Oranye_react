@@ -33,9 +33,10 @@ export default function Login() {
                     alert("Password has been reset");
                     return navigate('/login');
                 }).catch(err => {
-                    console.log(err);
                     alert("Password reset failed");
-                    return navigate('/login');
+                    alert(err.response.data.message);
+                    setPassword("");
+                    setPasswordConfirmation("");
                 });
             });
         } catch (error) {
@@ -56,46 +57,45 @@ export default function Login() {
                     <h3 className="text-2xl mt-8 mb-20 text-orange-500 text-center font-bold">
                         Reset Password
                     </h3>
-                    <form
-                        action="#"
-                        className="flex flex-col items-center"
-                        onSubmit={handleSubmit}
-                    >
-                        <div className="relative z-0 w-3/4 group">
-                            <input
-                                type="password"
-                                name=""
-                                id="password"
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none hover:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
-                                placeholder=" "
-                                required
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <label
-                                htmlFor=""
-                                className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] hover:border-orange-500 peer-focus:left-0 peer-focus:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                            >
-                                New Password
-                            </label>
+                    <form action="#" className="flex flex-col items-center " onSubmit={handleSubmit}>
+                        <div className="w-full items-center justify-center flex flex-col space-y-4">
+                            <div className="relative z-0 w-3/4 group">
+                                <input
+                                    type="password"
+                                    name=""
+                                    id="password"
+                                    value={password}
+                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none hover:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+                                    placeholder=" "
+                                    required
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <label
+                                    htmlFor="password"
+                                    className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] hover:border-orange-500 peer-focus:left-0 peer-focus:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                >
+                                    New Password
+                                </label>
+                            </div>
+                            <div className="relative z-0 w-3/4 group">
+                                <input
+                                    type="password"
+                                    name=""
+                                    id="password_confirmation"
+                                    value={password_confirmation}
+                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none hover:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
+                                    placeholder=" "
+                                    required
+                                    onChange={(e) => setPasswordConfirmation(e.target.value)}
+                                />
+                                <label
+                                    htmlFor="password_confirmation"
+                                    className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] hover:border-orange-500 peer-focus:left-0 peer-focus:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                >
+                                    Confirm New Password
+                                </label>
+                            </div>
                         </div>
-                        <div className="relative z-0 w-3/4 group">
-                            <input
-                                type="password"
-                                name=""
-                                id="password_confirmation"
-                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none hover:border-orange-500 focus:outline-none focus:ring-0 focus:border-orange-500 peer"
-                                placeholder=" "
-                                required
-                                onChange={(e) => setPasswordConfirmation(e.target.value)}
-                            />
-                            <label
-                                htmlFor="employee_id"
-                                className="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] hover:border-orange-500 peer-focus:left-0 peer-focus:text-orange-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                            >
-                                Confirm New Password
-                            </label>
-                        </div>
-
                         <div className="w-3/4 my-12">
                             <button
                                 type="submit"
