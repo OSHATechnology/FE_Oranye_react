@@ -16,13 +16,13 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
 
   useEffect(() => {
     const fetchDataRole = async () => {
-      const data = await axios.get(`/api/roles`, ConfigHeader);
-      setDataRole(data.data.data.data);
+      const data = await axios.get(`/api/roles?showAll=1`, ConfigHeader);
+      setDataRole(data.data.data);
     };
 
     const fetchDataType = async () => {
-      const data = await axios.get(`/api/type_of_allowance`, ConfigHeader);
-      setDataType(data.data.data.data);
+      const data = await axios.get(`/api/type_of_allowance?showAll=1`, ConfigHeader);
+      setDataType(data.data.data);
     };
 
     fetchDataRole();
@@ -48,8 +48,6 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
         formData.append(key, data[key]);
       }
       const rslt = await axios.post("/api/allowance", formData, ConfigHeader);
-      console.log(rslt);
-      //   setIsOpen(false);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
       changeDataToNull();
@@ -57,7 +55,6 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
       console.log(error);
     }
   };
-  // console.log(dataType)
   // React Select
   const optionsRole = dataRole.map((item) => {
     return {
@@ -133,21 +130,6 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
                   onChange={handleChangeRole}
                   menuPortalTarget={document.getElementById("allowance_form")}
                 />
-                {/* <select
-                  name="role"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => setRole(e.target.value)}
-                >
-                  <option value="-" selected disabled>
-                    -- select role --
-                  </option>
-                  {dataRole.map((row, index) => (
-                    <option value={row.roleId} key={index}>
-                      {row.nameRole}
-                    </option>
-                  ))}
-                </select> */}
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">
@@ -161,27 +143,6 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
                   onChange={handleChangeType}
                   menuPortalTarget={document.getElementById("allowance_form")}
                 />
-                {/* <select
-                  name="allowance"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => {
-                    setType(e.target.value);
-                    setNominal(
-                      dataType.find((item) => item.id == e.target.value)
-                        ?.nominal
-                    );
-                  }}
-                >
-                  <option value="-" selected disabled>
-                    -- select Allowance --
-                  </option>
-                  {dataType.map((row, index) => (
-                    <option value={row.id} key={index}>
-                      {row.name}
-                    </option>
-                  ))}
-                </select> */}
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Nominal</p>
