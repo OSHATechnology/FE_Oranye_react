@@ -11,6 +11,7 @@ import ModalAddLoan from "../../../Components/Modal/AddLoan";
 
 const Kredit = () => {
   const [dataLoan, setDataLoan] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
   const fetchDataLoan = async (page = 1, search = "") => {
     const result = await axios.get(
       `/api/loan?search=${search}&page=${page}`,
@@ -27,6 +28,7 @@ const Kredit = () => {
   const handleSearch = (e) => {
     try {
       fetchDataLoan(1, e.target.value);
+      setSearchValue(e.target.value);
     } catch (err) {}
   };
   console.log(dataLoan);
@@ -69,7 +71,7 @@ const Kredit = () => {
               {dataLoan.data ? (
                 Object.keys(dataLoan.data).map((row, index) => (
                   <tr key={dataLoan.data[row].loanId}>
-                    <td>{index + 1}</td>
+                    <td>{parseInt(row) + 1}</td>
                     <td>{dataLoan.data[row].employee.name}</td>
                     <td>{dataLoan.data[row].loanDate}</td>
                     <td>{dataLoan.data[row].paymentDate}</td>
@@ -100,7 +102,7 @@ const Kredit = () => {
           itemsCountPerPage={dataLoan?.per_page ? dataLoan?.per_page : 0}
           totalItemsCount={dataLoan?.total ? dataLoan?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataLoan(pageNumber);
+            fetchDataLoan(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}
