@@ -1,5 +1,4 @@
 import axios from "axios";
-import moment from "moment";
 import React, { useState, useEffect } from "react";
 import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
@@ -29,7 +28,7 @@ const Kredit = () => {
     try {
       fetchDataLoan(1, e.target.value);
       setSearchValue(e.target.value);
-    } catch (err) {}
+    } catch (err) { }
   };
   console.log(dataLoan);
   // Add Loan
@@ -75,7 +74,7 @@ const Kredit = () => {
                     <td>{dataLoan.data[row].employee.name}</td>
                     <td>{dataLoan.data[row].loanDate}</td>
                     <td>{dataLoan.data[row].paymentDate}</td>
-                    <td>{(dataLoan.data[row].status)?'Lunas' : 'Belum Lunas'}</td>
+                    <td>{(dataLoan.data[row].status) ? 'Lunas' : 'Belum Lunas'}</td>
                     <td className="w-24">
                       <div className="flex justify-center gap-1">
                         <Link to={`../LoanPayment/${dataLoan.data[row].loanId}`}>
