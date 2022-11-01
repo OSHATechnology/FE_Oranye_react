@@ -1,6 +1,6 @@
 import TitleDashboard from "../../Components/TitleDashboard";
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import ButtonNormal from "../../Components/ButtonNormal";
 import { Icon } from "@iconify/react";
 import axios from "axios";
@@ -25,7 +25,6 @@ const RoleEdit = () => {
   const [descriptionRole, setDescriptionRole] = useState("");
   const [listPermissionsRole, setListPermissionsRole] = useState([]);
   const [basicSalaryRole, setBasicSalaryRole] = useState(0);
-  const navigate = useNavigate();
 
   const fetchRole = async () => {
     try {
@@ -109,8 +108,7 @@ const RoleEdit = () => {
 
   const editBasicSalaryRole = async (data) => {
     try {
-      const response = await axios.put(`api/basic_salary_by_role/${data.roleId}}`, data, ConfigHeader);
-      console.log(response);
+      const response = await axios.post(`api/basic_salary_by_role`, data, ConfigHeader);
     } catch (error) {
 
     }
