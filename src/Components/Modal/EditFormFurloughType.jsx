@@ -70,16 +70,23 @@ const EditFormFurloughType = (data) => {
               onChange={(e) => setMax(e.target.value)}
             />
           </div>
-          <div className="">
-            <p className="text-sm font-extrabold text-gray-600">Type</p>
-            <input
-              type="text"
-              name="Type"
-              placeholder="Type"
-              className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
+           <div className="">
+            <p className="text-sm font-extrabold text-gray-600">Service Type</p>
+            <select
+              defaultValue={type}
               value={type}
+              name="type"
+              id=""
+              className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
               onChange={(e) => setType(e.target.value)}
-            />
+            >
+              <option value="-" disabled selected>
+                -- Select Type --
+              </option>
+              <option value="daily">daily</option>
+              <option value="weekly">weekly</option>
+              <option value="monthly">monthly</option>
+            </select>
           </div>
         </form>
       </div>
