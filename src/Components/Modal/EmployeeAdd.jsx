@@ -41,8 +41,8 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
   }
   useEffect(() => {
     const fetchDataRole = async () => {
-      const data = await axios.get(`/api/roles`, ConfigHeader);
-      setDataRole(data.data.data.data);
+      const data = await axios.get(`/api/roles?showAll=1`, ConfigHeader);
+      setDataRole(data.data.data);
     };
     fetchDataRole();
     setIsOpen(false);
@@ -212,7 +212,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
                 <select
                   name="gender"
                   id=""
-             
+
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
                   onChange={(e) => setGender(e.target.value)}
                 >
@@ -293,27 +293,12 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
                     document.querySelector("#emp_form")
                   }
                 />
-                {/* <select
-                  name="role"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => setRole(e.target.value)}
-                >
-                  <option value="-" selected disabled>
-                    -- select role --
-                  </option>
-                  {dataRole.map((row, index) => (
-                    <option value={row.roleId} key={index}>
-                      {row.nameRole}
-                    </option>
-                  ))}
-                </select> */}
               </div>
             </form>
           </div>
 
           <div className="flex justify-end gap-2">
-            <ButtonNormal bg="bg-gray-400 " text="Cancel" width="w-16" onClick={()=> setIsOpen(false)} />
+            <ButtonNormal bg="bg-gray-400 " text="Cancel" width="w-16" onClick={() => setIsOpen(false)} />
             <button
               type="submit"
               form="emp_form"

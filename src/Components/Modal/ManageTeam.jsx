@@ -26,8 +26,8 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
   };
 
   const getDataEmployee = async () => {
-    const { data } = await axios.get("api/employee", ConfigHeader);
-    setDataEmployee(data.data.data);
+    const { data } = await axios.get("api/employee?showAll=1", ConfigHeader);
+    setDataEmployee(data.data);
   };
 
   const fetchDataTeam = async () => {
@@ -50,20 +50,18 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
       leadBy: leadById,
       createdBy: createdById,
     }, ConfigHeader)
-    .then((res) => {
-      setIsOpen(false);
-      actionRefresh !== null && actionRefresh();
-    }).catch((err) => {
-      alert(err.response.data.message);
-    });
+      .then((res) => {
+        setIsOpen(false);
+        actionRefresh !== null && actionRefresh();
+      }).catch((err) => {
+        alert(err.response.data.message);
+      });
   };
 
   const refresh = () => {
     window.location.reload();
   };
-  console.log(data);
-  const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
-  
+
   // React Select
   const options = dataEmployee.map((item) => {
     return {
@@ -131,33 +129,33 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
               <p className="text-sm font-extrabold text-gray-600">
                 Leader Team
               </p>
-              {/* {console.log(dataTeam)} */}
+
               <Select
-                  styles={styleSelect}
-                  options={options}
-                  noOptionsMessage={() => "No data"}
-                  defaultValue={{ label:dataTeam.leadBy ? dataTeam.leadBy.employee : "", value: dataTeam.leadBy ? dataTeam.leadBy.id : "" }}
-                  // defaultValue={options.leadById}
-                  classNamePrefix={""}
-                  onChange={handleChangeLeadTeam}
-                  menuPortalTarget={
-                    document.querySelector("#team_form")
-                  }
-                />
+                styles={styleSelect}
+                options={options}
+                noOptionsMessage={() => "No data"}
+                defaultValue={{ label: dataTeam.leadBy ? dataTeam.leadBy.employee : "", value: dataTeam.leadBy ? dataTeam.leadBy.id : "" }}
+
+                classNamePrefix={""}
+                onChange={handleChangeLeadTeam}
+                menuPortalTarget={
+                  document.querySelector("#team_form")
+                }
+              />
             </div>
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">Team Maker</p>
               <Select
-                  styles={styleSelect}
-                  options={options}
-                  noOptionsMessage={() => "No data"}
-                  classNamePrefix={""}
-                  defaultValue={{ label:dataTeam.createdBy ? dataTeam.createdBy.employee : "", value: dataTeam.createdBy ? dataTeam.createdBy.id : "" }}
-                  onChange={handleChangeTeamMaker}
-                  menuPortalTarget={
-                    document.querySelector("#team_form")
-                  }
-                />
+                styles={styleSelect}
+                options={options}
+                noOptionsMessage={() => "No data"}
+                classNamePrefix={""}
+                defaultValue={{ label: dataTeam.createdBy ? dataTeam.createdBy.employee : "", value: dataTeam.createdBy ? dataTeam.createdBy.id : "" }}
+                onChange={handleChangeTeamMaker}
+                menuPortalTarget={
+                  document.querySelector("#team_form")
+                }
+              />
             </div>
           </div>
 
@@ -179,7 +177,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
               onClick={handleSubmit}
               text="Save"
               width="w-16"
-              
+
             />
           </div>
           {modalTeamDelete && (

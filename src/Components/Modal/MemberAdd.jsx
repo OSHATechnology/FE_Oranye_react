@@ -7,7 +7,7 @@ import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
 import Select from "react-select";
 
-const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
+const MemberAdd = ({ isOpen, setIsOpen, title, action = null, ...data }) => {
   const [teamName, setTeamName] = useState("");
   const [empId, setEmpId] = useState("");
   const [assignedBy, setAssignedBy] = useState("");
@@ -26,8 +26,8 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null , ...data}) => {
 
   useEffect(() => {
     const fetchDataEmployee = async () => {
-      const data = await axios.get(`/api/employee`, ConfigHeader);
-      setDataEmployee(data.data.data.data);
+      const data = await axios.get(`/api/employee?showAll=1`, ConfigHeader);
+      setDataEmployee(data.data.data);
     };
     fetchDataEmployee();
   }, []);

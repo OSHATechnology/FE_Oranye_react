@@ -17,8 +17,8 @@ const AddLoan = ({ isOpen, setIsOpen, title, action = null }) => {
 
   useEffect(() => {
     const fetchDataEmployee = async () => {
-      const data = await axios.get(`/api/employee`, ConfigHeader);
-      setDataEmployee(data.data.data.data);
+      const data = await axios.get(`/api/employee?showAll=1`, ConfigHeader);
+      setDataEmployee(data.data.data);
     };
     fetchDataEmployee();
   }, []);

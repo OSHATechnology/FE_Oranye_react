@@ -52,6 +52,31 @@ const FurloughCard = (props) => {
     }
   };
 
+  const handleValueDate = async (e) => {
+    const { value } = e.target;
+    let endDate = value;
+    setStartAt(value);
+
+    const durationDate = listTypeFurlough.find((item) => item.furTypeId === parseInt(typeFurlough));
+    if (durationDate) {
+      switch (durationDate.type) {
+        case "yearly":
+          endDate = moment(value).add(durationDate.max, "year");
+          break;
+        case "monthly":
+          endDate = moment(value).add(durationDate.max, "month");
+          break;
+
+        default:
+
+          break;
+      }
+      setEndAt(endDate.format("YYYY-MM-DD"));
+    } else {
+      setEndAt("");
+    }
+  };
+
   useEffect(() => {
     fecthTypeFurlough();
   }, []);
@@ -96,7 +121,7 @@ const FurloughCard = (props) => {
                       type="date"
                       name=""
                       id=""
-                      onChange={(e) => setStartAt(e.target.value)}
+                      onChange={(e) => handleValueDate(e)}
                       placeholder="Start Date"
                       className="rounded w-full border border-gray-300"
                     />
@@ -113,6 +138,8 @@ const FurloughCard = (props) => {
                       id=""
                       onChange={(e) => setEndAt(e.target.value)}
                       placeholder="End Date"
+                      value={endAt}
+                      disabled
                       className="rounded w-full border border-gray-300"
                     />
                   </td>
@@ -138,14 +165,27 @@ const WorkPermitCard = (props) => {
   const [dataWorkPermit, setDataWorkPermit] = useState({
     start_at: "",
     end_at: "",
+    files: [],
   });
 
   const clearInput = () => {
     setDataWorkPermit({
       start_at: "",
       end_at: "",
+      files: [],
     });
   };
+
+  const handleUploadFiles = (dataId, files) => {
+    let formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("file", files[i]);
+      axios.post("/api/upload-files-work-permit/" + dataId, formData, ConfigHeader)
+        .then((res) => {
+          console.log(res);
+        })
+    }
+  }
 
   const handleWorkPermit = (e) => {
     e.preventDefault();
@@ -156,11 +196,14 @@ const WorkPermitCard = (props) => {
       };
       const resp = axios.post("/api/my/add-leave-request", data, ConfigHeader);
       resp.then((res) => {
+        // handleUploadFiles(res.data.data.id, dataWorkPermit.files);
+        console.log(res.data);
         alert(res.data.message);
         props.actionRefresh();
         clearInput();
+      }).catch((err) => {
+        console.log(err);
       });
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -173,7 +216,7 @@ const WorkPermitCard = (props) => {
           <img src={LogoImg} alt="" />
         </div>
         <div className="basis-3/4 m-4">
-          <form onSubmit={handleWorkPermit}>
+          <form onSubmit={handleWorkPermit} encType="multipart/form-data">
             <table className="w-full">
               <tbody>
                 <tr>
@@ -223,8 +266,15 @@ const WorkPermitCard = (props) => {
                   <td colSpan="2">
                     <input
                       type="file"
+                      multiple
                       name=""
                       id=""
+                      onChange={(e) => {
+                        setDataWorkPermit({
+                          ...dataWorkPermit,
+                          files: e.target.files,
+                        });
+                      }}
                       placeholder="End Date"
                       className="rounded w-full border border-gray-300"
                     />

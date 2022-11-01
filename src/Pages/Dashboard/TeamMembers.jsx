@@ -13,7 +13,6 @@ import moment from "moment";
 import { Icon } from "@iconify/react";
 import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
-import ModalEdit from "../../Components/Modal/ModalEdit";
 
 const TeamMembers = () => {
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
@@ -36,7 +35,7 @@ const TeamMembers = () => {
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
   const [dataTeam, setDataTeam] = useState([]);
 
-  const fetchMemberData = async (page = 1,search = "") => {
+  const fetchMemberData = async (page = 1, search = "") => {
     try {
       const res = await axios.get(`api/team_member?teamid=${paramsData.id}&search=${search}&page=${page}`, ConfigHeader);
       setDataMember(res.data.data);
@@ -46,10 +45,10 @@ const TeamMembers = () => {
   };
 
   const handleSearch = (e) => {
-    try{
-      fetchMemberData(1,e.target.value);
-      setSearchValue(e.target.value); 
-    }catch(err){
+    try {
+      fetchMemberData(1, e.target.value);
+      setSearchValue(e.target.value);
+    } catch (err) {
 
     }
   }
@@ -61,13 +60,13 @@ const TeamMembers = () => {
   const refresh = () => {
     window.location.reload();
   };
-  
+
   useEffect(() => {
     fetchMemberData();
     fetchDataTeam().catch((err) => {
       navigate('../team');
     });
-    
+
     // console.log(`id : ` + dataTeam.id)
   }, [paramsData]);
 
@@ -124,27 +123,27 @@ const TeamMembers = () => {
         />
       </div>
 
-        <div className="w-full space-y-2 border rounded shadow p-2">
-      <div>
-        <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full mb-2">
-          <div className="">
-            <ButtonNormal
-              bg="bg-green-600 "
-              text="Add Member"
-              icon="bi:plus"
-              onClick={() => setIsModalAddOpened(!isModalAddOpened)}
-            />
-            <ModalAdd
-              isOpen={isModalAddOpened}
-              setIsOpen={setIsModalAddOpened}
-              title="Add Member"
-              data={dataTeam}
-              action={fetchMemberData}
-            />
+      <div className="w-full space-y-2 border rounded shadow p-2">
+        <div>
+          <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full mb-2">
+            <div className="">
+              <ButtonNormal
+                bg="bg-green-600 "
+                text="Add Member"
+                icon="bi:plus"
+                onClick={() => setIsModalAddOpened(!isModalAddOpened)}
+              />
+              <ModalAdd
+                isOpen={isModalAddOpened}
+                setIsOpen={setIsModalAddOpened}
+                title="Add Member"
+                data={dataTeam}
+                action={fetchMemberData}
+              />
+            </div>
+
+            <Search onChange={handleSearch} />
           </div>
-         
-          <Search onChange={handleSearch} />
-        </div>
           <table className="w-full text-center" id="tblMember">
             <thead className="bg-slate-100 h-10 border-b border-slate-400">
               <tr>
@@ -164,15 +163,15 @@ const TeamMembers = () => {
                     <td>{dataMember.data[row].assignedBy.name}</td>
                     <td>{moment(dataMember.data[row].joinedAt).format("DD MMMM YYYY")}</td>
                     <td>
-                    <div className="flex justify-center gap-1">
-                      <ButtonSmall
-                        bg="bg-red-500"
-                        icon="bi:trash"
-                        onClick={() => showModalDelete(dataMember.data[row].id)}
-                      />
+                      <div className="flex justify-center gap-1">
+                        <ButtonSmall
+                          bg="bg-red-500"
+                          icon="bi:trash"
+                          onClick={() => showModalDelete(dataMember.data[row].id)}
+                        />
                       </div>
                     </td>
-                  </tr> 
+                  </tr>
                 )) : <tr><td colSpan="5">Loading</td></tr>
               }
             </tbody>
@@ -188,9 +187,9 @@ const TeamMembers = () => {
             />
           )}
         </div>
-        <Pagination 
+        <Pagination
           activePage={dataMember.current_page ? dataMember.current_page : 0}
-          itemsCountPerPage={dataMember?.per_page ? dataMember?.per_page : 0 }
+          itemsCountPerPage={dataMember?.per_page ? dataMember?.per_page : 0}
           totalItemsCount={dataMember?.total ? dataMember?.total : 0}
           onChange={(pageNumber) => {
             fetchMemberData(pageNumber, searchValue)

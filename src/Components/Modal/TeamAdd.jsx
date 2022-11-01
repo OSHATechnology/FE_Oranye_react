@@ -15,8 +15,8 @@ const TeamAdd = ({ isOpen, setIsOpen, title, action = null }) => {
 
   useEffect(() => {
     const fetchDataEmployee = async () => {
-      const data = await axios.get(`/api/employee`, ConfigHeader);
-      setDataEmployee(data.data.data.data);
+      const data = await axios.get(`/api/employee?showAll=1`, ConfigHeader);
+      setDataEmployee(data.data.data);
     };
     fetchDataEmployee();
   }, []);
@@ -35,9 +35,7 @@ const TeamAdd = ({ isOpen, setIsOpen, title, action = null }) => {
     };
 
     try {
-      console.log(data);
       const rslt = await axios.post("/api/team", data, ConfigHeader);
-      console.log(rslt);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
 
@@ -131,7 +129,7 @@ const TeamAdd = ({ isOpen, setIsOpen, title, action = null }) => {
                   onChange={handleChangeLeadTeam}
                   menuPortalTarget={document.querySelector("#team_form")}
                 />
-                
+
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">

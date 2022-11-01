@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import ButtonNormal from "../../Components/ButtonNormal";
 import ButtonSmall from "../../Components/ButtonSmall";
 import TitleDashboard from "../../Components/TitleDashboard";
@@ -9,7 +9,6 @@ import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
 import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
-import Alert from "../../Components/Modal/Alert";
 
 
 const Teams = () => {
@@ -18,32 +17,32 @@ const Teams = () => {
   const [dataTeam, setDataTeam] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
-const fetchDataTeam = async (page = 1,search = "") => {
-  try {
-    const result = await axios.get(`/api/team?search=${search}&page=${page}`, ConfigHeader);
-    setDataTeam(result.data.data);
-  } catch (error) {
-    console.log(error);
-  }
-};
+  const fetchDataTeam = async (page = 1, search = "") => {
+    try {
+      const result = await axios.get(`/api/team?search=${search}&page=${page}`, ConfigHeader);
+      setDataTeam(result.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-const fetchTotalTeam = async () => {
-  try {
-    const response = await axios.get("api/count?type=team", ConfigHeader);
-    setTotalTeam(response.data.data);
-  } catch (error) {
-    console.log("failed to fetch total team");
-  }
-};
+  const fetchTotalTeam = async () => {
+    try {
+      const response = await axios.get("api/count?type=team", ConfigHeader);
+      setTotalTeam(response.data.data);
+    } catch (error) {
+      console.log("failed to fetch total team");
+    }
+  };
 
-const handleSearch = (e) => {
-  try{
-    fetchDataTeam(1,e.target.value);
-    setSearchValue(e.target.value);
-  }catch(err){
+  const handleSearch = (e) => {
+    try {
+      fetchDataTeam(1, e.target.value);
+      setSearchValue(e.target.value);
+    } catch (err) {
 
+    }
   }
-}
 
   useEffect(() => {
     fetchDataTeam();
@@ -63,7 +62,7 @@ const handleSearch = (e) => {
         Count={totalTeam}
       />
 
-        <div className="space-y-2 border rounded shadow p-2">
+      <div className="space-y-2 border rounded shadow p-2">
 
         <div className="flex justify-center">
           <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
@@ -75,28 +74,28 @@ const handleSearch = (e) => {
                 onClick={() => setIsModalAddOpened(!isModalAddOpened)}
               />
               <ModalAdd
-              isOpen={isModalAddOpened}
-              setIsOpen={setIsModalAddOpened}
-              title="Add New Team"
-              action={fetchDataTeam}
-            />
+                isOpen={isModalAddOpened}
+                setIsOpen={setIsModalAddOpened}
+                title="Add New Team"
+                action={fetchDataTeam}
+              />
             </div>
-            <Search onChange={handleSearch}/>
+            <Search onChange={handleSearch} />
           </div>
         </div>
-          <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
-            <table className=" w-full text-center overflow-x-scroll">
-              <thead className="bg-slate-100 border-b-2 border-slate-800 text-xs md:text-sm">
-                <tr className="">
-                  <th className=" py-2">No</th>
-                  <th className="">Nama Team</th>
-                  <th className="">Pemimpin Team</th>
-                  <th className="">Pembuat Team</th>
-                  <th className="">Action</th>
-                </tr>
-              </thead>
-              <tbody className="text-xs md:text-sm font-medium">
-                {
+        <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
+          <table className=" w-full text-center overflow-x-scroll">
+            <thead className="bg-slate-100 border-b-2 border-slate-800 text-xs md:text-sm">
+              <tr className="">
+                <th className=" py-2">No</th>
+                <th className="">Nama Team</th>
+                <th className="">Pemimpin Team</th>
+                <th className="">Pembuat Team</th>
+                <th className="">Action</th>
+              </tr>
+            </thead>
+            <tbody className="text-xs md:text-sm font-medium">
+              {
                 dataTeam.data ? Object.keys(dataTeam.data).map((row, index) =>
                 (
                   <tr key={dataTeam.data[row].id} className=" shadow ">
@@ -105,26 +104,26 @@ const handleSearch = (e) => {
                     <td>{dataTeam.data[row].leadBy.employee}</td>
                     <td>{dataTeam.data[row].createdBy.employee}</td>
                     <td>
-                    <div className="flex justify-center gap-1">
-                    
-                      <Link to={`../team/${dataTeam.data[row].id}`}>
-                        <ButtonSmall
-                          bg="bg-blue-600"
-                          icon="carbon:view"
-                          colorIcon="text-white"
-                        />
-                      </Link>
+                      <div className="flex justify-center gap-1">
+
+                        <Link to={`../team/${dataTeam.data[row].id}`}>
+                          <ButtonSmall
+                            bg="bg-blue-600"
+                            icon="carbon:view"
+                            colorIcon="text-white"
+                          />
+                        </Link>
                       </div>
                     </td>
-                  </tr> 
+                  </tr>
                 )) : <tr><td colSpan="5">Loading</td></tr>
               }
-                </tbody>  
-            </table>
-          </div>
-        <Pagination 
+            </tbody>
+          </table>
+        </div>
+        <Pagination
           activePage={dataTeam.current_page ? dataTeam.current_page : 0}
-          itemsCountPerPage={dataTeam?.per_page ? dataTeam?.per_page : 0 }
+          itemsCountPerPage={dataTeam?.per_page ? dataTeam?.per_page : 0}
           totalItemsCount={dataTeam?.total ? dataTeam?.total : 0}
           onChange={(pageNumber) => {
             fetchDataTeam(pageNumber, searchValue)
@@ -135,7 +134,6 @@ const handleSearch = (e) => {
           linkClass="page-link"
           activeClass="bg-slate-100 font-bold"
         />
-        <Alert />
       </div>
     </div>
   );
