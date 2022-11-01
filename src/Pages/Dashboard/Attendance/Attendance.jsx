@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
-import SimpleCard from "../../../Components/SimpleCard";
 import { Icon } from "@iconify/react";
 import ModalDecline from "../../../Components/Modal/ModalDecline";
 import ModalAcc from "../../../Components/Modal/ModalAccept";
@@ -9,7 +8,7 @@ import ConfigHeader from "../../Auth/ConfigHeader";
 import ModalDetail from "../../../Components/Modal/ModalDetail";
 import Search from "../../../Components/Search";
 import Pagination from "react-js-pagination";
-import { Menu, Tab, Transition } from "@headlessui/react";
+import { Menu, Transition } from "@headlessui/react";
 import moment from "moment/moment";
 
 const Attendance = () => {
@@ -117,20 +116,7 @@ const Attendance = () => {
 
   return (
     <div className="w-full space-y-4 pb-10">
-      <div className="md:flex  md:gap-8 space-y-4 md:space-y-0">
-        <SimpleCard
-          bgColor=""
-          Title="Request"
-          Icon="fluent:mail-20-filled"
-          Count="7"
-        />
-        <SimpleCard
-          bgColor=""
-          Title="Approved"
-          Icon="fa6-solid:envelope-circle-check"
-          Count="7"
-        />
-      </div>
+      
       <div className="border rounded shadow p-2 space-y-2">
         <div className="flex  justify-between">
           <Menu as="div" className="relative inline-block text-left">

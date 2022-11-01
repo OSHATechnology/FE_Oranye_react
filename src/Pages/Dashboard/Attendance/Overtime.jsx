@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
-import SimpleCard from "../../../Components/SimpleCard";
-import ModalFilter from "../../../Components/Modal/ModalFilterAttendance";
-// import Modal from "../../../Components/Modal/ModalAttendance";
 import axios from "axios";
 import ConfigHeader from "../../Auth/ConfigHeader";
 import moment from "moment";
@@ -11,10 +8,7 @@ import Search from "../../../Components/Search";
 import Pagination from "react-js-pagination";
 
 const Overtime = () => {
-  // const [isOpen, setIsOpen] = useState(false);
-  const [isModalFilterOpened, setIsModalFilterOpened] = useState(false);
   const [dataOvertime, setDataOvertime] = useState([]);
-  const [totalOvertime, setTotalOvertime] = useState(0);
   const [modalOvertime, setModalOvertime] = useState(false);
   const [overtimeDetail, setOvertimeDetail] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -40,7 +34,6 @@ const Overtime = () => {
       ConfigHeader
     );
     setDataOvertime(result.data.data);
-    setTotalOvertime(result.data.data.length);
   };
   useEffect(() => {
     fetchDataOvertime().catch((err) => {
@@ -57,14 +50,6 @@ const Overtime = () => {
 
   return (
     <div className="w-full space-y-4 pb-10">
-      <div className="flex gap-8">
-        <SimpleCard
-          bgColor=""
-          Title="Overtime"
-          Icon="material-symbols:work-history"
-          Count={totalOvertime}
-        />
-      </div>
       <div className="border rounded shadow p-2 space-y-2">
         <div className="md:flex justify-between items-center space-y-4 md:space-y-0">
           <div>
@@ -137,37 +122,6 @@ const Overtime = () => {
                 <td colSpan={6}>Loading</td>
               </tr>
             )}
-            {/* {dataOvertime.map((row, index) => (
-              <tr key={row.id}>
-                <td>{index + 1}</td>
-                <td>
-                  <div className="flex items-center justify-center gap-2">
-                    <img src={row.img} alt="" className="w-8" />
-                    <span>{row.employeeId.name}</span>
-                  </div>
-                </td>
-                <td className="w-2">
-                  <span>
-                    {Math.round(moment.duration(moment(row.endAt, 'YYYY/MM/DD HH:mm').diff(moment(row.startAt, 'YYYY/MM/DD HH:mm'))).asHours())} hours
-                  </span>
-                  <span className="ml-2 text-xs font-thin text-slate-500">
-                    ({moment(row.startAt).format("HH:mm")} - {moment(row.endAt).format("HH:mm")})
-                  </span>
-                </td>
-                <td>{row.assignedBy.name}</td>
-                <td>
-                  <span>{row.status}</span>
-                </td>
-                <td>
-                  <ButtonSmall
-                    bg="bg-blue-600"
-                    icon="carbon:view"
-                    colorIcon="text-white"
-                    onClick={() => showModalDetail(row.id)}
-                  />
-                </td>
-              </tr>
-            ))} */}
           </tbody>
         </table>
         {modalOvertime && (

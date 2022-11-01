@@ -9,6 +9,7 @@ import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
 import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
+import Alert from "../../Components/Modal/Alert";
 
 
 const Teams = () => {
@@ -134,6 +135,7 @@ const handleSearch = (e) => {
           linkClass="page-link"
           activeClass="bg-slate-100 font-bold"
         />
+        <Alert />
       </div>
     </div>
   );
