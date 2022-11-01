@@ -91,29 +91,19 @@ const FurloughAdd = ({ isOpen, setIsOpen, title, action = null }) => {
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Type</p>
-                <input
-                  type="text"
-                  name="Type"
-                  placeholder="Type"
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                />
-              </div>
-              {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">Gender</p>
                 <select
-                  name="gender"
+                  name="type"
                   id=""
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
                   
-                  onChange={(e) => setGender(e.target.value)}
+                  onChange={(e) => setType(e.target.value)}
                 >
-                  <option value="man" disabled selected>-- Select Gender --</option>
-                  <option value="man" >Male</option>
-                  <option value="woman">Female</option>
+                  <option value="-" disabled selected>-- Select Type --</option>
+                  <option value="daily">daily</option>
+                  <option value="weekly">Week</option>
+                  <option value="monthly">Month</option>
                 </select>
-              </div> */}
+              </div>
             </form>
           </div>
 

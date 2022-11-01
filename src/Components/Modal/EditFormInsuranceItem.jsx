@@ -87,7 +87,7 @@ const EditFormInsuranceItem = (data) => {
               className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
               onChange={(e) => setType(e.target.value)}
             >
-              <option value="allowance" disabled selected>
+              <option value="-" disabled selected>
                 -- Select Type --
               </option>
               <option value="allowance">Allowance</option>

@@ -77,7 +77,7 @@ const Overtime = () => {
               dataOvertime.data.map((row, index) => {
                 return (
                   <tr key={row.id}>
-                    <td>{parseInt(row) + 1}</td>
+                    <td>{index + 1}</td>
                     <td>
                       <div className="flex items-center justify-center gap-2">
                         <img src={row.img} alt="" className="w-8" />
