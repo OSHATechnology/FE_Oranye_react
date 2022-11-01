@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
-import SimpleCard from "../../../Components/SimpleCard";
 import { Icon } from "@iconify/react";
-// import Modal from "../../../Components/Modal/ModalAttendance";
-import ModalFilter from "../../../Components/Modal/ModalFilterAttendance";
 import axios from "axios";
 import ConfigHeader from "../../Auth/ConfigHeader";
 import moment from "moment";
@@ -12,10 +9,7 @@ import Search from "../../../Components/Search";
 import Pagination from "react-js-pagination";
 
 const Today = () => {
-  // const [isOpen, setIsOpen] = useState(false);
-  const [isModalFilterOpened, setIsModalFilterOpened] = useState(false);
   const [dataToday, setDataToday] = useState([]);
-
   const [modalToday, setModalToday] = useState(false);
   const [todayDetail, setTodayDetail] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -31,7 +25,6 @@ const Today = () => {
       `/api/attendance/${dataTodayId}`,
       ConfigHeader
     );
-    // console.log(result.data);
     setTodayDetail(result.data.data);
     setModalToday(true);
   };
@@ -58,15 +51,6 @@ const Today = () => {
   };
   return (
     <div className="w-full space-y-4 pb-10">
-      <div className="md:flex space-y-4 md:space-y-0 gap-8">
-        <SimpleCard
-          bgColor=""
-          Title="Active"
-          Icon="clarity:assign-user-solid"
-          Count="7"
-        />
-        <SimpleCard bgColor="" Title="Furlough" Icon="bxs:plane" Count="7" />
-      </div>
       <div className="border rounded shadow p-2 space-y-2">
         <div className="md:flex  md:justify-between items-center space-y-4 md:space-y-0">
           <div>
