@@ -6,7 +6,7 @@ import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 import Select from "react-select";
 
-const AddLoan = ({ isOpen, setIsOpen, title, action = null }) => {
+const AddLoan = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) => {
   const [employee, setEmployee] = useState("");
   const [name, setName] = useState("");
   const [nominal, setNominal] = useState("");
@@ -54,9 +54,10 @@ const AddLoan = ({ isOpen, setIsOpen, title, action = null }) => {
       //   setIsOpen(false);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
+      showAlert("success",rslt.data.message); 
       changeDataToNull();
     } catch (error) {
-      console.log(error);
+      showAlert("failed",error.response.data.data);
     }
   };
 

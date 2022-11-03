@@ -87,14 +87,14 @@ export default function Dashboard(props) {
                         <Route index element={<GrossSalary />} />
                         <Route path="SalaryDeductions" element={<SalaryDeductions />} />
                         <Route path="NetSalary" element={<NetSalary />} />
-                        <Route path="Loan" element={<Loan />} />
+                        <Route path="Loan" element={<Loan alert={alertData} />} />
                     </Route>
-                    <Route path="emp" element={<Emp />} />
+                    <Route path="emp" element={<Emp alert={alertData} />} />
                     <Route path="mitra" element={<Mitra />} />
                     <Route path="team" element={<Teams alert={alertData} />} />
                     <Route path="insurance" element={<Insurance />} />
                     <Route path="allowance" element={<Allowance />} />
-                    <Route path="team/:id" element={<MemberTeam />} />
+                    <Route path="team/:id" element={<MemberTeam alert={alertData} />} />
                     <Route path="payroll/LoanPayment/:id" element={<LoanPayment />} />
                     <Route path="emp/:id/family" element={<Family />} />
                     <Route path="emp/:id/Salary" element={<Salary />} />

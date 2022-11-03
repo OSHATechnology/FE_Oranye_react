@@ -9,7 +9,6 @@ import axios from "axios";
 import ConfigHeader from "../Auth/ConfigHeader";
 import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
-import Alert from "../../Components/Modal/Alert";
 
 const Teams = (props) => { //nambahan props
   const [totalTeam, setTotalTeam] = useState(0);

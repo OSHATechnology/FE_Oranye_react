@@ -42,7 +42,7 @@ const TeamAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) 
       showAlert("success",rslt.data.message); // nambah ieu
       changeDataToNull();
     } catch (error) {
-      showAlert("failed",error.response.data.data);
+      showAlert("failed",error.response.data.data); // nambah ieu oge
     }
   };
 

@@ -8,7 +8,7 @@ import Search from "../../../Components/Search";
 import ConfigHeader from "../../Auth/ConfigHeader";
 import ModalAddLoan from "../../../Components/Modal/AddLoan";
 
-const Kredit = () => {
+const Kredit = (props) => {
   const [dataLoan, setDataLoan] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const fetchDataLoan = async (page = 1, search = "") => {
@@ -30,7 +30,11 @@ const Kredit = () => {
       setSearchValue(e.target.value);
     } catch (err) { }
   };
-  console.log(dataLoan);
+  
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
+
   // Add Loan
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
 
@@ -50,6 +54,7 @@ const Kredit = () => {
             setIsOpen={setIsModalAddOpened}
             title="Add Loan"
             action={fetchDataLoan}
+            showAlert={handleAlert}
           />
 
           <Search onChange={handleSearch} />

@@ -14,7 +14,7 @@ import { Icon } from "@iconify/react";
 import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
 
-const TeamMembers = () => {
+const TeamMembers = (props) => {
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [isModalManageOpened, setIsModalManageOpened] = useState(false);
   const paramsData = useParams();
@@ -51,6 +51,10 @@ const TeamMembers = () => {
     } catch (err) {
 
     }
+  }
+
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
   }
 
   const fetchDataTeam = async () => {
@@ -97,7 +101,7 @@ const TeamMembers = () => {
           title="Manage This Team"
           data={dataTeam}
           action={refresh}
-
+          
         />
         {/* </Link> */}
       </div>
@@ -139,6 +143,7 @@ const TeamMembers = () => {
                 title="Add Member"
                 data={dataTeam}
                 action={fetchMemberData}
+                showAlert={handleAlert}
               />
             </div>
 
