@@ -5,8 +5,9 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import Select from "react-select";
+import Alert from "./Alert";
 
-const TeamAdd = ({ isOpen, setIsOpen, title, action = null }) => {
+const TeamAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) => {
   const [name, setName] = useState("");
   const [leadBy, setLeadBy] = useState("");
   const [createdBy, setCreatedBy] = useState("");
@@ -38,10 +39,10 @@ const TeamAdd = ({ isOpen, setIsOpen, title, action = null }) => {
       const rslt = await axios.post("/api/team", data, ConfigHeader);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
-
+      showAlert("success",rslt.data.message); // nambah ieu
       changeDataToNull();
     } catch (error) {
-      console.log(error);
+      showAlert("failed",error.response.data.data);
     }
   };
 
@@ -69,12 +70,12 @@ const TeamAdd = ({ isOpen, setIsOpen, title, action = null }) => {
 
   const handleChangeLeadTeam = (selectedOption) => {
     setLeadBy(selectedOption.value);
-    console.log(selectedOption);
+    
   };
 
   const handleChangeTeamMaker = (selectedOption) => {
     setCreatedBy(selectedOption.value);
-    console.log(selectedOption);
+    
   };
 
   return (

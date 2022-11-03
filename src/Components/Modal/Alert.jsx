@@ -1,16 +1,34 @@
 import { Icon } from "@iconify/react";
 import React from "react";
 
-const Alert = () => {
+const Alert = (props) => {
   return (
-   <div>
-      <div className="bg-green-500 w-80 h-1 rounded-t"></div>
-      <div className="bg-green-100 p-2 flex gap-1 items-center w-80 h-14 rounded-b text-gray-600">
-        <Icon icon="akar-icons:circle-alert"></Icon>
-        <p className="text-sm font-medium ">Data berhasil di tambahkan</p>
+    <div className="w-80 absolute right-0 top-0 m-5 z-50">
+      <div className={"bg-" + props.color + "-500  h-1 rounded-t"}></div>
+      <div className={"flex justify-between bg-" + props.color + "-100"}>
+        <div className={" p-2 flex gap-1 items-center  h-14 rounded-b "}>
+          <Icon
+            icon="akar-icons:circle-alert"
+            className={"text-" + props.color + "-800"}
+          ></Icon>
+          <p className={"text-sm font-medium text-" + props.color + "-800"}>
+            {props.text}{" "}
+          </p>
+        </div>
+        <div className={"p-2 flex gap-1 items-center h-14"}>
+          <Icon
+            icon="ep:close"
+            className={"text-" + props.color + "-800 w-3"}
+          ></Icon>
+        </div>
       </div>
-   </div>
+    </div>
   );
+};
+
+Alert.defaultProps = {
+  color: "green",
+  text: "Data berhasil di tambahkan.",
 };
 
 export default Alert;

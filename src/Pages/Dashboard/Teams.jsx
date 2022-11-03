@@ -11,8 +11,7 @@ import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
 import Alert from "../../Components/Modal/Alert";
 
-
-const Teams = () => {
+const Teams = (props) => { //nambahan props
   const [totalTeam, setTotalTeam] = useState(0);
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [dataTeam, setDataTeam] = useState([]);
@@ -20,7 +19,10 @@ const Teams = () => {
 
   const fetchDataTeam = async (page = 1, search = "") => {
     try {
-      const result = await axios.get(`/api/team?search=${search}&page=${page}`, ConfigHeader);
+      const result = await axios.get(
+        `/api/team?search=${search}&page=${page}`,
+        ConfigHeader
+      );
       setDataTeam(result.data.data);
     } catch (error) {
       console.log(error);
@@ -40,10 +42,14 @@ const Teams = () => {
     try {
       fetchDataTeam(1, e.target.value);
       setSearchValue(e.target.value);
-    } catch (err) {
+    } catch (err) {}
+  };
 
-    }
+  // start alert nambah ieu
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
   }
+  // end alert sampe dieu
 
   useEffect(() => {
     fetchDataTeam();
@@ -64,7 +70,6 @@ const Teams = () => {
       />
 
       <div className="space-y-2 border rounded shadow p-2">
-
         <div className="flex justify-center">
           <div className="justify-between items-center md:min-h-1/3 md:flex md:flex-row md:w-full">
             <div className="flex gap-4">
@@ -79,6 +84,7 @@ const Teams = () => {
                 setIsOpen={setIsModalAddOpened}
                 title="Add New Team"
                 action={fetchDataTeam}
+                showAlert={handleAlert} //nambah ieu
               />
             </div>
             <Search onChange={handleSearch} />
@@ -96,9 +102,8 @@ const Teams = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {
-                dataTeam.data ? Object.keys(dataTeam.data).map((row, index) =>
-                (
+              {dataTeam.data ? (
+                Object.keys(dataTeam.data).map((row, index) => (
                   <tr key={dataTeam.data[row].id} className=" shadow ">
                     <td>{parseInt(row) + 1}</td>
                     <td>{dataTeam.data[row].name}</td>
@@ -106,7 +111,6 @@ const Teams = () => {
                     <td>{dataTeam.data[row].createdBy.employee}</td>
                     <td>
                       <div className="flex justify-center gap-1">
-
                         <Link to={`../team/${dataTeam.data[row].id}`}>
                           <ButtonSmall
                             bg="bg-blue-600"
@@ -117,8 +121,12 @@ const Teams = () => {
                       </div>
                     </td>
                   </tr>
-                )) : <tr><td colSpan="5">Loading</td></tr>
-              }
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">Loading</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -127,7 +135,7 @@ const Teams = () => {
           itemsCountPerPage={dataTeam?.per_page ? dataTeam?.per_page : 0}
           totalItemsCount={dataTeam?.total ? dataTeam?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataTeam(pageNumber, searchValue)
+            fetchDataTeam(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}
@@ -136,7 +144,6 @@ const Teams = () => {
           activeClass="bg-slate-100 font-bold"
         />
       </div>
-      <Alert />
     </div>
   );
 };
