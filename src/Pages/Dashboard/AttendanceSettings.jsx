@@ -13,7 +13,7 @@ import ModalAddAttendanceStatus from "../../Components/Modal/AttendanceStatusAdd
 import ModalDelete from "../../Components/Modal/ModalDelete";
 import ModalEdit from "../../Components/Modal/ModalEdit";
 
-const AttendanceSettings = () => {
+const AttendanceSettings = (props) => {
   const [dataFurlough, setDataFurlough] = useState([]);
   const [dataAttendanceStatus, setDataAttendanceStatus] = useState([]);
   const [searchAttendanceValue, setSearchAttendanceValue] = useState("");
@@ -111,6 +111,10 @@ const AttendanceSettings = () => {
     await fetchDataAttendanceStatusEdit();
   };
 
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
+
   
 
   // Add Attendance Status
@@ -162,6 +166,7 @@ const AttendanceSettings = () => {
                 setIsOpen={setIsModalAddOpened}
                 title="Add Furlough Type"
                 action={fetchDataFurlough}
+                showAlert={handleAlert}
               />
             </div>
             <Search onChange={handleSearchFurlough} />
@@ -270,6 +275,7 @@ const AttendanceSettings = () => {
                 setIsOpen={setIsModalAttendanceStatusAddOpened}
                 title="Add Attendance Status"
                 action={fetchDataAttendanceStatus}
+                showAlert={handleAlert}
               />
             </div>
             <Search onChange={handleSearchAttendance} />

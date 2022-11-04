@@ -7,7 +7,7 @@ import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import Select from "react-select";
 import moment from "moment";
 
-const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
+const PartnerAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
@@ -75,9 +75,10 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
       const rslt = await axios.post("/api/partners", formData, ConfigHeader);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
+      showAlert("success",rslt.data.message);
       changeDataToNull();
     } catch (error) {
-      console.log(error);
+      showAlert("failed",error.response.data.data);
     }
   };
 

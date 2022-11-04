@@ -13,7 +13,7 @@ import { Icon } from "@iconify/react";
 import ModalAddAllowance from "../../Components/Modal/AddAllowance";
 import ModalEdit from "../../Components/Modal/ModalEdit";
 
-const Allowance = () => {
+const Allowance = (props) => {
   const [totalAllowance, setTotalAllowance] = useState(0);
   const [dataAllowance, setDataAllowance] = useState([]);
   const [modalAllowanceDelete, setModalAllowanceDelete] = useState(false);
@@ -49,6 +49,10 @@ const Allowance = () => {
       setSearchValue(e.target.value);
     } catch (err) {}
   };
+
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
 
   let dataAllowanceId = "";
   const showModalDelete = async (allowanceId) => {
@@ -117,6 +121,7 @@ const Allowance = () => {
                 setIsOpen={setIsModalAddOpened}
                 title="Add Allowance"
                 action={fetchDataAllowance}
+                showAlert={handleAlert}
               />
             </div>
             <Search onChange={handleSearchAllowance} />

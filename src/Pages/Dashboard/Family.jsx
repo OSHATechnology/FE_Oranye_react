@@ -12,7 +12,7 @@ import ModalEdit from "../../Components/Modal/ModalEdit";
 import SimpleCard from "../../Components/SimpleCard";
 import { useNavigate } from "react-router-dom";
 
-const Family = (data) => {
+const Family = (props, data) => {
   const paramsData = useParams();
   const [dataFamily, setDataFamily] = useState([]);
   const navigate = useNavigate();
@@ -91,8 +91,12 @@ const Family = (data) => {
     setFamilyDeleteData(dataFamilyId);
     setModalFamilyDelete(true);
   };
+
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
   
-  console.log(familyEditData);
+  // console.log(familyEditData);
 
   // console.log(dataFamily);
   return (
@@ -132,6 +136,7 @@ const Family = (data) => {
             title="Add Family"
             data={dataEmp}
             action={fetchDataFamily}
+            showAlert={handleAlert}
           />
         </div>
 

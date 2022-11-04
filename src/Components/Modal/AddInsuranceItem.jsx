@@ -5,7 +5,7 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 
-const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) => {
+const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, showAlert = null, ...data }) => {
   const [insuranceId, setInsuranceId] = useState("");
   const [name, setName] = useState("");
   const [type, setType] = useState("");
@@ -45,9 +45,10 @@ const AddInsuranceItem = ({ isOpen, setIsOpen, title, action = null, ...data }) 
       });
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
+      showAlert("success",rslt.data.message);
       changeDataToNull();
     } catch (error) {
-      console.log(error);
+      showAlert("failed",error.response.data.data);
     }
   };
 

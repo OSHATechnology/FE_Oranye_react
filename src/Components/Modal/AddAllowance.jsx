@@ -6,7 +6,7 @@ import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 import Select from "react-select";
 
-const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
+const AddAllowance = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) => {
   const [role, setRole] = useState("");
   const [type, setType] = useState("");
   const [nominal, setNominal] = useState("");
@@ -50,9 +50,10 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
       const rslt = await axios.post("/api/allowance", formData, ConfigHeader);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
+      showAlert("success",rslt.data.message);
       changeDataToNull();
     } catch (error) {
-      console.log(error);
+      showAlert("failed",error.response.data.data);
     }
   };
   // React Select
@@ -121,7 +122,7 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
             <form id="allowance_form" onSubmit={handleSubmit}>
               <div className="">
-                <p className="text-sm font-extrabold text-gray-600">Jabatan</p>
+                <p className="text-sm font-extrabold text-gray-600">Role</p>
                 <Select
                   styles={styleSelect}
                   options={optionsRole}
@@ -133,7 +134,7 @@ const AddAllowance = ({ isOpen, setIsOpen, title, action = null }) => {
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">
-                  Tunjangan
+                  Type
                 </p>
                 <Select
                   styles={styleSelect}
