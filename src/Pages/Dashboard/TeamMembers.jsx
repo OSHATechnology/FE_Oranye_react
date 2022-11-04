@@ -101,7 +101,7 @@ const TeamMembers = (props) => {
           title="Manage This Team"
           data={dataTeam}
           action={refresh}
-          
+          showAlert={handleAlert}
         />
         {/* </Link> */}
       </div>
@@ -189,6 +189,7 @@ const TeamMembers = (props) => {
               typeData="member"
               data={memberDeleteData}
               action={fetchMemberData}
+              showAlert={handleAlert} 
             />
           )}
         </div>

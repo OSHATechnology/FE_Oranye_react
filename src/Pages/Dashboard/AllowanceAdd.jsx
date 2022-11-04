@@ -7,7 +7,7 @@ import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
 import ModalDelete from "../../Components/Modal/ModalDelete";
 
-const AllowanceAdd = () => {
+const AllowanceAdd = (props) => {
   const [dataAllowance, setDataAllowance] = useState([]);
   const [modalAllowanceDelete, setModalAllowanceDelete] = useState(false);
   const [allowanceDeleteData, setAllowanceDeleteData] = useState("");
@@ -35,6 +35,10 @@ const AllowanceAdd = () => {
     setModalAllowanceDelete(true);
   };
 
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
+
   // add
   function changeDataToNull() {
     setName("");
@@ -49,21 +53,24 @@ const AllowanceAdd = () => {
     };
 
     try {
-      let formData = new FormData();
-      for (let key in data) {
-        formData.append(key, data[key]);
-      }
+      // let formData = new FormData();
+      // for (let key in data) {
+      //   formData.append(key, data[key]);
+      // }
       const rslt = await axios.post(
         "/api/type_of_allowance",
-        formData,
+        data,
         ConfigHeader
       );
 
       fetchDataAllowance();
-
+      console.log(rslt)
+      handleAlert("success",rslt.data.message);
       changeDataToNull();
     } catch (error) {
       console.log(error);
+      // handleAlert("failed",error.data.message);
+      handleAlert("failed",error.response.data.data);
     }
   };
 

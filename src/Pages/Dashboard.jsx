@@ -101,10 +101,10 @@ export default function Dashboard(props) {
                     <Route path="DetailSalary/:id" element={<DetailSalary />} />
                     <Route path="manageInsurance/:id" element={<ManageInsurance alert={alertData} />} />
                     <Route path="emp/:id" element={<Detail />} />
-                    <Route path="addRole" element={<AddRole />} />
+                    <Route path="addRole" element={<AddRole alert={alertData} />} />
                     <Route path="RoleEdit" element={<RoleEdit />} />
                     <Route path="attendanceSettings" element={<AttendanceSettings alert={alertData}/>} />
-                    <Route path="allowanceAdd" element={<AllowanceAdd />} />
+                    <Route path="allowanceAdd" element={<AllowanceAdd alert={alertData} />} />
                 </Routes>
 
             </AuthenticatedLayout>
