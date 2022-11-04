@@ -4,7 +4,6 @@ import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 
 const EditFormFamily = (data) => {
-  // const [isOpen, setIsOpen] = useState(false);
   const [dataEmployee, setDataEmployee] = useState("");
   const [identityNumber, setIdentityNumber] = useState("");
   const [name, setName] = useState("");
@@ -14,19 +13,15 @@ const EditFormFamily = (data) => {
   const closeModal = data.handleCloseModal ? data.handleCloseModal : () => {};
   const showAlert = data.showAlert ? data.showAlert : () => {};
   useEffect(() => {
-    // setDataEmployee(data.data.employee.id);
-    // alert(data.data.employee.id);
     setIdentityNumber(data.data.identityNumber);
     setName(data.data.name);
     setStatus(data.data.status && data.data.status.id);
     setIsAlive(data.data.isAlive);
-    // console.log(data.data.status.id)
   }, [data.data]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const dataEdit = {
-      // empId: dataEmployee,
       identityNumber: identityNumber,
       name: name,
       statusId: status,
@@ -41,28 +36,14 @@ const EditFormFamily = (data) => {
         showAlert("success", res.data.message);
       })
       .catch((err) => {
-        // console.log(err.response);
         showAlert("failed", err.response.data.data);
       });
   };
-
-  // console.log(data)
 
   return (
     <div className="space-y-2">
       <div className=" space-y-1">
         <form id="family_form" onSubmit={handleSubmit}>
-          {/* <div className="">
-                <p className="text-sm font-extrabold text-gray-600">Employee Name</p>
-                <input
-                  type="text"
-                  placeholder="name"
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  value={dataEmployee}
-                  onChange={(e) => setDataEmployee(e.target.value)}
-                />
-              </div> */}
-
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Name</p>
             <input
@@ -113,13 +94,11 @@ const EditFormFamily = (data) => {
               placeholder="Is Alive"
               checked={isAlive ? true : false}
               className="rounded  border border-gray-300 text-xs text-gray-700 font-medium"
-              //   value={isAlive}
               onChange={(e) => setIsAlive(!isAlive)}
             />
           </div>
         </form>
       </div>
-
       <div className="flex justify-end gap-2">
         <ButtonNormal
           bg="bg-gray-400 "

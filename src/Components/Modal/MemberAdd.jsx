@@ -7,7 +7,14 @@ import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
 import Select from "react-select";
 
-const MemberAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null, ...data }) => {
+const MemberAdd = ({
+  isOpen,
+  setIsOpen,
+  title,
+  action = null,
+  showAlert = null,
+  ...data
+}) => {
   const [teamName, setTeamName] = useState("");
   const [empId, setEmpId] = useState("");
   const [assignedBy, setAssignedBy] = useState("");
@@ -20,8 +27,13 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null, 
   function changeDataToNull() {
     setEmpId("");
     setAssignedBy("");
-    // setJoinedAt(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
-    setJoinedAt(new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate());
+    setJoinedAt(
+      new Date().getFullYear() +
+        "-" +
+        new Date().getMonth() +
+        "-" +
+        new Date().getDate()
+    );
   }
 
   useEffect(() => {
@@ -46,17 +58,16 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null, 
       console.log(rslt);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
-      showAlert("success",rslt.data.message);
+      showAlert("success", rslt.data.message);
       changeDataToNull();
     } catch (error) {
-      showAlert("failed",error.response.data.data);
+      showAlert("failed", error.response.data.data);
     }
   };
 
   useEffect(() => {
     setDataTeam(data.data);
   }, [data]);
-  // console.log(dataTeam)
 
   // React Select
   const options = dataEmployee.map((item) => {
@@ -133,25 +144,8 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null, 
                   noOptionsMessage={() => "No data"}
                   classNamePrefix={""}
                   onChange={handleChange}
-                  menuPortalTarget={
-                    document.querySelector("#member_form")
-                  }
+                  menuPortalTarget={document.querySelector("#member_form")}
                 />
-                {/* <select
-                  name="Employee"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => setEmpId(e.target.value)}
-                >
-                  <option value="-" selected disabled>
-                    -- Select Member --
-                  </option>
-                  {dataEmployee.map((row, index) => (
-                    <option value={row.employeeId} key={index}>
-                      {row.name}
-                    </option>
-                  ))}
-                </select> */}
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Join At</p>
@@ -172,7 +166,11 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null, 
               width="w-16"
               onClick={() => setIsOpen(false)}
             />
-            <button type="submit" form="member_form" className="bg-green-500 text-white rounded px-2">
+            <button
+              type="submit"
+              form="member_form"
+              className="bg-green-500 text-white rounded px-2"
+            >
               submit
             </button>
           </div>

@@ -51,7 +51,6 @@ const AddLoan = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) 
       console.log(FormData);
       const rslt = await axios.post("/api/loan", formData, ConfigHeader);
       console.log(rslt);
-      //   setIsOpen(false);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
       showAlert("success",rslt.data.message); 
@@ -123,21 +122,6 @@ const AddLoan = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) 
                     document.getElementById("add_allowance_form")
                   }
                 />
-                {/* <select
-                  name="employee"
-                  id=""
-                  className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  onChange={(e) => setEmployee(e.target.value)}
-                >
-                  <option value="-" selected disabled>
-                    -- select Employee --
-                  </option>
-                  {dataEmployee.map((row, index) => (
-                    <option value={row.employeeId} key={index}>
-                      {row.name}
-                    </option>
-                  ))}
-                </select> */}
               </div>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Loan Name</p>

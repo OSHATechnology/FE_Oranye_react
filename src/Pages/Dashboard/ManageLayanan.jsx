@@ -17,7 +17,8 @@ const ManageLayanan = (props) => {
   const paramsData = useParams();
   const [dataItem, setDataItem] = useState([]);
   const [insuranceItemDeleteData, setInsuranceItemDeleteData] = useState("");
-  const [modalInsuranceItemDelete, setModalInsuranceItemDelete] = useState(false);
+  const [modalInsuranceItemDelete, setModalInsuranceItemDelete] =
+    useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [dataInsurance, setDataInsurance] = useState([
     {
@@ -38,7 +39,7 @@ const ManageLayanan = (props) => {
   };
   let dataInsuranceItemId = "";
 
-  // Edit 
+  // Edit
   const [modalInsuranceItemEdit, setModalInsuranceItemEdit] = useState(false);
   const [insuranceItemEditData, setInsuranceItemEditData] = useState([]);
   const fetchDataIns = async () => {
@@ -54,10 +55,9 @@ const ManageLayanan = (props) => {
     await fetchDataIns();
   };
 
-  const handleAlert = (type,message) => {
-    props.alert(type,message);
-  }
-
+  const handleAlert = (type, message) => {
+    props.alert(type, message);
+  };
 
   useEffect(() => {
     fetchDataInsurance().catch((err) => {
@@ -77,10 +77,8 @@ const ManageLayanan = (props) => {
     try {
       fetchDataInsurance(1, e.target.value);
       setSearchValue(e.target.value);
-    } catch (err) {
-
-    }
-  }
+    } catch (err) {}
+  };
 
   const refresh = () => {
     window.location.reload();
@@ -108,8 +106,6 @@ const ManageLayanan = (props) => {
           <p className="text-sm  font-medium hover:font-bold">
             Back to Insurance
           </p>
-
-
         </Link>
         <p className="font-bold text-blue-800">|</p>
 
@@ -124,7 +120,7 @@ const ManageLayanan = (props) => {
           title="Manage This Insurance"
           data={dataInsurance}
           action={fetchDataInsurance}
-          showAlert={handleAlert} 
+          showAlert={handleAlert}
         />
       </div>
 
@@ -166,7 +162,7 @@ const ManageLayanan = (props) => {
                 title="Add Insurance Service"
                 data={dataInsurance}
                 action={fetchDataInsurance}
-                showAlert={handleAlert} 
+                showAlert={handleAlert}
               />
             </div>
 
@@ -187,50 +183,55 @@ const ManageLayanan = (props) => {
               </tr>
             </thead>
             <tbody>
-              {
-                dataItem ? (
-                  Object.keys(dataItem)).map((row, index) => (
-                    <tr key={dataItem[row].insItemId} className=" shadow ">
-                      <td>{parseInt(row) + 1}</td>
-                      <td>{dataItem[row].name}</td>
-                      <td>{dataItem[row].type}</td>
-                      <td>{dataItem[row].percent}</td>
-                      <td>
-                        {dataItem[row].roles ? (
-                          dataItem[row].roles.map((role, irole) => (
-                            <span className="" key={irole}>
-                              {role.nameRole}
-                              {irole < dataItem[row].roles.length - 1 ? (
-                                <span>, </span>
-                              ) : (
-                                ""
-                              )}
-                            </span>
-                          ))
-                        ) : (
-                          <span>-</span>
-                        )}
-                      </td>
-                      <td>
-                        <div className="flex justify-center gap-1">
-
-                          <ButtonSmall
-                            bg="bg-yellow-500"
-                            icon="fa6-solid:pen-to-square"
-                            colorIcon="text-white"
-                            onClick={() =>
-                              setModalEditInsuranceItem(dataItem[row].insItemId)}
-                          />
-                          <ButtonSmall
-                            bg="bg-red-500"
-                            icon="bi:trash"
-                            onClick={() => showModalDelete(dataItem[row].insItemId)}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  )) : <tr><td colSpan="5">Loading</td></tr>
-              }
+              {dataItem ? (
+                Object.keys(dataItem).map((row, index) => (
+                  <tr key={dataItem[row].insItemId} className=" shadow ">
+                    <td>{parseInt(row) + 1}</td>
+                    <td>{dataItem[row].name}</td>
+                    <td>{dataItem[row].type}</td>
+                    <td>{dataItem[row].percent}</td>
+                    <td>
+                      {dataItem[row].roles ? (
+                        dataItem[row].roles.map((role, irole) => (
+                          <span className="" key={irole}>
+                            {role.nameRole}
+                            {irole < dataItem[row].roles.length - 1 ? (
+                              <span>, </span>
+                            ) : (
+                              ""
+                            )}
+                          </span>
+                        ))
+                      ) : (
+                        <span>-</span>
+                      )}
+                    </td>
+                    <td>
+                      <div className="flex justify-center gap-1">
+                        <ButtonSmall
+                          bg="bg-yellow-500"
+                          icon="fa6-solid:pen-to-square"
+                          colorIcon="text-white"
+                          onClick={() =>
+                            setModalEditInsuranceItem(dataItem[row].insItemId)
+                          }
+                        />
+                        <ButtonSmall
+                          bg="bg-red-500"
+                          icon="bi:trash"
+                          onClick={() =>
+                            showModalDelete(dataItem[row].insItemId)
+                          }
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">Loading</td>
+                </tr>
+              )}
             </tbody>
           </table>
           {modalInsuranceItemEdit && (
@@ -257,13 +258,20 @@ const ManageLayanan = (props) => {
           )}
         </div>
         {dataInsurance.data && (
-
           <Pagination
-            activePage={dataInsurance.data.current_page ? dataInsurance.data.current_page : 0}
-            itemsCountPerPage={dataInsurance.data?.per_page ? dataInsurance.data?.per_page : 0}
-            totalItemsCount={dataInsurance.data?.total ? dataInsurance.data?.total : 0}
+            activePage={
+              dataInsurance.data.current_page
+                ? dataInsurance.data.current_page
+                : 0
+            }
+            itemsCountPerPage={
+              dataInsurance.data?.per_page ? dataInsurance.data?.per_page : 0
+            }
+            totalItemsCount={
+              dataInsurance.data?.total ? dataInsurance.data?.total : 0
+            }
             onChange={(pageNumber) => {
-              fetchDataInsurance(pageNumber, searchValue)
+              fetchDataInsurance(pageNumber, searchValue);
             }}
             innerClass="flex justify-center items-center gap-2 my-8 "
             pageRangeDisplayed={8}

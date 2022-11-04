@@ -19,23 +19,22 @@ const Insurance = (props, data) => {
       ConfigHeader
     );
     setDataInsurance(result.data.data);
-
   };
 
   useEffect(() => {
     fetchDataInsurance();
-     }, [data.insuranceId]);
+  }, [data.insuranceId]);
 
   const handleSearch = (e) => {
     try {
       fetchDataInsurance(1, e.target.value);
       setSearchValue(e.target.value);
-    } catch (err) { }
+    } catch (err) {}
   };
 
-  const handleAlert = (type,message) => {
-    props.alert(type,message);
-  }
+  const handleAlert = (type, message) => {
+    props.alert(type, message);
+  };
 
   console.log(dataInsurance);
   return (
@@ -100,67 +99,68 @@ const Insurance = (props, data) => {
                 </tr>
               </thead>
               <tbody className="text-xs md:text-xs font-medium">
-                {
-                  dataInsurance.data ? (
-                    Object.keys(dataInsurance.data).map((item, index) => {
-                      data = dataInsurance.data[item];
-                      let colSpan = dataInsurance.data[item].data ? dataInsurance.data[item].data.length : 1;
+                {dataInsurance.data ? (
+                  Object.keys(dataInsurance.data).map((item, index) => {
+                    data = dataInsurance.data[item];
+                    let colSpan = dataInsurance.data[item].data
+                      ? dataInsurance.data[item].data.length
+                      : 1;
 
-
-                      let dataItem = dataInsurance.data[item].data ? dataInsurance.data[item].data : [];
-                      return (
-                        <>
-                          <tr key={index} className='border border-gray-200'>
-                            <td rowSpan={colSpan}>{index + 1}</td>
-                            <td rowSpan={colSpan}>{data.name}</td>
-                            <td rowSpan={colSpan}>{data.company}</td>
-                            <td className="w-80" rowSpan={colSpan}>
-                              <div className=" text-start flex-wrap">
-                                {data.address}
-                              </div>
-                            </td>
-                            {dataItem.length > 0 ? (
-                              <>
-                                <td className="text-start">{dataItem[0].name}</td>
-                                <td>{dataItem[0].type}</td>
-                                <td>{dataItem[0].percent}%</td>
-                              </>
-                            ) : (
-                              <td colSpan={3}>-</td>
-                            )}
-                            <td className="w-24" rowSpan={colSpan}>
-                              <div className="flex justify-center gap-1">
-                                <Link
-                                  to={`../manageInsurance/${data.id}`}
-                                >
-                                  <span className="text-white bg-slate-600 rounded p-1">
-                                    Manage
-                                  </span>
-                                </Link>
-                              </div>
-                            </td>
-                          </tr>
-                          {dataItem.map((item, index2) => {
-                            if (index2 !== 0) {
-                              return (
-                                <tr key={item.insItemId} className="border border-gray-200">
-                                  <td className="text-start">{item.name}</td>
-                                  <td>{item.type}</td>
-                                  <td>{item.percent}%</td>
-                                </tr>
-                              );
-                            }
-                          })}
-                        </>
-                      )
-                    })
-                  ) : (
-                    <tr>
-                      <td colSpan={8}>No Data</td>
-                    </tr>
-                  )
-                }
-                
+                    let dataItem = dataInsurance.data[item].data
+                      ? dataInsurance.data[item].data
+                      : [];
+                    return (
+                      <>
+                        <tr key={index} className="border border-gray-200">
+                          <td rowSpan={colSpan}>{index + 1}</td>
+                          <td rowSpan={colSpan}>{data.name}</td>
+                          <td rowSpan={colSpan}>{data.company}</td>
+                          <td className="w-80" rowSpan={colSpan}>
+                            <div className=" text-start flex-wrap">
+                              {data.address}
+                            </div>
+                          </td>
+                          {dataItem.length > 0 ? (
+                            <>
+                              <td className="text-start">{dataItem[0].name}</td>
+                              <td>{dataItem[0].type}</td>
+                              <td>{dataItem[0].percent}%</td>
+                            </>
+                          ) : (
+                            <td colSpan={3}>-</td>
+                          )}
+                          <td className="w-24" rowSpan={colSpan}>
+                            <div className="flex justify-center gap-1">
+                              <Link to={`../manageInsurance/${data.id}`}>
+                                <span className="text-white bg-slate-600 rounded p-1">
+                                  Manage
+                                </span>
+                              </Link>
+                            </div>
+                          </td>
+                        </tr>
+                        {dataItem.map((item, index2) => {
+                          if (index2 !== 0) {
+                            return (
+                              <tr
+                                key={item.insItemId}
+                                className="border border-gray-200"
+                              >
+                                <td className="text-start">{item.name}</td>
+                                <td>{item.type}</td>
+                                <td>{item.percent}%</td>
+                              </tr>
+                            );
+                          }
+                        })}
+                      </>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={8}>No Data</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

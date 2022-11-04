@@ -14,7 +14,7 @@ const Modal = ({ isOpen, setIsOpen, title }) => {
         url = "format-import-employee.xlsx";
         break;
     }
-    return axios.getUri() + '/' + url;
+    return axios.getUri() + "/" + url;
   };
 
   const handleSubmit = async (e) => {
@@ -72,10 +72,7 @@ const Modal = ({ isOpen, setIsOpen, title }) => {
                   icon="bi:download"
                   className="text-blue-700 text-xs font-extrabold"
                 ></Icon>
-                <a
-                  href={downloadFormat("emp")}
-                  className=""
-                >
+                <a href={downloadFormat("emp")} className="">
                   Download Format
                 </a>
               </div>
@@ -86,7 +83,12 @@ const Modal = ({ isOpen, setIsOpen, title }) => {
                   width="w-16"
                   onClick={() => setIsOpen(false)}
                 />
-                <ButtonNormal type="submit" bg="bg-green-600 " text="Import" width="w-16" />
+                <ButtonNormal
+                  type="submit"
+                  bg="bg-green-600 "
+                  text="Import"
+                  width="w-16"
+                />
               </div>
             </div>
           </div>

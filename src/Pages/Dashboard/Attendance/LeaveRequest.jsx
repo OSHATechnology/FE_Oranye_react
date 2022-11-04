@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ButtonSmall from "../../../Components/ButtonSmall";
 import SimpleCard from "../../../Components/SimpleCard";
-import { Icon } from "@iconify/react";
 import ModalDecline from "../../../Components/Modal/ModalDecline";
 import ModalAcc from "../../../Components/Modal/ModalAccept";
 import axios from "axios";
 import ConfigHeader from "../../Auth/ConfigHeader";
-import ModalDetail from "../../../Components/Modal/ModalDetail";
 import Search from "../../../Components/Search";
 import Pagination from "react-js-pagination";
 import moment from "moment/moment";

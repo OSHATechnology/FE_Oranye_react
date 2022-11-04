@@ -18,8 +18,7 @@ const AttendanceStatusAdd = ({ isOpen, setIsOpen, title, action = null, showAler
       const data = {
         'status': status,
       };
-    
-
+  
     try {
       let formData = new FormData();
       for (let key in data) {
@@ -32,7 +31,6 @@ const AttendanceStatusAdd = ({ isOpen, setIsOpen, title, action = null, showAler
       showAlert("success",rslt.data.message);
       changeDataToNull();
     } catch (error) {
-      // console.log(error);
       showAlert("failed",error.response.data.data);
     }
   };

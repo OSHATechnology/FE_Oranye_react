@@ -5,7 +5,13 @@ import React, { useState, useEffect } from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 
-const FurloughAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) => {
+const FurloughAdd = ({
+  isOpen,
+  setIsOpen,
+  title,
+  action = null,
+  showAlert = null,
+}) => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [max, setMax] = useState("");
@@ -20,28 +26,30 @@ const FurloughAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      'name': name,
-      'type': type,
-      'max': max
+      name: name,
+      type: type,
+      max: max,
     };
-  
 
-  try {
-    let formData = new FormData();
-    for (let key in data) {
-      formData.append(key, data[key]);
+    try {
+      let formData = new FormData();
+      for (let key in data) {
+        formData.append(key, data[key]);
+      }
+      const rslt = await axios.post(
+        "/api/furlough_type",
+        formData,
+        ConfigHeader
+      );
+      console.log(rslt);
+      setIsOpen(false);
+      actionRefresh !== null && actionRefresh();
+      showAlert("success", rslt.data.message);
+      changeDataToNull();
+    } catch (error) {
+      showAlert("failed", error.response.data.data);
     }
-    const rslt = await axios.post('/api/furlough_type', formData, ConfigHeader);
-    console.log(rslt);
-    setIsOpen(false);
-    actionRefresh !== null && actionRefresh();
-    showAlert("success",rslt.data.message);
-    changeDataToNull();
-  } catch (error) {
-    // console.log(error);
-    showAlert("failed",error.response.data.data);
-  }
-};
+  };
 
   return (
     <>
@@ -65,10 +73,7 @@ const FurloughAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null
             </button>
           </div>
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
-            <form
-              id="furlough_type_form"
-              onSubmit={handleSubmit}
-            >
+            <form id="furlough_type_form" onSubmit={handleSubmit}>
               <div className="">
                 <p className="text-sm font-extrabold text-gray-600">Name</p>
                 <input
@@ -97,10 +102,11 @@ const FurloughAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null
                   name="type"
                   id=""
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  
                   onChange={(e) => setType(e.target.value)}
                 >
-                  <option value="-" disabled selected>-- Select Type --</option>
+                  <option value="-" disabled selected>
+                    -- Select Type --
+                  </option>
                   <option value="daily">daily</option>
                   <option value="weekly">Week</option>
                   <option value="monthly">Month</option>

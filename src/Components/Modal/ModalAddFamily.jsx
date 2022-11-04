@@ -134,7 +134,6 @@ const ModalAddMember = ({ isOpen, setIsOpen, title, action = null , showAlert = 
                   placeholder="Is Alive"
                   checked={isAlive ? true : false}
                   className="rounded  border border-gray-300 text-xs text-gray-700 font-medium"
-                  // value={isAlive}
                   onChange={(e) => setIsAlive(!isAlive)}
                 />
               </div>

@@ -45,8 +45,6 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null
       setDataRole(data.data.data);
     };
     fetchDataRole();
-    // setIsOpen(false);
-    // actionRefresh !== null && actionRefresh();
   }, []);
 
   const handleSubmitEmp = async (e) => {
@@ -68,7 +66,7 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null
       isActive: 1,
       statusHireId: 1,
     };
-    // console.log(data)
+    
     try {
       let formData = new FormData();
       for (let key in data) {

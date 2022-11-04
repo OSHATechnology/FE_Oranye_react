@@ -31,7 +31,6 @@ const AddInsurance = ({ isOpen, setIsOpen, title, action = null, showAlert = nul
     };
 
     try {
-      // console.log(data);
       const rslt = await axios.post("/api/insurance", data, ConfigHeader);
       console.log(rslt);
       setIsOpen(false);
@@ -40,10 +39,8 @@ const AddInsurance = ({ isOpen, setIsOpen, title, action = null, showAlert = nul
       changeDataToNull();
     } catch (error) {
       showAlert("failed",error.response.data.message);
-      // console.log(error)
     }
   };
-  // console.log(dataRole);
   return (
     <>
       <Dialog

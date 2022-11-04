@@ -22,7 +22,6 @@ const TeamMembers = (props) => {
   const [modalMemberDelete, setModalMemberDelete] = useState(false);
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
-
   const [dataMember, setDataMember] = useState([]);
 
   let dataMemberId = "";
@@ -37,7 +36,10 @@ const TeamMembers = (props) => {
 
   const fetchMemberData = async (page = 1, search = "") => {
     try {
-      const res = await axios.get(`api/team_member?teamid=${paramsData.id}&search=${search}&page=${page}`, ConfigHeader);
+      const res = await axios.get(
+        `api/team_member?teamid=${paramsData.id}&search=${search}&page=${page}`,
+        ConfigHeader
+      );
       setDataMember(res.data.data);
     } catch (err) {
       console.log(err.response);
@@ -48,14 +50,12 @@ const TeamMembers = (props) => {
     try {
       fetchMemberData(1, e.target.value);
       setSearchValue(e.target.value);
-    } catch (err) {
+    } catch (err) {}
+  };
 
-    }
-  }
-
-  const handleAlert = (type,message) => {
-    props.alert(type,message);
-  }
+  const handleAlert = (type, message) => {
+    props.alert(type, message);
+  };
 
   const fetchDataTeam = async () => {
     const data = await axios.get(`/api/team/${paramsData.id}`, ConfigHeader);
@@ -68,10 +68,8 @@ const TeamMembers = (props) => {
   useEffect(() => {
     fetchMemberData();
     fetchDataTeam().catch((err) => {
-      navigate('../team');
+      navigate("../team");
     });
-
-    // console.log(`id : ` + dataTeam.id)
   }, [paramsData]);
 
   return (
@@ -86,10 +84,11 @@ const TeamMembers = (props) => {
           className="flex gap-1 items-center text-blue-400 hover:text-blue-700 w-fit"
         >
           <Icon icon="bi:arrow-left" className="text-sm  font-medium"></Icon>
-          <p className="text-sm  font-medium hover:font-bold">Back to Team Management</p>
+          <p className="text-sm  font-medium hover:font-bold">
+            Back to Team Management
+          </p>
         </Link>
         <p className="font-bold text-blue-800">|</p>
-        {/* <Link to="../team"> */}
         <button onClick={() => setIsModalManageOpened(!isModalManageOpened)}>
           <p className="text-sm  font-medium hover:font-bold text-blue-400 hover:text-blue-700 w-fit">
             Manage This Team
@@ -103,7 +102,6 @@ const TeamMembers = (props) => {
           action={refresh}
           showAlert={handleAlert}
         />
-        {/* </Link> */}
       </div>
 
       <div className="flex gap-2">
@@ -160,25 +158,35 @@ const TeamMembers = (props) => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {
-                dataMember.data ? Object.keys(dataMember.data).map((row, index) => (
+              {dataMember.data ? (
+                Object.keys(dataMember.data).map((row, index) => (
                   <tr key={dataMember.data[row].id} className=" shadow ">
                     <td>{parseInt(row) + 1}</td>
                     <td>{dataMember.data[row].employee.name}</td>
                     <td>{dataMember.data[row].assignedBy.name}</td>
-                    <td>{moment(dataMember.data[row].joinedAt).format("DD MMMM YYYY")}</td>
+                    <td>
+                      {moment(dataMember.data[row].joinedAt).format(
+                        "DD MMMM YYYY"
+                      )}
+                    </td>
                     <td>
                       <div className="flex justify-center gap-1">
                         <ButtonSmall
                           bg="bg-red-500"
                           icon="bi:trash"
-                          onClick={() => showModalDelete(dataMember.data[row].id)}
+                          onClick={() =>
+                            showModalDelete(dataMember.data[row].id)
+                          }
                         />
                       </div>
                     </td>
                   </tr>
-                )) : <tr><td colSpan="5">Loading</td></tr>
-              }
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">Loading</td>
+                </tr>
+              )}
             </tbody>
           </table>
           {modalMemberDelete && (
@@ -189,7 +197,7 @@ const TeamMembers = (props) => {
               typeData="member"
               data={memberDeleteData}
               action={fetchMemberData}
-              showAlert={handleAlert} 
+              showAlert={handleAlert}
             />
           )}
         </div>
@@ -198,7 +206,7 @@ const TeamMembers = (props) => {
           itemsCountPerPage={dataMember?.per_page ? dataMember?.per_page : 0}
           totalItemsCount={dataMember?.total ? dataMember?.total : 0}
           onChange={(pageNumber) => {
-            fetchMemberData(pageNumber, searchValue)
+            fetchMemberData(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}
@@ -207,7 +215,6 @@ const TeamMembers = (props) => {
           activeClass="bg-slate-100 font-bold"
         />
       </div>
-
     </div>
   );
 };

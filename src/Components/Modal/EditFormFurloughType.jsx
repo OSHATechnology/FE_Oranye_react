@@ -31,13 +31,11 @@ const EditFormFurloughType = (data) => {
       dataEdit,ConfigHeader
     )
       .then((res) => {
-        // console.log("berhasil");
         closeModal()
         loadData()
         showAlert("success",res.data.message); 
       })
       .catch((err) => {
-        // console.log(err.response);
         showAlert("failed",err.response.data.data);
       });
   };

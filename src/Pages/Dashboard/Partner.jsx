@@ -47,10 +47,13 @@ const Partner = (props) => {
   };
 
   const fetchDataPartnerEdit = async () => {
-    const result = await axios.get(`/api/partners/${dataPartnerId}`, ConfigHeader);
+    const result = await axios.get(
+      `/api/partners/${dataPartnerId}`,
+      ConfigHeader
+    );
     setPartnerEdit(result.data.data);
     setModalPartnerEdit(true);
-  }
+  };
 
   const showModalEdit = async (partnerId) => {
     dataPartnerId = partnerId;
@@ -59,7 +62,10 @@ const Partner = (props) => {
 
   const fetchDataPartner = async (page = 1, search = "") => {
     try {
-      const result = await axios.get(`/api/partners?search=${search}&page=${page}`, ConfigHeader);
+      const result = await axios.get(
+        `/api/partners?search=${search}&page=${page}`,
+        ConfigHeader
+      );
       setDataPartner(result.data.data);
     } catch (error) {
       console.log(error);
@@ -70,14 +76,12 @@ const Partner = (props) => {
     try {
       fetchDataPartner(1, e.target.value);
       setSearchValue(e.target.value);
-    } catch (err) {
+    } catch (err) {}
+  };
 
-    }
-  }
-
-  const handleAlert = (type,message) => {
-    props.alert(type,message);
-  }
+  const handleAlert = (type, message) => {
+    props.alert(type, message);
+  };
 
   useEffect(() => {
     fetchDataPartner();
@@ -89,7 +93,6 @@ const Partner = (props) => {
         Title="Dashboard Partner"
         Keterangan="Partner From PT.OSHA Technology"
       />
-
 
       <div className="space-y-2 border rounded shadow p-2">
         <div className="flex justify-center">
@@ -125,49 +128,64 @@ const Partner = (props) => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {
-                dataPartner.data ? Object.keys(dataPartner.data).map((row, index) =>
-                (
+              {dataPartner.data ? (
+                Object.keys(dataPartner.data).map((row, index) => (
                   <tr key={dataPartner.data[row].id} className=" shadow ">
                     <td>{parseInt(row) + 1}</td>
                     <td>
                       <div className="text-center flex items-center justify-center md:space-x-4">
-                        <img src={dataPartner.data[row].photo} alt={"photo of " + dataPartner.data[row].name} className="w-10 rounded-full" />
+                        <img
+                          src={dataPartner.data[row].photo}
+                          alt={"photo of " + dataPartner.data[row].name}
+                          className="w-10 rounded-full"
+                        />
                       </div>
-
                     </td>
                     <td className="text-start">{dataPartner.data[row].name}</td>
                     <td>{dataPartner.data[row].address}</td>
-                    <td>{moment(dataPartner.data[row].joinedAt).format("DD MMMM YYYY")}</td>
+                    <td>
+                      {moment(dataPartner.data[row].joinedAt).format(
+                        "DD MMMM YYYY"
+                      )}
+                    </td>
                     <td>
                       <div className="flex justify-center gap-1">
                         <ButtonSmall
                           bg="bg-blue-600"
                           icon="carbon:view"
                           colorIcon="text-white"
-                          onClick={() => showModalDetail(dataPartner.data[row].id)}
+                          onClick={() =>
+                            showModalDetail(dataPartner.data[row].id)
+                          }
                         />
 
                         <ButtonSmall
                           bg="bg-yellow-500"
                           icon="fa6-solid:pen-to-square"
                           colorIcon="text-white"
-                          onClick={() => showModalEdit(dataPartner.data[row].id)}
+                          onClick={() =>
+                            showModalEdit(dataPartner.data[row].id)
+                          }
                         />
                         <ButtonSmall
                           bg="bg-red-500"
                           icon="ci:trash-full"
                           colorIcon="text-white"
                           onClick={() =>
-                            showModalDelete(dataPartner.data[row].id)}
+                            showModalDelete(dataPartner.data[row].id)
+                          }
                         />
                       </div>
                     </td>
                   </tr>
-                )) : <tr><td colSpan="5">
-                  <Spinner2 />
-                </td></tr>
-              }
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">
+                    <Spinner2 />
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
           {modalPartnerDetail && (
@@ -207,7 +225,7 @@ const Partner = (props) => {
           itemsCountPerPage={dataPartner?.per_page ? dataPartner?.per_page : 0}
           totalItemsCount={dataPartner?.total ? dataPartner?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataPartner(pageNumber, searchValue)
+            fetchDataPartner(pageNumber, searchValue);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}
@@ -216,7 +234,6 @@ const Partner = (props) => {
           activeClass="bg-slate-100 font-bold"
         />
       </div>
-
     </div>
   );
 };

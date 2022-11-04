@@ -29,7 +29,6 @@ const EditFormAttendanceStatus = (data) => {
         showAlert("success",res.data.message);
       })
       .catch((err) => {
-        // console.log(err.response);
         showAlert("failed",err.response.data.data);
       });
   };

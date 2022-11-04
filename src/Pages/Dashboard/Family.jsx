@@ -57,7 +57,7 @@ const Family = (props, data) => {
 
     fetchDataEmp().catch((err) => {
       console.log(err.message);
-      navigate('../emp');
+      navigate("../emp");
     });
     fetchDataFamily();
   }, [paramsData]);
@@ -65,26 +65,25 @@ const Family = (props, data) => {
   // Add Family
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
 
-   // Edit 
-   const [modalFamilyEdit, setModalFamilyEdit] = useState(false);
-   const [familyEditData, setFamilyEditData] = useState([]);
-   const fetchDataFamilyEdit = async () => {
-     const result = await axios.get(
-       `/api/employee_family/${dataFamilyId}`,
-       ConfigHeader
-     );
-     setFamilyEditData(result.data.data);
-     setModalFamilyEdit(true);
-   };
-   const setModalEditFamily = async (familyId) => {
-     dataFamilyId = familyId;
-     await fetchDataFamilyEdit();
-   };
+  // Edit
+  const [modalFamilyEdit, setModalFamilyEdit] = useState(false);
+  const [familyEditData, setFamilyEditData] = useState([]);
+  const fetchDataFamilyEdit = async () => {
+    const result = await axios.get(
+      `/api/employee_family/${dataFamilyId}`,
+      ConfigHeader
+    );
+    setFamilyEditData(result.data.data);
+    setModalFamilyEdit(true);
+  };
+  const setModalEditFamily = async (familyId) => {
+    dataFamilyId = familyId;
+    await fetchDataFamilyEdit();
+  };
 
   // delete
   const [familyDeleteData, setFamilyDeleteData] = useState("");
-  const [modalFamilyDelete, setModalFamilyDelete] =
-    useState(false);
+  const [modalFamilyDelete, setModalFamilyDelete] = useState(false);
   let dataFamilyId = "";
   const showModalDelete = async (familyId) => {
     dataFamilyId = familyId;
@@ -92,13 +91,10 @@ const Family = (props, data) => {
     setModalFamilyDelete(true);
   };
 
-  const handleAlert = (type,message) => {
-    props.alert(type,message);
-  }
-  
-  // console.log(familyEditData);
+  const handleAlert = (type, message) => {
+    props.alert(type, message);
+  };
 
-  // console.log(dataFamily);
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -118,10 +114,7 @@ const Family = (props, data) => {
         </Link>
       </div>
 
-      <SimpleCard 
-      Title="Employee Name"
-      Count={dataEmp.name}
-      />
+      <SimpleCard Title="Employee Name" Count={dataEmp.name} />
       <div className="space-y-2 p-2 border border-gray-100 shadow">
         <div className="flex gap-4">
           <ButtonNormal
@@ -163,24 +156,23 @@ const Family = (props, data) => {
                       <td>{dataFamily.data[row].status.status}</td>
                       <td>{dataFamily.data[row].statusAlive}</td>
                       <td>
-                      <div className="flex justify-center gap-1">
-                        <ButtonSmall
-                          bg="bg-yellow-500"
-                          icon="fa6-solid:pen-to-square"
-                          colorIcon="text-white"
-                          onClick={() =>
-                            setModalEditFamily(dataFamily.data[row].id)
-                          }
-                          
-                        />
-                        <ButtonSmall
-                          bg="bg-red-500"
-                          icon="bi:trash"
-                          onClick={() =>
-                            showModalDelete(dataFamily.data[row].id)
-                          }
-                        />
-                      </div>
+                        <div className="flex justify-center gap-1">
+                          <ButtonSmall
+                            bg="bg-yellow-500"
+                            icon="fa6-solid:pen-to-square"
+                            colorIcon="text-white"
+                            onClick={() =>
+                              setModalEditFamily(dataFamily.data[row].id)
+                            }
+                          />
+                          <ButtonSmall
+                            bg="bg-red-500"
+                            icon="bi:trash"
+                            onClick={() =>
+                              showModalDelete(dataFamily.data[row].id)
+                            }
+                          />
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -192,16 +184,16 @@ const Family = (props, data) => {
               </tbody>
             </table>
             {modalFamilyEdit && (
-            <ModalEdit
-              isOpen={modalFamilyEdit}
-              setIsOpen={setModalFamilyEdit}
-              title="Edit Membber from Family"
-              typeData="family"
-              data={familyEditData}
-              action={fetchDataFamily}
-              showAlert={handleAlert}
-            />
-          )}
+              <ModalEdit
+                isOpen={modalFamilyEdit}
+                setIsOpen={setModalFamilyEdit}
+                title="Edit Membber from Family"
+                typeData="family"
+                data={familyEditData}
+                action={fetchDataFamily}
+                showAlert={handleAlert}
+              />
+            )}
             {modalFamilyDelete && (
               <ModalDelete
                 isOpen={modalFamilyDelete}

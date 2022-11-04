@@ -133,7 +133,6 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null 
   };
 
   useEffect(() => {
-    // loadOptions();
     fetchDataEmployee().then((response) => {
       const data = response.map((item) => {
         return {
@@ -296,7 +295,6 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null 
                 </button>
               </div>
             </div>
-            {/* <ButtonNormal bg="bg-green-600 " text="Add" width="w-16" /> */}
           </div>
         </div>
       </Dialog>

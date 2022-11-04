@@ -22,8 +22,8 @@ const EditFormEmployee = (data) => {
   const [role, setRole] = useState("");
   const [dataRole, setDataRole] = useState([]);
   const [statusHire, setStatusHire] = useState("");
-  const loadData = data.handleFetchData ? data.handleFetchData : () => { };
-  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
+  const loadData = data.handleFetchData ? data.handleFetchData : () => {};
+  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => {};
   const showAlert = data.showAlert ? data.showAlert : () => {};
 
   const fetchDataRole = async () => {
@@ -77,13 +77,12 @@ const EditFormEmployee = (data) => {
     await axios
       .post(`/api/employee/${data.data.employeeId}`, formData, ConfigHeader)
       .then((res) => {
-        closeModal()
-        loadData()
-        showAlert("success",res.data.message);
+        closeModal();
+        loadData();
+        showAlert("success", res.data.message);
       })
       .catch((err) => {
-        // console.log(err.response);
-        showAlert("failed",err.response.data.data);
+        showAlert("failed", err.response.data.data);
       });
   };
 
@@ -238,30 +237,12 @@ const EditFormEmployee = (data) => {
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Role</p>
             <Select
-                  styles={styleSelect}
-                  options={options}
-                  noOptionsMessage={() => "No data"}
-                  classNamePrefix={""}
-                  onChange={handleChange}
-                  // menuPortalTarget={
-                  //   document.querySelector("#employee_form")
-                  // }
-                />
-            {/* <select
-              defaultValue={role}
-              value={role}
-              name="createdBy"
-              placeholder="Leader Team"
-              id=""
-              className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-              onChange={(e) => setRole(e.target.value)}
-            >
-              {dataRole.map((item, index) => (
-                <option value={item.roleId} key={index}>
-                  {item.nameRole}
-                </option>
-              ))}
-            </select> */}
+              styles={styleSelect}
+              options={options}
+              noOptionsMessage={() => "No data"}
+              classNamePrefix={""}
+              onChange={handleChange}
+            />
           </div>
           <div className="flex items-center gap-2">
             <p className="text-sm font-extrabold text-gray-600">Status Aktif</p>

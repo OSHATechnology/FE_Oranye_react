@@ -44,17 +44,16 @@ const EditFormAllowance = (data) => {
       roleId: role,
       typeId: type,
     };
-    console.log(dataEdit)
+    console.log(dataEdit);
     await axios
       .put(`/api/allowance/${data.data.id}`, dataEdit, ConfigHeader)
       .then((res) => {
-        closeModal()
-        loadData()
-        showAlert("success",res.data.message); 
+        closeModal();
+        loadData();
+        showAlert("success", res.data.message);
       })
       .catch((err) => {
-        // console.log(err.response);
-        showAlert("failed",err.response.data.data);
+        showAlert("failed", err.response.data.data);
       });
   };
 
@@ -107,63 +106,22 @@ const EditFormAllowance = (data) => {
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Jabatan</p>
             <Select
-                  styles={styleSelect}
-                  options={optionsRole}
-                  noOptionsMessage={() => "No data"}
-                  classNamePrefix={""}
-                  onChange={handleChangeRole}
-                  // menuPortalTarget={document.getElementById("allowance_form")}
-                />
-            {/* <select
-              defaultValue={role}
-              value={role}
-              name="role"
-              id=""
-              className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="-" selected disabled>
-                -- select role --
-              </option>
-              {dataRole.map((row, index) => (
-                <option value={row.roleId} key={index}>
-                  {row.nameRole}
-                </option>
-              ))}
-            </select> */}
+              styles={styleSelect}
+              options={optionsRole}
+              noOptionsMessage={() => "No data"}
+              classNamePrefix={""}
+              onChange={handleChangeRole}
+            />
           </div>
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Tunjangan</p>
             <Select
-                  styles={styleSelect}
-                  options={optionsType}
-                  noOptionsMessage={() => "No data"}
-                  classNamePrefix={""}
-                  onChange={handleChangeType}
-                  // menuPortalTarget={document.getElementById("allowance_form")}
-                />
-            {/* <select
-              defaultValue={type}
-              value={type}
-              name="allowance"
-              id=""
-              className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-              onChange={(e) => {
-                setType(e.target.value);
-                setNominal(
-                  dataType.find((item) => item.id == e.target.value)?.nominal
-                );
-              }}
-            >
-              <option value="-" selected disabled>
-                -- select Allowance --
-              </option>
-              {dataType.map((row, index) => (
-                <option value={row.id} key={index}>
-                  {row.name}
-                </option>
-              ))}
-            </select> */}
+              styles={styleSelect}
+              options={optionsType}
+              noOptionsMessage={() => "No data"}
+              classNamePrefix={""}
+              onChange={handleChangeType}
+            />
           </div>
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Nominal</p>

@@ -97,7 +97,7 @@ export default function Dashboard(props) {
                     <Route path="team/:id" element={<MemberTeam alert={alertData} />} />
                     <Route path="payroll/LoanPayment/:id" element={<LoanPayment />} />
                     <Route path="emp/:id/family" element={<Family alert={alertData} />} />
-                    <Route path="emp/:id/Salary" element={<Salary />} />
+                    <Route path="emp/:id/Salary" element={<Salary alert={alertData} />} />
                     <Route path="DetailSalary/:id" element={<DetailSalary />} />
                     <Route path="manageInsurance/:id" element={<ManageInsurance alert={alertData} />} />
                     <Route path="emp/:id" element={<Detail />} />

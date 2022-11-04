@@ -8,10 +8,17 @@ import axios from "axios";
 import Select from "react-select";
 import { useParams } from "react-router-dom";
 
-const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null, showAlert = null }) => {
-  const [nameTeam, setNameTeam] = useState('');
-  const [leadById, setLeadById] = useState('');
-  const [createdById, setCreatedById] = useState('');
+const ManageTeam = ({
+  isOpen,
+  setIsOpen,
+  title,
+  data,
+  action = null,
+  showAlert = null,
+}) => {
+  const [nameTeam, setNameTeam] = useState("");
+  const [leadById, setLeadById] = useState("");
+  const [createdById, setCreatedById] = useState("");
   const [dataEmployee, setDataEmployee] = useState([]);
   const [modalTeamDelete, setModalTeamDelete] = useState(false);
   const [teamDeleteData, setTeamDeleteData] = useState("");
@@ -45,18 +52,23 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null, showAlert =
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const rslt = await axios.patch(`/api/team/${data.id}`, {
-      name: nameTeam,
-      leadBy: leadById,
-      createdBy: createdById,
-    }, ConfigHeader)
+    const rslt = await axios
+      .patch(
+        `/api/team/${data.id}`,
+        {
+          name: nameTeam,
+          leadBy: leadById,
+          createdBy: createdById,
+        },
+        ConfigHeader
+      )
       .then((res) => {
         setIsOpen(false);
         actionRefresh !== null && actionRefresh();
-        showAlert("success",res.data.message);
-      }).catch((err) => {
-        // alert(err.response.data.message);
-        showAlert("failed",err.response.data.data);
+        showAlert("success", res.data.message);
+      })
+      .catch((err) => {
+        showAlert("failed", err.response.data.data);
       });
   };
 
@@ -136,13 +148,13 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null, showAlert =
                 styles={styleSelect}
                 options={options}
                 noOptionsMessage={() => "No data"}
-                defaultValue={{ label: dataTeam.leadBy ? dataTeam.leadBy.employee : "", value: dataTeam.leadBy ? dataTeam.leadBy.id : "" }}
-
+                defaultValue={{
+                  label: dataTeam.leadBy ? dataTeam.leadBy.employee : "",
+                  value: dataTeam.leadBy ? dataTeam.leadBy.id : "",
+                }}
                 classNamePrefix={""}
                 onChange={handleChangeLeadTeam}
-                menuPortalTarget={
-                  document.querySelector("#team_form")
-                }
+                menuPortalTarget={document.querySelector("#team_form")}
               />
             </div>
             <div className="">
@@ -152,11 +164,12 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null, showAlert =
                 options={options}
                 noOptionsMessage={() => "No data"}
                 classNamePrefix={""}
-                defaultValue={{ label: dataTeam.createdBy ? dataTeam.createdBy.employee : "", value: dataTeam.createdBy ? dataTeam.createdBy.id : "" }}
+                defaultValue={{
+                  label: dataTeam.createdBy ? dataTeam.createdBy.employee : "",
+                  value: dataTeam.createdBy ? dataTeam.createdBy.id : "",
+                }}
                 onChange={handleChangeTeamMaker}
-                menuPortalTarget={
-                  document.querySelector("#team_form")
-                }
+                menuPortalTarget={document.querySelector("#team_form")}
               />
             </div>
           </div>
@@ -166,20 +179,13 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null, showAlert =
               bg="bg-red-500 "
               text="Delete Team"
               width="w-30"
-              onClick={() =>
-                showModalDelete(data.id)}
+              onClick={() => showModalDelete(data.id)}
             />
-            {/* <ModalDelete
-              isOpen={isModalDeleteOpened}
-              setIsOpen={setIsModalDeleteOpened}
-              title="Delete Member Team"
-            /> */}
             <ButtonNormal
               bg="bg-yellow-500 "
               onClick={handleSubmit}
               text="Save"
               width="w-16"
-
             />
           </div>
           {modalTeamDelete && (

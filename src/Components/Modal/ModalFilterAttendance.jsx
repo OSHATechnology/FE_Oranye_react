@@ -70,8 +70,11 @@ const ModalFilterAttendance = ({ isOpen, setIsOpen, title }) => {
               </div>
             </div>
             <div>
-            <p className="text-sm text-gray-600 font-semibold">Date</p>
-            <input type="date" className="w-full rounded h-8 text-xs text-gray-400 font-medium" />
+              <p className="text-sm text-gray-600 font-semibold">Date</p>
+              <input
+                type="date"
+                className="w-full rounded h-8 text-xs text-gray-400 font-medium"
+              />
             </div>
           </div>
           <div className="flex justify-end gap-2">
