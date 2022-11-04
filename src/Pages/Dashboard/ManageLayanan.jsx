@@ -13,7 +13,7 @@ import Pagination from "react-js-pagination";
 import ModalManage from "../../Components/Modal/ManageInsurance";
 import ModalEdit from "../../Components/Modal/ModalEdit";
 
-const ManageLayanan = () => {
+const ManageLayanan = (props) => {
   const paramsData = useParams();
   const [dataItem, setDataItem] = useState([]);
   const [insuranceItemDeleteData, setInsuranceItemDeleteData] = useState("");
@@ -53,6 +53,10 @@ const ManageLayanan = () => {
     dataInsuranceItemId = insuranceItemId;
     await fetchDataIns();
   };
+
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
 
 
   useEffect(() => {
@@ -120,6 +124,7 @@ const ManageLayanan = () => {
           title="Manage This Insurance"
           data={dataInsurance}
           action={fetchDataInsurance}
+        
         />
       </div>
 
@@ -161,6 +166,7 @@ const ManageLayanan = () => {
                 title="Add Insurance Service"
                 data={dataInsurance}
                 action={fetchDataInsurance}
+                showAlert={handleAlert} 
               />
             </div>
 

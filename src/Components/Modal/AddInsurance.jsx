@@ -5,7 +5,7 @@ import ButtonNormal from "../ButtonNormal";
 import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 
-const AddInsurance = ({ isOpen, setIsOpen, title, action = null }) => {
+const AddInsurance = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) => {
   const [name, setName] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [address, setAddress] = useState("");
@@ -36,9 +36,11 @@ const AddInsurance = ({ isOpen, setIsOpen, title, action = null }) => {
       console.log(rslt);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
+      showAlert("success",rslt.data.message);
       changeDataToNull();
     } catch (error) {
-      console.log(error);
+      showAlert("failed",error.response.data.message);
+      // console.log(error)
     }
   };
   // console.log(dataRole);

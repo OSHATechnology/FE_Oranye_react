@@ -13,7 +13,7 @@ import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
 import Spinner2 from "../../Components/Spinner2";
 
-const Partner = () => {
+const Partner = (props) => {
   const [modalPartnerDelete, setModalPartnerDelete] = useState(false);
 
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
@@ -75,6 +75,10 @@ const Partner = () => {
     }
   }
 
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
+
   useEffect(() => {
     fetchDataPartner();
   }, []);
@@ -102,6 +106,7 @@ const Partner = () => {
                 setIsOpen={setIsModalAddOpened}
                 title="Add Partner"
                 action={fetchDataPartner}
+                showAlert={handleAlert}
               />
             </div>
             <Search onChange={handleSearch} />

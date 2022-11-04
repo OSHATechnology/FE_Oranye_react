@@ -52,7 +52,7 @@ const ErrorInput = errors => {
   )
 }
 
-const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
+const PartnerAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -121,9 +121,10 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
       const rslt = await axios.post("/api/partners", formData, ConfigHeader);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
+      showAlert("success", rslt.data.message);
       changeDataToNull();
     } catch (error) {
-      console.log(error);
+      showAlert("failed", error.response.data.data);
     }
   };
 

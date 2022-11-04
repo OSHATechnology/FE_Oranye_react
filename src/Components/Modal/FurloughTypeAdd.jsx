@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 
-const FurloughAdd = ({ isOpen, setIsOpen, title, action = null }) => {
+const FurloughAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [max, setMax] = useState("");
@@ -35,9 +35,11 @@ const FurloughAdd = ({ isOpen, setIsOpen, title, action = null }) => {
     console.log(rslt);
     setIsOpen(false);
     actionRefresh !== null && actionRefresh();
+    showAlert("success",rslt.data.message);
     changeDataToNull();
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    showAlert("failed",error.response.data.data);
   }
 };
 

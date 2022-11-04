@@ -8,7 +8,7 @@ import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
 import ModalAdd from "../../Components/Modal/AddInsurance";
 
-const Insurance = (data) => {
+const Insurance = (props, data) => {
   const [isModalAddOpened, setIsModalAddOpened] = useState(false);
   const [dataInsurance, setDataInsurance] = useState([]);
   const [listItem, setListItem] = useState([]);
@@ -32,6 +32,10 @@ const Insurance = (data) => {
     } catch (err) { }
   };
 
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
+
   console.log(dataInsurance);
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -54,6 +58,7 @@ const Insurance = (data) => {
                 setIsOpen={setIsModalAddOpened}
                 title="Add New Insurance"
                 action={fetchDataInsurance}
+                showAlert={handleAlert}
               />
             </div>
 

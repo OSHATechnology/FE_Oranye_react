@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 
-const AttendanceStatusAdd = ({ isOpen, setIsOpen, title, action = null }) => {
+const AttendanceStatusAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) => {
     const [status, setStatus] = useState("");
     const actionRefresh = action ? action : null;
     
@@ -29,9 +29,11 @@ const AttendanceStatusAdd = ({ isOpen, setIsOpen, title, action = null }) => {
       console.log(rslt);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
+      showAlert("success",rslt.data.message);
       changeDataToNull();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      showAlert("failed",error.response.data.data);
     }
   };
 

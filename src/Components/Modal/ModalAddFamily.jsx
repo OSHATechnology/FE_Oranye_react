@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import ButtonNormal from "../ButtonNormal";
 
-const ModalAddMember = ({ isOpen, setIsOpen, title, action = null , ...data }) => {
+const ModalAddMember = ({ isOpen, setIsOpen, title, action = null , showAlert = null, ...data }) => {
     const [dataEmployee, setDataEmployee] = useState({});
     const [identityNumber, setIdentityNumber] = useState("");
     const [name, setName] = useState("");
@@ -39,9 +39,10 @@ const ModalAddMember = ({ isOpen, setIsOpen, title, action = null , ...data }) =
           console.log(rslt);
           setIsOpen(false);
           actionRefresh !== null && actionRefresh();
+          showAlert("success",rslt.data.message);
           changeDataToNull();
         } catch (error) {
-          console.log(error);
+          showAlert("failed",error.response.data.data);
         }
       };
 
