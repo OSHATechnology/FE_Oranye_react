@@ -1,6 +1,6 @@
 import TitleDashboard from "../../Components/TitleDashboard";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ButtonNormal from "../../Components/ButtonNormal";
 import { Icon } from "@iconify/react";
 import axios from "axios";
@@ -15,8 +15,8 @@ const fectDataPermissions = async () => {
     }
 }
 
-
-const AddRole = () => {
+const AddRole = (props) => {
+    const navigate = useNavigate();
     const [listPermissions, setListPermissions] = useState([]);
     const [nameRole, setNameRole] = useState("");
     const [descriptionRole, setDescriptionRole] = useState("");
@@ -28,6 +28,10 @@ const AddRole = () => {
             setListPermissions(data.data);
         });
     }, []);
+
+    const handleAlert = (type,message) => {
+        props.alert(type,message);
+      }
 
     const togglePermissionGroup = (e) => {
         const id = e.target.id;
@@ -69,9 +73,11 @@ const AddRole = () => {
     const addRole = async (data) => {
         try {
             const response = await axios.post("api/roles", data, ConfigHeader);
+            handleAlert("success",response.data.message);
             return response;
         }
         catch (error) {
+            handleAlert("failed",error.response.data.data);
             return error;
         }
     }
@@ -103,29 +109,39 @@ const AddRole = () => {
         }
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const dataRole = {
-            nameRole: nameRole,
-            description: descriptionRole,
-        }
-        const dataRolePermissions = {
-            roles_permissions: listPermissionsRole
-        }
+   
 
-        const roleFee = fee;
-
-        addRole(dataRole).then((data) => {
-            if (data.status === 200) {
-                addRolePermissions(data.data.data.roleId, listPermissionsRole).then((data) => {
-                    console.log("response : " + data);
-                });
-                addBasicSalaryRole(data.data.data.roleId, roleFee).then((data) => {
-                    console.log("response : " + data);
-                });
+    const handleSubmit = async (e) => {
+        try{
+            e.preventDefault();
+            const dataRole = {
+                nameRole: nameRole,
+                description: descriptionRole,
             }
-        });
+            const dataRolePermissions = {
+                roles_permissions: listPermissionsRole
+            }
+    
+            const roleFee = fee;
+    
+            await addRole(dataRole).then(async (data) => {
+                if (data.status === 200) {
+                    addRolePermissions(data.data.data.roleId, listPermissionsRole).then((data) => {
+                        console.log("response : " + data);
+                    });
+                    addBasicSalaryRole(data.data.data.roleId, roleFee).then((data) => {
+                        console.log("response : " + data);
+                    });
+                    return navigate("/dashboard/role");
+                }else{
+                    console.log("error");
+                }
+            });
+        }catch(error){
+            handleAlert("failed",error.response.data.data);
+        }
     }
+    
 
 
     return (

@@ -8,7 +8,7 @@ import axios from "axios";
 import Select from "react-select";
 import { useParams } from "react-router-dom";
 
-const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
+const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null, showAlert = null }) => {
   const [nameTeam, setNameTeam] = useState('');
   const [leadById, setLeadById] = useState('');
   const [createdById, setCreatedById] = useState('');
@@ -45,7 +45,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.patch(`/api/team/${data.id}`, {
+    const rslt = await axios.patch(`/api/team/${data.id}`, {
       name: nameTeam,
       leadBy: leadById,
       createdBy: createdById,
@@ -53,8 +53,10 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null }) => {
       .then((res) => {
         setIsOpen(false);
         actionRefresh !== null && actionRefresh();
+        showAlert("success",rslt.data.message);
       }).catch((err) => {
-        alert(err.response.data.message);
+        // alert(err.response.data.message);
+        showAlert("failed",err.response.data.data);
       });
   };
 

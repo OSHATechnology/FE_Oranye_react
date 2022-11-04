@@ -3,7 +3,7 @@ import React from "react";
 
 const Alert = (props) => {
   return (
-    <div className="w-80 absolute right-0 top-0 m-5 z-50 shadow rounded">
+    <div className="w-80 fixed right-0 top-0 m-5 z-50 shadow rounded">
       <div className={"bg-" + props.color + "-500  h-1 rounded-t"}></div>
       <div className={"flex justify-between bg-" + props.color + "-100"}>
         <div className={" p-2 flex gap-1 items-center  h-14 rounded-b "}>
