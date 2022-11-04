@@ -18,6 +18,8 @@ const Attendance = () => {
   const [dataOvertime, setDataOvertime] = useState([]);
   const [customDate, setCustomDate] = useState("");
   const [searchValue, setSearchValue] = useState("");
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [datesFilter, setDatesFilter] = useState([]);
 
   const [modalAttendance, setModalAttendance] = useState(false);
   const [attendanceDetail, setAttendanceDetail] = useState([]);
@@ -53,12 +55,11 @@ const Attendance = () => {
     }
   };
 
-  const fetchDataAttendance = async (page = 1, search = "", filter = false, date = []) => {
+  const fetchDataAttendance = async (page = 1, search = "", filter = isFiltered, date = datesFilter) => {
     try {
       let endpoint;
       if (filter) {
         const arrayDates = date;
-        console.log(arrayDates);
         const start = arrayDates[0] ? arrayDates[0] : moment().format("YYYY-MM-DD");
         const end = arrayDates[1] ? arrayDates[1] : moment().format("YYYY-MM-DD");
         endpoint = `/api/attendance?page=${page}&search=${search}&start=${start}&end=${end}`;
@@ -83,7 +84,7 @@ const Attendance = () => {
 
   const handleSearch = (e) => {
     try {
-      fetchDataAttendance(1, e.target.value);
+      fetchDataAttendance(1, e.target.value, isFiltered, datesFilter);
       setSearchValue(e.target.value);
     } catch (err) {
 
@@ -95,8 +96,12 @@ const Attendance = () => {
       if (item.label === e.target.value) {
         item.checked = true;
         if (e.target.value === "all") {
+          setIsFiltered(false);
+          setDatesFilter([]);
           fetchDataAttendance(1, "", false);
         } else {
+          setIsFiltered(true);
+          setDatesFilter([item.value, moment().format("YYYY-MM-DD")]);
           fetchDataAttendance(1, "", true, [item.value, moment().format("YYYY-MM-DD")]);
         }
 
@@ -107,16 +112,24 @@ const Attendance = () => {
     });
   }
 
-  const handleCustomDate = (e) => {
-    filterMenu.forEach((item) => {
-      item.checked = false;
-    });
-    setCustomDate(e.target.value);
+  const handleCustomDate = async (e) => {
+    try {
+      filterMenu.forEach((item) => {
+        item.checked = false;
+      });
+      setIsFiltered(true);
+      setDatesFilter([moment(e.target.value).startOf('month').format("YYYY-MM-DD"), moment(e.target.value).endOf('month').format("YYYY-MM-DD")]);
+      setCustomDate(e.target.value);
+      fetchDataAttendance(1, "", true, [moment(e.target.value).startOf('month').format("YYYY-MM-DD"), moment(e.target.value).endOf('month').format("YYYY-MM-DD")]);
+    } catch (err) {
+      console.log(err);
+    } finally {
+    }
   }
 
   return (
     <div className="w-full space-y-4 pb-10">
-      
+
       <div className="border rounded shadow p-2 space-y-2">
         <div className="flex  justify-between">
           <Menu as="div" className="relative inline-block text-left">
@@ -230,7 +243,7 @@ const Attendance = () => {
           itemsCountPerPage={dataAttendance?.per_page ? dataAttendance?.per_page : 0}
           totalItemsCount={dataAttendance?.total ? dataAttendance?.total : 0}
           onChange={(pageNumber) => {
-            fetchDataAttendance(pageNumber, searchValue)
+            fetchDataAttendance(pageNumber, searchValue, isFiltered, datesFilter);
           }}
           innerClass="flex justify-center items-center gap-2 my-8 "
           pageRangeDisplayed={8}

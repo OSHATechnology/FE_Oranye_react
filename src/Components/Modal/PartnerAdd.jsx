@@ -6,8 +6,54 @@ import axios from "axios";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import Select from "react-select";
 import moment from "moment";
+import { useForm } from "react-hook-form";
+
+const ErrorInput = errors => {
+  const errorsData = Object.keys(errors).map((key, index) => {
+    return (
+      <div key={index} className="text-red-500 text-sm">
+        {Object.keys(errors[key]).map((key2, index2) => {
+          let message = ""
+          console.log(errors[key][key2]);
+          switch (errors[key][key2]?.type) {
+            case "required":
+              message = key2 + " tidak boleh kosong!"
+              break;
+            case "min":
+              message = key2 + " minimal " + errors[key][key2]?.min + " karakter!"
+              break;
+            case "max":
+              message = key2 + " maksimal " + errors[key][key2]?.max + " karakter!"
+              break;
+            case "minLength":
+              message = key2 + " minimal " + errors[key][key2]?.minLength + " karakter!"
+              break;
+            case "maxLength":
+              message = key2 + " maksimal " + errors[key][key2]?.maxLength + " karakter!"
+              break;
+
+            default:
+              break;
+          }
+          return (
+            <div key={index2}>
+              {message}
+            </div>
+          )
+        })}
+      </div>
+    );
+  });
+
+  return (
+    <div className="text-red-500 text-sm">
+      {errorsData ? errorsData : null}
+    </div>
+  )
+}
 
 const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
@@ -121,7 +167,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
             <form
               id="partner_form"
-              onSubmit={handleSubmitPartner}
+              onSubmit={handleSubmit(handleSubmitPartner)}
               encType="multipart/form-data"
             >
               <div className="">
@@ -132,9 +178,17 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
                   type="text"
                   placeholder="Company's name"
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-                  value={name}
+                  defaultValue={name}
                   onChange={(e) => setName(e.target.value)}
+                  {...register("company_name", {
+                    required: "tidak boleh kosong",
+                    minLength: 4,
+                    maxLength: 30
+                  })}
                 />
+                {/* {errors.company_name && errors.company_name.type === "required" && <span>This is required</span>}
+                {errors.company_name && errors.company_name.type === "minLength" && <span>Min length 4</span>}
+                {errors.company_name && errors.company_name.type === "maxLength" && <span>Max length exceeded</span>} */}
               </div>
               <div className="">
                 <p className="text-sm font-semibold text-gray-600">
@@ -148,7 +202,13 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
                   placeholder="Description"
                   className="rounded-lg  border w-full border-gray-300 text-xs text-gray-700 font-medium"
                   value={description}
+                  defaultValue={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  {...register("company_description", {
+                    required: "tidak boleh kosong",
+                    minLength: 10,
+                    maxLength: 255
+                  })}
                 ></textarea>
               </div>
               <div className="">
@@ -225,20 +285,28 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null }) => {
             </form>
           </div>
 
-          <div className="flex justify-end gap-2">
-            <ButtonNormal
-              bg="bg-gray-400 "
-              text="Cancel"
-              width="w-16"
-              onClick={() => setIsOpen(false)}
-            />
-            <button
-              type="submit"
-              form="partner_form"
-              className="bg-green-600 text-white rounded px-2"
-            >
-              submit
-            </button>
+
+          <div className="flex justify-between gap-2">
+            <div>
+              {errors && <ErrorInput errors={errors} />}
+            </div>
+            <div className="flex gap-2">
+              <ButtonNormal
+                bg="bg-gray-400 "
+                text="Cancel"
+                width="w-16"
+                onClick={() => setIsOpen(false)}
+              />
+              <div className="">
+                <button
+                  type="submit"
+                  form="partner_form"
+                  className="bg-green-600 text-white rounded px-2"
+                >
+                  submit
+                </button>
+              </div>
+            </div>
             {/* <ButtonNormal bg="bg-green-600 " text="Add" width="w-16" /> */}
           </div>
         </div>
