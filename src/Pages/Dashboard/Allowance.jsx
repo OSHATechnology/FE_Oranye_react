@@ -192,6 +192,7 @@ const Allowance = (props) => {
               typeData="allowance"
               data={allowanceEdit}
               action={fetchDataAllowance}
+              showAlert={handleAlert}
             />
           )}
           {modalAllowanceDelete && (
@@ -202,6 +203,7 @@ const Allowance = (props) => {
               typeData="allowance"
               data={allowanceDeleteData}
               action={fetchDataAllowance}
+              showAlert={handleAlert}
             />
           )}
         </div>

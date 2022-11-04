@@ -19,6 +19,7 @@ const Insurance = (props, data) => {
       ConfigHeader
     );
     setDataInsurance(result.data.data);
+
   };
 
   useEffect(() => {

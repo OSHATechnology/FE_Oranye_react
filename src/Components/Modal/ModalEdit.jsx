@@ -105,6 +105,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
+                  showAlert={showAlert}
                 />
               )}
               {typeData === "insurance_item" && (
@@ -112,6 +113,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
+                  showAlert={showAlert}
                 />
               )}
               {typeData === "family" && (

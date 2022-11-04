@@ -14,6 +14,7 @@ const EditFormAllowance = (data) => {
 
   const loadData = data.handleFetchData ? data.handleFetchData : () => {};
   const closeModal = data.handleCloseModal ? data.handleCloseModal : () => {};
+  const showAlert = data.showAlert ? data.showAlert : () => {};
 
   const fetchDataRole = async () => {
     const data = await axios.get(`/api/roles`, ConfigHeader);
@@ -47,12 +48,13 @@ const EditFormAllowance = (data) => {
     await axios
       .put(`/api/allowance/${data.data.id}`, dataEdit, ConfigHeader)
       .then((res) => {
-        console.log("berhasil");
         closeModal()
         loadData()
+        showAlert("success",res.data.message); 
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
+        showAlert("failed",err.response.data.data);
       });
   };
 

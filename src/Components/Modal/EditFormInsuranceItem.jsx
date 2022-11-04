@@ -11,7 +11,7 @@ const EditFormInsuranceItem = (data) => {
   const [listRoleInsurance, setListRoleInsurance] = useState([]);
   const loadData = data.handleFetchData ? data.handleFetchData : () => { };
   const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
-
+  const showAlert = data.showAlert ? data.showAlert : () => {};
 
   const fetchDataRole = async () => {
     try {
@@ -57,10 +57,12 @@ const EditFormInsuranceItem = (data) => {
         } finally {
           loadData();
           closeModal();
+          showAlert("success",res.data.message); 
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
+        showAlert("failed",err.response.data.data);
       });
   };
   return (
@@ -106,7 +108,7 @@ const EditFormInsuranceItem = (data) => {
           </div>
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Role</p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap">
               {(dataRole && listRoleInsurance) &&
                 dataRole.map((item, index) => {
                   return (

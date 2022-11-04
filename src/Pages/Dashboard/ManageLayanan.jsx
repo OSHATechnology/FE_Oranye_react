@@ -241,6 +241,7 @@ const ManageLayanan = (props) => {
               typeData="insurance_item"
               data={insuranceItemEditData}
               action={fetchDataInsurance}
+              showAlert={handleAlert}
             />
           )}
           {modalInsuranceItemDelete && (
@@ -251,7 +252,7 @@ const ManageLayanan = (props) => {
               typeData="insurance_item"
               data={insuranceItemDeleteData}
               action={fetchDataInsurance}
-
+              showAlert={handleAlert}
             />
           )}
         </div>

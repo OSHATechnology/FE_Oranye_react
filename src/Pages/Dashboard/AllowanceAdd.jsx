@@ -94,9 +94,11 @@ const AllowanceAdd = (props) => {
           setName("");
           setNominal("");
           fetchDataAllowance();
+          handleAlert("success",res.data.message);
         })
         .catch((err) => {
           console.log(err.response);
+          handleAlert("failed",err.response.data.data);
         });
     };
 
@@ -290,6 +292,7 @@ const AllowanceAdd = (props) => {
           typeData="allowance_settings"
           data={allowanceDeleteData}
           action={fetchDataAllowance}
+          showAlert={handleAlert}
         />
       )}
     </div>
