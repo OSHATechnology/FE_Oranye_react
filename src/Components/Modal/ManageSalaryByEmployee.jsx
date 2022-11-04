@@ -11,6 +11,7 @@ const ManageSalaryByEmployee = ({
   setIsOpen,
   title,
   action = null,
+  showAlert = null,
 }) => {
   const [dataSalary, setDataSalary] = useState([]);
   const paramsData = useParams();
@@ -22,7 +23,6 @@ const ManageSalaryByEmployee = ({
       ConfigHeader
     );
     setDataSalary(data.data.data);
-    console.log(data.data.data);
   };
 
   const refresh = () => {
@@ -31,47 +31,49 @@ const ManageSalaryByEmployee = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const dataEdit = {
-    //   salary: salary,
-    // };
-    if(dataSalary.basicSalaryByEmployeeId) {
+    if (dataSalary.basicSalaryByEmployeeId) {
       const dataBasic = {
         empId: parseInt(paramsData.id),
         basicSalaryByRoleId: dataSalary.basicSalaryByRoleId,
-        fee: dataSalary.total-dataSalary.basic,
+        fee: dataSalary.total - dataSalary.basic,
       };
-      await axios.put(
-        `/api/basic_salary_by_employee/${dataSalary.basicSalaryByEmployeeId}`,
-        dataBasic,
-        ConfigHeader
-      ).then((res) => {
-        setIsOpen(false);
-        actionRefresh !== null && actionRefresh();
-      }).catch((err) => {
-        alert(err.response.data.message);
-        console.log(err.response);
-      });
-    }else{
+      await axios
+        .put(
+          `/api/basic_salary_by_employee/${dataSalary.basicSalaryByEmployeeId}`,
+          dataBasic,
+          ConfigHeader
+        )
+        .then((res) => {
+          setIsOpen(false);
+          actionRefresh !== null && actionRefresh();
+          showAlert("success", "Salary has updated");
+        })
+        .catch((err) => {
+          showAlert("failed", err.response.data.data);
+        });
+    } else {
       //baru
       const dataBasic = {
         empId: parseInt(paramsData.id),
-        basicSalaryByRoleId: dataSalary.basicSalaryByRoleId ,
-        fee: dataSalary.total-dataSalary.fee,
+        basicSalaryByRoleId: dataSalary.basicSalaryByRoleId,
+        fee: dataSalary.total - dataSalary.fee,
       };
-      await axios.post(`/api/basic_salary_by_employee`, dataBasic ,ConfigHeader)
-      .then((res) => {
-        setIsOpen(false);
-        actionRefresh !== null && actionRefresh();
-      }).catch((err) => {
-        alert(err.response.data.message);
-        console.log(err.response);
-      });
+      await axios
+        .post(`/api/basic_salary_by_employee`, dataBasic, ConfigHeader)
+        .then((res) => {
+          setIsOpen(false);
+          actionRefresh !== null && actionRefresh();
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+          console.log(err.response);
+        });
     }
   };
 
   useEffect(() => {
     fetchSalary();
-  },[]);
+  }, []);
 
   return (
     <>
@@ -105,14 +107,15 @@ const ManageSalaryByEmployee = ({
                     type="number"
                     placeholder="Salary Employee"
                     value={dataSalary.total}
-                    onChange={(e) => setDataSalary({...dataSalary, total: e.target.value})}
+                    onChange={(e) =>
+                      setDataSalary({ ...dataSalary, total: e.target.value })
+                    }
                     autoFocus
                     className="rounded w-full border border-gray-300 text-xs text-gray-700 font-medium"
                   />
                 </div>
 
                 <div className="flex justify-center">
-                  {/* <ButtonNormal bg="bg-red-500 " text="Delete Team" width="w-30" /> */}
                   <ButtonNormal
                     bg="bg-green-500 "
                     text="Save"

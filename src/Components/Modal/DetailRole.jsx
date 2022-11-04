@@ -15,6 +15,7 @@ const DetailRole = ({ ...data }) => {
     const [listPermission, setListPermission] = useState([]);
     const [modalRoleDelete, setModalRoleDelete] = useState(false);
     const [roleDeleteData, setRoleDeleteData] = useState({});
+    const setIsOpen = data.setIsOpen;
 
     let dataRoleId = "";
     const showModalDelete = async (roleId) => {
@@ -96,10 +97,6 @@ const DetailRole = ({ ...data }) => {
 
 
                 <div className="flex justify-between gap-2">
-                    {/* <Link to="../RoleEdit">
-                <ButtonNormal bg="bg-yellow-400 " icon="akar-icons:edit"  text="Edit" width="w-20" />
-            </Link> */}
-                    {/* <Link to={`../RoleEdit?roleId=${data.roleId}`}> */}
                     <ButtonNormal bg="bg-yellow-400 " icon="akar-icons:edit" text="Edit" width="w-20" onClick={() => handleEditRole(data.roleId)} />
                     {/* </Link> */}
                     <ButtonNormal bg="bg-red-600 " icon="bx:trash" text="Delete" width="w-20"
@@ -115,6 +112,8 @@ const DetailRole = ({ ...data }) => {
                     title="Delete Role"
                     typeData="role"
                     data={roleDeleteData}
+                    showAlert={data.showAlert ? data.showAlert : null}
+                    setIsOpenDetail={setIsOpen}
                 />
             )}
         </>

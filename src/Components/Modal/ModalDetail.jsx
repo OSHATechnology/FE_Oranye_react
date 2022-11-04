@@ -7,7 +7,7 @@ import DetailOvertime from './DetailOvertime';
 import DetailRole from './DetailRole';
 
 const ModalDetail = (props) => {
-    const { isOpen, setIsOpen } = props;
+    const { isOpen, setIsOpen, showAlert } = props;
 
     const [data,setData] = useState([]);
 
@@ -41,7 +41,10 @@ const ModalDetail = (props) => {
                         <DetailOvertime {...data} />
                     )}
                     {typeData === 'role' && (
-                        <DetailRole {...data} />
+                        <DetailRole
+                        showAlert={showAlert}
+                        setIsOpen={setIsOpen}
+                        {...data} />
                     )}
                 </div>
             </div>

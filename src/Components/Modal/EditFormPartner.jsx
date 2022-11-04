@@ -7,7 +7,6 @@ import moment from "moment";
 import Select from "react-select";
 
 const EditFormPartner = (data) => {
-  
   const [isOpen, setIsOpen] = useState(false);
   const [namePartner, setNamePartner] = useState("");
   const [description, setDescription] = useState("");
@@ -21,7 +20,7 @@ const EditFormPartner = (data) => {
   // baru
   const loadData = data.handleFetchData ? data.handleFetchData : () => {};
   const closeModal = data.handleCloseModal ? data.handleCloseModal : () => {};
-  
+  const showAlert = data.showAlert ? data.showAlert : () => {};
   const fetchDataEmp = async () => {
     try {
       const result = await axios.get("api/employee", ConfigHeader);
@@ -29,15 +28,10 @@ const EditFormPartner = (data) => {
     } catch (error) {}
   };
 
-  // const fetchDataTeam = async () => {
-  //   const data = await axios.get(`/api/partner/${paramsData.id}`, ConfigHeader);
-  //   setDataTeam(data.data.data);
-  // };
-
   useEffect(() => {
     fetchDataEmp();
     setNamePartner(data.data.name);
-    
+
     setDescription(data.data.description);
     setResposibleBy(data.data.resposibleBy);
     setPhone(data.data.phone);
@@ -59,12 +53,11 @@ const EditFormPartner = (data) => {
       joinedAt: joinedAt,
       photo: photo,
     };
-    // console.log(dataEdit)
     let formData = new FormData();
     for (let key in dataEdit) {
       formData.append(key, dataEdit[key]);
     }
-    await axios
+    const rslt = await axios
       .post(`/api/partners/${data.data.id}`, formData, {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer 19|NddCRKTaiRGXgPr5C6XnahjadTa6c2KI6RlJzMzT`,
@@ -72,9 +65,10 @@ const EditFormPartner = (data) => {
       .then((res) => {
         closeModal();
         loadData();
+        showAlert("success", res.data.message);
       })
       .catch((err) => {
-        console.log(err);
+        showAlert("failed", err.response.data.data);
       });
   };
 
@@ -92,14 +86,12 @@ const EditFormPartner = (data) => {
       height: "100%",
       fontSize: "10px",
     }),
-
   };
 
   const handleChange = (selectedOption) => {
     setAssignedById(selectedOption.value);
   };
   const selectAssignedBy = data.data;
-  console.log(selectAssignedBy && selectAssignedBy.assignedBy && selectAssignedBy.assignedBy.name)
   return (
     <div>
       <div className="w-full h-3/4 overflow-y-auto space-y-1">
@@ -175,10 +167,14 @@ const EditFormPartner = (data) => {
               noOptionsMessage={() => "No data"}
               classNamePrefix={""}
               onChange={handleChange}
-              defaultValue={{ label: "selected" , value: selectAssignedBy && selectAssignedBy.assignedBy && selectAssignedBy.assignedBy.empId }}
-              // menuPortalTarget={document.querySelector("#partner_form")}
+              defaultValue={{
+                label: "selected",
+                value:
+                  selectAssignedBy &&
+                  selectAssignedBy.assignedBy &&
+                  selectAssignedBy.assignedBy.empId,
+              }}
             />
-
           </div>
 
           <div className="">

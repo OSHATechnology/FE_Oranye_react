@@ -35,9 +35,9 @@ const AllowanceAdd = (props) => {
     setModalAllowanceDelete(true);
   };
 
-  const handleAlert = (type,message) => {
-    props.alert(type,message);
-  }
+  const handleAlert = (type, message) => {
+    props.alert(type, message);
+  };
 
   // add
   function changeDataToNull() {
@@ -53,10 +53,6 @@ const AllowanceAdd = (props) => {
     };
 
     try {
-      // let formData = new FormData();
-      // for (let key in data) {
-      //   formData.append(key, data[key]);
-      // }
       const rslt = await axios.post(
         "/api/type_of_allowance",
         data,
@@ -64,42 +60,38 @@ const AllowanceAdd = (props) => {
       );
 
       fetchDataAllowance();
-      console.log(rslt)
-      handleAlert("success",rslt.data.message);
+      console.log(rslt);
+      handleAlert("success", rslt.data.message);
       changeDataToNull();
     } catch (error) {
       console.log(error);
-      // handleAlert("failed",error.data.message);
-      handleAlert("failed",error.response.data.data);
+      handleAlert("failed", error.response.data.data);
     }
   };
 
   // Update
   const UpdateAllowanceComponent = () => {
-
     const handleUpdate = async (e) => {
       e.preventDefault();
       const dataEdit = {
         name: name,
         nominal: nominal,
-      }
+      };
       await axios
-        .put(
-          `/api/type_of_allowance/${id}`,
-          dataEdit, ConfigHeader
-        )
+        .put(`/api/type_of_allowance/${id}`, dataEdit, ConfigHeader)
         .then((res) => {
           console.log("berhasil");
           setIsUpdate(false);
           setName("");
           setNominal("");
           fetchDataAllowance();
+          handleAlert("success", res.data.message);
         })
         .catch((err) => {
           console.log(err.response);
+          handleAlert("failed", err.response.data.data);
         });
     };
-
 
     return (
       <div className="border border-slate-100 rounded shadow p-4 space-y-8">
@@ -156,8 +148,8 @@ const AllowanceAdd = (props) => {
           </form>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   const AddAllowanceComponent = (e) => {
     return (
@@ -203,10 +195,8 @@ const AllowanceAdd = (props) => {
           </form>
         </div>
       </div>
-    )
-  }
-
-
+    );
+  };
 
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -252,15 +242,12 @@ const AllowanceAdd = (props) => {
                         bg="bg-yellow-500"
                         icon="fa6-solid:pen-to-square"
                         colorIcon="text-white"
-                        onClick={
-                          (e) => {
-                            setIsUpdate(true)
-                            setId(dataAllowance.data[row].id)
-                            setName(dataAllowance.data[row].name)
-                            setNominal(dataAllowance.data[row].nominal)
-                          }
-
-                        }
+                        onClick={(e) => {
+                          setIsUpdate(true);
+                          setId(dataAllowance.data[row].id);
+                          setName(dataAllowance.data[row].name);
+                          setNominal(dataAllowance.data[row].nominal);
+                        }}
                       />
                       <ButtonSmall
                         bg="bg-red-500"
@@ -290,6 +277,7 @@ const AllowanceAdd = (props) => {
           typeData="allowance_settings"
           data={allowanceDeleteData}
           action={fetchDataAllowance}
+          showAlert={handleAlert}
         />
       )}
     </div>

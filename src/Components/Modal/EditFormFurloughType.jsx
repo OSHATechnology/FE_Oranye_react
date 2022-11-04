@@ -10,7 +10,7 @@ const EditFormFurloughType = (data) => {
   const [max, setMax] = useState("");
   const loadData = data.handleFetchData ? data.handleFetchData : () => { };
   const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
-
+  const showAlert = data.showAlert ? data.showAlert : () => {};
   
   useEffect(() => {
     setName(data.data.name);
@@ -31,12 +31,12 @@ const EditFormFurloughType = (data) => {
       dataEdit,ConfigHeader
     )
       .then((res) => {
-        console.log("berhasil");
         closeModal()
         loadData()
+        showAlert("success",res.data.message); 
       })
       .catch((err) => {
-        console.log(err.response);
+        showAlert("failed",err.response.data.data);
       });
   };
 

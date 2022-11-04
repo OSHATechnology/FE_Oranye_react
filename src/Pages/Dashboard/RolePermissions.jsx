@@ -8,7 +8,7 @@ import ModalDetail from "../../Components/Modal/ModalDetail";
 import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
 
-const RolePermissions = () => {
+const RolePermissions = (props) => {
   const [dataRole, setDataRole] = useState([]);
   const [dataPermissions, setDataPermissions] = useState([]);
   const [roleDetails, setRoleDetails] = useState([]);
@@ -23,6 +23,10 @@ const RolePermissions = () => {
     );
     setDataRole(result.data.data);
   };
+
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
 
   let dataRoleId = "";
   const showModalDetail = async (roleId) => {
@@ -196,6 +200,7 @@ const RolePermissions = () => {
           title="Role Details"
           typeData="role"
           data={roleDetails}
+          showAlert={handleAlert}
         />
       )}
     </div>

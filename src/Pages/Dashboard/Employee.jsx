@@ -64,12 +64,12 @@ const Employee = (props) => {
     try {
       fetchDataEmployee(1, e.target.value);
       setSearchValue(e.target.value);
-    } catch (err) { }
+    } catch (err) {}
   };
 
-  const handleAlert = (type,message) => {
-    props.alert(type,message);
-  }
+  const handleAlert = (type, message) => {
+    props.alert(type, message);
+  };
 
   useEffect(() => {
     fetchDataEmployee();
@@ -169,7 +169,6 @@ const Employee = (props) => {
                           }
                         />
                         {dataEmployee.data[row].employeeId !== empAuthId && (
-
                           <ButtonSmall
                             bg="bg-red-500"
                             icon="ci:trash-full"
@@ -198,6 +197,7 @@ const Employee = (props) => {
               typeData="employee"
               data={employeeEdit}
               action={fetchDataEmployee}
+              showAlert={handleAlert}
             />
           )}
           {modalEmployeeDelete && (
@@ -208,6 +208,7 @@ const Employee = (props) => {
               typeData="employee"
               data={empDeleteData}
               action={fetchDataEmployee}
+              showAlert={handleAlert}
             />
           )}
         </div>

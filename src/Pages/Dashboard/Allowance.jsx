@@ -50,9 +50,9 @@ const Allowance = (props) => {
     } catch (err) {}
   };
 
-  const handleAlert = (type,message) => {
-    props.alert(type,message);
-  }
+  const handleAlert = (type, message) => {
+    props.alert(type, message);
+  };
 
   let dataAllowanceId = "";
   const showModalDelete = async (allowanceId) => {
@@ -79,7 +79,7 @@ const Allowance = (props) => {
     dataAllowanceId = allowanceId;
     await fetchDataAllowanceEdit();
   };
-  console.log(totalAllowance)
+  console.log(totalAllowance);
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -145,15 +145,9 @@ const Allowance = (props) => {
                   Object.keys(dataAllowance.data).map((row, index) => (
                     <tr key={dataAllowance.data[row].id}>
                       <td>{parseInt(row) + 1}</td>
-                      <td >
-                        {dataAllowance.data[row].role.role}
-                      </td>
-                      <td >
-                        {dataAllowance.data[row].typeAllowance.type}
-                      </td>
-                      <td >
-                        {dataAllowance.data[row].typeAllowance.nominal}
-                      </td>
+                      <td>{dataAllowance.data[row].role.role}</td>
+                      <td>{dataAllowance.data[row].typeAllowance.type}</td>
+                      <td>{dataAllowance.data[row].typeAllowance.nominal}</td>
                       <td className="w-24">
                         <div className="flex justify-center gap-1">
                           <ButtonSmall
@@ -192,6 +186,7 @@ const Allowance = (props) => {
               typeData="allowance"
               data={allowanceEdit}
               action={fetchDataAllowance}
+              showAlert={handleAlert}
             />
           )}
           {modalAllowanceDelete && (
@@ -202,6 +197,7 @@ const Allowance = (props) => {
               typeData="allowance"
               data={allowanceDeleteData}
               action={fetchDataAllowance}
+              showAlert={handleAlert}
             />
           )}
         </div>

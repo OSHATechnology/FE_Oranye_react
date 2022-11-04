@@ -5,7 +5,7 @@ import ButtonNormal from '../ButtonNormal'
 import ConfigHeader from '../../Pages/Auth/ConfigHeader'
 import axios from "axios";
 
-const Modal = ({ isOpen, setIsOpen, title, typeData, data, action = null, showAlert = null }) => {
+const Modal = ({ isOpen, setIsOpen, title, typeData, data, action = null, showAlert = null, setIsOpenDetail = true }) => {
     const [dataId, setDataId] = useState(null)
     const typeDelete = typeData ? typeData : null;
     const [endPoint, setEndPoint] = useState(null)
@@ -73,10 +73,10 @@ const Modal = ({ isOpen, setIsOpen, title, typeData, data, action = null, showAl
                 }
                 const rslt = await axios.delete(`${endPoint}/${dataId}`, ConfigHeader)
                     .then(res => {
-                        console.log(res);
                         setIsOpen(false);
                         actionRefresh !== null && actionRefresh();
                         showAlert("success","data telah terhapus");
+                        setIsOpenDetail(false);
                     }).catch(err => {
                         console.log(err)
                     })
@@ -98,9 +98,7 @@ const Modal = ({ isOpen, setIsOpen, title, typeData, data, action = null, showAl
             >
 
                 <div className="items-start bg-white min-h-1-2 w-80 p-4 border-2 rounded space-y-4">
-
                     <div className="flex text-center text-base font-bold justify-between ">
-
                         {title}
                         <button
                             className=" float-right"

@@ -9,26 +9,25 @@ const EditFormInsuranceItem = (data) => {
   const [dataRole, setDataRole] = useState([]);
   const [percent, setPercent] = useState("");
   const [listRoleInsurance, setListRoleInsurance] = useState([]);
-  const loadData = data.handleFetchData ? data.handleFetchData : () => { };
-  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
-
+  const loadData = data.handleFetchData ? data.handleFetchData : () => {};
+  const closeModal = data.handleCloseModal ? data.handleCloseModal : () => {};
+  const showAlert = data.showAlert ? data.showAlert : () => {};
 
   const fetchDataRole = async () => {
     try {
       const data = await axios.get(`/api/roles`, ConfigHeader);
       setDataRole(data.data.data.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
     setName(data.data.name);
     setType(data.data.type);
     setPercent(data.data.percent);
-    setListRoleInsurance(data.data.roles ? data.data.roles.map((item) => item.roleId) : []);
-    fetchDataRole().then(() => {
-    });
+    setListRoleInsurance(
+      data.data.roles ? data.data.roles.map((item) => item.roleId) : []
+    );
+    fetchDataRole().then(() => {});
   }, [data.data]);
 
   const handleSubmit = async (e) => {
@@ -44,23 +43,32 @@ const EditFormInsuranceItem = (data) => {
       .put(`/api/insurance_item/${data.data.id}`, dataEdit, ConfigHeader)
       .then(async (res) => {
         try {
-          await axios.delete(`/api/insurance_item_role/detachAll`, {
-            data: {
-              insuranceItemId: data.data.id
+          await axios.delete(
+            `/api/insurance_item_role/detachAll`,
+            {
+              data: {
+                insuranceItemId: data.data.id,
+              },
             },
-          }, ConfigHeader);
+            ConfigHeader
+          );
           dataEdit.roles.map((item) => {
-            axios.post(`/api/insurance_item_role`, { insuranceItemId: data.data.id, roleId: item }, ConfigHeader);
+            axios.post(
+              `/api/insurance_item_role`,
+              { insuranceItemId: data.data.id, roleId: item },
+              ConfigHeader
+            );
           });
         } catch (error) {
           console.log(error);
         } finally {
           loadData();
           closeModal();
+          showAlert("success", res.data.message);
         }
       })
       .catch((err) => {
-        console.log(err.response);
+        showAlert("failed", err.response.data.data);
       });
   };
   return (
@@ -106,8 +114,9 @@ const EditFormInsuranceItem = (data) => {
           </div>
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Role</p>
-            <div className="flex gap-4">
-              {(dataRole && listRoleInsurance) &&
+            <div className="flex gap-4 flex-wrap">
+              {dataRole &&
+                listRoleInsurance &&
                 dataRole.map((item, index) => {
                   return (
                     <div>
@@ -122,10 +131,14 @@ const EditFormInsuranceItem = (data) => {
                           checked={listRoleInsurance.includes(item.roleId)}
                           onClick={(e) => {
                             setListRoleInsurance(
-                              listRoleInsurance.includes(item.roleId) ? listRoleInsurance.filter(
-                                (item) => item !== parseInt(e.target.value)
-                              )
-                                : [...listRoleInsurance, parseInt(e.target.value)]
+                              listRoleInsurance.includes(item.roleId)
+                                ? listRoleInsurance.filter(
+                                    (item) => item !== parseInt(e.target.value)
+                                  )
+                                : [
+                                    ...listRoleInsurance,
+                                    parseInt(e.target.value),
+                                  ]
                             );
                             console.log(listRoleInsurance);
                           }}
@@ -133,7 +146,9 @@ const EditFormInsuranceItem = (data) => {
                         <label
                           htmlFor={"role" + item.roleId}
                           className="text-sm font-medium text-gray-600"
-                        >{item.nameRole}</label>
+                        >
+                          {item.nameRole}
+                        </label>
                       </div>
                     </div>
                   );

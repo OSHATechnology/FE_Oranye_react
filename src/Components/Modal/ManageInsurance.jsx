@@ -6,10 +6,17 @@ import ModalDelete from "../../Components/Modal/ModalDelete";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import axios from "axios";
 
-const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
-  const [name, setName] = useState('');
-  const [companyName, setCompanyName] = useState('');
-  const [address, setAddress] = useState('');
+const ManageInsurance = ({
+  isOpen,
+  setIsOpen,
+  title,
+  data,
+  action = null,
+  showAlert = null,
+}) => {
+  const [name, setName] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [address, setAddress] = useState("");
   const [dataInsurance, setDataInsurance] = useState([]);
   const actionRefresh = action ? action : null;
 
@@ -17,21 +24,27 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
     setName(data.name);
     setCompanyName(data.company);
     setAddress(data.address);
-
   }, [data]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.patch(`/api/insurance/${data.id}`, {
-      name: name,
-      companyName: companyName,
-      address: address,
-    }, ConfigHeader)
+    await axios
+      .patch(
+        `/api/insurance/${data.id}`,
+        {
+          name: name,
+          companyName: companyName,
+          address: address,
+        },
+        ConfigHeader
+      )
       .then((res) => {
         setIsOpen(false);
         actionRefresh !== null && actionRefresh();
-      }).catch((err) => {
-        alert(err.response.data.message);
+        showAlert("success", res.data.message);
+      })
+      .catch((err) => {
+        showAlert("failed", err.response.data.data);
       });
   };
 
@@ -97,9 +110,7 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
               />
             </div>
             <div className="">
-              <p className="text-sm font-extrabold text-gray-600">
-                Address
-              </p>
+              <p className="text-sm font-extrabold text-gray-600">Address</p>
               <textarea
                 name=""
                 id=""
@@ -111,7 +122,6 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
                 onChange={(e) => setAddress(e.target.value)}
               ></textarea>
             </div>
-
           </div>
 
           <div className="flex justify-between">
@@ -119,15 +129,13 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
               bg="bg-red-500 "
               text="Delete Team"
               width="w-30"
-              onClick={() =>
-                showModalDelete(data.id)}
+              onClick={() => showModalDelete(data.id)}
             />
             <ButtonNormal
               bg="bg-yellow-500 "
               onClick={handleSubmit}
               text="Save"
               width="w-16"
-
             />
           </div>
           {modalInsuranceDelete && (
@@ -138,12 +146,13 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
               typeData="insurance"
               data={insuranceDeleteData}
               action={refresh}
+              showAlert={showAlert}
             />
           )}
         </div>
       </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default ManageInsurance
+export default ManageInsurance;

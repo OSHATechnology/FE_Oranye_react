@@ -44,7 +44,7 @@ const EmployeeDetail = () => {
 
     fetchDataEmp().catch((err) => {
       console.log(err.message);
-      navigate('../emp');
+      navigate("../emp");
     });
   }, [paramsData]);
 
@@ -125,112 +125,112 @@ const EmployeeDetail = () => {
         </div>
         <div className="md:flex justify-between space-y-2 md:space-y-0 items-center">
           <div className="md:flex text-sm font-medium text-slate-600   md:gap-16 ">
-          <div>
-            <div className=" ">
+            <div>
+              <div className=" ">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <p className="text-xs md:text-sm w-20 md:w-auto">
+                          Name
+                        </p>
+                      </td>
+                      <td>
+                        <p className="text-xs md:text">:</p>
+                      </td>
+                      <td>
+                        <p className="text-xs md:text">{dataEmp.name}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className="text-xs md:text">Birth Date</p>
+                      </td>
+                      <td>
+                        <p className="text-xs md:text">:</p>
+                      </td>
+                      <td>
+                        <p className="text-xs md:text">
+                          {moment(dataEmp.birthDate).format("DD MMMM YYYY")}
+                        </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p className="text-xs md:text">Address</p>
+                      </td>
+                      <td>
+                        <p className="text-xs md:text">:</p>
+                      </td>
+                      <td>
+                        <p className="text-xs md:text">{dataEmp.address}</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
               <table>
                 <tbody>
                   <tr>
                     <td>
-                      <p className="text-xs md:text-sm w-20 md:w-auto">Name</p>
+                      <p className="text-xs md:text w-20 md:w-auto">City</p>
                     </td>
                     <td>
                       <p className="text-xs md:text">:</p>
                     </td>
                     <td>
-                      <p className="text-xs md:text">{dataEmp.name}</p>
+                      <p className="text-xs md:text">{dataEmp.city}</p>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <p className="text-xs md:text">Birth Date</p>
+                      <p className="text-xs md:text">Nation</p>
                     </td>
                     <td>
                       <p className="text-xs md:text">:</p>
                     </td>
                     <td>
-                      <p className="text-xs md:text">
-                        {moment(dataEmp.birthDate).format("DD MMMM YYYY")}
-                      </p>
+                      <p className="text-xs md:text">{dataEmp.nation}</p>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <p className="text-xs md:text">Address</p>
+                      <p className="text-xs md:text">Email</p>
                     </td>
                     <td>
                       <p className="text-xs md:text">:</p>
                     </td>
                     <td>
-                      <p className="text-xs md:text">{dataEmp.address}</p>
+                      <p className="text-xs md:text">{dataEmp.email}</p>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <div>
-          <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <p className="text-xs md:text w-20 md:w-auto">City</p>
-                  </td>
-                  <td>
-                    <p className="text-xs md:text">:</p>
-                  </td>
-                  <td>
-                    <p className="text-xs md:text">{dataEmp.city}</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p className="text-xs md:text">Nation</p>
-                  </td>
-                  <td>
-                    <p className="text-xs md:text">:</p>
-                  </td>
-                  <td>
-                    <p className="text-xs md:text">{dataEmp.nation}</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p className="text-xs md:text">Email</p>
-                  </td>
-                  <td>
-                    <p className="text-xs md:text">:</p>
-                  </td>
-                  <td>
-                    <p className="text-xs md:text">{dataEmp.email}</p>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          </div>
 
           <div className="flex gap-2 md:gap-0 md:flex-col md:space-y-1 justify-center ">
-          <Link to={"Salary"}>
-            <ButtonNormal
-            bg="bg-slate-400 hover:bg-slate-600 "
-            icon="healthicons:money-bag"
-            text= ""
-            width= "w-10"
-            />
+            <Link to={"Salary"}>
+              <ButtonNormal
+                bg="bg-slate-400 hover:bg-slate-600 "
+                icon="healthicons:money-bag"
+                text=""
+                width="w-10"
+              />
             </Link>
-            <Link to={`family`}
-                          >
-            <ButtonNormal
-            bg="bg-slate-400 hover:bg-slate-600 "
-            icon="ic:round-family-restroom"
-            text= " "
-            width= "w-10"
-            />
+            <Link to={`family`}>
+              <ButtonNormal
+                bg="bg-slate-400 hover:bg-slate-600 "
+                icon="ic:round-family-restroom"
+                text=" "
+                width="w-10"
+              />
             </Link>
           </div>
         </div>
       </div>
-      
     </div>
   );
 };

@@ -15,12 +15,10 @@ const DetailSalary = () => {
     setDetailSalary(data.data.data);
   };
 
-
   useEffect(() => {
-    fetchDataDetailSalary()
-
+    fetchDataDetailSalary();
   }, [paramsData]);
-  console.log(detailSalary)
+  console.log(detailSalary);
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -30,7 +28,9 @@ const DetailSalary = () => {
 
       <div className="flex gap-2 items-center">
         <Link
-          to={`../emp/${detailSalary.employee && detailSalary.employee.id}/salary`}
+          to={`../emp/${
+            detailSalary.employee && detailSalary.employee.id
+          }/salary`}
           className="flex gap-1 items-center text-blue-400 hover:text-blue-700 w-fit"
         >
           <Icon icon="bi:arrow-left" className="text-sm  font-medium"></Icon>
@@ -74,26 +74,50 @@ const DetailSalary = () => {
                 <p>Overtime fee</p>
                 <p className="font-semibold">Allowance & Insurance</p>
                 <p className="text-xs text-slate-600 list-none ml-2">
-                  {detailSalary.allowance_item && detailSalary.allowance_item.map((item) => (
-                    <li>{item.name}</li>
-                  ))}
+                  {detailSalary.allowance_item &&
+                    detailSalary.allowance_item.map((item) => (
+                      <li>{item.name}</li>
+                    ))}
                 </p>
                 <p>Bonus</p>
                 <p className="font-bold ">Total</p>
               </div>
               <div className="basis-2/5  text-xs md:text-sm text-slate-800 font-medium text-right">
-                <p><RupiahMoneyFormat num={detailSalary.basic_salary} disableRp={true} /></p>
-                <p><RupiahMoneyFormat num={detailSalary.overtime_fee} disableRp={true} /></p>
+                <p>
+                  <RupiahMoneyFormat
+                    num={detailSalary.basic_salary}
+                    disableRp={true}
+                  />
+                </p>
+                <p>
+                  <RupiahMoneyFormat
+                    num={detailSalary.overtime_fee}
+                    disableRp={true}
+                  />
+                </p>
                 <p className="font-semibold">&nbsp;</p>
                 <p className="text-xs text-slate-600 list-none ml-2">
-                  {detailSalary.allowance_item && detailSalary.allowance_item.map((item) => (
-                    <>
-                      <li><RupiahMoneyFormat num={item.fee} disableRp={true} /></li>
-                    </>
-                  ))}
+                  {detailSalary.allowance_item &&
+                    detailSalary.allowance_item.map((item) => (
+                      <>
+                        <li>
+                          <RupiahMoneyFormat num={item.fee} disableRp={true} />
+                        </li>
+                      </>
+                    ))}
                 </p>
-                <p><RupiahMoneyFormat num={detailSalary.bonus} disableRp={true} /></p>
-                <p className="font-bold"><RupiahMoneyFormat num={detailSalary.gross} disableRp={true} /></p>
+                <p>
+                  <RupiahMoneyFormat
+                    num={detailSalary.bonus}
+                    disableRp={true}
+                  />
+                </p>
+                <p className="font-bold">
+                  <RupiahMoneyFormat
+                    num={detailSalary.gross}
+                    disableRp={true}
+                  />
+                </p>
               </div>
             </div>
           </div>
@@ -108,9 +132,10 @@ const DetailSalary = () => {
                 <p>Tax</p>
                 <p>Insurance</p>
                 <p className="text-xs text-slate-600 list-none ml-2">
-                  {detailSalary.deduction_item && detailSalary.deduction_item.map((item) => (
-                    <li>{item.name}</li>
-                  ))}
+                  {detailSalary.deduction_item &&
+                    detailSalary.deduction_item.map((item) => (
+                      <li>{item.name}</li>
+                    ))}
                 </p>
                 <p className="font-bold ">Total</p>
               </div>
@@ -120,11 +145,14 @@ const DetailSalary = () => {
                 <p>{detailSalary.tax}</p>
                 <p>&nbsp;</p>
                 <p className="text-xs text-slate-600 list-none ml-2">
-                  {detailSalary.deduction_item && detailSalary.deduction_item.map((item) => (
-                    <>
-                      <li><RupiahMoneyFormat num={item.fee} disableRp={true} /></li>
-                    </>
-                  ))}
+                  {detailSalary.deduction_item &&
+                    detailSalary.deduction_item.map((item) => (
+                      <>
+                        <li>
+                          <RupiahMoneyFormat num={item.fee} disableRp={true} />
+                        </li>
+                      </>
+                    ))}
                 </p>
                 <p>{detailSalary.total_deduction}</p>
               </div>
@@ -138,7 +166,10 @@ const DetailSalary = () => {
                 <p className="font-bold ">Take Home Pay</p>
               </div>
               <div className="basis-2/5 text-right  text-xs md:text-sm text-slate-800 font-medium">
-                <p className="font-bold "><RupiahMoneyFormat num={detailSalary.net} />.00,-</p>
+                <p className="font-bold ">
+                  <RupiahMoneyFormat num={detailSalary.net} />
+                  .00,-
+                </p>
               </div>
             </div>
           </div>

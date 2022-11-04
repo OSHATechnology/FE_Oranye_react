@@ -11,7 +11,7 @@ import ConfigHeader from "../Auth/ConfigHeader";
 import { useNavigate } from "react-router-dom";
 import ModalManage from "../../Components/Modal/ManageSalaryByEmployee";
 
-const Salary = (data) => {
+const Salary = (props) => {
   const paramsData = useParams();
   const [isModalManageOpened, setIsModalManageOpened] = useState(false);
   const [dataSalary, setDataSalary] = useState([]);
@@ -44,7 +44,6 @@ const Salary = (data) => {
       ConfigHeader
     );
     setDataSalary(data.data.data);
-    // console.log(data.data.data);
   };
 
   const fetchDataEmp = async () => {
@@ -59,6 +58,10 @@ const Salary = (data) => {
     window.location.reload();
   };
 
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
+
   useEffect(() => {
     fetchDataSalary();
     fetchDataEmp().catch((err) => {
@@ -66,7 +69,6 @@ const Salary = (data) => {
       navigate("../emp");
     });
   }, []);
-  // console.log(dataSalary);
   return (
     <div className="w-full md:mx-8 space-y-8">
       <TitleDashboard
@@ -96,6 +98,7 @@ const Salary = (data) => {
           title="Manage Salary Employee"
           data={dataSalary}
           action={refresh}
+          showAlert={handleAlert}
         />
       </div>
 

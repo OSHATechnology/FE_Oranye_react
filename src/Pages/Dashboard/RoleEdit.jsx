@@ -1,6 +1,6 @@
 import TitleDashboard from "../../Components/TitleDashboard";
 import React, { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import ButtonNormal from "../../Components/ButtonNormal";
 import { Icon } from "@iconify/react";
 import axios from "axios";
@@ -18,7 +18,8 @@ const fectDataPermissions = async () => {
   }
 };
 
-const RoleEdit = () => {
+const RoleEdit = (props) => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [listPermissions, setListPermissions] = useState([]);
   const [nameRole, setNameRole] = useState("");
@@ -28,17 +29,25 @@ const RoleEdit = () => {
 
   const fetchRole = async () => {
     try {
-      const response = await axios.get(`api/roles/${searchParams.get('id')}`, ConfigHeader);
+      const response = await axios.get(
+        `api/roles/${searchParams.get("id")}`,
+        ConfigHeader
+      );
       setNameRole(response.data.data.nameRole);
       setDescriptionRole(response.data.data.description);
-    } catch (error) {
+    } catch (error) {}
+  };
 
-    }
+  const handleAlert = (type, message) => {
+    props.alert(type, message);
   };
 
   const fetchDataRolePermissions = async () => {
     try {
-      const response = await axios.get(`api/role-permissions?roleId=${searchParams.get('id')}`, ConfigHeader);
+      const response = await axios.get(
+        `api/role-permissions?roleId=${searchParams.get("id")}`,
+        ConfigHeader
+      );
       const arrayItems = [];
       response.data.data.map((item) => {
         item.data.map((item2) => {
@@ -46,18 +55,17 @@ const RoleEdit = () => {
         });
       });
       setListPermissionsRole(arrayItems);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const fetchSalaryRole = async () => {
     try {
-      const response = await axios.get(`api/basic_salary_by_role/${searchParams.get('id')}`, ConfigHeader);
+      const response = await axios.get(
+        `api/basic_salary_by_role/${searchParams.get("id")}`,
+        ConfigHeader
+      );
       setBasicSalaryRole(response.data.data.fee);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const togglePermissionGroup = (e) => {
@@ -89,9 +97,10 @@ const RoleEdit = () => {
 
   const onChangePermission = (e, permisId) => {
     setListPermissionsRole(
-      listPermissionsRole.includes(permisId) ? listPermissionsRole.filter(
-        (item) => item !== parseInt(e.target.value)
-      )
+      listPermissionsRole.includes(permisId)
+        ? listPermissionsRole.filter(
+            (item) => item !== parseInt(e.target.value)
+          )
         : [...listPermissionsRole, parseInt(e.target.value)]
     );
     console.log(listPermissionsRole);
@@ -99,28 +108,40 @@ const RoleEdit = () => {
 
   const editRole = async (data) => {
     try {
-      const response = await axios.put(`api/roles/${searchParams.get('id')}`, data, ConfigHeader);
-      console.log(response);
+      const response = await axios.put(
+        `api/roles/${searchParams.get("id")}`,
+        data,
+        ConfigHeader
+      );
+      handleAlert("success", response.data.message);
+      return response;
     } catch (error) {
+      handleAlert("failed", error.response.data.data);
       return error;
     }
   };
 
   const editBasicSalaryRole = async (data) => {
     try {
-      const response = await axios.post(`api/basic_salary_by_role`, data, ConfigHeader);
-    } catch (error) {
-
-    }
-  }
+      const response = await axios.post(
+        `api/basic_salary_by_role`,
+        data,
+        ConfigHeader
+      );
+    } catch (error) {}
+  };
 
   const editRolePermissions = async (roleId, data) => {
     try {
-      await axios.delete(`api/roles-permissions/detachAll`, {
-        data: {
-          roleId: roleId,
+      await axios.delete(
+        `api/roles-permissions/detachAll`,
+        {
+          data: {
+            roleId: roleId,
+          },
         },
-      }, ConfigHeader);
+        ConfigHeader
+      );
       data.forEach(async (item) => {
         const response = await axios.post(
           "api/role-permissions",
@@ -137,31 +158,45 @@ const RoleEdit = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const dataRole = {
-      nameRole: nameRole,
-      description: descriptionRole,
-    };
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const dataRole = {
+        nameRole: nameRole,
+        description: descriptionRole,
+      };
 
-    const dataBasicSalary = {
-      roleId: searchParams.get('id'),
-      fee: basicSalaryRole,
-    };
+      const dataBasicSalary = {
+        roleId: searchParams.get("id"),
+        fee: basicSalaryRole,
+      };
 
-    const dataRolePermissions = {
-      roleId: searchParams.get('id'),
-      roles_permissions: listPermissionsRole,
-    };
+      const dataRolePermissions = {
+        roleId: searchParams.get("id"),
+        roles_permissions: listPermissionsRole,
+      };
 
-    editRole(dataRole).then((data) => {
-      editRolePermissions(dataRolePermissions.roleId, dataRolePermissions.roles_permissions).then((data) => {
-        console.log(data);
+      await editRole(dataRole).then(async (data) => {
+        console.log(data)
+        if (data.status === 200) {
+          editRolePermissions(
+            dataRolePermissions.roleId,
+            dataRolePermissions.roles_permissions
+          ).then((data) => {
+            console.log(data);
+          });
+          editBasicSalaryRole(dataBasicSalary).then((data) => {
+            console.log(data);
+          });
+          return navigate("/dashboard/role");
+        } else {
+          console.log("error");
+        }
       });
-      editBasicSalaryRole(dataBasicSalary).then((data) => {
-        console.log(data);
-      });
-    });
+    } catch (error) {
+      handleAlert("failed", error.response.data.data);
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -195,7 +230,12 @@ const RoleEdit = () => {
             <p className="text-lg font-semibold text-gray-700">Role Name</p>
           </div>
           <div className="basis-4/5 ">
-            <input type="text" className="w-full rounded h-8" value={nameRole} onChange={(e) => setNameRole(e.target.value)} />
+            <input
+              type="text"
+              className="w-full rounded h-8"
+              value={nameRole}
+              onChange={(e) => setNameRole(e.target.value)}
+            />
           </div>
         </div>
         <div className="flex flex-row w-full items-center justify-center md:justify-start">
@@ -205,7 +245,12 @@ const RoleEdit = () => {
             </p>
           </div>
           <div className="basis-4/5 ">
-            <input type="number" value={basicSalaryRole} onChange={(e) => setBasicSalaryRole(e.target.value)} className="w-full rounded h-8" />
+            <input
+              type="number"
+              value={basicSalaryRole}
+              onChange={(e) => setBasicSalaryRole(e.target.value)}
+              className="w-full rounded h-8"
+            />
           </div>
         </div>
         <div className="flex flex-row w-full items-start justify-center md:justify-start">
@@ -265,12 +310,16 @@ const RoleEdit = () => {
                                   type="checkbox"
                                   id={"permis_" + item.id + "_" + permis.id}
                                   value={permis.id}
-                                  onClick={(e) => onChangePermission(e, permis.id)}
+                                  onClick={(e) =>
+                                    onChangePermission(e, permis.id)
+                                  }
                                   className={
                                     "rounded border border-gray-400 item-permission-" +
                                     item.id
                                   }
-                                  checked={listPermissionsRole.includes(permis.id)}
+                                  checked={listPermissionsRole.includes(
+                                    permis.id
+                                  )}
                                 />
                                 <label
                                   htmlFor={
@@ -318,12 +367,16 @@ const RoleEdit = () => {
                                   type="checkbox"
                                   id={"permis_" + item.id + "_" + permis.id}
                                   value={permis.id}
-                                  onClick={(e) => onChangePermission(e, permis.id)}
+                                  onClick={(e) =>
+                                    onChangePermission(e, permis.id)
+                                  }
                                   className={
                                     "rounded border border-gray-400 item-permission-" +
                                     item.id
                                   }
-                                  checked={listPermissionsRole.includes(permis.id)}
+                                  checked={listPermissionsRole.includes(
+                                    permis.id
+                                  )}
                                 />
                                 <label
                                   htmlFor={

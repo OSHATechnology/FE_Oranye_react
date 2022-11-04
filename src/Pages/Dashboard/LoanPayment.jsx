@@ -32,7 +32,10 @@ const LoanPayment = () => {
 
   const fetchInstalmentData = async () => {
     try {
-      const res = await axios.get(`/api/instalment_by_loan/${paramsData.id}`, ConfigHeader);
+      const res = await axios.get(
+        `/api/instalment_by_loan/${paramsData.id}`,
+        ConfigHeader
+      );
       setDataInstalment(res.data.data);
     } catch (err) {
       console.log(err.response);
@@ -49,7 +52,6 @@ const LoanPayment = () => {
     });
     fetchInstalmentData();
   }, [paramsData]);
-
 
   return (
     <div className="w-full md:mx-8 space-y-8">
@@ -86,7 +88,9 @@ const LoanPayment = () => {
             <tr>
               <td>Jumlah Pinjaman</td>
               <td className="px-3">:</td>
-              <td><RupiahMoneyFormat num={dataLoan.nominal} /></td>
+              <td>
+                <RupiahMoneyFormat num={dataLoan.nominal} />
+              </td>
             </tr>
             <tr>
               <td>Tanggal Pinjaman</td>
@@ -109,21 +113,32 @@ const LoanPayment = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-              {
-                datainstalment.data ? Object.keys(datainstalment.data).map((row, index) => (
+              {datainstalment.data ? (
+                Object.keys(datainstalment.data).map((row, index) => (
                   <tr key={datainstalment.data[row].id} className=" shadow ">
                     <td>{index + 1}</td>
-                    <td>{moment(datainstalment.data[row].date).format("DD MMMM YYYY")}</td>
-                    <td><RupiahMoneyFormat num={datainstalment.data[row].nominal} /></td>
+                    <td>
+                      {moment(datainstalment.data[row].date).format(
+                        "DD MMMM YYYY"
+                      )}
+                    </td>
+                    <td>
+                      <RupiahMoneyFormat
+                        num={datainstalment.data[row].nominal}
+                      />
+                    </td>
                     <td>{datainstalment.data[row].remainder}</td>
                   </tr>
-                )) : <tr><td colSpan="5">Loading</td></tr>
-              }
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">Loading</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
       </div>
-
     </div>
   );
 };

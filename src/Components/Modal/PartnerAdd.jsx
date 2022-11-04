@@ -133,7 +133,6 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null 
   };
 
   useEffect(() => {
-    // loadOptions();
     fetchDataEmployee().then((response) => {
       const data = response.map((item) => {
         return {
@@ -168,7 +167,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null 
           <div className="w-full h-3/4 overflow-y-auto space-y-1">
             <form
               id="partner_form"
-              onSubmit={handleSubmit(handleSubmitPartner)}
+              onSubmit={handleSubmitPartner}
               encType="multipart/form-data"
             >
               <div className="">
@@ -181,15 +180,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null 
                   className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
                   defaultValue={name}
                   onChange={(e) => setName(e.target.value)}
-                  {...register("company_name", {
-                    required: "tidak boleh kosong",
-                    minLength: 4,
-                    maxLength: 30
-                  })}
                 />
-                {/* {errors.company_name && errors.company_name.type === "required" && <span>This is required</span>}
-                {errors.company_name && errors.company_name.type === "minLength" && <span>Min length 4</span>}
-                {errors.company_name && errors.company_name.type === "maxLength" && <span>Max length exceeded</span>} */}
               </div>
               <div className="">
                 <p className="text-sm font-semibold text-gray-600">
@@ -205,11 +196,7 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null 
                   value={description}
                   defaultValue={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  {...register("company_description", {
-                    required: "tidak boleh kosong",
-                    minLength: 10,
-                    maxLength: 255
-                  })}
+
                 ></textarea>
               </div>
               <div className="">
@@ -308,7 +295,6 @@ const PartnerAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null 
                 </button>
               </div>
             </div>
-            {/* <ButtonNormal bg="bg-green-600 " text="Add" width="w-16" /> */}
           </div>
         </div>
       </Dialog>

@@ -27,57 +27,67 @@ const ModalRoleDetail = ({ isOpen, setIsOpen, title }) => {
           </div>
           <div className="w-full h-3/4 space-y-1">
             <div className="flex ">
-                <div className="basis-1/4 ">
-                    <p className="font-medium text-gray-600">Role Name</p>
-                </div>
-                <div className="basis-3/4 ">
-                    <p className="font-bold text-gray-800">Supervisor</p>
-                </div>
+              <div className="basis-1/4 ">
+                <p className="font-medium text-gray-600">Role Name</p>
+              </div>
+              <div className="basis-3/4 ">
+                <p className="font-bold text-gray-800">Supervisor</p>
+              </div>
             </div>
-          <div className="flex overflow-y-auto h-4/5">
-            <div className="basis-1/4">
-            <p className="font-medium text-gray-600">Permissions</p>
-            </div>
-            <div className="basis-3/4 ">
+            <div className="flex overflow-y-auto h-4/5">
+              <div className="basis-1/4">
+                <p className="font-medium text-gray-600">Permissions</p>
+              </div>
+              <div className="basis-3/4 ">
                 <table className="w-full">
-                    <thead className="font-semibold text-sm"> 
-                        <tr>
-                            <td>#</td>
-                            <td>Permissions</td>
-                            <td>details</td>
-                        </tr>
-                    </thead>
-                    <tbody className="text-sm font-medium">
-                        <tr>
-                            <td>1</td>
-                            <td>Attendance management</td>
-                            <td>
-                                <ul className="list-disc">
-                                    <li>can view all attendance data</li>
-                                    <li>can view all attendance data</li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Users management</td>
-                            <td>
-                                <ul className="list-disc">
-                                    <li>can manage user data</li>
-                                    <li>can create user data</li>
-                                </ul>
-                            </td>
-                        </tr>
-                        
-                    </tbody>
+                  <thead className="font-semibold text-sm">
+                    <tr>
+                      <td>#</td>
+                      <td>Permissions</td>
+                      <td>details</td>
+                    </tr>
+                  </thead>
+                  <tbody className="text-sm font-medium">
+                    <tr>
+                      <td>1</td>
+                      <td>Attendance management</td>
+                      <td>
+                        <ul className="list-disc">
+                          <li>can view all attendance data</li>
+                          <li>can view all attendance data</li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Users management</td>
+                      <td>
+                        <ul className="list-disc">
+                          <li>can manage user data</li>
+                          <li>can create user data</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
+              </div>
             </div>
-          </div>
           </div>
 
           <div className="flex justify-between gap-2">
-            <ButtonNormal bg="bg-yellow-400 " icon="akar-icons:edit"  text="Edit" width="w-20" onClick={() => setIsOpen(false)} />
-            <ButtonNormal bg="bg-red-600 " icon="bx:trash"  text="Delete" width="w-20" />
+            <ButtonNormal
+              bg="bg-yellow-400 "
+              icon="akar-icons:edit"
+              text="Edit"
+              width="w-20"
+              onClick={() => setIsOpen(false)}
+            />
+            <ButtonNormal
+              bg="bg-red-600 "
+              icon="bx:trash"
+              text="Delete"
+              width="w-20"
+            />
           </div>
         </div>
       </Dialog>

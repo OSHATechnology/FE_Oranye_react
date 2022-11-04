@@ -11,7 +11,7 @@ import FormEditMember from "./FormEditMember";
 import EditFormFamily from "./EditFormFamily";
 
 const ModalEdit = (props) => {
-  const { isOpen, setIsOpen } = props;
+  const { isOpen, setIsOpen, showAlert } = props;
 
   const [data, setData] = useState([]);
 
@@ -73,6 +73,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
+                  showAlert={showAlert}
                 />
               )}
               {typeData === "partner" && (
@@ -80,6 +81,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
+                  showAlert={showAlert}
                 />
               )}
               {typeData === "furlough_type" && (
@@ -87,6 +89,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
+                  showAlert={showAlert}
                 />
               )}
               {typeData === "attendance_status" && (
@@ -94,6 +97,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
+                  showAlert={showAlert}
                 />
               )}
               {typeData === "allowance" && (
@@ -101,6 +105,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
+                  showAlert={showAlert}
                 />
               )}
               {typeData === "insurance_item" && (
@@ -108,6 +113,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
+                  showAlert={showAlert}
                 />
               )}
               {typeData === "family" && (
@@ -115,7 +121,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
-                
+                  showAlert={showAlert}
                 />
               )}
               
