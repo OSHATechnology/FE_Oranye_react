@@ -73,6 +73,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
+                  showAlert={showAlert}
                 />
               )}
               {typeData === "partner" && (
@@ -118,7 +119,7 @@ const ModalEdit = (props) => {
                   data={data}
                   handleCloseModal={handleCloseModal}
                   handleFetchData={handleFetchData}
-                
+                  showAlert={showAlert}
                 />
               )}
               

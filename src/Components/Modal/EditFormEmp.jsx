@@ -24,6 +24,7 @@ const EditFormEmployee = (data) => {
   const [statusHire, setStatusHire] = useState("");
   const loadData = data.handleFetchData ? data.handleFetchData : () => { };
   const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
+  const showAlert = data.showAlert ? data.showAlert : () => {};
 
   const fetchDataRole = async () => {
     try {
@@ -76,12 +77,13 @@ const EditFormEmployee = (data) => {
     await axios
       .post(`/api/employee/${data.data.employeeId}`, formData, ConfigHeader)
       .then((res) => {
-        console.log("berhasil");
         closeModal()
         loadData()
+        showAlert("success",res.data.message);
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
+        showAlert("failed",err.response.data.data);
       });
   };
 

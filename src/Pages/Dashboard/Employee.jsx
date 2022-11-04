@@ -110,6 +110,7 @@ const Employee = (props) => {
                 isOpen={isModalImportOpened}
                 setIsOpen={setIsModalImportOpened}
                 title="Import Employee"
+                
               />
             </div>
 
@@ -198,6 +199,7 @@ const Employee = (props) => {
               typeData="employee"
               data={employeeEdit}
               action={fetchDataEmployee}
+              showAlert={handleAlert}
             />
           )}
           {modalEmployeeDelete && (
@@ -208,6 +210,7 @@ const Employee = (props) => {
               typeData="employee"
               data={empDeleteData}
               action={fetchDataEmployee}
+              showAlert={handleAlert}
             />
           )}
         </div>

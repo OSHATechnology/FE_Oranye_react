@@ -199,6 +199,7 @@ const Family = (props, data) => {
               typeData="family"
               data={familyEditData}
               action={fetchDataFamily}
+              showAlert={handleAlert}
             />
           )}
             {modalFamilyDelete && (
@@ -209,6 +210,7 @@ const Family = (props, data) => {
                 typeData="family"
                 data={familyDeleteData}
                 action={fetchDataFamily}
+                showAlert={handleAlert}
               />
             )}
           </div>

@@ -190,6 +190,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null, showAlert =
               typeData="team"
               data={teamDeleteData}
               action={refresh}
+              showAlert={showAlert}
             />
           )}
         </div>
