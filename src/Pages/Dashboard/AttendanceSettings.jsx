@@ -231,6 +231,7 @@ const AttendanceSettings = (props) => {
               typeData="furlough_type"
               data={furloughTypeEdit}
               action={fetchDataFurlough}
+              showAlert={handleAlert}
             />
           )}
 
@@ -242,6 +243,7 @@ const AttendanceSettings = (props) => {
               typeData="furlough_type"
               data={furloughTypeDeleteData}
               action={fetchDataFurlough}
+              showAlert={handleAlert}
             />
           )}
           <Pagination
@@ -337,6 +339,7 @@ const AttendanceSettings = (props) => {
               typeData="attendance_status"
               data={attendanceStatusEdit}
               action={fetchDataAttendanceStatus}
+              showAlert={handleAlert}
             />
           )}
 
@@ -348,6 +351,7 @@ const AttendanceSettings = (props) => {
               typeData="attendance_status"
               data={attendanceStatusDeleteData}
               action={fetchDataAttendanceStatus}
+              showAlert={handleAlert}
             />
           )}
 

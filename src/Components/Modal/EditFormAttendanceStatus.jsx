@@ -8,7 +8,7 @@ const EditFormAttendanceStatus = (data) => {
   const [status, setStatus] = useState("");
   const loadData = data.handleFetchData ? data.handleFetchData : () => { };
   const closeModal = data.handleCloseModal ? data.handleCloseModal : () => { };
-
+  const showAlert = data.showAlert ? data.showAlert : () => {};
   useEffect(() => {
     setStatus(data.data.status);
   }, [data.data]);
@@ -24,12 +24,13 @@ const EditFormAttendanceStatus = (data) => {
       dataEdit,ConfigHeader
     )
       .then((res) => {
-        console.log("berhasil");
         closeModal()
         loadData()
+        showAlert("success",res.data.message);
       })
       .catch((err) => {
-        console.log(err.response);
+        // console.log(err.response);
+        showAlert("failed",err.response.data.data);
       });
   };
 

@@ -187,6 +187,7 @@ const Partner = (props) => {
               typeData="partner"
               data={partnerEdit}
               action={fetchDataPartner}
+              showAlert={handleAlert}
             />
           )}
           {modalPartnerDelete && (
@@ -197,6 +198,7 @@ const Partner = (props) => {
               typeData="partner"
               data={partnerDeleteData}
               action={fetchDataPartner}
+              showAlert={handleAlert}
             />
           )}
         </div>
