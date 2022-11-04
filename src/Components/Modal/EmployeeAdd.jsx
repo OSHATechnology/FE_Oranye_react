@@ -7,7 +7,7 @@ import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
 import Select from "react-select";
 
-const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
+const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null }) => {
   const [firtsName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,8 +45,8 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
       setDataRole(data.data.data);
     };
     fetchDataRole();
-    setIsOpen(false);
-    actionRefresh !== null && actionRefresh();
+    // setIsOpen(false);
+    // actionRefresh !== null && actionRefresh();
   }, []);
 
   const handleSubmitEmp = async (e) => {
@@ -77,10 +77,11 @@ const EmployeeAdd = ({ isOpen, setIsOpen, title, action = null }) => {
       const rslt = await axios.post("/api/employee", formData, ConfigHeader);
       console.log(rslt);
       setIsOpen(false);
-
+      actionRefresh !== null && actionRefresh()
+      showAlert("success",rslt.data.message);
       changeDataToNull();
     } catch (error) {
-      console.log(error);
+      showAlert("failed",error.response.data.data);
     }
   };
 

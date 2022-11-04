@@ -13,7 +13,7 @@ import Search from "../../Components/Search";
 import Pagination from "react-js-pagination";
 import { AuthData } from "../Auth/AuthProvider";
 
-const Employee = () => {
+const Employee = (props) => {
   const empAuthId = AuthData?.id ? AuthData?.id : 0;
   const [dataEmployee, setDataEmployee] = useState([]);
   const [isModalDeleteOpened, setIsModalDeleteOpened] = useState(false);
@@ -67,6 +67,10 @@ const Employee = () => {
     } catch (err) { }
   };
 
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
+
   useEffect(() => {
     fetchDataEmployee();
   }, [paramsData]);
@@ -93,6 +97,7 @@ const Employee = () => {
                 setIsOpen={setIsModalAddOpened}
                 title="Add Employee"
                 action={fetchDataEmployee}
+                showAlert={handleAlert}
               />
               <ButtonNormal
                 bg="bg-slate-500 "

@@ -7,7 +7,7 @@ import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import moment from "moment";
 import Select from "react-select";
 
-const MemberAdd = ({ isOpen, setIsOpen, title, action = null, ...data }) => {
+const MemberAdd = ({ isOpen, setIsOpen, title, action = null, showAlert = null, ...data }) => {
   const [teamName, setTeamName] = useState("");
   const [empId, setEmpId] = useState("");
   const [assignedBy, setAssignedBy] = useState("");
@@ -46,10 +46,10 @@ const MemberAdd = ({ isOpen, setIsOpen, title, action = null, ...data }) => {
       console.log(rslt);
       setIsOpen(false);
       actionRefresh !== null && actionRefresh();
-
+      showAlert("success",rslt.data.message);
       changeDataToNull();
     } catch (error) {
-      console.log(error);
+      showAlert("failed",error.response.data.data);
     }
   };
 
