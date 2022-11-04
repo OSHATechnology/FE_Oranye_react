@@ -20,7 +20,7 @@ const EmployeeEdit = ({ isOpen, setIsOpen, title, data }) => {
   const [gender, setGender] = useState("");
   const [role, setRole] = useState("");
   const [dataRole, setDataRole] = useState([]);
-console.log(data);
+  console.log(data);
 
 
 
@@ -115,7 +115,7 @@ console.log(data);
                 className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
               />
             </div>
-            
+
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">
                 Gender
@@ -125,7 +125,7 @@ console.log(data);
                 <option value="">Female</option>
               </select>
             </div>
-            
+
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">
                 Birth Date
@@ -165,8 +165,8 @@ console.log(data);
                 className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
               />
             </div>
-            
-            
+
+
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">
                 Role
@@ -176,7 +176,7 @@ console.log(data);
                 <option value="">Employee</option>
               </select>
             </div>
-            
+
             <div className="">
               <p className="text-sm font-extrabold text-gray-600">
                 EmailVerifiedAt
@@ -227,8 +227,8 @@ console.log(data);
               <p className="text-sm font-extrabold text-gray-600">
                 Status Aktif
               </p>
-              <input type="checkbox" name="" id="" className="rounded border border-gray-300 text-xs text-gray-700 font-medium"/>
-              
+              <input type="checkbox" name="" id="" className="rounded border border-gray-300 text-xs text-gray-700 font-medium" />
+
             </div>
           </div>
 

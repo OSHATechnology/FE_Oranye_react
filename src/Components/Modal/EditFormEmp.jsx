@@ -29,7 +29,8 @@ const EditFormEmployee = (data) => {
     try {
       const result = await axios.get("/api/roles", ConfigHeader);
       setDataRole(result.data.data.data);
-    } catch (error) {}
+      console.log(result.data.data.data);
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const EditFormEmployee = (data) => {
     setPassword(data.data.password);
     setGender(data.data.gender);
     setRole(data.data.role ? data.data.role.id : "");
+    setStatusHire(data.data.isActive);
   }, [data.data]);
 
   const handleSubmit = async (e) => {
@@ -65,7 +67,7 @@ const EditFormEmployee = (data) => {
       gender: gender,
       roleId: role,
       photo: photo,
-      isActive: 1,
+      isActive: statusHire ? 1 : 0,
       statusHireId: 1,
     };
     console.log(dataEdit);
@@ -109,7 +111,6 @@ const EditFormEmployee = (data) => {
 
   const handleChange = (selectedOption) => {
     setRole(selectedOption.value);
-    console.log(selectedOption);
   };
 
   return (
@@ -236,30 +237,12 @@ const EditFormEmployee = (data) => {
           <div className="">
             <p className="text-sm font-extrabold text-gray-600">Role</p>
             <Select
-                  styles={styleSelect}
-                  options={options}
-                  noOptionsMessage={() => "No data"}
-                  classNamePrefix={""}
-                  onChange={handleChange}
-                  // menuPortalTarget={
-                  //   document.querySelector("#employee_form")
-                  // }
-                />
-            {/* <select
-              defaultValue={role}
-              value={role}
-              name="createdBy"
-              placeholder="Leader Team"
-              id=""
-              className="rounded-lg w-full border border-gray-300 text-xs text-gray-700 font-medium"
-              onChange={(e) => setRole(e.target.value)}
-            >
-              {dataRole.map((item, index) => (
-                <option value={item.roleId} key={index}>
-                  {item.nameRole}
-                </option>
-              ))}
-            </select> */}
+              styles={styleSelect}
+              options={options}
+              noOptionsMessage={() => "No data"}
+              classNamePrefix={""}
+              onChange={handleChange}
+            />
           </div>
           <div className="flex items-center gap-2">
             <p className="text-sm font-extrabold text-gray-600">Status Aktif</p>
@@ -268,7 +251,8 @@ const EditFormEmployee = (data) => {
               name=""
               id=""
               value={statusHire}
-              onChange={(e) => setStatusHire(e.target.value)}
+              checked={statusHire ? true : false}
+              onChange={(e) => setStatusHire(e.target.checked)}
               className="rounded border border-gray-300 text-xs text-gray-700 font-medium"
             />
           </div>
