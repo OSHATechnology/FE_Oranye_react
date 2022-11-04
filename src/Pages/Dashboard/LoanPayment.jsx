@@ -3,6 +3,7 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import RupiahMoneyFormat from "../../Components/RupiahMoneyFormat";
 import TitleDashboard from "../../Components/TitleDashboard";
 import ConfigHeader from "../Auth/ConfigHeader";
 
@@ -69,34 +70,34 @@ const LoanPayment = () => {
         </Link>
       </div>
 
-        <div>
-            <table className="text-sm font-semibold text-slate-600">
-                <tbody>
-                    <tr>
-                        <td>Nama</td>
-                        <td className="px-3">:</td>
-                        <td>{dataLoan.employee ? dataLoan.employee.name : ""}</td>
-                    </tr>
-                    <tr>
-                        <td>Jenis Pinjaman</td>
-                        <td className="px-3">:</td>
-                        <td>{dataLoan.name}</td>
-                    </tr>
-                    <tr>
-                        <td>Jumlah Pinjaman</td>
-                        <td className="px-3">:</td>
-                        <td>{dataLoan.nominal}</td>
-                    </tr>
-                    <tr>
-                        <td>Tanggal Pinjaman</td>
-                        <td className="px-3">:</td>
-                        <td>{moment(dataLoan.loanDate).format("DD MMMM YYYY")}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+      <div>
+        <table className="text-sm font-semibold text-slate-600">
+          <tbody>
+            <tr>
+              <td>Nama</td>
+              <td className="px-3">:</td>
+              <td>{dataLoan.employee ? dataLoan.employee.name : ""}</td>
+            </tr>
+            <tr>
+              <td>Jenis Pinjaman</td>
+              <td className="px-3">:</td>
+              <td>{dataLoan.name}</td>
+            </tr>
+            <tr>
+              <td>Jumlah Pinjaman</td>
+              <td className="px-3">:</td>
+              <td><RupiahMoneyFormat num={dataLoan.nominal} /></td>
+            </tr>
+            <tr>
+              <td>Tanggal Pinjaman</td>
+              <td className="px-3">:</td>
+              <td>{moment(dataLoan.loanDate).format("DD MMMM YYYY")}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        <div className="flex justify-center border border-gray-100 rounded shadow p-2">
+      <div className="flex justify-center border border-gray-100 rounded shadow p-2">
         <div className="items-start min-w-screen md:flex md:flex-row md:w-full ">
           <table className=" w-full text-center overflow-x-scroll">
             <thead className="bg-gray-100 border-b-2 border-gray-800 text-xs md:text-sm">
@@ -108,29 +109,16 @@ const LoanPayment = () => {
               </tr>
             </thead>
             <tbody className="text-xs md:text-sm font-medium">
-            {
+              {
                 datainstalment.data ? Object.keys(datainstalment.data).map((row, index) => (
                   <tr key={datainstalment.data[row].id} className=" shadow ">
                     <td>{index + 1}</td>
                     <td>{moment(datainstalment.data[row].date).format("DD MMMM YYYY")}</td>
-                    <td>{datainstalment.data[row].nominal}</td>
+                    <td><RupiahMoneyFormat num={datainstalment.data[row].nominal} /></td>
                     <td>{datainstalment.data[row].remainder}</td>
-                    {/* <td>
-                      <ButtonSmall
-                        bg="bg-red-500"
-                        icon="bi:trash"
-                        onClick={() => showModalDelete(datainstalment.data[row].id)}
-                      />
-                    </td> */}
-                  </tr> 
+                  </tr>
                 )) : <tr><td colSpan="5">Loading</td></tr>
               }
-              {/* <tr>
-                <td>1</td>
-                <td>{moment().format("MMMM YYYY")}</td>
-                <td>100.000</td>
-                <td>200.000</td>
-              </tr> */}
             </tbody>
           </table>
         </div>

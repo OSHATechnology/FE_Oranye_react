@@ -13,7 +13,6 @@ const DetailSalary = () => {
   const fetchDataDetailSalary = async () => {
     const data = await axios.get(`/api/salary/${paramsData.id}`, ConfigHeader);
     setDetailSalary(data.data.data);
-    console.log(data.data.data);
   };
 
 
