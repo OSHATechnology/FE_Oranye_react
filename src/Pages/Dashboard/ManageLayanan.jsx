@@ -124,7 +124,7 @@ const ManageLayanan = (props) => {
           title="Manage This Insurance"
           data={dataInsurance}
           action={fetchDataInsurance}
-        
+          showAlert={handleAlert} 
         />
       </div>
 

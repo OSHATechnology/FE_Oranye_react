@@ -6,7 +6,7 @@ import ModalDelete from "../../Components/Modal/ModalDelete";
 import ConfigHeader from "../../Pages/Auth/ConfigHeader";
 import axios from "axios";
 
-const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
+const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null, showAlert = null }) => {
   const [name, setName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [address, setAddress] = useState('');
@@ -30,8 +30,9 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
       .then((res) => {
         setIsOpen(false);
         actionRefresh !== null && actionRefresh();
+        showAlert("success",res.data.message);
       }).catch((err) => {
-        alert(err.response.data.message);
+        showAlert("failed",err.response.data.data);
       });
   };
 
@@ -138,6 +139,7 @@ const ManageInsurance = ({ isOpen, setIsOpen, title, data, action = null }) => {
               typeData="insurance"
               data={insuranceDeleteData}
               action={refresh}
+              showAlert={showAlert}
             />
           )}
         </div>

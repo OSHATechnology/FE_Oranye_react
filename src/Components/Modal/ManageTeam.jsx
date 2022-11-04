@@ -53,7 +53,7 @@ const ManageTeam = ({ isOpen, setIsOpen, title, data, action = null, showAlert =
       .then((res) => {
         setIsOpen(false);
         actionRefresh !== null && actionRefresh();
-        showAlert("success",rslt.data.message);
+        showAlert("success",res.data.message);
       }).catch((err) => {
         // alert(err.response.data.message);
         showAlert("failed",err.response.data.data);

@@ -76,7 +76,7 @@ export default function Dashboard(props) {
                 <Sidebar />
                 <Routes>
                     <Route index element={<Home />} />
-                    <Route path="role" element={<Role />} />
+                    <Route path="role" element={<Role alert={alertData} />} />
                     <Route path="hadir" element={<Hadir />}>
                         <Route index element={<Attendance />} />
                         <Route path="Today" element={<Today />} />
@@ -102,7 +102,7 @@ export default function Dashboard(props) {
                     <Route path="manageInsurance/:id" element={<ManageInsurance alert={alertData} />} />
                     <Route path="emp/:id" element={<Detail />} />
                     <Route path="addRole" element={<AddRole alert={alertData} />} />
-                    <Route path="RoleEdit" element={<RoleEdit />} />
+                    <Route path="RoleEdit" element={<RoleEdit alert={alertData} />} />
                     <Route path="attendanceSettings" element={<AttendanceSettings alert={alertData}/>} />
                     <Route path="allowanceAdd" element={<AllowanceAdd alert={alertData} />} />
                 </Routes>
