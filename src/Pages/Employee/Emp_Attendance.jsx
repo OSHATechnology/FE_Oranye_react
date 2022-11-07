@@ -358,9 +358,9 @@ export default function KaryawanKehadiran() {
     }
   };
 
-  const fetchDataNotification = async (limit = 10) => {
+  const fetchDataNotification = async (limit = 5) => {
     try {
-      const response = await axios.get("/api/my/notification?limit=" + limit, ConfigHeader);
+      const response = await axios.get("/api/my/notifications?limit=" + limit, ConfigHeader);
       setNotifications(response.data.data);
     } catch (error) {
       console.log(error);
@@ -402,6 +402,7 @@ export default function KaryawanKehadiran() {
 
   useEffect(() => {
     fetchDataLeaveRequest();
+    fetchDataNotification();
   }, []);
 
   return (
@@ -436,51 +437,54 @@ export default function KaryawanKehadiran() {
                 </Menu.Item>
               </div>
               <div className="px-1 py-1">
-                <Menu.Item>
-                  <div className="flex items-center gap-2 px-2">
-                    <div>
-                      <Icon icon={"bxs:plane"}></Icon>
-                    </div>
-                    <div className="text-xs">
-                      <div>
-                        <p className="font-semibold text-gray-600">
-                          Furlough for 06 Desember
-                        </p>
-                      </div>
-                      <div className="flex font-thin text-gray-400">
-                        <div>
-                          <p>12 June 22</p>
+                {notifications.data ?
+                  notifications.data.length > 0 ? (
+                    notifications.data.map((item, index) => (
+                      <Menu.Item key={index}>
+                        <div className="flex items-center gap-2 px-2 my-2">
+                          <div>
+                            <Icon icon={"bxs:bell"}></Icon>
+                          </div>
+                          <div className="text-xs">
+                            <div>
+                              <p className="font-semibold text-gray-600">
+                                {item.content}
+                              </p>
+                            </div>
+                            <div className="flex font-thin text-gray-400">
+                              <div>
+                                <p>{moment(item.scheduleAt).format("DD MMMM YYYY")}</p>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <p>|</p>
-                        </div>
-                        <div>
-                          <p>08:00 A.M</p>
-                        </div>
-                      </div>
+                      </Menu.Item>
+                    ))
+                  ) : (
+                    <div className="flex items-center justify-center select-none">
+                      <p className="text-gray-400 text-sm">No notifications</p>
                     </div>
-                    <div>
-                      <Icon
-                        icon={"akar-icons:circle-check"}
-                        className="text-green-600"
-                      ></Icon>
-                    </div>
-                  </div>
-                </Menu.Item>
-              </div>
-              <div className="px-1 py-1 ">
-                <Menu.Item>
-                  {({ active }) => (
-                    <Link
-                      to="../notification"
-                      className={`${active ? "font-bold" : "text-gray-900"
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    >
-                      <p className="text-xs text-blue-600">Show All Notification</p>
-                    </Link>
+                  ) : (
+                    <Menu.Item>
+                      <Spinner2 />
+                    </Menu.Item>
                   )}
-                </Menu.Item>
               </div>
+              {notifications.data && notifications.data.length > 0 && (
+                <div className="px-1 py-1 ">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <Link
+                        to="../notification"
+                        className={`${active ? "font-bold" : "text-gray-900"
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      >
+                        <p className="text-xs text-blue-600">Show All Notification</p>
+                      </Link>
+                    )}
+                  </Menu.Item>
+                </div>
+              )}
             </Menu.Items>
           </Transition>
         </Menu>
