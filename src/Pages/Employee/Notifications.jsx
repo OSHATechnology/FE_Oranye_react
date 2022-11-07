@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import ConfigHeader from "../Auth/ConfigHeader";
 import Spinner2 from "../../Components/Spinner2";
+import moment from "moment";
 
 const Notifications = () => {
   const [notifData, setNotifData] = useState([]);
@@ -20,7 +21,6 @@ const Notifications = () => {
 
   useEffect(() => {
     fetchNotifications().then(() => {
-      console.log('fetching data')
       console.log(notifData)
     });
   }, [])
@@ -37,34 +37,28 @@ const Notifications = () => {
           </Link>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex justify-start items-center">
           <div className="flex items-center gap-1">
             <Icon icon="carbon:notification-new" className="text-lg"></Icon>
             <p className="text-lg font-bold text-black">Notifications</p>
-          </div>
-          <div>
-            <p className="text-sm text-blue-600 font-medium">
-              Mark all read
-            </p>
           </div>
         </div>
 
         <div className=" space-y-1 shadow rounded p-2">
           {notifData?.data ? notifData?.data?.map((data, index) => (
-            <div key={index} className="flex  justify-between border-b border-gray-300 items-center ">
+            <div key={index} className="flex  justify-between border-b border-gray-300 items-center pb-1 pt-3">
 
               <div>
                 <div className="flex items-center gap-1">
                   <Icon icon="bxs:plane"></Icon>
-                  <p className="font-semibold">Accepted furlough for 06 September 2022</p>
-                </div>
-                <div>
-                  <p className="text-xs font-thin ml-5">01 September 2022</p>
+                  <p className="font-semibold">{data.content}</p>
                 </div>
               </div>
               <div>
-                <p className="text-blue-500 text-sm">Mark Red</p>
-              </div>
+                  <p className="text-xs font-medium text-gray-500">{
+                    data.scheduleAt ? moment(data.scheduleAt).format("DD MMMM YYYY") : ""
+                  }</p>
+                </div>
             </div>
           )) : (
             <Spinner2 />
