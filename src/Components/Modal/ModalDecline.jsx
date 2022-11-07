@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog } from '@headlessui/react'
 import { Icon } from '@iconify/react'
 import ButtonNormal from '../ButtonNormal'
 import axios from 'axios'
@@ -20,10 +20,9 @@ const ModalDecline = (props) => {
 
             switch (data?.type) {
                 case 'furlough':
-                    const resp = await axios.put(`/api/furlough/attendance_declined/${splitId[1]}`, {
+                    await axios.put(`/api/furlough/attendance_declined/${splitId[1]}`, {
                         message: reason
                     }, ConfigHeader)
-                    console.log(resp)
                     break;
                 case 'overtime':
                     await axios.post(`/api/overtime/decline`, {
@@ -45,7 +44,7 @@ const ModalDecline = (props) => {
             setIsOpen(false)
             setReason('')
         } catch (error) {
-            alert(error);
+            console.log(error);
         }
     }
 

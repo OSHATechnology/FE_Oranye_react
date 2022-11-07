@@ -43,7 +43,7 @@ const ModalAccept = (props) => {
             setIsOpen(false)
             refeshData()
         } catch (error) {
-            alert(error);
+            console.log(error);
         }
     }
 
