@@ -6,8 +6,11 @@ import axios from 'axios'
 import ConfigHeader from '../../Pages/Auth/ConfigHeader'
 
 const ModalDecline = (props) => {
-    const { isOpen, setIsOpen, title, data } = props;
+    const { isOpen, setIsOpen, title, data, action } = props;
     const [reason, setReason] = useState('');
+    const refeshData = action ? action : () => {
+        window.location.reload()
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -43,6 +46,7 @@ const ModalDecline = (props) => {
 
             setIsOpen(false)
             setReason('')
+            refeshData()
         } catch (error) {
             console.log(error);
         }
