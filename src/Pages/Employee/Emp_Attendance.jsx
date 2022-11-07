@@ -26,6 +26,10 @@ const FurloughCard = (props) => {
     setListTypeFurlough(res.data.data);
   };
 
+  const handleAlert = (type, message) => {
+    props.alert(type, message);
+  };
+
   const clearInput = () => {
     setTypeFurlough("");
     setStartAt("");
@@ -43,10 +47,13 @@ const FurloughCard = (props) => {
       };
       const resp = axios.post("/api/my/add-leave-request", data, ConfigHeader);
       resp.then((res) => {
-        alert(res.data.message);
+        handleAlert("success", res.data.message);
         props.actionRefresh();
         clearInput();
-      });
+      })
+      .catch((err) => {
+        handleAlert("failed", err.response.data.data);
+      })
     } catch (error) {
       console.log(error);
     }
@@ -189,6 +196,11 @@ const WorkPermitCard = (props) => {
 
   const handleWorkPermit = (e) => {
     e.preventDefault();
+    
+    const handleAlert = (type, message) => {
+      props.alert(type, message);
+    };
+
     try {
       const data = {
         type: "work_permit",
@@ -201,8 +213,9 @@ const WorkPermitCard = (props) => {
         alert(res.data.message);
         props.actionRefresh();
         clearInput();
-      }).catch((err) => {
-        console.log(err);
+      })
+      .catch((err) => {
+        handleAlert("failed", err.response.data.data);
       });
     } catch (error) {
       console.log(error);
@@ -297,7 +310,7 @@ const WorkPermitCard = (props) => {
   );
 };
 
-export default function KaryawanKehadiran() {
+export default function KaryawanKehadiran(props) {
   const [leaveRequest, setLeaveRequest] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [reqOvertime, setReqOvertime] = useState({
@@ -305,6 +318,10 @@ export default function KaryawanKehadiran() {
     end_at: "",
   });
   const [notifications, setNotifications] = useState([]);
+
+  const handleAlert = (type,message) => {
+    props.alert(type,message);
+  }
 
   const refreshTable = () => {
     setIsLoading(false);
@@ -322,12 +339,12 @@ export default function KaryawanKehadiran() {
     {
       id: 1,
       name: "Furlough",
-      component: <FurloughCard actionRefresh={refreshTable} />,
+      component: <FurloughCard actionRefresh={refreshTable} {...props} />,
     },
     {
       id: 2,
       name: "Work Permit",
-      component: <WorkPermitCard actionRefresh={refreshTable} />,
+      component: <WorkPermitCard actionRefresh={refreshTable} {...props} />,
     },
   ];
 
@@ -392,9 +409,13 @@ export default function KaryawanKehadiran() {
       const resp = axios.post("/api/my/add-leave-request", data, ConfigHeader);
       resp.then((res) => {
         clearInputReqOvertime();
-        alert(res.data.message);
+        handleAlert("success", res.data.message);
         refreshTable();
-      });
+      })
+      .catch((err) => {
+
+        handleAlert("failed", err.response.data.data);
+      })
     } catch (error) {
       console.log(error);
     }
