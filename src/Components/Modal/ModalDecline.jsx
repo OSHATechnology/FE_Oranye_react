@@ -32,6 +32,10 @@ const ModalDecline = (props) => {
                     }, ConfigHeader)
                     break;
                 case 'workPermit':
+                    await axios.post(`/api/workpermit/decline`, {
+                        work_permit_id: splitId[1],
+                        message: reason
+                    }, ConfigHeader)
                     break;
 
                 default:

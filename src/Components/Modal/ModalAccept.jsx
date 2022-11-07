@@ -30,6 +30,9 @@ const ModalAccept = (props) => {
                     }, ConfigHeader)
                     break;
                 case 'workPermit':
+                    await axios.post(`/api/workpermit/confirm`, {
+                        work_permit_id: splitId[1]
+                    }, ConfigHeader)
 
                     break;
 
