@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import ConfigHeader from "../Auth/ConfigHeader";
 import { AuthData } from "../Auth/AuthProvider";
 import moment from "moment";
+import { Icon } from "@iconify/react";
 
 export default function KaryawanProfile(props) {
     const empAuthId = AuthData?.id ? AuthData?.id : 0;
@@ -19,7 +20,8 @@ export default function KaryawanProfile(props) {
         <div className="flex justify-center">
             <div className=" items-start justify-center w-screen md:min-h-1/3 md:flex md:flex-row md:w-4/5">
                 {employee?.length !== 0 ? (
-                    <div className="bg-gray-50 md:w-full border m-3 rounded flex flex-col justify-content-center">
+                    <div className=" md:w-full  m-3  flex justify-content-center gap-4">
+                    <div className=" basis-3/4 border  rounded flex flex-col justify-content-center">
                         <div className="md:flex md:flex-row w-full">
                             <div className="flex basis-1/4 items-center justify-center">
                                 {employee?.photo ? (
@@ -97,9 +99,24 @@ export default function KaryawanProfile(props) {
                                         <td><p className="text-xs md:text">:</p></td>
                                         <td><p className="text-xs md:text">{employee?.email}</p></td>
                                     </tr>
+                                    
                                 </table>
                             </div>
                         </div>
+                    </div>
+                    <div className=" basis-1/4 border  rounded flex flex-col justify-content-center py-8 space-y-8">
+                        <div className="flex items-center justify-center text-center gap-2">
+                                <Icon icon="logos:google-icon"></Icon>
+                        <p className="text-sm font-bold">Connect with google account</p>
+                        </div>
+                        <div className="mx-8">
+                            <p className="text-start text-sm font-medium">E-mail</p>
+                            <input type="text" placeholder="E-mail" className="w-full rounded h-9 border border-gray-400" />
+                        </div>
+                        <div className="text-center">
+                            <button className="bg-orange-500 rounded py-2 px-4 text-white font-bold">Connect</button>
+                        </div>
+                    </div>
                     </div>
                 ) : (
                     "Loading"
