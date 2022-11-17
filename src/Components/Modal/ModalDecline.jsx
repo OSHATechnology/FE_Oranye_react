@@ -1,13 +1,16 @@
 import React, { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog } from '@headlessui/react'
 import { Icon } from '@iconify/react'
 import ButtonNormal from '../ButtonNormal'
 import axios from 'axios'
 import ConfigHeader from '../../Pages/Auth/ConfigHeader'
 
 const ModalDecline = (props) => {
-    const { isOpen, setIsOpen, title, data } = props;
+    const { isOpen, setIsOpen, title, data, action } = props;
     const [reason, setReason] = useState('');
+    const refeshData = action ? action : () => {
+        window.location.reload()
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -20,10 +23,9 @@ const ModalDecline = (props) => {
 
             switch (data?.type) {
                 case 'furlough':
-                    const resp = await axios.put(`/api/furlough/attendance_declined/${splitId[1]}`, {
+                    await axios.put(`/api/furlough/attendance_declined/${splitId[1]}`, {
                         message: reason
                     }, ConfigHeader)
-                    console.log(resp)
                     break;
                 case 'overtime':
                     await axios.post(`/api/overtime/decline`, {
@@ -44,8 +46,9 @@ const ModalDecline = (props) => {
 
             setIsOpen(false)
             setReason('')
+            refeshData()
         } catch (error) {
-            alert(error);
+            console.log(error);
         }
     }
 
