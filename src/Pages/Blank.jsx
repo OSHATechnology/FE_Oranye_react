@@ -10,24 +10,23 @@ import { GetAuthData } from "./Auth/AuthProvider";
 import GuestRoute from "./Auth/GuestRoute";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ResetPassword from "./Auth/ResetPassword";
+import OauthCallback from "./Auth/Oauth-callback";
 
 export default function Blank() {
     const user = GetAuthData()[0];
 
     return (
         <>
-            {/* <ModalDelete /> */}
-
             <BrowserRouter>
                 <Routes>
                     <Route path="/*" element={<ProtectedRoute user={user}><Employee auth={user} /></ProtectedRoute>} />
                     <Route path="login" element={<GuestRoute user={user}><Login /></GuestRoute>} />
+                    <Route path="login/google/callback" element={<OauthCallback />} />
                     <Route path="forgot-password" element={<GuestRoute user={user}><ForgotPassword /></GuestRoute>} />
                     <Route path="password-reset/:token" element={<GuestRoute user={user}><ResetPassword /></GuestRoute>} />
                     <Route path="dashboard/*" element={<ProtectedRoute user={user}><Dashboard auth={user} /></ProtectedRoute>} />
                     <Route path="*" element={<h1>Not Found</h1>} />
                 </Routes>
-
             </BrowserRouter>
         </>
 

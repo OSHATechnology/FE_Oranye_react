@@ -84,7 +84,6 @@ const CardPinjaman = () => {
     const fetchDataLoan = async () => {
         const response = await axios.get('/api/my/loan', ConfigHeader);
         setLoan(response.data.data);
-        console.log(response.data.data);
         setIsLoading(true);
     }
 
