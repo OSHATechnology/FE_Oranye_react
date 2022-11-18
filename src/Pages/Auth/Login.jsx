@@ -8,7 +8,11 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 export default function Login(props) {
     const navigate = useNavigate();
+<<<<<<< HEAD
     const clientId = "xxxxxxxxxxxx.apps.googleusercontent.com";
+=======
+    const clientId = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com";
+>>>>>>> fb6fa3b2515d4dde5db21e0c3bbac173e4c292a3
     const [user, setUser] = useSessionStorage('user', null);
     const [errorMessages, setErrorMessages] = useState({ name: "employee_id", message: "id tidak ada" });
     const [username, setUsername] = useState('');
