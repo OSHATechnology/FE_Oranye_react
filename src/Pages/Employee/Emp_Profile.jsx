@@ -9,7 +9,7 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 export default function KaryawanProfile(props) {
     const empAuthId = AuthData?.id ? AuthData?.id : 0;
     const [employee, setEmployee] = useState([]);
-    const clientId = "xxxxxxxxxxxx.apps.googleusercontent.com";
+    const clientId = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com";
 
     const fetchDataEmp = async () => {
         const response = await axios.get(`/api/employee/` + empAuthId, ConfigHeader);
@@ -118,31 +118,33 @@ export default function KaryawanProfile(props) {
                             </div>
                             <div className="text-center">
                                 <button className="bg-orange-500 rounded py-2 px-4 text-white font-bold">Connect</button>
-                                <GoogleOAuthProvider clientId={clientId}>
-                                    <GoogleLogin
-                                        text="signup_with"
-                                        onSuccess={async credentialResponse => {
-                                            await axios.get(`api/auth/google/callback`, {
-                                                params: {
-                                                    creds: credentialResponse.credential
-                                                }
-                                            }).then(async (response) => {
-                                                try {
-                                                    if (response.status === 200) {
-                                                        alert('success')
+                                {!employee?.google_id && (
+                                    <GoogleOAuthProvider clientId={clientId}>
+                                        <GoogleLogin
+                                            text="signup_with"
+                                            onSuccess={async credentialResponse => {
+                                                await axios.get(`api/auth/google/callback`, {
+                                                    params: {
+                                                        creds: credentialResponse.credential
                                                     }
-                                                } catch (error) {
-                                                    console.log(error);
-                                                }
-                                            }).catch((error) => {
-                                                console.log(error)
-                                            });
-                                        }}
-                                        onError={() => {
-                                            console.log('Login Failed');
-                                        }}
-                                    />
-                                </GoogleOAuthProvider>
+                                                }).then(async (response) => {
+                                                    try {
+                                                        if (response.status === 200) {
+                                                            alert('success')
+                                                        }
+                                                    } catch (error) {
+                                                        console.log(error);
+                                                    }
+                                                }).catch((error) => {
+                                                    console.log(error)
+                                                });
+                                            }}
+                                            onError={() => {
+                                                console.log('Login Failed');
+                                            }}
+                                        />
+                                    </GoogleOAuthProvider>
+                                )}
                             </div>
                         </div>
                     </div>
