@@ -9,7 +9,7 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 export default function KaryawanProfile(props) {
     const empAuthId = AuthData?.id ? AuthData?.id : 0;
     const [employee, setEmployee] = useState([]);
-    const clientId = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com";
+    const clientId = "xxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com";
 
     const fetchDataEmp = async () => {
         const response = await axios.get(`/api/employee/` + empAuthId, ConfigHeader);
@@ -131,6 +131,7 @@ export default function KaryawanProfile(props) {
                                                     try {
                                                         if (response.status === 200) {
                                                             alert('success')
+                                                            window.location.reload()
                                                         }
                                                     } catch (error) {
                                                         console.log(error);

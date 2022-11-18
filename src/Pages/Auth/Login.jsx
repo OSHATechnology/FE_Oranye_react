@@ -8,7 +8,7 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 export default function Login(props) {
     const navigate = useNavigate();
-    const clientId = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com";
+    const clientId = "xxxxxxxxxxxx.apps.googleusercontent.com";
     const [user, setUser] = useSessionStorage('user', null);
     const [errorMessages, setErrorMessages] = useState({ name: "employee_id", message: "id tidak ada" });
     const [username, setUsername] = useState('');
@@ -169,6 +169,8 @@ export default function Login(props) {
                             {/* login with google */}
                             <GoogleOAuthProvider clientId={clientId}>
                                 <GoogleLogin
+                                    theme="outline"
+                                    shape="pill"
                                     onSuccess={async credentialResponse => {
                                         await axios.get(`api/auth/callback`, {
                                             params: {
